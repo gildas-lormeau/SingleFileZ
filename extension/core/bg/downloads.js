@@ -77,7 +77,7 @@ singlefile.extension.core.bg.downloads = (() => {
 						document.close();
 					};
 				}).toString().replace(/\n|\t/g, "") + ")()";
-				const entry = fs.root.addText(".bootstrap.html", "<body style='display:none'><script>" + script + "</script>");
+				const entry = fs.root.addText("_", "<body style='display:none'><script>" + script + "</script>");
 				entry.compressionLevel = 0;
 				fs.root.addBlob("index.html", new Blob([contents]));
 				const data = await new Promise((resolve, reject) => fs.exportBlob(resolve, () => { }, reject));
