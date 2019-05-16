@@ -127,7 +127,6 @@
 	],
 	"permissions": [
 		"menus",
-		"clipboardWrite",
 		"contextMenus",
 		"downloads",
 		"storage",
