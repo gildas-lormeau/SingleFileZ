@@ -72,9 +72,9 @@ singlefile.extension.core.bg.downloads = (() => {
 						const fs = new zip.fs.FS();
 						await new Promise((resolve, reject) => fs.importBlob(xhr.response, resolve, reject));
 						const content = await new Promise(resolve => fs.root.children[1].getText(resolve, () => { }, false, "text/html"));
-						const doc = new DOMParser().parseFromString(content, "text/html");
-						document.importNode(doc.documentElement);
-						document.replaceChild(doc.documentElement, document.documentElement);
+						document.open();
+						document.write(content);
+						document.close();
 					};
 				}).toString().replace(/\n|\t/g, "") + ")()";
 				const entry = fs.root.addText(".bootstrap.html", "<body style='display:none'><script>" + script + "</script>");
