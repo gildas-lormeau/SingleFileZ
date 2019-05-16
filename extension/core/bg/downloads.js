@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, DOMParser */
+/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest */
 
 singlefile.extension.core.bg.downloads = (() => {
 
