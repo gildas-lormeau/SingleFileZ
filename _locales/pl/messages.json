@@ -29,7 +29,7 @@
     },
     "menuSaveTabs": {
         "message": "Zapisz karty",
-        "description": "Menu entry (SingleFile button only): 'Save tabs'"
+        "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelectedTabs": {
         "message": "Zapisz wybrane karty",
@@ -64,20 +64,20 @@
         "description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
     },
     "buttonDefaultTooltip": {
-        "message": "Zapisz stronę z SingleFile",
-        "description": "Button title: 'Save page with SingleFile'"
+        "message": "Zapisz stronę z SingleFileZ",
+        "description": "Button title: 'Save page with SingleFileZ'"
     },
     "buttonBlockedBadge": {
         "message": "🚫",
         "description": "Button badge when the page is blocked: '🚫'"
     },
     "buttonBlockedTooltip": {
-        "message": "Tej strony nie można zapisać z SingleFile",
-        "description": "Button title: 'This page cannot be saved with SingleFile'"
+        "message": "Tej strony nie można zapisać z SingleFileZ",
+        "description": "Button title: 'This page cannot be saved with SingleFileZ'"
     },
     "buttonInitializingTooltip": {
-        "message": "Inicjowanie SingleFile",
-        "description": "Button title during initialization: 'Initializing SingleFile (x/2)'"
+        "message": "Inicjowanie SingleFileZ",
+        "description": "Button title during initialization: 'Initializing SingleFileZ (x/2)'"
     },
     "buttonInitializingBadge": {
         "message": "•••",

@@ -4,7 +4,7 @@
         "description": "Description of the extension."
     },
     "menuSavePage": {
-        "message": "Speichern einer Webseite mit SingleFileZ",
+        "message": "Speichern einer Webseite mit SingleFileZZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSelectProfile": {
@@ -29,7 +29,7 @@
     },
     "menuSaveTabs": {
         "message": "Registerkarte (TAB) speichern",
-        "description": "Menu entry (SingleFile button only): 'Save tabs'"
+        "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelectedTabs": {
         "message": "Speichern der ausgewählten Registerkarten (TABs)",
@@ -64,20 +64,20 @@
         "description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
     },
     "buttonDefaultTooltip": {
-        "message": "Webseite mit SingleFile abspeichern",
-        "description": "Button title: 'Save page with SingleFile'"
+        "message": "Webseite mit SingleFileZ abspeichern",
+        "description": "Button title: 'Save page with SingleFileZ'"
     },
     "buttonBlockedBadge": {
         "message": "🚫",
         "description": "Button badge when the page is blocked: '🚫'"
     },
     "buttonBlockedTooltip": {
-        "message": "SingleFile kann diese Webseite nicht speichern",
-        "description": "Button title: 'This page cannot be saved with SingleFile'"
+        "message": "SingleFileZ kann diese Webseite nicht speichern",
+        "description": "Button title: 'This page cannot be saved with SingleFileZ'"
     },
     "buttonInitializingTooltip": {
-        "message": "Initialisierung von SingleFile",
-        "description": "Button title during initialization: 'Initializing SingleFile (x/2)'"
+        "message": "Initialisierung von SingleFileZ",
+        "description": "Button title during initialization: 'Initializing SingleFileZ (x/2)'"
     },
     "buttonInitializingBadge": {
         "message": "•••",

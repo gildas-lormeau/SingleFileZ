@@ -21,7 +21,7 @@
     },
     "menuSaveTabs": {
         "message": "Sauver les onglets",
-        "description": "Menu entry (SingleFile button only): 'Save tabs'"
+        "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelection": {
         "message": "Sauver la sélection",
@@ -64,20 +64,20 @@
         "description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
     },
     "buttonDefaultTooltip": {
-        "message": "Sauver la page avec SingleFile",
-        "description": "Button title: 'Save page with SingleFile'"
+        "message": "Sauver la page avec SingleFileZ",
+        "description": "Button title: 'Save page with SingleFileZ'"
     },
     "buttonBlockedBadge": {
         "message": "🚫",
         "description": "Button badge when the page is blocked: '🚫'"
     },
     "buttonBlockedTooltip": {
-        "message": "Cette page ne peut pas être sauvée avec SingleFile",
-        "description": "Button title: 'This page cannot be saved with SingleFile'"
+        "message": "Cette page ne peut pas être sauvée avec SingleFileZ",
+        "description": "Button title: 'This page cannot be saved with SingleFileZ'"
     },
     "buttonInitializingTooltip": {
-        "message": "Initialisation de SingleFile",
-        "description": "Button title during initialization: 'Initializing SingleFile (x/2)'"
+        "message": "Initialisation de SingleFileZ",
+        "description": "Button title during initialization: 'Initializing SingleFileZ (x/2)'"
     },
     "buttonInitializingBadge": {
         "message": "•••",

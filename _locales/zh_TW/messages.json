@@ -29,7 +29,7 @@
     },
     "menuSaveTabs": {
         "message": "保存標籤頁",
-        "description": "Menu entry (SingleFile button only): 'Save tabs'"
+        "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelectedTabs": {
         "message": "保存選中標籤頁",
@@ -64,20 +64,20 @@
         "description": "菜單項: '自動保存' > '自動保存所有標籤頁'"
     },
     "buttonDefaultTooltip": {
-        "message": "使用 SingleFile 保存頁面",
-        "description": "按鈕標題: '使用 SingleFile 保存頁面'"
+        "message": "使用 SingleFileZ 保存頁面",
+        "description": "按鈕標題: '使用 SingleFileZ 保存頁面'"
     },
     "buttonBlockedBadge": {
         "message": "🚫",
         "description": "Button badge when the page is blocked: '🚫'"
     },
     "buttonBlockedTooltip": {
-        "message": "SingleFile 無法保存這個頁面",
-        "description": "Button title: 'This page cannot be saved with SingleFile'"
+        "message": "SingleFileZ 無法保存這個頁面",
+        "description": "Button title: 'This page cannot be saved with SingleFileZ'"
     },
     "buttonInitializingTooltip": {
-        "message": "正在初始化 SingleFile",
-        "description": "保存時候的按鈕標題: '正在初始化 SingleFile (x/2)'"
+        "message": "正在初始化 SingleFileZ",
+        "description": "保存時候的按鈕標題: '正在初始化 SingleFileZ (x/2)'"
     },
     "buttonInitializingBadge": {
         "message": "•••",

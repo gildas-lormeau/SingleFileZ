@@ -29,7 +29,7 @@
     },
     "menuSaveTabs": {
         "message": "Сохранить вкладки",
-        "description": "Menu entry (SingleFile button only): 'Save tabs'"
+        "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelectedTabs": {
         "message": "Сохранить выбранные вкладки",
@@ -64,20 +64,20 @@
         "description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
     },
     "buttonDefaultTooltip": {
-        "message": "Сохранить страницу с помощью SingleFile",
-        "description": "Button title: 'Save page with SingleFile'"
+        "message": "Сохранить страницу с помощью SingleFileZ",
+        "description": "Button title: 'Save page with SingleFileZ'"
     },
     "buttonBlockedBadge": {
         "message": "🚫",
         "description": "Button badge when the page is blocked: '🚫'"
     },
     "buttonBlockedTooltip": {
-        "message": "Эта страница не может быть сохранена с SingleFile",
-        "description": "Button title: 'This page cannot be saved with SingleFile'"
+        "message": "Эта страница не может быть сохранена с SingleFileZ",
+        "description": "Button title: 'This page cannot be saved with SingleFileZ'"
     },
     "buttonInitializingTooltip": {
-        "message": "Инициализация SingleFile",
-        "description": "Button title during initialization: 'Initializing SingleFile (x/2)'"
+        "message": "Инициализация SingleFileZ",
+        "description": "Button title during initialization: 'Initializing SingleFileZ (x/2)'"
     },
     "buttonInitializingBadge": {
         "message": "•••",

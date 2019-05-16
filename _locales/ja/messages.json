@@ -21,7 +21,7 @@
     },
     "menuSaveTabs": {
         "message": "タブを保存",
-        "description": "Menu entry (SingleFile button only): 'Save tabs'"
+        "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelection": {
         "message": "選択を保存",
@@ -64,20 +64,20 @@
         "description": "メニュー項目: '自動保存' > すべてのタブを自動的に保存する'"
     },
     "buttonDefaultTooltip": {
-        "message": "SingleFile でページを保存",
-        "description": "ボタンのタイトル: 'SingleFile でページを保存'"
+        "message": "SingleFileZ でページを保存",
+        "description": "ボタンのタイトル: 'SingleFileZ でページを保存'"
     },
     "buttonBlockedBadge": {
         "message": "🚫",
         "description": "Button badge when the page is blocked: '🚫'"
     },
     "buttonBlockedTooltip": {
-        "message": "このページは SingleFile では保存できません",
-        "description": "Button title: 'This page cannot be saved with SingleFile'"
+        "message": "このページは SingleFileZ では保存できません",
+        "description": "Button title: 'This page cannot be saved with SingleFileZ'"
     },
     "buttonInitializingTooltip": {
-        "message": "SingleFile の初期化",
-        "description": "初期化中のボタンのタイトル: 'SingleFile の初期化 (x/2)'"
+        "message": "SingleFileZ の初期化",
+        "description": "初期化中のボタンのタイトル: 'SingleFileZ の初期化 (x/2)'"
     },
     "buttonInitializingBadge": {
         "message": "•••",

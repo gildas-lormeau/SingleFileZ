@@ -1,7 +1,7 @@
 {
 	"name": "SingleFileZ",
 	"author": "Gildas Lormeau",
-	"homepage_url": "https://github.com/gildas-lormeau/SingleFile",
+	"homepage_url": "https://github.com/gildas-lormeau/SingleFileZ",
 	"icons": {
 		"16": "extension/ui/resources/icon_16.png",
 		"48": "extension/ui/resources/icon_48.png",
@@ -91,7 +91,7 @@
 	"options_page": "extension/ui/pages/options.html",
 	"sidebar_action": {
 		"browser_style": true,
-		"default_title": "SingleFile options",
+		"default_title": "SingleFileZ options",
 		"default_panel": "extension/ui/pages/options.html#side-panel",
 		"default_icon": "extension/ui/resources/icon_128.png",
 		"open_at_install": false
