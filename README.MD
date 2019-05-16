@@ -5,6 +5,6 @@ An example of file produced by SingleFileZ can be found here: https://github.com
 
 Today, it is only available on Firefox. You can download the extension here: https://addons.mozilla.org/en-US/firefox/addon/singlefilez/
 
-To open saved pages in Chrome, you must start it with the switch `--allow-file-access-from-files`.
+To open saved pages in Chrome, you must start it with the switch `--allow-file-access-from-files`. That's why the extension will probably never be published on the Chrome store.
 
 *This is a work in progress*
