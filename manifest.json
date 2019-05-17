@@ -55,7 +55,6 @@
 			"lib/fetch/content/content-fetch-resources.js",
 			"lib/frame-tree/bg/frame-tree.js",
 			"lib/zip/zip.js",
-			"lib/zip/zip-fs.js",
 			"extension/core/bg/config.js",
 			"extension/core/bg/tabs-data.js",
 			"extension/core/bg/business.js",

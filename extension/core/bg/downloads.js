@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, alert */
+/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, alert, TextEncoder, DOMParser */
 
 singlefile.extension.core.bg.downloads = (() => {
 
@@ -60,8 +60,9 @@ singlefile.extension.core.bg.downloads = (() => {
 			}
 			if (!message.truncated || message.finished) {
 				zip.workerScriptsPath = "lib/zip/";
-				const fs = new zip.fs.FS();
-				let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip-fs.min.js"))).text();
+				const docTypeMatch = message.content.match(/^(<!doctype.*>\s)/gi);
+				const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
+				let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
 				script += "(" + (async () => {
 					zip.useWebWorkers = false;
 					const xhr = new XMLHttpRequest();
@@ -72,18 +73,20 @@ singlefile.extension.core.bg.downloads = (() => {
 					};
 					xhr.send();
 					xhr.onload = async () => {
-						const fs = new zip.fs.FS();
-						await new Promise((resolve, reject) => fs.importBlob(xhr.response, resolve, reject));
-						const content = await new Promise(resolve => fs.root.children[1].getText(resolve, () => { }, false, "text/html"));
-						document.open();
-						document.write(content);
-						document.close();
+						const zipReader = await new Promise((resolve, reject) => zip.createReader(new zip.BlobReader(xhr.response), resolve, reject));
+						const entries = await new Promise(resolve => zipReader.getEntries(resolve));
+						const contentWriter = new zip.TextWriter("text/html");
+						const content = await new Promise(resolve => entries[0].getData(contentWriter, resolve));
+						const doc = (new DOMParser()).parseFromString(content, "text/html");
+						document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 					};
 				}).toString().replace(/\n|\t/g, "") + ")()";
-				const entry = fs.root.addText("_", "<body hidden><script>" + script + "</script>");
-				entry.compressionLevel = 0;
-				fs.root.addBlob("index.html", new Blob([contents]));
-				const data = await new Promise((resolve, reject) => fs.exportBlob(resolve, () => { }, reject));
+				const blobWriter = new zip.BlobWriter("application/zip");
+				await new Promise(resolve => blobWriter.init(resolve));
+				await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<body hidden><script>" + script + "</script>"), resolve));
+				const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
+				await new Promise(resolve => zipWriter.add("index.html", new zip.BlobReader(new Blob([contents])), resolve));
+				const data = await new Promise(resolve => zipWriter.close(resolve));
 				message.url = URL.createObjectURL(data);
 				try {
 					await downloadPage(message, {
