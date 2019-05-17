@@ -7,4 +7,6 @@ Today, it is only available on Firefox. You can download the extension here: htt
 
 To open saved pages in Chrome, you must start it with the switch `--allow-file-access-from-files`. That's why the extension will probably never be published on the Chrome store.
 
+Note that JavaScript must be enabled to unzip and view saved pages.
+
 *This is a work in progress*
