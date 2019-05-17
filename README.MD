@@ -1,5 +1,5 @@
 # SingleFileZ
-SingleFileZ is a fork of [SingleFile](https://addons.mozilla.org/en-US/firefox/addon/single-file) that allows you to save a webpage into an self extracting HTML file. This HTML file is also a ZIP file.
+SingleFileZ is a fork of [SingleFile](https://addons.mozilla.org/en-US/firefox/addon/single-file) that allows you to save a webpage into an self extracting HTML file. This HTML file is also a valid ZIP file.
 
 An example of file produced by SingleFileZ can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
 
