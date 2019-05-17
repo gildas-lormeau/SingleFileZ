@@ -83,11 +83,11 @@ singlefile.extension.core.bg.downloads = (() => {
 				}).toString().replace(/\n|\t/g, "") + ")()";
 				const blobWriter = new zip.BlobWriter("application/zip");
 				await new Promise(resolve => blobWriter.init(resolve));
-				await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<body hidden><script>" + script + "</script>"), resolve));
+				await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html><body><script>" + script + "</script><!-- "), resolve));
 				const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 				await new Promise(resolve => zipWriter.add("index.html", new zip.BlobReader(new Blob([contents])), resolve));
 				const data = await new Promise(resolve => zipWriter.close(resolve));
-				message.url = URL.createObjectURL(data);
+				message.url = URL.createObjectURL(new Blob([data, (new TextEncoder()).encode(" -->")]));
 				try {
 					await downloadPage(message, {
 						confirmFilename: message.confirmFilename,
