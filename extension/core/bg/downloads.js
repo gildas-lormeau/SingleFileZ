@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, alert, TextEncoder, DOMParser */
+/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser */
 
 singlefile.extension.core.bg.downloads = (() => {
 
@@ -69,7 +69,7 @@ singlefile.extension.core.bg.downloads = (() => {
 					xhr.responseType = "blob";
 					xhr.open("GET", "");
 					xhr.onerror = () => {
-						alert("Error: cannot read the zip file. If you are using a browser based chromium, you must start it with the switch '--allow-file-access-from-files'.");
+						document.body.textContent = "Error: cannot read the zip file. If you are using a browser based chromium, you must start it with the switch '--allow-file-access-from-files'.";
 					};
 					xhr.send();
 					xhr.onload = async () => {
