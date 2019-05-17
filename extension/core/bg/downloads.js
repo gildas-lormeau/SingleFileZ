@@ -60,7 +60,7 @@ singlefile.extension.core.bg.downloads = (() => {
 			}
 			if (!message.truncated || message.finished) {
 				zip.workerScriptsPath = "lib/zip/";
-				const docTypeMatch = message.content.match(/^(<!doctype.*>\s)/gi);
+				const docTypeMatch = contents[0].match(/^(<!doctype.*>\s)/gi);
 				const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
 				let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
 				script += "(" + (async () => {
