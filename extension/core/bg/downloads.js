@@ -79,7 +79,7 @@ singlefile.extension.core.bg.downloads = (() => {
 						let resources = new Map();
 						for (const entry of entries) {
 							let dataWriter, content, textContent;
-							if (entry.filename == "index.html" || entry.filename.startsWith("stylesheets/")) {
+							if (entry.filename == "index.html" || entry.filename.startsWith("stylesheet_")) {
 								dataWriter = new zip.TextWriter();
 								textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
 							} else {
@@ -90,7 +90,7 @@ singlefile.extension.core.bg.downloads = (() => {
 						}
 						resources.forEach(resource => {
 							if (resource.textContent) {
-								if (resource.filename.startsWith("stylesheets/")) {
+								if (resource.filename.startsWith("stylesheet_")) {
 									resources.forEach(innerResource => {
 										resource.textContent = resource.textContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content);
 									});
