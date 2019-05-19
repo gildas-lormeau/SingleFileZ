@@ -104,6 +104,7 @@ singlefile.extension.core.bg.downloads = (() => {
 							docContent = docContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content);
 						});
 						const doc = (new DOMParser()).parseFromString(docContent, "text/html");
+						doc.querySelectorAll("noscript").forEach(element => element.remove());
 						document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 					};
 
