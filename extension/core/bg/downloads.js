@@ -131,11 +131,11 @@ singlefile.extension.core.bg.downloads = (() => {
 			let resources = [];
 			for (const entry of entries) {
 				let dataWriter, content, textContent;
-				if (entry.filename.match(/index.html$/) || entry.filename.match(/stylesheet_\n+/)) {
+				if (entry.filename.match(/index\.html$/) || entry.filename.match(/stylesheet_[0-9]+\.css/)) {
 					dataWriter = new zip.TextWriter();
 					textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
 				} else {
-					if (entry.filename.match(/.svg$/)) {
+					if (entry.filename.match(/\.svg$/)) {
 						const blob = await new Promise(resolve => entry.getData(new zip.BlobWriter("image/svg+xml"), resolve));
 						const reader = new FileReader();
 						reader.readAsDataURL(blob);
@@ -148,34 +148,32 @@ singlefile.extension.core.bg.downloads = (() => {
 						content = URL.createObjectURL(blob);
 					}
 				}
-				resources.push({ filename: entry.filename, content: content, textContent });
+				resources.push({ filename: entry.filename, content, textContent });
 			}
 			resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
 			let docContent;
 			resources.forEach(resource => {
 				if (resource.textContent) {
-					if (resource.filename.match(/index.html$/) || resource.filename.match(/stylesheet_\n+/)) {
-						let prefixPath = "";
-						const prefixPathMatch = resource.filename.match(/(.*\/)[^/]+$/);
-						if (prefixPathMatch && prefixPathMatch[1]) {
-							prefixPath = prefixPathMatch[1];
-						}
-						resources.forEach(innerResource => {
-							if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
-								const filename = innerResource.filename.substring(prefixPath.length);
-								if (filename != resource.filename) {
-									resource.textContent = resource.textContent.replace(new RegExp(filename, "g"), innerResource.content);
-								}
+					let prefixPath = "";
+					const prefixPathMatch = resource.filename.match(/(.*\/)[^/]+$/);
+					if (prefixPathMatch && prefixPathMatch[1]) {
+						prefixPath = prefixPathMatch[1];
+					}
+					resources.forEach(innerResource => {
+						if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
+							const filename = innerResource.filename.substring(prefixPath.length);
+							if (filename != resource.filename) {
+								resource.textContent = resource.textContent.replace(new RegExp(filename, "g"), innerResource.content);
 							}
-						});
-						if (resource.filename.match(/stylesheet_\n+/)) {
-							resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css" }));
-						} else {
-							resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/html" }));
 						}
-						if (resource.filename == "index.html") {
-							docContent = resource.textContent;
-						}
+					});
+					if (resource.filename.match(/stylesheet_\n+/)) {
+						resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css" }));
+					} else {
+						resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/html" }));
+					}
+					if (resource.filename == "index.html") {
+						docContent = resource.textContent;
 					}
 				}
 			});
