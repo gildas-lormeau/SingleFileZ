@@ -25,6 +25,8 @@
 
 singlefile.extension.core.bg.compression = (() => {
 
+	const NO_COMPRESSION_EXTENSIONS = [".jpg", ".jpeg", ".png", ".pdf", ".woff2"];
+
 	return {
 		compressPage
 	};
@@ -57,7 +59,11 @@ singlefile.extension.core.bg.compression = (() => {
 					} else {
 						dataReader = new zip.BlobReader(new Blob([new Uint8Array(data.content)]));
 					}
-					await new Promise(resolve => zipWriter.add(prefixName + data.name, dataReader, resolve));
+					const options = {};
+					if (NO_COMPRESSION_EXTENSIONS.includes(data.extension)) {
+						options.level = 0;
+					}
+					await new Promise(resolve => zipWriter.add(prefixName + data.name, dataReader, resolve, null, options));
 				}
 			}
 		}
