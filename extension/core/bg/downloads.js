@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser */
+/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, stop */
 
 singlefile.extension.core.bg.downloads = (() => {
 
@@ -70,6 +70,9 @@ singlefile.extension.core.bg.downloads = (() => {
 					xhr.responseType = "blob";
 					xhr.open("GET", "");
 					xhr.onerror = () => {
+						stop();
+						Array.from(document.body.childNodes).forEach(node => node.remove());
+						document.body.hidden = false;
 						document.body.textContent = "Error: cannot read the zip file. If you are using a chromium-based browser, it must be started with the switch '--allow-file-access-from-files'.";
 					};
 					xhr.send();
@@ -108,7 +111,7 @@ singlefile.extension.core.bg.downloads = (() => {
 				}).toString().replace(/\n|\t/g, "") + ")()";
 				const blobWriter = new zip.BlobWriter("application/zip");
 				await new Promise(resolve => blobWriter.init(resolve));
-				await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html><body><script>" + script + "</script><!-- "), resolve));
+				await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html><body hidden><script>" + script + "</script><![CDATA["), resolve));
 				const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 				await new Promise(resolve => zipWriter.add("index.html", new zip.BlobReader(new Blob([pageData.content])), resolve));
 				for (const resourceType of Object.keys(pageData.resources)) {
@@ -122,7 +125,7 @@ singlefile.extension.core.bg.downloads = (() => {
 						await new Promise(resolve => zipWriter.add(data.name, dataReader, resolve));
 					}
 				}
-				const comment = " --></body></html>";
+				const comment = "]]></body></html>";
 				const data = await new Promise(resolve => zipWriter.close(resolve, comment.length));
 				message.url = URL.createObjectURL(new Blob([data, comment]));
 				try {
