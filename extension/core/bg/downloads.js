@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, stop */
+/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, FileReader, stop */
 
 singlefile.extension.core.bg.downloads = (() => {
 
@@ -135,8 +135,18 @@ singlefile.extension.core.bg.downloads = (() => {
 					dataWriter = new zip.TextWriter();
 					textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
 				} else {
-					dataWriter = new zip.BlobWriter("application/octet-stream");
-					content = URL.createObjectURL(await new Promise(resolve => entry.getData(dataWriter, resolve)));
+					if (entry.filename.match(/.svg$/)) {
+						const blob = await new Promise(resolve => entry.getData(new zip.BlobWriter("image/svg+xml"), resolve));
+						const reader = new FileReader();
+						reader.readAsDataURL(blob);
+						content = await new Promise((resolve, reject) => {
+							reader.addEventListener("load", () => resolve(reader.result), false);
+							reader.addEventListener("error", reject, false);
+						});
+					} else {
+						const blob = await new Promise(resolve => entry.getData(new zip.BlobWriter("application/octet-stream"), resolve));
+						content = URL.createObjectURL(blob);
+					}
 				}
 				resources.push({ filename: entry.filename, content: content, textContent });
 			}
