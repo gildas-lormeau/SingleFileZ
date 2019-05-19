@@ -60,98 +60,131 @@ singlefile.extension.core.bg.downloads = (() => {
 			}
 			if (!message.truncated || message.finished) {
 				const pageData = JSON.parse(contents.join());
-				zip.workerScriptsPath = "lib/zip/";
-				const docTypeMatch = pageData.content.match(/^(<!doctype.*>\s)/gi);
-				const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
-				let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
-				script += "(" + (async () => {
-					zip.useWebWorkers = false;
-					const xhr = new XMLHttpRequest();
-					xhr.responseType = "blob";
-					xhr.open("GET", "");
-					xhr.onerror = () => {
-						displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser, it must be started with the switch '--allow-file-access-from-files'.");
-					};
-					xhr.send();
-					xhr.onload = async () => {
-						displayMessage("Please wait...");
-						const zipReader = await new Promise((resolve, reject) => zip.createReader(new zip.BlobReader(xhr.response), resolve, reject));
-						const entries = await new Promise(resolve => zipReader.getEntries(resolve));
-						let resources = new Map();
-						for (const entry of entries) {
-							let dataWriter, content, textContent;
-							if (entry.filename == "index.html" || entry.filename.startsWith("stylesheet_")) {
-								dataWriter = new zip.TextWriter();
-								textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
-							} else {
-								dataWriter = new zip.BlobWriter("application/octet-stream");
-								content = URL.createObjectURL(await new Promise(resolve => entry.getData(dataWriter, resolve)));
-							}
-							resources.set(entry.filename, { filename: entry.filename, content: content, textContent });
+				savePage(message, pageData, sender.tab);
+			}
+			return {};
+		}
+	}
+
+	async function savePage(message, pageData, tab) {
+		zip.workerScriptsPath = "lib/zip/";
+		const docTypeMatch = pageData.content.match(/^(<!doctype.*>\s)/gi);
+		const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
+		let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
+		script += "(" + bootstrap.toString()/*.replace(/\n|\t/g, "")*/ + ")()";
+		const blobWriter = new zip.BlobWriter("application/zip");
+		await new Promise(resolve => blobWriter.init(resolve));
+		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html><body hidden><script>" + script + "</script><![CDATA["), resolve));
+		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
+		await addPageResources(zipWriter, pageData);
+		const comment = "]]></body></html>";
+		const data = await new Promise(resolve => zipWriter.close(resolve, comment.length));
+		message.url = URL.createObjectURL(new Blob([data, comment]));
+		try {
+			singlefile.extension.ui.bg.main.onEnd(tab.id);
+			await downloadPage(message, {
+				confirmFilename: message.confirmFilename,
+				incognito: tab.incognito,
+				filenameConflictAction: message.filenameConflictAction,
+				filenameReplacementCharacter: message.filenameReplacementCharacter
+			});
+		} catch (error) {
+			console.error(error); // eslint-disable-line no-console
+			singlefile.extension.ui.bg.main.onError(tab.id);
+		} finally {
+			URL.revokeObjectURL(message.url);
+		}
+	}
+
+	async function addPageResources(zipWriter, pageData, prefixName = "") {
+		await new Promise(resolve => zipWriter.add(prefixName + "index.html", new zip.BlobReader(new Blob([pageData.content])), resolve));
+		for (const resourceType of Object.keys(pageData.resources)) {
+			for (const data of pageData.resources[resourceType]) {
+				if (resourceType == "frames") {
+					await addPageResources(zipWriter, data, prefixName + data.name);
+				} else {
+					let dataReader;
+					if (typeof data.content == "string") {
+						dataReader = new zip.TextReader(data.content);
+					} else {
+						dataReader = new zip.BlobReader(new Blob([new Uint8Array(data.content)]));
+					}
+					await new Promise(resolve => zipWriter.add(prefixName + data.name, dataReader, resolve));
+				}
+			}
+		}
+	}
+
+	async function bootstrap() {
+		zip.useWebWorkers = false;
+		const xhr = new XMLHttpRequest();
+		xhr.responseType = "blob";
+		xhr.open("GET", "");
+		xhr.onerror = () => {
+			displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser, it must be started with the switch '--allow-file-access-from-files'.");
+		};
+		xhr.send();
+		xhr.onload = async () => {
+			displayMessage("Please wait...");
+			const zipReader = await new Promise((resolve, reject) => zip.createReader(new zip.BlobReader(xhr.response), resolve, reject));
+			const entries = await new Promise(resolve => zipReader.getEntries(resolve));
+			let resources = [];
+			for (const entry of entries) {
+				let dataWriter, content, textContent;
+				if (entry.filename.match(/index.html$/) || entry.filename.match(/stylesheet_\n+/)) {
+					dataWriter = new zip.TextWriter();
+					textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
+				} else {
+					dataWriter = new zip.BlobWriter("application/octet-stream");
+					content = URL.createObjectURL(await new Promise(resolve => entry.getData(dataWriter, resolve)));
+				}
+				resources.push({ filename: entry.filename, content: content, textContent });
+			}
+			resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
+			let docContent;
+			resources.forEach(resource => {
+				if (resource.textContent) {
+					if (resource.filename.match(/index.html$/) || resource.filename.match(/stylesheet_\n+/)) {
+						let prefixPath = "";
+						const prefixPathMatch = resource.filename.match(/(.*\/)[^/]+$/);
+						if (prefixPathMatch && prefixPathMatch[1]) {
+							prefixPath = prefixPathMatch[1];
 						}
-						resources.forEach(resource => {
-							if (resource.textContent) {
-								if (resource.filename.startsWith("stylesheet_")) {
-									resources.forEach(innerResource => resource.textContent = resource.textContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content));
-									resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css" }));
+						resources.forEach(innerResource => {
+							if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
+								const filename = innerResource.filename.substring(prefixPath.length);
+								if (filename != resource.filename) {
+									resource.textContent = resource.textContent.replace(new RegExp(filename, "g"), innerResource.content);
 								}
 							}
 						});
-						let docContent = resources.get("index.html").textContent;
-						resources.forEach(innerResource => docContent = docContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content));
-						const doc = (new DOMParser()).parseFromString(docContent, "text/html");
-						doc.querySelectorAll("noscript").forEach(element => element.remove());
-						document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
-						document.querySelectorAll("script").forEach(element => {
-							element.remove();
-							const scriptElement = document.createElement("script");
-							scriptElement.textContent = element.textContent;
-							document.body.appendChild(scriptElement);
-						});
-					};
-
-					function displayMessage(text) {
-						stop();
-						Array.from(document.body.childNodes).forEach(node => node.remove());
-						document.body.hidden = false;
-						document.body.textContent = text;
-					}
-				}).toString().replace(/\n|\t/g, "") + ")()";
-				const blobWriter = new zip.BlobWriter("application/zip");
-				await new Promise(resolve => blobWriter.init(resolve));
-				await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html><body hidden><script>" + script + "</script><![CDATA["), resolve));
-				const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
-				await new Promise(resolve => zipWriter.add("index.html", new zip.BlobReader(new Blob([pageData.content])), resolve));
-				for (const resourceType of Object.keys(pageData.resources)) {
-					for (const data of pageData.resources[resourceType]) {
-						let dataReader;
-						if (typeof data.content == "string") {
-							dataReader = new zip.TextReader(data.content);
+						if (resource.filename.match(/stylesheet_\n+/)) {
+							resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css" }));
 						} else {
-							dataReader = new zip.BlobReader(new Blob([new Uint8Array(data.content)]));
+							resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/html" }));
 						}
-						await new Promise(resolve => zipWriter.add(data.name, dataReader, resolve));
+						if (resource.filename == "index.html") {
+							docContent = resource.textContent;
+						}
 					}
 				}
-				const comment = "]]></body></html>";
-				const data = await new Promise(resolve => zipWriter.close(resolve, comment.length));
-				message.url = URL.createObjectURL(new Blob([data, comment]));
-				try {
-					singlefile.extension.ui.bg.main.onEnd(sender.tab.id);
-					await downloadPage(message, {
-						confirmFilename: message.confirmFilename,
-						incognito: sender.tab.incognito,
-						filenameConflictAction: message.filenameConflictAction,
-						filenameReplacementCharacter: message.filenameReplacementCharacter
-					});
-				} catch (error) {
-					console.error(error); // eslint-disable-line no-console
-					singlefile.extension.ui.bg.main.onError(sender.tab.id);
-				} finally {
-					URL.revokeObjectURL(message.url);
-				}
-			}
-			return {};
+			});
+			const doc = (new DOMParser()).parseFromString(docContent, "text/html");
+			doc.querySelectorAll("noscript").forEach(element => element.remove());
+			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
+			document.querySelectorAll("script").forEach(element => {
+				element.remove();
+				const scriptElement = document.createElement("script");
+				scriptElement.textContent = element.textContent;
+				document.body.appendChild(scriptElement);
+			});
+		};
+
+		function displayMessage(text) {
+			stop();
+			Array.from(document.body.childNodes).forEach(node => node.remove());
+			document.body.hidden = false;
+			document.body.textContent = text;
 		}
 	}
 
