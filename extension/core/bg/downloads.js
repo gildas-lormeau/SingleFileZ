@@ -59,8 +59,9 @@ singlefile.extension.core.bg.downloads = (() => {
 				contents = [message.content];
 			}
 			if (!message.truncated || message.finished) {
+				const pageData = JSON.parse(contents.join());
 				zip.workerScriptsPath = "lib/zip/";
-				const docTypeMatch = contents[0].match(/^(<!doctype.*>\s)/gi);
+				const docTypeMatch = pageData.content.match(/^(<!doctype.*>\s)/gi);
 				const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
 				let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
 				script += "(" + (async () => {
@@ -75,9 +76,33 @@ singlefile.extension.core.bg.downloads = (() => {
 					xhr.onload = async () => {
 						const zipReader = await new Promise((resolve, reject) => zip.createReader(new zip.BlobReader(xhr.response), resolve, reject));
 						const entries = await new Promise(resolve => zipReader.getEntries(resolve));
-						const contentWriter = new zip.TextWriter("text/html");
-						const content = await new Promise(resolve => entries[0].getData(contentWriter, resolve));
-						const doc = (new DOMParser()).parseFromString(content, "text/html");
+						let resources = new Map();
+						for (const entry of entries) {
+							let dataWriter, content, textContent;
+							if (entry.filename == "index.html" || entry.filename.startsWith("stylesheets/")) {
+								dataWriter = new zip.TextWriter();
+								textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
+							} else {
+								dataWriter = new zip.BlobWriter("application/octet-stream");
+								content = URL.createObjectURL(await new Promise(resolve => entry.getData(dataWriter, resolve)));
+							}
+							resources.set(entry.filename, { filename: entry.filename, content: content, textContent });
+						}
+						resources.forEach(resource => {
+							if (resource.textContent) {
+								if (resource.filename.startsWith("stylesheets/")) {
+									resources.forEach(innerResource => {
+										resource.textContent = resource.textContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content);
+									});
+									resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css" }));
+								}
+							}
+						});
+						let docContent = resources.get("index.html").textContent;
+						resources.forEach(innerResource => {
+							docContent = docContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content);
+						});
+						const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 						document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 					};
 				}).toString().replace(/\n|\t/g, "") + ")()";
@@ -85,7 +110,18 @@ singlefile.extension.core.bg.downloads = (() => {
 				await new Promise(resolve => blobWriter.init(resolve));
 				await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html><body><script>" + script + "</script><!-- "), resolve));
 				const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
-				await new Promise(resolve => zipWriter.add("index.html", new zip.BlobReader(new Blob([contents])), resolve));
+				await new Promise(resolve => zipWriter.add("index.html", new zip.BlobReader(new Blob([pageData.content])), resolve));
+				for (const resourceType of Object.keys(pageData.resources)) {
+					for (const data of pageData.resources[resourceType]) {
+						let dataReader;
+						if (typeof data.content == "string") {
+							dataReader = new zip.TextReader(data.content);
+						} else {
+							dataReader = new zip.BlobReader(new Blob([new Uint8Array(data.content)]));
+						}
+						await new Promise(resolve => zipWriter.add(data.name, dataReader, resolve));
+					}
+				}
 				const comment = " --></body></html>";
 				const data = await new Promise(resolve => zipWriter.close(resolve, comment.length));
 				message.url = URL.createObjectURL(new Blob([data, comment]));
