@@ -60,6 +60,7 @@
 			"extension/core/bg/business.js",
 			"extension/core/bg/messages.js",
 			"extension/core/bg/tabs.js",
+			"extension/core/bg/compression.js",
 			"extension/core/bg/downloads.js",
 			"extension/core/bg/autosave.js",
 			"extension/ui/bg/ui-main.js",
