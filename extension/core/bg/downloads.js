@@ -71,7 +71,7 @@ singlefile.extension.core.bg.downloads = (() => {
 		const docTypeMatch = pageData.content.match(/^(<!doctype.*>\s)/gi);
 		const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
 		let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
-		script += "(" + bootstrap.toString()/*.replace(/\n|\t/g, "")*/ + ")()";
+		script += "(" + bootstrap.toString().replace(/\n|\t/g, "") + ")()";
 		const blobWriter = new zip.BlobWriter("application/zip");
 		await new Promise(resolve => blobWriter.init(resolve));
 		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html><body hidden><script>" + script + "</script><![CDATA["), resolve));
