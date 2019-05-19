@@ -130,9 +130,6 @@ singlefile.extension.ui.bg.button = (() => {
 				onProgress(sender.tab.id, message.index, message.maxIndex);
 			}
 		}
-		if (message.method.endsWith(".processEnd")) {
-			onEnd(sender.tab.id);
-		}
 		if (message.method.endsWith(".processError")) {
 			if (message.error) {
 				console.error("Initialization error", message.error); // eslint-disable-line no-console

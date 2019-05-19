@@ -135,6 +135,7 @@ singlefile.extension.core.bg.downloads = (() => {
 				const data = await new Promise(resolve => zipWriter.close(resolve, comment.length));
 				message.url = URL.createObjectURL(new Blob([data, comment]));
 				try {
+					singlefile.extension.ui.bg.main.onEnd(sender.tab.id);
 					await downloadPage(message, {
 						confirmFilename: message.confirmFilename,
 						incognito: sender.tab.incognito,
