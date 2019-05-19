@@ -92,17 +92,13 @@ singlefile.extension.core.bg.downloads = (() => {
 						resources.forEach(resource => {
 							if (resource.textContent) {
 								if (resource.filename.startsWith("stylesheet_")) {
-									resources.forEach(innerResource => {
-										resource.textContent = resource.textContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content);
-									});
+									resources.forEach(innerResource => resource.textContent = resource.textContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content));
 									resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css" }));
 								}
 							}
 						});
 						let docContent = resources.get("index.html").textContent;
-						resources.forEach(innerResource => {
-							docContent = docContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content);
-						});
+						resources.forEach(innerResource => docContent = docContent.replace(new RegExp(innerResource.filename, "g"), innerResource.content));
 						const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 						doc.querySelectorAll("noscript").forEach(element => element.remove());
 						document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
