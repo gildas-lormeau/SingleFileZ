@@ -70,13 +70,11 @@ singlefile.extension.core.bg.downloads = (() => {
 					xhr.responseType = "blob";
 					xhr.open("GET", "");
 					xhr.onerror = () => {
-						stop();
-						Array.from(document.body.childNodes).forEach(node => node.remove());
-						document.body.hidden = false;
-						document.body.textContent = "Error: cannot read the zip file. If you are using a chromium-based browser, it must be started with the switch '--allow-file-access-from-files'.";
+						displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser, it must be started with the switch '--allow-file-access-from-files'.");
 					};
 					xhr.send();
 					xhr.onload = async () => {
+						displayMessage("Please wait...");
 						const zipReader = await new Promise((resolve, reject) => zip.createReader(new zip.BlobReader(xhr.response), resolve, reject));
 						const entries = await new Promise(resolve => zipReader.getEntries(resolve));
 						let resources = new Map();
@@ -108,6 +106,13 @@ singlefile.extension.core.bg.downloads = (() => {
 						const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 						document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 					};
+
+					function displayMessage(text) {
+						stop();
+						Array.from(document.body.childNodes).forEach(node => node.remove());
+						document.body.hidden = false;
+						document.body.textContent = text;
+					}
 				}).toString().replace(/\n|\t/g, "") + ")()";
 				const blobWriter = new zip.BlobWriter("application/zip");
 				await new Promise(resolve => blobWriter.init(resolve));
