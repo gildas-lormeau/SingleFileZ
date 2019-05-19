@@ -106,6 +106,12 @@ singlefile.extension.core.bg.downloads = (() => {
 						const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 						doc.querySelectorAll("noscript").forEach(element => element.remove());
 						document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
+						document.querySelectorAll("script").forEach(element => {
+							element.remove();
+							const scriptElement = document.createElement("script");
+							scriptElement.textContent = element.textContent;
+							document.body.appendChild(scriptElement);
+						});
 					};
 
 					function displayMessage(text) {
