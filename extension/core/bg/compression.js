@@ -75,7 +75,7 @@ singlefile.extension.core.bg.compression = (() => {
 		xhr.responseType = "blob";
 		xhr.open("GET", "");
 		xhr.onerror = () => {
-			displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser, it must be started with the switch '--allow-file-access-from-files'.");
+			displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser and trying to read the page from the filesystem, it must be started with the switch '--allow-file-access-from-files'.");
 		};
 		xhr.send();
 		xhr.onload = async () => {
