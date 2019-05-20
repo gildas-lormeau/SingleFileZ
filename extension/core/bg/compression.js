@@ -138,6 +138,7 @@ singlefile.extension.core.bg.compression = (() => {
 			document.querySelectorAll("script").forEach(element => {
 				element.remove();
 				const scriptElement = document.createElement("script");
+				scriptElement.type = element.type;
 				scriptElement.textContent = element.textContent;
 				document.body.appendChild(scriptElement);
 			});
