@@ -36,6 +36,7 @@ this.singlefile.extension.ui.content.infobar = this.singlefile.extension.ui.cont
 		} else {
 			displayIcon();
 		}
+		document.addEventListener("single-file-display-infobar", displayIcon, false);
 	}
 	return {};
 
