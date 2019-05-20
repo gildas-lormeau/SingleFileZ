@@ -70,6 +70,7 @@ singlefile.extension.core.bg.compression = (() => {
 	}
 
 	function bootstrapCode() {
+		stop();
 		zip.useWebWorkers = false;
 		const xhr = new XMLHttpRequest();
 		xhr.responseType = "blob";
@@ -146,7 +147,6 @@ singlefile.extension.core.bg.compression = (() => {
 		};
 
 		function displayMessage(text, deferred) {
-			stop();
 			Array.from(document.body.childNodes).forEach(node => node.remove());
 			document.body.hidden = false;
 			if (deferred) {
