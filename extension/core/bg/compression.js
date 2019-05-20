@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, FileReader, stop */
+/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, FileReader, stop, setTimeout, clearTimeout */
 
 singlefile.extension.core.bg.compression = (() => {
 
@@ -79,7 +79,7 @@ singlefile.extension.core.bg.compression = (() => {
 		};
 		xhr.send();
 		xhr.onload = async () => {
-			displayMessage("Please wait...");
+			const displayTimeout = displayMessage("Please wait...", true);
 			const zipReader = await new Promise((resolve, reject) => zip.createReader(new zip.BlobReader(xhr.response), resolve, reject));
 			const entries = await new Promise(resolve => zipReader.getEntries(resolve));
 			let resources = [];
@@ -133,6 +133,7 @@ singlefile.extension.core.bg.compression = (() => {
 			});
 			const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 			doc.querySelectorAll("noscript").forEach(element => element.remove());
+			clearTimeout(displayTimeout);
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 			document.querySelectorAll("script").forEach(element => {
 				element.remove();
@@ -142,11 +143,15 @@ singlefile.extension.core.bg.compression = (() => {
 			});
 		};
 
-		function displayMessage(text) {
+		function displayMessage(text, deferred) {
 			stop();
 			Array.from(document.body.childNodes).forEach(node => node.remove());
 			document.body.hidden = false;
-			document.body.textContent = text;
+			if (deferred) {
+				return setTimeout(() => document.body.textContent = text, 500);
+			} else {
+				document.body.textContent = text;
+			}
 		}
 	}
 
