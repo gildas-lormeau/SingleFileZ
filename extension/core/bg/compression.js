@@ -165,7 +165,7 @@ singlefile.extension.core.bg.compression = (() => {
 			Array.from(document.body.childNodes).forEach(node => node.remove());
 			document.body.hidden = false;
 			if (deferred) {
-				return setTimeout(() => document.body.textContent = text, 500);
+				return setTimeout(() => document.body.textContent = text, 1500);
 			} else {
 				document.body.textContent = text;
 			}
