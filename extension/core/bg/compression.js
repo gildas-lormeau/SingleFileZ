@@ -86,7 +86,7 @@ singlefile.extension.core.bg.compression = (() => {
 			let resources = [];
 			for (const entry of entries) {
 				let dataWriter, content, textContent;
-				if (entry.filename.match(/index\.html$/) || entry.filename.match(/stylesheet_[0-9]+\.css/)) {
+				if (entry.filename.match(/index\.html$/) || entry.filename.match(/stylesheet_[0-9]+\.css/) || entry.filename.match(/scripts\/[0-9]+\.js/)) {
 					dataWriter = new zip.TextWriter();
 					textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
 				} else {
@@ -114,19 +114,26 @@ singlefile.extension.core.bg.compression = (() => {
 					if (prefixPathMatch && prefixPathMatch[1]) {
 						prefixPath = prefixPathMatch[1];
 					}
-					resources.forEach(innerResource => {
-						if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
-							const filename = innerResource.filename.substring(prefixPath.length);
-							if (filename != resource.filename) {
-								resource.textContent = resource.textContent.replace(new RegExp(filename, "g"), innerResource.content);
+					const isScript = resource.filename.match(/scripts\/[0-9]+\.js/);
+					if (!isScript) {
+						resources.forEach(innerResource => {
+							if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
+								const filename = innerResource.filename.substring(prefixPath.length);
+								if (filename != resource.filename) {
+									resource.textContent = resource.textContent.replace(new RegExp(filename, "g"), innerResource.content);
+								}
 							}
-						}
-					});
-					if (resource.filename.match(/stylesheet_[0-9]+\.css/)) {
-						resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css;charset=utf-8" }));
-					} if (resource.filename.match(/index\.html$/)) {
-						resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/html;charset=utf-8" }));
+						});
 					}
+					let mimeType;
+					if (resource.filename.match(/stylesheet_[0-9]+\.css/)) {
+						mimeType = "text/css";
+					} else if (isScript) {
+						mimeType = "text/javascript";
+					} else if (resource.filename.match(/index\.html$/)) {
+						mimeType = "text/html";
+					}
+					resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: mimeType + ";charset=utf-8" }));
 					if (resource.filename == "index.html") {
 						docContent = resource.textContent;
 					}
@@ -138,11 +145,19 @@ singlefile.extension.core.bg.compression = (() => {
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 			document.dispatchEvent(new CustomEvent("single-file-display-infobar"));
 			document.querySelectorAll("script").forEach(element => {
+				const parentElement = element.parentElement;
 				element.remove();
 				const scriptElement = document.createElement("script");
-				scriptElement.type = element.type;
-				scriptElement.textContent = element.textContent;
-				document.body.appendChild(scriptElement);
+				if (element.getAttribute("type")) {
+					scriptElement.type = element.type;
+				}
+				if (element.getAttribute("src")) {
+					scriptElement.src = element.src;
+				}
+				if (element.textContent) {
+					scriptElement.textContent = element.textContent;
+				}
+				parentElement.appendChild(scriptElement);
 			});
 		};
 
