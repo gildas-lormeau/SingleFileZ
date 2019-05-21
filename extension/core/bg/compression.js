@@ -122,9 +122,9 @@ singlefile.extension.core.bg.compression = (() => {
 							}
 						}
 					});
-					if (resource.filename.match(/stylesheet_\n+/)) {
+					if (resource.filename.match(/stylesheet_[0-9]+\.css/)) {
 						resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css;charset=utf-8" }));
-					} else {
+					} if (resource.filename.match(/index\.html$/)) {
 						resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/html;charset=utf-8" }));
 					}
 					if (resource.filename == "index.html") {
