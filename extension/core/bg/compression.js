@@ -91,16 +91,23 @@ singlefile.extension.core.bg.compression = (() => {
 					textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
 				} else {
 					if (entry.filename.match(/\.svg$/)) {
-						content = await getDataURI(await new Promise(resolve => entry.getData(new zip.BlobWriter("image/svg+xml"), resolve)));
+						const blob = await new Promise(resolve => entry.getData(new zip.BlobWriter("image/svg+xml"), resolve));
+						const reader = new FileReader();
+						reader.readAsDataURL(blob);
+						content = await new Promise((resolve, reject) => {
+							reader.addEventListener("load", () => resolve(reader.result), false);
+							reader.addEventListener("error", reject, false);
+						});
 					} else {
-						content = URL.createObjectURL(await new Promise(resolve => entry.getData(new zip.BlobWriter("application/octet-stream"), resolve)));
+						const blob = await new Promise(resolve => entry.getData(new zip.BlobWriter("application/octet-stream"), resolve));
+						content = URL.createObjectURL(blob);
 					}
 				}
 				resources.push({ filename: entry.filename, content, textContent });
 			}
 			resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
 			let docContent;
-			for (const resource of resources) {
+			resources.forEach(resource => {
 				if (resource.textContent) {
 					let prefixPath = "";
 					const prefixPathMatch = resource.filename.match(/(.*\/)[^/]+$/);
@@ -116,7 +123,7 @@ singlefile.extension.core.bg.compression = (() => {
 						}
 					});
 					if (resource.filename.match(/stylesheet_[0-9]+\.css/)) {
-						resource.content = await getDataURI(new Blob([resource.textContent], { type: "text/css;charset=utf-8" }));
+						resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/css;charset=utf-8" }));
 					} if (resource.filename.match(/index\.html$/)) {
 						resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: "text/html;charset=utf-8" }));
 					}
@@ -124,7 +131,7 @@ singlefile.extension.core.bg.compression = (() => {
 						docContent = resource.textContent;
 					}
 				}
-			}
+			});
 			const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 			doc.querySelectorAll("noscript").forEach(element => element.remove());
 			clearTimeout(displayTimeout);
@@ -139,20 +146,11 @@ singlefile.extension.core.bg.compression = (() => {
 			});
 		};
 
-		async function getDataURI(blob) {
-			const reader = new FileReader();
-			reader.readAsDataURL(blob);
-			return await new Promise((resolve, reject) => {
-				reader.addEventListener("load", () => resolve(reader.result), false);
-				reader.addEventListener("error", reject, false);
-			});
-		}
-
 		function displayMessage(text, deferred) {
 			Array.from(document.body.childNodes).forEach(node => node.remove());
 			document.body.hidden = false;
 			if (deferred) {
-				return setTimeout(() => document.body.textContent = text, 1500);
+				return setTimeout(() => document.body.textContent = text, 500);
 			} else {
 				document.body.textContent = text;
 			}
