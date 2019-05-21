@@ -5,9 +5,9 @@ SingleFileZ is a fork of [SingleFile](https://addons.mozilla.org/en-US/firefox/a
 Here is an example of page produced by SingleFileZ: https://gildas-lormeau.github.io/. Other examples of files produced by SingleFileZ can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
 
 ## Download
-Today, it is only available on Firefox. You can download the extension here: https://addons.mozilla.org/firefox/addon/singlefilez/
+Today, SingleFileZ is only available on Firefox. You can download the extension from the Firefox Add-ons website: https://addons.mozilla.org/firefox/addon/singlefilez/
 
-To open saved pages from the filesystem in Chrome, you must start it with the switch `--allow-file-access-from-files`. That's why the extension will probably never be published on the Chrome store. You can install it on Chrome manually though.
+SingleFileZ can be installed on Chrome. However, to open saved pages from the filesystem in Chrome, you must start it with the switch `--allow-file-access-from-files`. That's why the extension will probably never be published on the Chrome store.
 
 ## Notes
  - JavaScript must be enabled to view saved pages.
