@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, Blob, URL, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, FileReader, stop, setTimeout, clearTimeout, CustomEvent */
+/* global browser, singlefile, Blob, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, FileReader, stop, setTimeout, clearTimeout, CustomEvent */
 
 singlefile.extension.core.bg.compression = (() => {
 
@@ -103,24 +103,14 @@ singlefile.extension.core.bg.compression = (() => {
 					dataWriter = new zip.TextWriter();
 					textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
 				} else {
-					if (entry.filename.match(/\.svg$/)) {
-						const blob = await new Promise(resolve => entry.getData(new zip.BlobWriter("image/svg+xml"), resolve));
-						const reader = new FileReader();
-						reader.readAsDataURL(blob);
-						content = await new Promise((resolve, reject) => {
-							reader.addEventListener("load", () => resolve(reader.result), false);
-							reader.addEventListener("error", reject, false);
-						});
-					} else {
-						const blob = await new Promise(resolve => entry.getData(new zip.BlobWriter("application/octet-stream"), resolve));
-						content = URL.createObjectURL(blob);
-					}
+					const isSVG = entry.filename.match(/\.svg$/);
+					content = await new Promise(resolve => entry.getData(new zip.Data64URIWriter(isSVG ? "image/svg+xml" : "application/octet-stream"), resolve));
 				}
 				resources.push({ filename: entry.filename, content, textContent });
 			}
 			resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
 			let docContent;
-			resources.forEach(resource => {
+			for (const resource of resources) {
 				if (resource.textContent !== undefined) {
 					let prefixPath = "";
 					const prefixPathMatch = resource.filename.match(/(.*\/)[^/]+$/);
@@ -144,12 +134,18 @@ singlefile.extension.core.bg.compression = (() => {
 					} else if (resource.filename.match(/index\.html$/)) {
 						mimeType = "text/html";
 					}
-					resource.content = URL.createObjectURL(new Blob([resource.textContent], { type: mimeType + ";charset=utf-8" }));
 					if (resource.filename == "index.html") {
 						docContent = resource.textContent;
+					} else {
+						const reader = new FileReader();
+						reader.readAsDataURL(new Blob([resource.textContent], { type: mimeType + ";charset=utf-8" }));
+						resource.content = await new Promise((resolve, reject) => {
+							reader.addEventListener("load", () => resolve(reader.result), false);
+							reader.addEventListener("error", reject, false);
+						});
 					}
 				}
-			});
+			}
 			const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 			doc.querySelectorAll("noscript").forEach(element => element.remove());
 			clearTimeout(displayTimeout);
