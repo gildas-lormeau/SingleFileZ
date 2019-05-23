@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, Blob, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, FileReader, stop, setTimeout, clearTimeout, CustomEvent */
+/* global browser, singlefile, Blob, document, zip, fetch, XMLHttpRequest, TextEncoder, DOMParser, FileReader, stop, setTimeout, clearTimeout, CustomEvent, URL */
 
 singlefile.extension.core.bg.compression = (() => {
 
@@ -103,8 +103,12 @@ singlefile.extension.core.bg.compression = (() => {
 					dataWriter = new zip.TextWriter();
 					textContent = await new Promise(resolve => entry.getData(dataWriter, resolve));
 				} else {
-					const isSVG = entry.filename.match(/\.svg$/);
-					content = await new Promise(resolve => entry.getData(new zip.Data64URIWriter(isSVG ? "image/svg+xml" : "application/octet-stream"), resolve));
+					const mimeType = entry.filename.match(/\.svg$/) ? "image/svg+xml" : "application/octet-stream";
+					if (entry.filename.match(/frames\//)) {
+						content = await new Promise(resolve => entry.getData(new zip.Data64URIWriter(mimeType), resolve));
+					} else {
+						content = URL.createObjectURL(await new Promise(resolve => entry.getData(new zip.BlobWriter(mimeType), resolve)));
+					}
 				}
 				resources.push({ filename: entry.filename, content, textContent });
 			}
