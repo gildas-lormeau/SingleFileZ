@@ -183,10 +183,6 @@
         "message": "Изображения",
         "description": "Options sub-title: 'Images'"
     },
-    "optionGroupDuplicateImages": {
-        "message": "группировать дубликаты изображений",
-        "description": "Options page label: 'group duplicate images together'"
-    },
     "optionLoadDeferredImages": {
         "message": "сохранить отложенные изображения",
         "description": "Options page label: 'save deferred images'"

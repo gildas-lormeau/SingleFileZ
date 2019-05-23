@@ -183,10 +183,6 @@
         "message": "画像",
         "description": "オプションのサブタイトル: '画像'"
     },
-    "optionGroupDuplicateImages": {
-        "message": "オプション重複画像のグループ化",
-        "description": "Options page label: 'group duplicate images together'"
-    },
     "optionLoadDeferredImages": {
         "message": "遅延画像を保存する",
         "description": "オプションのページラベル: '遅延画像を保存する'"

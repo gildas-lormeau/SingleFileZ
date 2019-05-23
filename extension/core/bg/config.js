@@ -69,7 +69,6 @@ singlefile.extension.core.bg.config = (() => {
 		removeAlternativeFonts: true,
 		removeAlternativeMedias: true,
 		removeAlternativeImages: true,
-		groupDuplicateImages: true,
 		saveRawPage: false,
 		referrerPolicy: "origin-when-cross-origin",
 		credentials: "include"

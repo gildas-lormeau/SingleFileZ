@@ -77,7 +77,6 @@
 	const autoSettingsAutoSaveProfileLabel = document.getElementById("autoSettingsAutoSaveProfileLabel");
 	const showAllProfilesLabel = document.getElementById("showAllProfilesLabel");
 	const showAutoSaveProfileLabel = document.getElementById("showAutoSaveProfileLabel");
-	const groupDuplicateImagesLabel = document.getElementById("groupDuplicateImagesLabel");
 	const confirmInfobarLabel = document.getElementById("confirmInfobarLabel");
 	const infobarTemplateLabel = document.getElementById("infobarTemplateLabel");
 	const miscLabel = document.getElementById("miscLabel");
@@ -120,8 +119,7 @@
 	const autoSaveRepeatDelayInput = document.getElementById("autoSaveRepeatDelayInput");
 	const removeAlternativeFontsInput = document.getElementById("removeAlternativeFontsInput");
 	const removeAlternativeImagesInput = document.getElementById("removeAlternativeImagesInput");
-	const removeAlternativeMediasInput = document.getElementById("removeAlternativeMediasInput");
-	const groupDuplicateImagesInput = document.getElementById("groupDuplicateImagesInput");
+	const removeAlternativeMediasInput = document.getElementById("removeAlternativeMediasInput");	
 	const infobarTemplateInput = document.getElementById("infobarTemplateInput");
 	const confirmInfobarInput = document.getElementById("confirmInfobarInput");
 	const expandAllButton = document.getElementById("expandAllButton");
@@ -391,7 +389,6 @@
 	removeAlternativeFontsLabel.textContent = browser.i18n.getMessage("optionRemoveAlternativeFonts");
 	removeAlternativeImagesLabel.textContent = browser.i18n.getMessage("optionRemoveAlternativeImages");
 	removeAlternativeMediasLabel.textContent = browser.i18n.getMessage("optionRemoveAlternativeMedias");
-	groupDuplicateImagesLabel.textContent = browser.i18n.getMessage("optionGroupDuplicateImages");
 	titleLabel.textContent = browser.i18n.getMessage("optionsTitle");
 	userInterfaceLabel.textContent = browser.i18n.getMessage("optionsUserInterfaceSubTitle");
 	filenameLabel.textContent = browser.i18n.getMessage("optionsFileNameSubTitle");
@@ -564,7 +561,6 @@
 		autoSaveRepeatDelayInput.disabled = !profileOptions.autoSaveRepeat;
 		removeAlternativeFontsInput.checked = profileOptions.removeAlternativeFonts;
 		removeAlternativeImagesInput.checked = profileOptions.removeAlternativeImages;
-		groupDuplicateImagesInput.checked = profileOptions.groupDuplicateImages;
 		removeAlternativeMediasInput.checked = profileOptions.removeAlternativeMedias;
 		infobarTemplateInput.value = profileOptions.infobarTemplate;
 		confirmInfobarInput.checked = profileOptions.confirmInfobarContent;
@@ -617,7 +613,6 @@
 				removeAlternativeFonts: removeAlternativeFontsInput.checked,
 				removeAlternativeImages: removeAlternativeImagesInput.checked,
 				removeAlternativeMedias: removeAlternativeMediasInput.checked,
-				groupDuplicateImages: groupDuplicateImagesInput.checked,
 				infobarTemplate: infobarTemplateInput.value,
 				confirmInfobarContent: confirmInfobarInput.checked
 			}

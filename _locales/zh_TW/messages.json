@@ -183,10 +183,6 @@
         "message": "圖像",
         "description": "選項頁副標題: '圖像'"
     },
-    "optionGroupDuplicateImages": {
-        "message": "重複圖像合併",
-        "description": "選項頁標籤: '重複圖像合併'"
-    },
     "optionLoadDeferredImages": {
         "message": "保存延遲加載的圖像",
         "description": "選項頁標籤: '保存延遲加載的圖像'"

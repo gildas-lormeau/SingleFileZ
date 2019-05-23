@@ -183,10 +183,6 @@
         "message": "Bilder",
         "description": "Options sub-title: 'Images'"
     },
-    "optionGroupDuplicateImages": {
-        "message": "Doppelte Bilder zusammenfassen",
-        "description": "Options page label: 'group duplicate images together'"
-    },
     "optionLoadDeferredImages": {
         "message": "Speicherung zurückgestellter Bilder",
         "description": "Options page label: 'save deferred images'"

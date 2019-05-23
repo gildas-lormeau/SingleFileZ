@@ -183,10 +183,6 @@
         "message": "图像",
         "description": "选项页副标题: '图像'"
     },
-    "optionGroupDuplicateImages": {
-        "message": "重复图像合并",
-        "description": "选项页标签: '重复图像合并'"
-    },
     "optionLoadDeferredImages": {
         "message": "保存延迟加载的图像",
         "description": "选项页标签: '保存延迟加载的图像'"
