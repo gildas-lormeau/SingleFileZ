@@ -33,13 +33,14 @@ singlefile.extension.core.bg.compression = (() => {
 
 	async function compressPage(pageData) {
 		zip.workerScriptsPath = "lib/zip/";
-		const docTypeMatch = pageData.content.match(/^(<!doctype.*>\s)/gi);
-		const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
 		let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
 		script += "(" + bootstrapCode.toString().replace(/\n|\t/g, "") + ")()";
 		const blobWriter = new zip.BlobWriter("application/zip");
 		await new Promise(resolve => blobWriter.init(resolve));
-		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html data-sfz><body hidden><script>" + script + "</script><![CDATA["), resolve));
+		const docTypeMatch = pageData.content.match(/^(<!doctype.*>\s)/gi);
+		const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
+		const pageContent = docType + "<html data-sfz><meta charset='utf-8'><title>" + (pageData.title || "") + "</title><body hidden><script>" + script + "</script><![CDATA[";
+		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(pageContent), resolve));
 		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 		await addPageResources(zipWriter, pageData);
 		const comment = "]]></body></html>";
