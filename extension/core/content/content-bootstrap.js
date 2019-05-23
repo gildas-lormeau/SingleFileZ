@@ -36,7 +36,26 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	browser.runtime.onMessage.addListener(message => { onMessage(message); });
 	browser.runtime.sendMessage({ method: "ui.processInit" });
 	addEventListener("single-file-push-state", () => browser.runtime.sendMessage({ method: "ui.processInit" }));
+	if (window == top && location && location.href && location.href.startsWith("file:///")) {
+		if (document.readyState == "loading") {
+			document.addEventListener("DOMContentLoaded", extractFile, false);
+		} else {
+			extractFile();
+		}
+	}
 	return {};
+
+	async function extractFile() {
+		const xhr = new XMLHttpRequest();
+		xhr.open("GET", location.href);
+		xhr.send();
+		xhr.responseType = "arraybuffer";
+		xhr.onload = async () => {
+			const scriptElement = document.createElement("script");
+			scriptElement.textContent = "this.bootstrap([" + (new Uint8Array(xhr.response)).toString() + "])";
+			document.body.appendChild(scriptElement);
+		};
+	}
 
 	async function onMessage(message) {
 		if (autoSaveEnabled && message.method == "content.autosave") {

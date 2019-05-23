@@ -70,18 +70,26 @@ singlefile.extension.core.bg.compression = (() => {
 	}
 
 	function bootstrapCode() {
-		stop();
 		zip.useWebWorkers = false;
 		const xhr = new XMLHttpRequest();
+		let displayTimeout;
 		xhr.responseType = "blob";
 		xhr.open("GET", "");
-		xhr.onerror = () => {
-			displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser and trying to read the page from the filesystem, it must be started with the switch '--allow-file-access-from-files'.");
-		};
+		xhr.onerror = () => displayTimeout = displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser and trying to read the page from the filesystem, SingleFileZ must be already installed or the browser must be started with the switch '--allow-file-access-from-files'.");
 		xhr.send();
-		xhr.onload = async () => {
-			const displayTimeout = displayMessage("Please wait...", true);
-			const zipReader = await new Promise((resolve, reject) => zip.createReader(new zip.BlobReader(xhr.response), resolve, reject));
+		xhr.onload = async () => bootstrap(xhr.response);
+		this.bootstrap = bootstrap;
+
+		async function bootstrap(content) {
+			stop();
+			if (displayTimeout) {
+				clearTimeout(displayTimeout);
+			}
+			displayTimeout = displayMessage("Please wait...", true);
+			if (Array.isArray(content)) {
+				content = new Blob([new Uint8Array(content)]);
+			}
+			const zipReader = await new Promise((resolve, reject) => zip.createReader(new zip.BlobReader(content), resolve, reject));
 			const entries = await new Promise(resolve => zipReader.getEntries(resolve));
 			let resources = [];
 			for (const entry of entries) {
@@ -159,16 +167,14 @@ singlefile.extension.core.bg.compression = (() => {
 				}
 				parentElement.appendChild(scriptElement);
 			});
-		};
+		}
 
-		function displayMessage(text, deferred) {
-			Array.from(document.body.childNodes).forEach(node => node.remove());
-			document.body.hidden = false;
-			if (deferred) {
-				return setTimeout(() => document.body.textContent = text, 1500);
-			} else {
+		function displayMessage(text) {
+			return setTimeout(() => {
+				Array.from(document.body.childNodes).forEach(node => node.remove());
+				document.body.hidden = false;
 				document.body.textContent = text;
-			}
+			}, 1500);
 		}
 	}
 
