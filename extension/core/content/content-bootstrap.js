@@ -36,7 +36,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	browser.runtime.onMessage.addListener(message => { onMessage(message); });
 	browser.runtime.sendMessage({ method: "ui.processInit" });
 	addEventListener("single-file-push-state", () => browser.runtime.sendMessage({ method: "ui.processInit" }));
-	if (window == top && location && location.href && location.href.startsWith("file:///")) {
+	if (window == top && location && location.href && location.href.startsWith("file:///") && document.documentElement.dataset.sfz !== undefined) {
 		if (document.readyState == "loading") {
 			document.addEventListener("DOMContentLoaded", extractFile, false);
 		} else {

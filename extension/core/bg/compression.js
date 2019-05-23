@@ -39,7 +39,7 @@ singlefile.extension.core.bg.compression = (() => {
 		script += "(" + bootstrapCode.toString().replace(/\n|\t/g, "") + ")()";
 		const blobWriter = new zip.BlobWriter("application/zip");
 		await new Promise(resolve => blobWriter.init(resolve));
-		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html><body hidden><script>" + script + "</script><![CDATA["), resolve));
+		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(docType + "<html data-sfz><body hidden><script>" + script + "</script><![CDATA["), resolve));
 		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 		await addPageResources(zipWriter, pageData);
 		const comment = "]]></body></html>";
