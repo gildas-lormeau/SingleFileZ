@@ -132,9 +132,7 @@ singlefile.extension.core.bg.compression = (() => {
 						resources.forEach(innerResource => {
 							if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
 								const filename = innerResource.filename.substring(prefixPath.length);
-								if (filename != resource.filename) {
-									resource.textContent = resource.textContent.replace(new RegExp(filename, "g"), innerResource.content);
-								}
+								resource.textContent = resource.textContent.replace(new RegExp(filename, "g"), innerResource.content);
 							}
 						});
 					}
