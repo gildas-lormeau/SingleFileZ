@@ -116,12 +116,13 @@ singlefile.extension.core.bg.autosave = (() => {
 		options.tabIndex = tab.index;
 		const processor = new (singlefile.lib.SingleFile.getClass())(options);
 		await processor.run();
-		const page = await processor.getPageData();
-		page.url = URL.createObjectURL(new Blob([page.content], { type: "text/html" }));
+		const pageData = await processor.getPageData();
+		const data = await singlefile.extension.core.bg.compression.compressPage(pageData);
+		pageData.url = URL.createObjectURL(new Blob([data], { type: "text/html" }));
 		try {
-			await singlefile.extension.core.bg.downloads.downloadPage(page, options);
+			await singlefile.extension.core.bg.downloads.downloadPage(pageData, options);
 		} finally {
-			URL.revokeObjectURL(page.url);
+			URL.revokeObjectURL(data);
 		}
 	}
 
