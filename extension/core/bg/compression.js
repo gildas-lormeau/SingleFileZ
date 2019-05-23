@@ -156,20 +156,23 @@ singlefile.extension.core.bg.compression = (() => {
 			clearTimeout(displayTimeout);
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 			document.dispatchEvent(new CustomEvent("single-file-display-infobar"));
-			document.querySelectorAll("script").forEach(element => {
+			document.querySelectorAll("script, link[rel*=icon]").forEach(element => {
 				const parentElement = element.parentElement;
 				element.remove();
-				const scriptElement = document.createElement("script");
-				if (element.getAttribute("type")) {
-					scriptElement.type = element.type;
+				if (element.tagName == "SCRIPT") {
+					const scriptElement = document.createElement("script");
+					if (element.getAttribute("type")) {
+						scriptElement.type = element.type;
+					}
+					if (element.getAttribute("src")) {
+						scriptElement.src = element.src;
+					}
+					if (element.textContent) {
+						scriptElement.textContent = element.textContent;
+					}
+					element = scriptElement;
 				}
-				if (element.getAttribute("src")) {
-					scriptElement.src = element.src;
-				}
-				if (element.textContent) {
-					scriptElement.textContent = element.textContent;
-				}
-				parentElement.appendChild(scriptElement);
+				parentElement.appendChild(element);
 			});
 		}
 
