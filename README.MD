@@ -7,7 +7,7 @@ Here is an example of page produced by SingleFileZ: https://gildas-lormeau.githu
 ## Download
 Today, SingleFileZ is only available on Firefox. You can download the extension from the Firefox Add-ons website: https://addons.mozilla.org/firefox/addon/singlefilez/
 
-SingleFileZ can be installed on Chrome. However, to open saved pages from the filesystem in Chrome, you must start it with the switch `--allow-file-access-from-files`. That's why the extension will probably never be published on the Chrome store.
+SingleFileZ can be installed on Chrome. However, to open saved pages from the filesystem in Chrome, SingleFileZ must be installed or Chrome must be started with the switch `--allow-file-access-from-files`.
 
 ## Notes
  - JavaScript must be enabled to view saved pages.
