@@ -70,6 +70,7 @@ singlefile.extension.core.bg.compression = (() => {
 	}
 
 	function bootstrapCode() {
+		let bootstrapStarted;
 		zip.useWebWorkers = false;
 		const xhr = new XMLHttpRequest();
 		let displayTimeout;
@@ -81,6 +82,10 @@ singlefile.extension.core.bg.compression = (() => {
 		this.bootstrap = bootstrap;
 
 		async function bootstrap(content) {
+			if (bootstrapStarted) {
+				return;
+			}
+			bootstrapStarted = true;
 			stop();
 			if (displayTimeout) {
 				clearTimeout(displayTimeout);
