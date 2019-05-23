@@ -121,7 +121,7 @@ singlefile.extension.core.bg.compression = (() => {
 			resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
 			let docContent;
 			resources.forEach(resource => {
-				if (resource.textContent) {
+				if (resource.textContent !== undefined) {
 					let prefixPath = "";
 					const prefixPathMatch = resource.filename.match(/(.*\/)[^/]+$/);
 					if (prefixPathMatch && prefixPathMatch[1]) {
