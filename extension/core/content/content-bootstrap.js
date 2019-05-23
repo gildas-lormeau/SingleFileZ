@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, window, addEventListener, removeEventListener, document, location, setTimeout */
+/* global browser, window, addEventListener, removeEventListener, document, location, setTimeout, top, XMLHttpRequest */
 
 this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.core.content.bootstrap || (async () => {
 
