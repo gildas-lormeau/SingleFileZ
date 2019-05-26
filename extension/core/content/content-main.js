@@ -161,7 +161,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 
 	async function downloadPage(page, options) {
 		const content = JSON.stringify({ resources: page.resources, content: page.content, title: page.title });
-		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < page.content.length; blockIndex++) {
+		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 			const message = {
 				method: "downloads.download",
 				confirmFilename: options.confirmFilename,
@@ -171,7 +171,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			};
 			message.truncated = content.length > MAX_CONTENT_SIZE;
 			if (message.truncated) {
-				message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > page.content.length;
+				message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.length;
 				message.content = content.substring(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
 			} else {
 				message.content = content;
