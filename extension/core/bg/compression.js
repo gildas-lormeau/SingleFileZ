@@ -77,7 +77,7 @@ singlefile.extension.core.bg.compression = (() => {
 		let displayTimeout;
 		xhr.responseType = "blob";
 		xhr.open("GET", "");
-		xhr.onerror = () => displayTimeout = displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser and trying to read the page from the filesystem, SingleFileZ must be already installed or the browser must be started with the switch '--allow-file-access-from-files'.");
+		xhr.onerror = () => displayTimeout = displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser and trying to read the page from the filesystem, the option \"Allow access to file URLs\" must be enabled in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). SingleFileZ must also be already installed or the browser must be started with the switch '--allow-file-access-from-files'.");
 		xhr.send();
 		xhr.onload = async () => bootstrap(xhr.response);
 		this.bootstrap = bootstrap;
