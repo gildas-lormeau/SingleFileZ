@@ -5,14 +5,14 @@ SingleFileZ is a fork of [SingleFile](https://addons.mozilla.org/en-US/firefox/a
 ![](demo/demo-sfz.gif)
 
 ## Examples
-Here is an example of page produced by SingleFileZ: https://gildas-lormeau.github.io/. Other examples of files can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
+Here is an example of page produced by SingleFileZ: https://gildas-lormeau.github.io. Other examples of files can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
 
 ## Download
-Today, SingleFileZ is only available on Firefox and Chrome. You can download the extension from:
- - Firefox Add-ons website: https://addons.mozilla.org/firefox/addon/singlefilez/
+Today, SingleFileZ is only available on Firefox and Chrome. You can download the extension here:
+ - Firefox Add-ons website: https://addons.mozilla.org/firefox/addon/singlefilez
  - Chrome web store: https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg
 
-If you are using a chromium-based browser and trying to read the page from the filesystem, the option \"Allow access to file URLs\" must be enabled in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). SingleFileZ must also be already installed or the browser must be started with the switch ['--allow-file-access-from-files'](http://www.chrome-allow-file-access-from-file.com/).
+To open saved pages from the filesystem in a Chromium-based browser, SingleFileZ must be already installed and the option "Allow access to file URLs" must be enabled in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). Otherwise, the browser must be started with the switch ['--allow-file-access-from-files'](http://www.chrome-allow-file-access-from-file.com/).
 
 ## Notes
  - JavaScript must be enabled to view saved pages.
