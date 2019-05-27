@@ -12,7 +12,7 @@ Today, SingleFileZ is only available on Firefox and Chrome. You can download the
  - Firefox Add-ons website: https://addons.mozilla.org/firefox/addon/singlefilez/
  - Chrome web store: https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg
 
-If you are using a chromium-based browser and trying to read the page from the filesystem, the option \"Allow access to file URLs\" must be enabled in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). SingleFileZ must also be already installed or the browser must be started with the switch ['--allow-file-access-from-files'](http://www.chrome-allow-file-access-from-file.com/).
+If you are using a chromium-based browser and trying to read saved pages from the filesystem, the option \"Allow access to file URLs\" must be enabled in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). SingleFileZ must also be already installed or the browser must be started with the switch ['--allow-file-access-from-files'](http://www.chrome-allow-file-access-from-file.com/).
 
 ## Notes
  - JavaScript must be enabled to view saved pages.
