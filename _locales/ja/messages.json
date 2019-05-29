@@ -1,6 +1,6 @@
 {
     "extensionDescription": {
-        "message": "完全なページを単一の HTML ファイルに保存する",
+        "message": "Save web pages as self-extracting HTML/ZIP hybrid files",
         "description": "拡張機能の説明。"
     },
     "menuSavePage": {

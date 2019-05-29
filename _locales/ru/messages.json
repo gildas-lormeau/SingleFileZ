@@ -1,6 +1,6 @@
 {
     "extensionDescription": {
-        "message": "Сохранить полную страницу в одном HTML-файле",
+        "message": "Save web pages as self-extracting HTML/ZIP hybrid files",
         "description": "Description of the extension."
     },
     "menuSavePage": {
