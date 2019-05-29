@@ -1,6 +1,6 @@
 {
     "extensionDescription": {
-        "message": "Sauvegardez une page complète dans un simple fichier HTML",
+        "message": "Sauvegardez vos pages web sous forme de fichier hybride HTML/ZIP",
         "description": "Description of the extension."
     },
     "menuSavePage": {

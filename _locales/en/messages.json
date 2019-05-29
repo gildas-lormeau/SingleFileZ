@@ -1,6 +1,6 @@
 {
     "extensionDescription": {
-        "message": "Save web pages in self-extracting HTML/ZIP hybrid files",
+        "message": "Save web pages as self-extracting HTML/ZIP hybrid files",
         "description": "Description of the extension."
     },
     "menuSavePage": {
