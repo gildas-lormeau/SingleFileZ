@@ -1,6 +1,6 @@
 {
     "extensionDescription": {
-        "message": "將完整的頁面保存到一個 HTML 文件中",
+        "message": "將頁面保存到自解式 HTML/ZIP 混合檔中",
         "description": "擴展描述。"
     },
     "menuSavePage": {
