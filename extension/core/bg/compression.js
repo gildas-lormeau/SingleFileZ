@@ -39,7 +39,12 @@ singlefile.extension.core.bg.compression = (() => {
 		await new Promise(resolve => blobWriter.init(resolve));
 		const docTypeMatch = pageData.content.match(/^(<!doctype.*>\s)/gi);
 		const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
-		const pageContent = docType + "<html data-sfz><meta charset='utf-8'><title>" + (pageData.title || "") + "</title><body hidden><script>" + script + "</script><![CDATA[";
+		let pageContent = docType + "<html data-sfz><meta charset='utf-8'><title>" + (pageData.title || "") + "</title><body hidden>";
+		pageContent += "<div id='sfz-wait-message'>Please wait...</div>";
+		pageContent += "<div id='sfz-error-message'><strong>Error</strong>: Cannot open the page from the filesystem.";
+		pageContent += "<ul style='line-height:20px;'><li style='margin-bottom:10px'><strong>Chrome</strong>: Install <a href='https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg'>SingleFileZ</a> and enable the option \"Allow access to file URLs\" in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). Otherwise, start the browser with the switch \"--allow-file-access-from-files\".</li>";
+		pageContent += "<li><strong>Safari</strong>: Select \"Disable Local File Restrictions\" in the \"Develop\" menu </li></ul></div>";
+		pageContent += "<script>" + script + "</script><![CDATA[";
 		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(pageContent), resolve));
 		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 		await addPageResources(zipWriter, pageData);
@@ -77,7 +82,7 @@ singlefile.extension.core.bg.compression = (() => {
 		let displayTimeout;
 		xhr.responseType = "blob";
 		xhr.open("GET", "");
-		xhr.onerror = () => displayTimeout = displayMessage("Error: cannot read the zip file. If you are using a chromium-based browser and trying to read the page from the filesystem, SingleFileZ must be installed and the option \"Allow access to file URLs\" must be enabled in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). Otherwise, the browser must be started with the switch '--allow-file-access-from-files'.");
+		xhr.onerror = () => displayTimeout = displayMessage("sfz-error-message");
 		xhr.send();
 		xhr.onload = async () => bootstrap(xhr.response);
 		this.bootstrap = bootstrap;
@@ -91,7 +96,7 @@ singlefile.extension.core.bg.compression = (() => {
 			if (displayTimeout) {
 				clearTimeout(displayTimeout);
 			}
-			displayTimeout = displayMessage("Please wait...", true);
+			displayTimeout = displayMessage("sfz-wait-message");
 			if (Array.isArray(content)) {
 				content = new Blob([new Uint8Array(content)]);
 			}
@@ -176,11 +181,14 @@ singlefile.extension.core.bg.compression = (() => {
 			});
 		}
 
-		function displayMessage(text) {
+		function displayMessage(elementId) {
 			return setTimeout(() => {
-				Array.from(document.body.childNodes).forEach(node => node.remove());
+				Array.from(document.body.childNodes).forEach(node => {
+					if (node.id != elementId) {
+						node.remove();
+					}
+				});
 				document.body.hidden = false;
-				document.body.textContent = text;
 			}, 1500);
 		}
 	}
