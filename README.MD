@@ -14,5 +14,8 @@ SingleFileZ is available on Firefox and Chrome. You can download the extension h
 
 To open saved pages from the filesystem in a Chromium-based browser, SingleFileZ must be installed and the option "Allow access to file URLs" must be enabled in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). Otherwise, the browser must be started with the switch ['--allow-file-access-from-files'](http://www.chrome-allow-file-access-from-file.com/).
 
+To open saved pages from the filesystem in Safari, the option "Disable Local File Restrictions" must be selected in the "Develop" menu
+
+
 ## Notes
  - JavaScript must be enabled to view saved pages.
