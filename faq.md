@@ -1,5 +1,8 @@
 # FAQ
 
+## Why SingleFileZ is a separate extension?
+There are some disadvantages to using SingleFileZ compared to SingleFile. JavaScript must be enabled to open the saved pages, and Chrome cannot open these files without passing a switch on the command line or installing the extension. It also takes a little longer to save and open the pages. This is why the self-extracting ZIP feature is integrated as a separate extension.
+
 ## Does SingleFileZ upload any data to third-party servers?
 As stated in the [privacy policy](https://github.com/gildas-lormeau/SingleFileZ/blob/master/privacy.md), SingleFileZ does not upload any data to third-party servers. All the work is done in your browser. However, when you save a page with SingleFileZ, it can download resources (images, CSS, frame contents, fonts etc.) that are not displayed or not cached but present in the page.
 
