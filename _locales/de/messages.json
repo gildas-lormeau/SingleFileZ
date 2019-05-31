@@ -4,7 +4,7 @@
         "description": "Description of the extension."
     },
     "menuSavePage": {
-        "message": "Speichern einer Webseite mit SingleFileZZ",
+        "message": "Speichern einer Webseite mit SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSelectProfile": {
