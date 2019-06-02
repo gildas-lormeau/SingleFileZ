@@ -166,7 +166,6 @@ singlefile.extension.core.bg.compression = (() => {
 			doc.querySelectorAll("noscript").forEach(element => element.remove());
 			clearTimeout(displayTimeout);
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
-			document.dispatchEvent(new CustomEvent("single-file-display-infobar"));
 			document.querySelectorAll("script, link[rel*=icon]").forEach(element => {
 				const parentElement = element.parentElement;
 				element.remove();
@@ -185,6 +184,7 @@ singlefile.extension.core.bg.compression = (() => {
 				}
 				parentElement.appendChild(element);
 			});
+			document.dispatchEvent(new CustomEvent("single-file-display-infobar"));
 		}
 
 		function displayMessage(elementId) {
