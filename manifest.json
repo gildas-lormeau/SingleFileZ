@@ -21,19 +21,11 @@
 				"lib/browser-polyfill/chrome-browser-polyfill.js",
 				"lib/hooks/content/content-hooks-frames.js",
 				"lib/single-file/single-file-helper.js",
-				"lib/frame-tree/content/content-frame-tree.js"
+				"lib/frame-tree/content/content-frame-tree.js",
+				"extension/ui/content/content-ui-infobar.js"
 			],
 			"all_frames": true,
 			"match_about_blank": true
-		},
-		{
-			"matches": [
-				"<all_urls>"
-			],
-			"js": [
-				"index.js",
-				"extension/ui/content/content-ui-infobar.js"
-			]
 		},
 		{
 			"matches": [
