@@ -167,6 +167,10 @@
         "message": "壓縮 HTML 內容",
         "description": "選項頁標籤: '壓縮 HTML 內容'"
     },
+    "optionInsertTextBody": {
+        "message": "make text searchable",
+        "description": "Options page label: 'make text searchable'"
+    },
     "optionRemoveImports": {
         "message": "移除 HTML 導入",
         "description": "選項頁標籤: '移除 HTML 導入'"

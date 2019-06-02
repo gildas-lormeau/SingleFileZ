@@ -167,6 +167,10 @@
         "message": "HTML-Inhalt komprimieren",
         "description": "Options page label: 'compress HTML content'"
     },
+    "optionInsertTextBody": {
+        "message": "Text durchsuchbar machen",
+        "description": "Options page label: 'make text searchable'"
+    },
     "optionRemoveImports": {
         "message": "Eingebundene HTML-Inhalte entfernen",
         "description": "Options page label: 'remove HTML imports'"

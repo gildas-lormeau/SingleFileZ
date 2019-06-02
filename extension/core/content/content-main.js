@@ -164,6 +164,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 			const message = {
 				method: "downloads.download",
+				insertTextBody: options.insertTextBody,
 				confirmFilename: options.confirmFilename,
 				filenameConflictAction: options.filenameConflictAction,
 				filename: page.filename,

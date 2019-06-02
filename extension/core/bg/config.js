@@ -71,7 +71,8 @@ singlefile.extension.core.bg.config = (() => {
 		removeAlternativeImages: true,
 		saveRawPage: false,
 		referrerPolicy: "origin-when-cross-origin",
-		credentials: "include"
+		credentials: "include",
+		insertTextBody: true
 	};
 
 	let pendingUpgradePromise = upgrade();

@@ -167,6 +167,10 @@
         "message": "HTML コンテンツを圧縮する",
         "description": "オプションのページラベル: 'HTML コンテンツを圧縮する'"
     },
+    "optionInsertTextBody": {
+        "message": "make text searchable",
+        "description": "Options page label: 'make text searchable'"
+    },
     "optionRemoveImports": {
         "message": "取り込んだ HTML を削除する",
         "description": "オプションのページラベル: '取り込んだ HTML を削除する'"

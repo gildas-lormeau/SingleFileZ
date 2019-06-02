@@ -167,6 +167,10 @@
         "message": "сжать HTML-контент",
         "description": "Options page label: 'compress HTML content'"
     },
+    "optionInsertTextBody": {
+        "message": "make text searchable",
+        "description": "Options page label: 'make text searchable'"
+    },
     "optionRemoveImports": {
         "message": "удалить HTML-импорт",
         "description": "Options page label: 'remove HTML imports'"

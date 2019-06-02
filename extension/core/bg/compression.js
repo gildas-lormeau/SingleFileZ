@@ -31,7 +31,7 @@ singlefile.extension.core.bg.compression = (() => {
 		compressPage
 	};
 
-	async function compressPage(pageData) {
+	async function compressPage(pageData, options) {
 		zip.workerScriptsPath = "lib/zip/";
 		let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
 		script += "(" + bootstrapCode.toString().replace(/\n|\t/g, "") + ")()";
@@ -44,11 +44,17 @@ singlefile.extension.core.bg.compression = (() => {
 		pageContent += "<div id='sfz-error-message'><strong>Error</strong>: Cannot open the page from the filesystem.";
 		pageContent += "<ul style='line-height:20px;'><li style='margin-bottom:10px'><strong>Chrome</strong>: Install <a href='https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg'>SingleFileZ</a> and enable the option \"Allow access to file URLs\" in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). Otherwise, start the browser with the switch \"--allow-file-access-from-files\".</li>";
 		pageContent += "<li><strong>Safari</strong>: Select \"Disable Local File Restrictions\" in the \"Develop\" menu.</li></ul></div>";
-		pageContent += "<script>" + script + "</script><![CDATA[";
+		pageContent += "<script>" + script + "</script>";
+		if (options.insertTextBody) {
+			const doc = (new DOMParser()).parseFromString(pageData.content, "text/html");
+			doc.body.querySelectorAll("style, script, noscript").forEach(element => element.remove());
+			pageContent += "<main hidden>" + doc.body.innerText + "</main>";
+		}
+		pageContent += "</body><![CDATA[";
 		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(pageContent), resolve));
 		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 		await addPageResources(zipWriter, pageData);
-		const comment = "]]></body></html>";
+		const comment = "]]></html>";
 		return new Promise(resolve => zipWriter.close(data => resolve(new Blob([data, comment])), comment.length));
 	}
 

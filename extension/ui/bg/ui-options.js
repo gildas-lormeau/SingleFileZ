@@ -36,6 +36,7 @@
 	const removeScriptsLabel = document.getElementById("removeScriptsLabel");
 	const saveRawPageLabel = document.getElementById("saveRawPageLabel");
 	const compressHTMLLabel = document.getElementById("compressHTMLLabel");
+	const insertTextBodyLabel = document.getElementById("insertTextBodyLabel");
 	const compressCSSLabel = document.getElementById("compressCSSLabel");
 	const loadDeferredImagesLabel = document.getElementById("loadDeferredImagesLabel");
 	const loadDeferredImagesMaxIdleTimeLabel = document.getElementById("loadDeferredImagesMaxIdleTimeLabel");
@@ -97,6 +98,7 @@
 	const removeScriptsInput = document.getElementById("removeScriptsInput");
 	const saveRawPageInput = document.getElementById("saveRawPageInput");
 	const compressHTMLInput = document.getElementById("compressHTMLInput");
+	const insertTextBodyInput = document.getElementById("insertTextBodyInput");
 	const compressCSSInput = document.getElementById("compressCSSInput");
 	const loadDeferredImagesInput = document.getElementById("loadDeferredImagesInput");
 	const loadDeferredImagesMaxIdleTimeInput = document.getElementById("loadDeferredImagesMaxIdleTimeInput");
@@ -119,7 +121,7 @@
 	const autoSaveRepeatDelayInput = document.getElementById("autoSaveRepeatDelayInput");
 	const removeAlternativeFontsInput = document.getElementById("removeAlternativeFontsInput");
 	const removeAlternativeImagesInput = document.getElementById("removeAlternativeImagesInput");
-	const removeAlternativeMediasInput = document.getElementById("removeAlternativeMediasInput");	
+	const removeAlternativeMediasInput = document.getElementById("removeAlternativeMediasInput");
 	const infobarTemplateInput = document.getElementById("infobarTemplateInput");
 	const confirmInfobarInput = document.getElementById("confirmInfobarInput");
 	const expandAllButton = document.getElementById("expandAllButton");
@@ -363,6 +365,7 @@
 	removeScriptsLabel.textContent = browser.i18n.getMessage("optionRemoveScripts");
 	saveRawPageLabel.textContent = browser.i18n.getMessage("optionSaveRawPage");
 	compressHTMLLabel.textContent = browser.i18n.getMessage("optionCompressHTML");
+	insertTextBodyLabel.textContent = browser.i18n.getMessage("optionInsertTextBody");
 	compressCSSLabel.textContent = browser.i18n.getMessage("optionCompressCSS");
 	loadDeferredImagesLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImages");
 	loadDeferredImagesMaxIdleTimeLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImagesMaxIdleTime");
@@ -532,6 +535,7 @@
 		removeScriptsInput.checked = profileOptions.removeScripts;
 		saveRawPageInput.checked = profileOptions.saveRawPage;
 		compressHTMLInput.checked = profileOptions.compressHTML;
+		insertTextBodyInput.checked = profileOptions.insertTextBody;
 		compressCSSInput.checked = profileOptions.compressCSS;
 		loadDeferredImagesInput.checked = profileOptions.loadDeferredImages;
 		loadDeferredImagesMaxIdleTimeInput.value = profileOptions.loadDeferredImagesMaxIdleTime;
@@ -590,6 +594,7 @@
 				removeScripts: removeScriptsInput.checked,
 				saveRawPage: saveRawPageInput.checked,
 				compressHTML: compressHTMLInput.checked,
+				insertTextBody: insertTextBodyInput.checked,
 				compressCSS: compressCSSInput.checked,
 				loadDeferredImages: loadDeferredImagesInput.checked,
 				loadDeferredImagesMaxIdleTime: Math.max(loadDeferredImagesMaxIdleTimeInput.value, 0),

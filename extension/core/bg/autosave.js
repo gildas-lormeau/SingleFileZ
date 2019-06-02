@@ -117,7 +117,7 @@ singlefile.extension.core.bg.autosave = (() => {
 		const processor = new (singlefile.lib.SingleFile.getClass())(options);
 		await processor.run();
 		const pageData = await processor.getPageData();
-		const data = await singlefile.extension.core.bg.compression.compressPage(pageData);
+		const data = await singlefile.extension.core.bg.compression.compressPage(pageData, options);
 		pageData.url = URL.createObjectURL(new Blob([data], { type: "text/html" }));
 		try {
 			await singlefile.extension.core.bg.downloads.downloadPage(pageData, options);
