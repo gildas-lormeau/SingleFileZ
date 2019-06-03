@@ -48,7 +48,7 @@ singlefile.extension.core.bg.compression = (() => {
 		if (options.insertTextBody) {
 			const doc = (new DOMParser()).parseFromString(pageData.content, "text/html");
 			doc.body.querySelectorAll("style, script, noscript").forEach(element => element.remove());
-			pageContent += "<main hidden>" + doc.body.innerText.replace(/(\s)+/gi, "$1") + "</main>";
+			pageContent += "\n<main hidden>" + doc.body.innerText.replace(/(\s)+/gi, "$1") + "</main>\n";
 		}
 		pageContent += "</body><![CDATA[";
 		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(pageContent), resolve));
