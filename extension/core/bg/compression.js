@@ -53,17 +53,17 @@ singlefile.extension.core.bg.compression = (() => {
 		pageContent += "</body><![CDATA[";
 		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(pageContent), resolve));
 		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
-		await addPageResources(zipWriter, pageData);
+		await addPageResources(zipWriter, pageData, "", options.url);
 		const comment = "]]></html>";
 		return new Promise(resolve => zipWriter.close(data => resolve(new Blob([data, comment])), comment.length));
 	}
 
-	async function addPageResources(zipWriter, pageData, prefixName = "") {
-		await new Promise(resolve => zipWriter.add(prefixName + "index.html", new zip.BlobReader(new Blob([pageData.content])), resolve));
+	async function addPageResources(zipWriter, pageData, prefixName, url) {
+		await new Promise(resolve => zipWriter.add(prefixName + "index.html", new zip.BlobReader(new Blob([pageData.content])), resolve, null, { comment: url }));
 		for (const resourceType of Object.keys(pageData.resources)) {
 			for (const data of pageData.resources[resourceType]) {
 				if (resourceType == "frames") {
-					await addPageResources(zipWriter, data, prefixName + data.name);
+					await addPageResources(zipWriter, data, prefixName + data.name, data.url);
 				} else {
 					let dataReader;
 					if (typeof data.content == "string") {
@@ -71,7 +71,7 @@ singlefile.extension.core.bg.compression = (() => {
 					} else {
 						dataReader = new zip.BlobReader(new Blob([new Uint8Array(data.content)]));
 					}
-					const options = {};
+					const options = { comment: data.url };
 					if (NO_COMPRESSION_EXTENSIONS.includes(data.extension)) {
 						options.level = 0;
 					}
