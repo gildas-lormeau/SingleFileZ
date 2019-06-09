@@ -189,7 +189,7 @@ singlefile.extension.core.bg.compression = (() => {
 
 		function displayMessage(elementId) {
 			return setTimeout(() => {
-				Array.from(document.body.childNodes, node => {
+				Array.from(document.body.childNodes).forEach(node => {
 					if (node.id != elementId) {
 						node.remove();
 					}
