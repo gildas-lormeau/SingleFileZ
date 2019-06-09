@@ -86,6 +86,11 @@ singlefile.extension.core.bg.compression = (() => {
 		zip.useWebWorkers = false;
 		const xhr = new XMLHttpRequest();
 		let displayTimeout;
+		Array.from(document.documentElement.childNodes).forEach(node => {
+			if (node != document.body && node != document.head) {
+				node.remove();
+			}
+		});
 		xhr.responseType = "blob";
 		xhr.open("GET", "");
 		xhr.onerror = () => displayTimeout = displayMessage("sfz-error-message");
