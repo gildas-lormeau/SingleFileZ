@@ -50,11 +50,11 @@ singlefile.extension.core.bg.compression = (() => {
 			doc.body.querySelectorAll("style, script, noscript").forEach(element => element.remove());
 			pageContent += "\n<main hidden>\n" + doc.body.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim() + "\n</main>\n";
 		}
-		pageContent += "</body><![CDATA[";
+		pageContent += "</body><xmp><![CDATA[";
 		await new Promise(resolve => blobWriter.writeUint8Array((new TextEncoder()).encode(pageContent), resolve));
 		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 		await addPageResources(zipWriter, pageData, "", options.url);
-		const comment = "]]></html>";
+		const comment = "]]></xmp></html>";
 		return new Promise(resolve => zipWriter.close(data => resolve(new Blob([data, comment])), comment.length));
 	}
 
