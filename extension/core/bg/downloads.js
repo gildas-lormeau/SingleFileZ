@@ -59,7 +59,7 @@ singlefile.extension.core.bg.downloads = (() => {
 				contents = [message.content];
 			}
 			if (!message.truncated || message.finished) {
-				const pageData = JSON.parse(contents.join());
+				const pageData = JSON.parse(contents.join(""));
 				savePage(message, pageData, sender.tab);
 			}
 			return {};
