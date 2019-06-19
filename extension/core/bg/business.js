@@ -30,7 +30,7 @@ singlefile.extension.core.bg.business = (() => {
 	const contentScriptFiles = [
 		"/index.js",
 		"/lib/hooks/content/content-hooks.js",
-		"/lib/browser-polyfill/chrome-browser-polyfill.js",		
+		"/lib/browser-polyfill/chrome-browser-polyfill.js",
 		"/lib/single-file/vendor/css-tree.js",
 		"/lib/single-file/vendor/html-srcset-parser.js",
 		"/lib/single-file/single-file-util.js",
@@ -45,7 +45,7 @@ singlefile.extension.core.bg.business = (() => {
 	const frameScriptFiles = [
 		"/index.js",
 		"/lib/hooks/content/content-hooks-frames.js",
-		"/lib/browser-polyfill/chrome-browser-polyfill.js",		
+		"/lib/browser-polyfill/chrome-browser-polyfill.js",
 		"/lib/single-file/single-file-helper.js",
 		"/lib/fetch/content/content-fetch-resources.js",
 		"/lib/frame-tree/content/content-frame-tree.js"
@@ -78,7 +78,11 @@ singlefile.extension.core.bg.business = (() => {
 	const currentSaves = new Map();
 	let maxParallelWorkers;
 
-	return { saveTab };
+	return {
+		isSavingTab: tab => currentSaves.has(tab.id),
+		saveTab,
+		cancelTab
+	};
 
 	async function saveTab(tab, options = {}) {
 		const config = singlefile.extension.core.bg.config;
@@ -130,6 +134,14 @@ singlefile.extension.core.bg.business = (() => {
 				console.log(error); // eslint-disable-line no-console
 				ui.onError(tabId);
 			}
+		}
+	}
+
+	async function cancelTab(tab) {
+		try {
+			singlefile.extension.core.bg.tabs.sendMessage(tab.id, { method: "content.cancelSave" });
+		} catch (error) {
+			// ignored;
 		}
 	}
 
