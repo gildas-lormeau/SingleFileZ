@@ -1,11 +1,11 @@
 {
     "extensionDescription": {
-        "message": "Guarda una página completa en un único archivo HTML",
+        "message": "Guarda páginas web como archivos híbridos HTML/ZIP auto-extraíbles",
         "description": "Description of the extension."
     },
     "menuSavePage": {
-        "message": "Guardar página con SingleFile",
-        "description": "Menu entry: 'Save page with SingleFile'"
+        "message": "Guardar página con SingleFileZ",
+        "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSelectProfile": {
         "message": "Seleccionar el perfil predeterminado",
@@ -29,7 +29,7 @@
     },
     "menuSaveTabs": {
         "message": "Guardar pestañas",
-        "description": "Menu entry (SingleFile button only): 'Save tabs'"
+        "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelectedTabs": {
         "message": "Guardar pestañas seleccionadas",
@@ -64,20 +64,20 @@
         "description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
     },
     "buttonDefaultTooltip": {
-        "message": "Guardar página con SingleFile",
-        "description": "Button title: 'Save page with SingleFile'"
+        "message": "Guardar página con SingleFileZ",
+        "description": "Button title: 'Save page with SingleFileZ'"
     },
     "buttonBlockedBadge": {
         "message": "🚫",
         "description": "Button badge when the page is blocked: '🚫'"
     },
     "buttonBlockedTooltip": {
-        "message": "Esta página no se puede guardar con SingleFile",
-        "description": "Button title: 'This page cannot be saved with SingleFile'"
+        "message": "Esta página no se puede guardar con SingleFileZ",
+        "description": "Button title: 'This page cannot be saved with SingleFileZ'"
     },
     "buttonInitializingTooltip": {
-        "message": "Inicializando SingleFile",
-        "description": "Button title during initialization: 'Initializing SingleFile (x/2)'"
+        "message": "Inicializando SingleFileZ",
+        "description": "Button title during initialization: 'Initializing SingleFileZ (x/2)'"
     },
     "buttonInitializingBadge": {
         "message": "•••",
@@ -168,7 +168,7 @@
         "description": "Options page label: 'compress HTML content'"
     },
     "optionInsertTextBody": {
-        "message": "make text searchable",
+        "message": "hacer buscable el texto",
         "description": "Options page label: 'make text searchable'"
     },
     "optionRemoveImports": {
