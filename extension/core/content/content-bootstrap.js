@@ -89,7 +89,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 				const docData = helper.preProcessDoc(document, window, options);
 				let frames = [];
 				autoSaveTimeout = null;
-				if (!options.removeFrames && singlefile.lib.frameTree.content.frames) {
+				if (!options.removeFrames && singlefile.lib.frameTree.content.frames && window.frames && window.frames.length) {
 					frames = await singlefile.lib.frameTree.content.frames.getAsync(options);
 				}
 				browser.runtime.sendMessage({
@@ -133,7 +133,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		if (!pageAutoSaved || options.autoSaveUnload) {
 			const docData = helper.preProcessDoc(document, window, options);
 			let frames = [];
-			if (!options.removeFrames && singlefile.lib.frameTree.content.frames) {
+			if (!options.removeFrames && singlefile.lib.frameTree.content.frames && singlefile.lib.frameTree.content.frames && window.frames && window.frames.length) {
 				frames = singlefile.lib.frameTree.content.frames.getSync(options);
 			}
 			browser.runtime.sendMessage({
