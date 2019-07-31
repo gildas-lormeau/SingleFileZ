@@ -29,5 +29,5 @@ You can also disable the options below. Some resources (e.g. images, frames) on 
  - HTML content > remove frames
  - Images > save deferred images
  
- ## Why SingleFileZ uses `.html' as the default filename extension?
+ ## Why SingleFileZ uses '.html' as the default filename extension?
 Pages saved by SingleFileZ can be viewed from the filesystem in Firefox and Safari (by selecting the option "Disable Local File Restrictions" in the "Develop" menu) without installing the extension. Only Chrome requires the installation of SingleFileZ to view saved pages from the filesystem. These restrictions don't apply when the saved page is hosted on a server. For example, this page saved with SingleFileZ https://gildas-lormeau.github.io can be viewed in Firefox, Chrome, or Safari without installing or doing anything special. That's why SingleFileZ uses `.html` as the default filename extension.
