@@ -16,9 +16,11 @@ To open saved pages from the filesystem in a Chromium-based browser, SingleFileZ
 
 To open saved pages from the filesystem in Safari, the option "Disable Local File Restrictions" must be selected in the "Develop" menu
 
-
 ## Notes
  - JavaScript must be enabled to view saved pages.
+
+## FAQ
+cf. https://github.com/gildas-lormeau/SingleFileZ/blob/master/faq.md
 
 ## Icons
  - Icon made by [Pixelmeetup](https://www.flaticon.com/authors/pixelmeetup) from [Flaticon](www.flaticon.com) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
