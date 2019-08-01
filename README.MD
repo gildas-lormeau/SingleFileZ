@@ -19,3 +19,6 @@ To open saved pages from the filesystem in Safari, the option "Disable Local Fil
 
 ## Notes
  - JavaScript must be enabled to view saved pages.
+
+## Icons
+ - Icons made by [Pixelmeetup](https://www.flaticon.com/authors/pixelmeetup) from [Flaticon](www.flaticon.com) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
