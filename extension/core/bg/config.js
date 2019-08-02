@@ -368,7 +368,7 @@ singlefile.extension.core.bg.config = (() => {
 		const url = URL.createObjectURL(new Blob([JSON.stringify({ profiles: config.profiles, rules: config.rules, maxParallelWorkers: config.maxParallelWorkers }, null, 2)], { type: "text/json" }));
 		const downloadInfo = {
 			url,
-			filename: "singlefile-settings.json",
+			filename: "singlefilez-settings.json",
 			saveAs: true
 		};
 		try {
