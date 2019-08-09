@@ -188,7 +188,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			}
 			ui.onEndPage(options);
 			if (options.displayStats) {
-				console.log("SingleFile stats"); // eslint-disable-line no-console
+				console.log("SingleFileZ stats"); // eslint-disable-line no-console
 				console.table(page.stats); // eslint-disable-line no-console
 			}
 		}
