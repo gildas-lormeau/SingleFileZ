@@ -88,11 +88,11 @@ singlefile.extension.core.bg.downloads = (() => {
 		}
 	}
 
-	async function downloadPage(page, options) {
+	async function downloadPage(pageData, options) {
 		const downloadInfo = {
-			url: page.url,
+			url: pageData.url,
 			saveAs: options.confirmFilename,
-			filename: page.filename,
+			filename: pageData.filename,
 			conflictAction: options.filenameConflictAction
 		};
 		if (options.incognito) {

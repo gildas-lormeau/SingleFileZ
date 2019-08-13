@@ -61,9 +61,9 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			if (!options.selected || selectionFound) {
 				processing = true;
 				try {
-					const page = await processPage(options);
-					if (page) {
-						await downloadPage(page, options);
+					const pageData = await processPage(options);
+					if (pageData) {
+						await downloadPage(pageData, options);
 					}
 				} catch (error) {
 					if (!processor.cancelled) {
@@ -195,15 +195,15 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 		return page;
 	}
 
-	async function downloadPage(page, options) {
-		const content = JSON.stringify({ resources: page.resources, content: page.content, title: page.title });
+	async function downloadPage(pageData, options) {
+		const content = JSON.stringify({ resources: pageData.resources, content: pageData.content, title: pageData.title });
 		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 			const message = {
 				method: "downloads.download",
 				insertTextBody: options.insertTextBody,
 				confirmFilename: options.confirmFilename,
 				filenameConflictAction: options.filenameConflictAction,
-				filename: page.filename,
+				filename: pageData.filename,
 				filenameReplacementCharacter: options.filenameReplacementCharacter,
 				includeInfobar: options.includeInfobar
 			};
