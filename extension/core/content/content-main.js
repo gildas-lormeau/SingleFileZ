@@ -204,7 +204,8 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				confirmFilename: options.confirmFilename,
 				filenameConflictAction: options.filenameConflictAction,
 				filename: page.filename,
-				filenameReplacementCharacter: options.filenameReplacementCharacter
+				filenameReplacementCharacter: options.filenameReplacementCharacter,
+				includeInfobar: options.includeInfobar
 			};
 			message.truncated = content.length > MAX_CONTENT_SIZE;
 			if (message.truncated) {

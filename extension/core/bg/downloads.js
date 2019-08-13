@@ -67,6 +67,9 @@ singlefile.extension.core.bg.downloads = (() => {
 	}
 
 	async function savePage(message, pageData, tab) {
+		if (message.includeInfobar) {
+			await singlefile.extension.core.bg.infobar.includeScript(pageData);
+		}
 		const data = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
 		message.url = URL.createObjectURL(data);
 		try {
