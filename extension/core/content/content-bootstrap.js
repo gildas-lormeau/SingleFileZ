@@ -28,6 +28,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	const singlefile = this.singlefile;
 
 	let unloadListenerAdded, options, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved;
+	singlefile.extension.core.content.updatedResources = {};
 	browser.runtime.sendMessage({ method: "autosave.init" }).then(message => {
 		options = message.options;
 		autoSaveEnabled = message.autoSaveEnabled;
@@ -76,6 +77,9 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 			autoSaveEnabled = message.autoSaveEnabled;
 			refresh();
 		}
+		if (message.method == "devtools.resourceCommitted") {
+			singlefile.extension.core.content.updatedResources[message.url] = { content: message.content, type: message.type, encoding: message.encoding };
+		}
 	}
 
 	async function autoSavePage() {
@@ -105,7 +109,8 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 					imports: docData.imports,
 					referrer: docData.referrer,
 					frames: frames,
-					url: location.href
+					url: location.href,
+					updatedResources: singlefile.extension.core.content.updatedResources
 				});
 				helper.postProcessDoc(document, docData.markedElements);
 				pageAutoSaved = true;
@@ -149,7 +154,8 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 				imports: docData.imports,
 				referrer: docData.referrer,
 				frames: frames,
-				url: location.href
+				url: location.href,
+				updatedResources: singlefile.extension.core.content.updatedResources
 			});
 		}
 	}
