@@ -218,6 +218,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			}
 			await browser.runtime.sendMessage(message);
 		}
+		await browser.runtime.sendMessage({ method: "downloads.end" });
 	}
 
 })();

@@ -79,6 +79,7 @@
 	const showAllProfilesLabel = document.getElementById("showAllProfilesLabel");
 	const showAutoSaveProfileLabel = document.getElementById("showAutoSaveProfileLabel");
 	const confirmInfobarLabel = document.getElementById("confirmInfobarLabel");
+	const autoCloseLabel = document.getElementById("autoCloseLabel");
 	const infobarTemplateLabel = document.getElementById("infobarTemplateLabel");
 	const includeInfobarLabel = document.getElementById("includeInfobarLabel");
 	const miscLabel = document.getElementById("miscLabel");
@@ -126,6 +127,7 @@
 	const infobarTemplateInput = document.getElementById("infobarTemplateInput");
 	const includeInfobarInput = document.getElementById("includeInfobarInput");
 	const confirmInfobarInput = document.getElementById("confirmInfobarInput");
+	const autoCloseInput = document.getElementById("autoCloseInput");
 	const expandAllButton = document.getElementById("expandAllButton");
 	const rulesDeleteAllButton = document.getElementById("rulesDeleteAllButton");
 	const ruleUrlInput = document.getElementById("ruleUrlInput");
@@ -408,6 +410,7 @@
 	infobarTemplateLabel.textContent = browser.i18n.getMessage("optionInfobarTemplate");
 	includeInfobarLabel.textContent = browser.i18n.getMessage("optionIncludeInfobar");
 	confirmInfobarLabel.textContent = browser.i18n.getMessage("optionConfirmInfobar");
+	autoCloseLabel.textContent = browser.i18n.getMessage("optionAutoCloseLabel");
 	resetButton.textContent = browser.i18n.getMessage("optionsResetButton");
 	exportButton.textContent = browser.i18n.getMessage("optionsExportButton");
 	importButton.textContent = browser.i18n.getMessage("optionsImportButton");
@@ -575,6 +578,7 @@
 		infobarTemplateInput.value = profileOptions.infobarTemplate;
 		includeInfobarInput.checked = profileOptions.includeInfobar;
 		confirmInfobarInput.checked = profileOptions.confirmInfobarContent;
+		autoCloseInput.checked = profileOptions.autoClose;
 		removeFramesInput.disabled = saveRawPageInput.checked;
 		removeFramesInput.checked = removeFramesInput.checked || saveRawPageInput.checked;
 		loadDeferredImagesInput.disabled = saveRawPageInput.checked;
@@ -627,7 +631,8 @@
 				removeAlternativeMedias: removeAlternativeMediasInput.checked,
 				infobarTemplate: infobarTemplateInput.value,
 				includeInfobar: includeInfobarInput.checked,
-				confirmInfobarContent: confirmInfobarInput.checked
+				confirmInfobarContent: confirmInfobarInput.checked,
+				autoClose: autoCloseInput.checked
 			}
 		});
 		await pendingSave;

@@ -130,10 +130,14 @@
     "optionIncludeInfobar": {
         "message": "włączyć paska informacyjnego do zapisanej strony",
         "description": "Options page label: 'include the infobar in the saved page'"
-    },    
+    },
     "optionConfirmInfobar": {
         "message": "otwieraj okno dialogowe z monitem, aby edytować zawartość paska informacyjnego",
         "description": "Options page label: 'open a prompt dialog to edit the infobar content'"
+    },
+    "optionAutoCloseLabel": {
+        "message": "auto-close the tab after the page is saved",
+        "description": "Options page label: 'auto-close the tab after the page is saved'"
     },
     "optionsFileNameSubTitle": {
         "message": "Nazwa pliku",

@@ -130,10 +130,14 @@
     "optionIncludeInfobar": {
         "message": "include the infobar in the saved page",
         "description": "Options page label: 'include the infobar in the saved page'"
-    },    
+    },
     "optionConfirmInfobar": {
         "message": "infobar のコンテンツを編集するためのプロンプトダイアログを開く",
         "description": "オプションのページラベル: 'infobar のコンテンツを編集するためのプロンプトダイアログを開く'"
+    },
+    "optionAutoCloseLabel": {
+        "message": "auto-close the tab after the page is saved",
+        "description": "Options page label: 'auto-close the tab after the page is saved'"
     },
     "optionsFileNameSubTitle": {
         "message": "ファイル名",
