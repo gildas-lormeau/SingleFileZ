@@ -21,34 +21,8 @@
  *   Source.
  */
 
-this.singlefile = this.singlefile || {
-	extension: {
-		core: {
-			bg: {},
-			content: {}
-		},
-		ui: {
-			bg: {},
-			content: {}
-		}
-	},
-	lib: {
-		fetch: {
-			bg: {},
-			content: {}
-		},
-		frameTree: {
-			bg: {},
-			content: {}
-		},
-		hooks: {
-			content: {}
-		},
-		lazy: {
-			bg: {},
-			content: {}
-		},
-		vendor: {},
-		modules: {}
+this.singlefile.common = this.singlefile.common || {
+	ui: {
+		content: {}
 	}
 };

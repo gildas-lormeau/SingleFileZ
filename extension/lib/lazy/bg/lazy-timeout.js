@@ -21,16 +21,26 @@
  *   Source.
  */
 
-/* global singlefile, browser */
+/* global singlefile, browser, setTimeout, clearTimeout */
 
-singlefile.lib.frameTree.bg.main = (() => {
+singlefile.extension.lib.lazy.bg.main = (() => {
 
 	"use strict";
 
 	browser.runtime.onMessage.addListener((message, sender) => {
-		if (message.method == "frameTree.initResponse") {
-			browser.tabs.sendMessage(sender.tab.id, message, { frameId: 0 });
-			return Promise.resolve({});
+		if (message.method == "lazyTimeout.setTimeout") {
+			const timeoutId = setTimeout(async () => {
+				try {
+					await browser.tabs.sendMessage(sender.tab.id, { method: "content.onLazyTimeout", id: timeoutId });
+				} catch (error) {
+					// ignored
+				}
+			}, message.delay);
+			return Promise.resolve(timeoutId);
+		}
+		if (message.method == "lazyTimeout.clearTimeout") {
+			clearTimeout(message.id);
+			return Promise.resolve({ id: message.id });
 		}
 	});
 	return {};

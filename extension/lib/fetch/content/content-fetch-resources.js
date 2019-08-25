@@ -23,7 +23,7 @@
 
 /* global browser, fetch, CustomEvent, dispatchEvent, addEventListener, removeEventListener */
 
-this.singlefile.lib.fetch.content.resources = this.singlefile.lib.fetch.content.resources || (() => {
+this.singlefile.extension.lib.fetch.content.resources = this.singlefile.extension.lib.fetch.content.resources || (() => {
 
 	const FETCH_REQUEST_EVENT = "single-filez-request-fetch";
 	const FETCH_RESPONSE_EVENT = "single-filez-response-fetch";

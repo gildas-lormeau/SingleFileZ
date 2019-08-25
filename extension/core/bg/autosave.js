@@ -124,7 +124,7 @@ singlefile.extension.core.bg.autosave = (() => {
 		await processor.run();
 		const pageData = await processor.getPageData();
 		if (options.includeInfobar) {
-			await singlefile.extension.core.bg.infobar.includeScript(pageData);
+			await singlefile.common.ui.content.infobar.includeScript(pageData);
 		}
 		const data = await singlefile.extension.core.bg.compression.compressPage(pageData, options);
 		pageData.url = URL.createObjectURL(new Blob([data], { type: "text/html" }));
