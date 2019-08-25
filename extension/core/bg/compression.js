@@ -32,8 +32,8 @@ singlefile.extension.core.bg.compression = (() => {
 	};
 
 	async function compressPage(pageData, options) {
-		zip.workerScriptsPath = "lib/zip/";
-		let script = await (await fetch(browser.runtime.getURL("/lib/zip/zip.min.js"))).text();
+		zip.workerScriptsPath = "extension/lib/zip/";
+		let script = await (await fetch(browser.runtime.getURL("extension/lib/zip/zip.min.js"))).text();
 		script += "(" + bootstrapCode.toString().replace(/\n|\t/g, "") + ")()";
 		const blobWriter = new zip.BlobWriter("application/zip");
 		await new Promise(resolve => blobWriter.init(resolve));
