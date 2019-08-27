@@ -28,6 +28,8 @@ singlefile.extension.core.bg.business = (() => {
 	let contentScript, frameScript, modulesScript;
 
 	const contentScriptFiles = [
+		"/extension/index.js",
+		"/extension/lib/browser-polyfill/chrome-browser-polyfill.js",
 		"/lib/index.js",
 		"/lib/hooks/content/content-hooks.js",
 		"/lib/single-file/vendor/css-tree.js",
@@ -36,20 +38,18 @@ singlefile.extension.core.bg.business = (() => {
 		"/lib/single-file/single-file-helper.js",
 		"/lib/single-file/single-file-core.js",
 		"/lib/single-file/single-file.js",
-		"/extension/index.js",
-		"/extension/lib/browser-polyfill/chrome-browser-polyfill.js",
 		"/extension/lib/fetch/content/content-fetch-resources.js",
 		"/extension/ui/content/content-ui-main.js",
 		"/extension/core/content/content-main.js"
 	];
 
 	const frameScriptFiles = [
+		"/extension/index.js",
+		"/extension/lib/browser-polyfill/chrome-browser-polyfill.js",
 		"/lib/index.js",
 		"/lib/hooks/content/content-hooks-frames.js",
 		"/lib/single-file/single-file-helper.js",
 		"/lib/frame-tree/content/content-frame-tree.js",
-		"/extension/index.js",
-		"/extension/lib/browser-polyfill/chrome-browser-polyfill.js",
 		"/extension/lib/fetch/content/content-fetch-resources.js"
 	];
 
