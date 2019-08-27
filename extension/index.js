@@ -41,5 +41,13 @@ this.singlefile.extension = this.singlefile.extension || {
 		lazy: {
 			bg: {}
 		}
+	},
+	getPageData: async function (options = {}, classOptions) {
+		options.insertSingleFileComment = true;
+		options.insertFaviconLink = true;
+		const SingleFile = this.SingleFile.getClass(classOptions);
+		const singleFile = new SingleFile(options);
+		await singleFile.run();
+		return await singleFile.getPageData();
 	}
 };
