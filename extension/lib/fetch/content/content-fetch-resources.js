@@ -21,12 +21,32 @@
  *   Source.
  */
 
-/* global browser, fetch, CustomEvent, dispatchEvent, addEventListener, removeEventListener */
+/* global browser, window, fetch, CustomEvent, dispatchEvent, addEventListener, removeEventListener */
 
 this.singlefile.extension.lib.fetch.content.resources = this.singlefile.extension.lib.fetch.content.resources || (() => {
 
 	const FETCH_REQUEST_EVENT = "single-filez-request-fetch";
 	const FETCH_RESPONSE_EVENT = "single-filez-response-fetch";
+
+	browser.runtime.onMessage.addListener(async message => {
+		if (message.method == "fetch.frame" && window.frameId && window.frameId == message.frameId) {
+			try {
+				let response = await fetch(message.url, { cache: "force-cache" });
+				if (response.status == 403) {
+					response = hostFetch(message.url);
+				}
+				return {
+					status: response.status,
+					headers: Array.from(response.headers),
+					array: Array.from(new Uint8Array(await response.arrayBuffer()))
+				};
+			} catch (error) {
+				return {
+					error: error.toString()
+				};
+			}
+		}
+	});
 
 	return {
 		fetch: async url => {
@@ -48,6 +68,14 @@ this.singlefile.extension.lib.fetch.content.resources = this.singlefile.extensio
 					}
 				};
 			}
+		},
+		frameFetch: async (url, frameId) => {
+			const response = await sendMessage({ method: "fetch.frame", url, frameId });
+			return {
+				status: response.status,
+				headers: { get: headerName => response.headers[headerName] },
+				arrayBuffer: async () => new Uint8Array(response.array).buffer
+			};
 		}
 	};
 
