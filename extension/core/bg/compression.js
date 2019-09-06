@@ -71,7 +71,7 @@ singlefile.extension.core.bg.compression = (() => {
 					} else {
 						dataReader = new zip.BlobReader(new Blob([new Uint8Array(data.content)]));
 					}
-					const options = { comment: data.url };
+					const options = { comment: data.url && data.url.startsWith("data:") ? "data:" : data.url };
 					if (NO_COMPRESSION_EXTENSIONS.includes(data.extension)) {
 						options.level = 0;
 					}
