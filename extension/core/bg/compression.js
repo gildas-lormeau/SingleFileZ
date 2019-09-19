@@ -37,9 +37,7 @@ singlefile.extension.core.bg.compression = (() => {
 		script += "(" + bootstrapCode.toString().replace(/\n|\t/g, "") + ")()";
 		const blobWriter = new zip.BlobWriter("application/zip");
 		await new Promise(resolve => blobWriter.init(resolve));
-		const docTypeMatch = pageData.content.match(/^(<!doctype.*>\s)/gi);
-		const docType = docTypeMatch && docTypeMatch.length ? docTypeMatch[0] : "";
-		let pageContent = docType + "<html data-sfz><meta charset='utf-8'><title>" + (pageData.title || "") + "</title><body hidden>";
+		let pageContent = pageData.doctype + "<html data-sfz><meta charset='utf-8'><title>" + (pageData.title || "") + "</title><body hidden>";
 		pageContent += "<div id='sfz-wait-message'>Please wait...</div>";
 		pageContent += "<div id='sfz-error-message'><strong>Error</strong>: Cannot open the page from the filesystem.";
 		pageContent += "<ul style='line-height:20px;'><li style='margin-bottom:10px'><strong>Chrome</strong>: Install <a href='https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg'>SingleFileZ</a> and enable the option \"Allow access to file URLs\" in the details page of the extension (chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). Otherwise, start the browser with the switch \"--allow-file-access-from-files\".</li>";

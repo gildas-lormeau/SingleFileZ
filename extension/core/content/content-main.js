@@ -207,7 +207,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 	}
 
 	async function downloadPage(pageData, options) {
-		const content = JSON.stringify({ resources: pageData.resources, content: pageData.content, title: pageData.title });
+		const content = JSON.stringify({ resources: pageData.resources, content: pageData.content, title: pageData.title, doctype: pageData.doctype });
 		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 			const message = {
 				method: "downloads.download",
