@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, window, addEventListener, removeEventListener, document, location, setTimeout, top, XMLHttpRequest */
+/* global browser, window, addEventListener, removeEventListener, document, location, setTimeout, top, XMLHttpRequest, CustomEvent, dispatchEvent */
 
 this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.core.content.bootstrap || (async () => {
 
@@ -37,6 +37,14 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	browser.runtime.onMessage.addListener(message => { onMessage(message); });
 	browser.runtime.sendMessage({ method: "ui.processInit" });
 	addEventListener("single-filez-push-state", () => browser.runtime.sendMessage({ method: "ui.processInit" }));
+	addEventListener("single-filez-user-script-init", () => singlefile.waitForUserScript = async () => {
+		const event = new CustomEvent("single-filez-on-capture-request", { cancelable: true });
+		const promiseResponse = new Promise(resolve => addEventListener("single-filez-on-capture-response", resolve));
+		dispatchEvent(event);
+		if (event.defaultPrevented) {
+			await promiseResponse;
+		}
+	});
 	if (window == top && location && location.href && location.href.startsWith("file:///") && document.documentElement.dataset.sfz !== undefined) {
 		if (document.readyState == "loading") {
 			document.addEventListener("DOMContentLoaded", extractFile, false);
@@ -96,6 +104,9 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 				if (!options.removeFrames && singlefile.lib.frameTree.content.frames && window.frames && window.frames.length) {
 					frames = await singlefile.lib.frameTree.content.frames.getAsync(options);
 				}
+				if (singlefile.waitForUserScript) {
+					await singlefile.waitForUserScript();
+				}
 				savePage(docData, frames);
 				helper.postProcessDoc(document, docData.markedElements);
 				pageAutoSaved = true;
@@ -125,6 +136,9 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 			let frames = [];
 			if (!options.removeFrames && singlefile.lib.frameTree.content.frames && singlefile.lib.frameTree.content.frames && window.frames && window.frames.length) {
 				frames = singlefile.lib.frameTree.content.frames.getSync(options);
+			}
+			if (singlefile.waitForUserScript) {
+				singlefile.waitForUserScript();
 			}
 			savePage(docData, frames);
 		}
