@@ -76,7 +76,8 @@ singlefile.extension.core.bg.config = (() => {
 		removeAlternativeImages: true,
 		saveRawPage: false,
 		insertTextBody: true,
-		resolveFragmentIdentifierURLs: false
+		resolveFragmentIdentifierURLs: false,
+		userScriptEnabled: false
 	};
 
 	let pendingUpgradePromise = upgrade();
