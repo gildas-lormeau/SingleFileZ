@@ -169,7 +169,6 @@ singlefile.extension.core.bg.compression = (() => {
 				}
 			}
 			const doc = (new DOMParser()).parseFromString(docContent, "text/html");
-			doc.querySelectorAll("noscript").forEach(element => element.remove());
 			clearTimeout(displayTimeout);
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 			document.querySelectorAll("script, link[rel*=icon]").forEach(element => {
