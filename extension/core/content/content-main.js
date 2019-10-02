@@ -186,16 +186,10 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			options.doc = document;
 		}
 		if (!processor.cancelled) {
-			if (options.userScriptEnabled && singlefile.waitForUserScript) {
-				await singlefile.waitForUserScript("single-filez-on-before-capture");
-			}
 			await processor.run();
 		}
 		if (!options.saveRawPage && !options.removeFrames && frames) {
 			frames.cleanup(options);
-		}
-		if (options.userScriptEnabled && singlefile.waitForUserScript) {
-			await singlefile.waitForUserScript("single-filez-on-after-capture");
 		}
 		let page;
 		if (!processor.cancelled) {
