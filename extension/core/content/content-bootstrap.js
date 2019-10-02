@@ -25,6 +25,8 @@
 
 this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.core.content.bootstrap || (async () => {
 
+	const PUSH_STATE_NOTIFICATION_EVENT_NAME = "single-filez-push-state";
+
 	const singlefile = this.singlefile;
 
 	let unloadListenerAdded, options, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved;
@@ -36,7 +38,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	});
 	browser.runtime.onMessage.addListener(message => { onMessage(message); });
 	browser.runtime.sendMessage({ method: "ui.processInit" });
-	addEventListener("single-filez-push-state", () => browser.runtime.sendMessage({ method: "ui.processInit" }));
+	addEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, () => browser.runtime.sendMessage({ method: "ui.processInit" }));
 	if (window == top && location && location.href && location.href.startsWith("file:///") && document.documentElement.dataset.sfz !== undefined) {
 		if (document.readyState == "loading") {
 			document.addEventListener("DOMContentLoaded", extractFile, false);
@@ -114,12 +116,12 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		if (autoSaveEnabled && options && (options.autoSaveUnload || options.autoSaveLoadOrUnload)) {
 			if (!unloadListenerAdded) {
 				addEventListener("unload", onUnload);
-				addEventListener("single-filez-push-state", onUnload);
+				addEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, onUnload);
 				unloadListenerAdded = true;
 			}
 		} else {
 			removeEventListener("unload", onUnload);
-			removeEventListener("single-filez-push-state", onUnload);
+			removeEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, onUnload);
 			unloadListenerAdded = false;
 		}
 	}
