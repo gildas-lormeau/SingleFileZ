@@ -171,24 +171,37 @@ singlefile.extension.core.bg.compression = (() => {
 			const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 			clearTimeout(displayTimeout);
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
-			document.querySelectorAll("script, link[rel*=icon]").forEach(element => {
-				const parentElement = element.parentElement;
-				element.remove();
-				if (element.tagName == "SCRIPT") {
-					const scriptElement = document.createElement("script");
-					if (element.getAttribute("type")) {
-						scriptElement.type = element.type;
+			for (let element of Array.from(document.querySelectorAll("script[src], link[rel*=icon]"))) {
+				await new Promise((resolve, reject) => {
+					const parentElement = element.parentElement;
+					const nextElementSibling = element.nextElementSibling;
+					element.remove();
+					const isScript = element.tagName == "SCRIPT";
+					if (isScript) {
+						const scriptElement = document.createElement("script");
+						if (element.getAttribute("type")) {
+							scriptElement.type = element.type;
+						}
+						if (element.getAttribute("src")) {
+							scriptElement.src = element.src;
+						}
+						if (element.textContent) {
+							scriptElement.textContent = element.textContent;
+						}
+						element = scriptElement;
+						element.onload = resolve;
+						element.onerror = reject;
 					}
-					if (element.getAttribute("src")) {
-						scriptElement.src = element.src;
+					if (nextElementSibling) {
+						parentElement.insertBefore(element, nextElementSibling);
+					} else {
+						parentElement.appendChild(element);
 					}
-					if (element.textContent) {
-						scriptElement.textContent = element.textContent;
+					if (!isScript) {
+						resolve();
 					}
-					element = scriptElement;
-				}
-				parentElement.appendChild(element);
-			});
+				});
+			}
 			document.dispatchEvent(new CustomEvent("single-file-display-infobar"));
 		}
 
