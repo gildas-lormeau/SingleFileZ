@@ -171,33 +171,19 @@ singlefile.extension.core.bg.compression = (() => {
 			const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 			clearTimeout(displayTimeout);
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
-			for (let element of Array.from(document.querySelectorAll("script[src], link[rel*=icon]"))) {
+			document.querySelectorAll("link[rel*=icon]").forEach(element => element.parentElement.replaceChild(element, element));
+			for (let element of Array.from(document.querySelectorAll("script"))) {
 				await new Promise((resolve, reject) => {
-					const parentElement = element.parentElement;
-					const nextElementSibling = element.nextElementSibling;
-					element.remove();
-					const isScript = element.tagName == "SCRIPT";
-					if (isScript) {
-						const scriptElement = document.createElement("script");
-						if (element.getAttribute("type")) {
-							scriptElement.type = element.type;
-						}
-						if (element.getAttribute("src")) {
-							scriptElement.src = element.src;
-						}
-						if (element.textContent) {
-							scriptElement.textContent = element.textContent;
-						}
-						element = scriptElement;
-						element.onload = resolve;
-						element.onerror = reject;
-					}
-					if (nextElementSibling) {
-						parentElement.insertBefore(element, nextElementSibling);
+					const scriptElement = document.createElement("script");
+					Array.from(element.attributes).forEach(attribute => scriptElement.setAttribute(attribute.name, attribute.value));
+					if (element.textContent) {
+						scriptElement.textContent = element.textContent;
 					} else {
-						parentElement.appendChild(element);
+						scriptElement.addEventListener("load", resolve);
+						scriptElement.addEventListener("error", reject);
 					}
-					if (!isScript) {
+					element.parentElement.replaceChild(scriptElement, element);
+					if (element.textContent) {
 						resolve();
 					}
 				});
