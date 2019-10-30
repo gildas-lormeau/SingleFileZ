@@ -176,14 +176,15 @@ singlefile.extension.core.bg.compression = (() => {
 				await new Promise((resolve, reject) => {
 					const scriptElement = document.createElement("script");
 					Array.from(element.attributes).forEach(attribute => scriptElement.setAttribute(attribute.name, attribute.value));
+					const async = element.getAttribute("async") == "" || element.getAttribute("async") == "async";
 					if (element.textContent) {
 						scriptElement.textContent = element.textContent;
-					} else {
+					} else if (!async) {
 						scriptElement.addEventListener("load", resolve);
 						scriptElement.addEventListener("error", reject);
 					}
 					element.parentElement.replaceChild(scriptElement, element);
-					if (element.textContent) {
+					if (element.textContent || async) {
 						resolve();
 					}
 				});
