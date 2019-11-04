@@ -56,11 +56,11 @@ singlefile.extension.core.bg.compression = (() => {
 		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 		await addPageResources(zipWriter, pageData, "", options.url);
 		const comment = "]]></xmp></html>";
-		return new Promise(resolve => zipWriter.close(data => resolve(new Blob([data, comment])), comment.length));
+		return new Promise(resolve => zipWriter.close(data => resolve(new Blob([data, comment], { type: "text/html" })), comment.length));
 	}
 
 	async function addPageResources(zipWriter, pageData, prefixName, url) {
-		await new Promise(resolve => zipWriter.add(prefixName + "index.html", new zip.BlobReader(new Blob([pageData.content])), resolve, null, { comment: url }));
+		await new Promise(resolve => zipWriter.add(prefixName + "index.html", new zip.BlobReader(new Blob([pageData.content], { type: "text/html" })), resolve, null, { comment: url }));
 		for (const resourceType of Object.keys(pageData.resources)) {
 			for (const data of pageData.resources[resourceType]) {
 				if (resourceType == "frames") {
