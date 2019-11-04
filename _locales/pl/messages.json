@@ -1,6 +1,6 @@
 {
     "extensionDescription": {
-        "message": "Zapisz strony internetowe jako samowyodrębniające się hybrydowe pliki HTML/ZIP",
+        "message": "Zapisuj strony internetowe jako samorozpakowujące się hybrydowe pliki HTML/ZIP.",
         "description": "Description of the extension."
     },
     "menuSavePage": {
@@ -128,7 +128,7 @@
         "description": "Options page label: 'template of the infobar content'"
     },
     "optionIncludeInfobar": {
-        "message": "włączyć paska informacyjnego do zapisanej strony",
+        "message": "dołączaj pasek informacyjny do zapisanej strony",
         "description": "Options page label: 'include the infobar in the saved page'"
     },
     "optionConfirmInfobar": {
@@ -136,7 +136,7 @@
         "description": "Options page label: 'open a prompt dialog to edit the infobar content'"
     },
     "optionAutoCloseLabel": {
-        "message": "auto-close the tab after the page is saved",
+        "message": "automatycznie zamykaj kartę po zapisaniu strony",
         "description": "Options page label: 'auto-close the tab after the page is saved'"
     },
     "optionsFileNameSubTitle": {
@@ -176,7 +176,7 @@
         "description": "Options page label: 'compress HTML content'"
     },
     "optionInsertTextBody": {
-        "message": "make text searchable",
+        "message": "umożliwiaj wyszukiwanie tekstu",
         "description": "Options page label: 'make text searchable'"
     },
     "optionRemoveImports": {
