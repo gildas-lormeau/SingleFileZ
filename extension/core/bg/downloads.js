@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, document, MouseEvent */
+/* global browser, singlefile, URL, document, MouseEvent, addEventListener */
 
 singlefile.extension.core.bg.downloads = (() => {
 
@@ -36,6 +36,7 @@ singlefile.extension.core.bg.downloads = (() => {
 	const ERROR_INVALID_FILENAME_GECKO = "illegal characters";
 	const ERROR_INVALID_FILENAME_CHROMIUM = "invalid filename";
 
+	addEventListener("unload", event => event.preventDefault());
 	return {
 		onMessage,
 		download,
@@ -80,7 +81,7 @@ singlefile.extension.core.bg.downloads = (() => {
 		message.url = URL.createObjectURL(data);
 		singlefile.extension.ui.bg.main.onEnd(tab.id);
 		if (message.backgroundSave) {
-			try {				
+			try {
 				await downloadPage(message, {
 					confirmFilename: message.confirmFilename,
 					incognito: tab.incognito,
