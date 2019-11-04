@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL */
+/* global browser, singlefile, URL, document, MouseEvent */
 
 singlefile.extension.core.bg.downloads = (() => {
 
@@ -78,19 +78,23 @@ singlefile.extension.core.bg.downloads = (() => {
 		}
 		const data = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
 		message.url = URL.createObjectURL(data);
-		try {
-			singlefile.extension.ui.bg.main.onEnd(tab.id);
-			await downloadPage(message, {
-				confirmFilename: message.confirmFilename,
-				incognito: tab.incognito,
-				filenameConflictAction: message.filenameConflictAction,
-				filenameReplacementCharacter: message.filenameReplacementCharacter
-			});
-		} catch (error) {
-			console.error(error); // eslint-disable-line no-console
-			singlefile.extension.ui.bg.main.onError(tab.id);
-		} finally {
-			URL.revokeObjectURL(message.url);
+		singlefile.extension.ui.bg.main.onEnd(tab.id);
+		if (message.backgroundSave) {
+			try {				
+				await downloadPage(message, {
+					confirmFilename: message.confirmFilename,
+					incognito: tab.incognito,
+					filenameConflictAction: message.filenameConflictAction,
+					filenameReplacementCharacter: message.filenameReplacementCharacter
+				});
+			} catch (error) {
+				console.error(error); // eslint-disable-line no-console
+				singlefile.extension.ui.bg.main.onError(tab.id);
+			} finally {
+				URL.revokeObjectURL(message.url);
+			}
+		} else {
+			downloadPageForeground(message);
 		}
 	}
 
@@ -159,6 +163,16 @@ singlefile.extension.core.bg.downloads = (() => {
 				}
 			}
 		});
+	}
+
+	function downloadPageForeground(pageData) {
+		if (pageData.filename && pageData.filename.length) {
+			const link = document.createElement("a");
+			link.download = pageData.filename;
+			link.href = pageData.url;
+			link.dispatchEvent(new MouseEvent("click"));
+			URL.revokeObjectURL(link.href);
+		}
 	}
 
 })();

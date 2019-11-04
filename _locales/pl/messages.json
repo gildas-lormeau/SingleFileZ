@@ -339,6 +339,10 @@
         "message": "Różne",
         "description": "Options sub-title: 'Misc.'"
     },
+	"optionBackgroundSave": {
+		"message": "zapisuj strony w tle",
+		"description": "Options page label: 'save pages in background'"
+	},
     "optionDisplayStats": {
         "message": "wyświetlaj statystyki w konsoli po przetworzeniu",
         "description": "Options page label: 'display stats in the console after processing'"

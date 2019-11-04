@@ -339,6 +339,10 @@
         "message": "其他",
         "description": "選項頁副標題: '其他'"
     },
+	"optionBackgroundSave": {
+		"message": "在後台保存頁面",
+		"description": "選項頁標籤: '在後台保存頁面'"
+	},
     "optionDisplayStats": {
         "message": "處理後在控制台消息中顯示統計",
         "description": "選項頁標籤: '處理後在控制台消息中顯示統計'"

@@ -339,6 +339,10 @@
         "message": "Miscelánea",
         "description": "Options sub-title: 'Misc.'"
     },
+	"optionBackgroundSave": {
+		"message": "guardar páginas en segundo plano",
+		"description": "Options page label: 'save pages in background'"
+	},
     "optionDisplayStats": {
         "message": "mostrar estadísticas en la consola tras el procesado",
         "description": "Options page label: 'display stats in the console after processing'"

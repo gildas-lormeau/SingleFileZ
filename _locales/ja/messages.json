@@ -339,6 +339,10 @@
         "message": "その他",
         "description": "Options sub-title: 'Misc.'"
     },
+	"optionBackgroundSave": {
+		"message": "バックグラウンドでページを保存する",
+		"description": "Options page label: 'save pages in background'"
+	},
     "optionDisplayStats": {
         "message": "処理後、コンソールに統計情報を表示する",
         "description": "Options page label: 'display stats in the console after processing'"

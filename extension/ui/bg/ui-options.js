@@ -54,6 +54,7 @@
 	const removeVideoLabel = document.getElementById("removeVideoLabel");
 	const displayInfobarLabel = document.getElementById("displayInfobarLabel");
 	const displayStatsLabel = document.getElementById("displayStatsLabel");
+	const backgroundSaveLabel = document.getElementById("backgroundSaveLabel");
 	const autoSaveDelayLabel = document.getElementById("autoSaveDelayLabel");
 	const autoSaveLoadLabel = document.getElementById("autoSaveLoadLabel");
 	const autoSaveUnloadLabel = document.getElementById("autoSaveUnloadLabel");
@@ -115,6 +116,7 @@
 	const removeVideoSrcInput = document.getElementById("removeVideoSrcInput");
 	const displayInfobarInput = document.getElementById("displayInfobarInput");
 	const displayStatsInput = document.getElementById("displayStatsInput");
+	const backgroundSaveInput = document.getElementById("backgroundSaveInput");
 	const autoSaveDelayInput = document.getElementById("autoSaveDelayInput");
 	const autoSaveLoadInput = document.getElementById("autoSaveLoadInput");
 	const autoSaveUnloadInput = document.getElementById("autoSaveUnloadInput");
@@ -387,6 +389,7 @@
 	removeVideoLabel.textContent = browser.i18n.getMessage("optionRemoveVideo");
 	displayInfobarLabel.textContent = browser.i18n.getMessage("optionDisplayInfobar");
 	displayStatsLabel.textContent = browser.i18n.getMessage("optionDisplayStats");
+	backgroundSaveLabel.textContent = browser.i18n.getMessage("optionBackgroundSave");
 	autoSaveDelayLabel.textContent = browser.i18n.getMessage("optionAutoSaveDelay");
 	autoSaveLoadLabel.textContent = browser.i18n.getMessage("optionAutoSaveLoad");
 	autoSaveUnloadLabel.textContent = browser.i18n.getMessage("optionAutoSaveUnload");
@@ -561,6 +564,7 @@
 		removeVideoSrcInput.checked = profileOptions.removeVideoSrc;
 		displayInfobarInput.checked = profileOptions.displayInfobar;
 		displayStatsInput.checked = profileOptions.displayStats;
+		backgroundSaveInput.checked = profileOptions.backgroundSave;
 		autoSaveDelayInput.value = profileOptions.autoSaveDelay;
 		autoSaveDelayInput.disabled = !profileOptions.autoSaveLoadOrUnload && !profileOptions.autoSaveLoad;
 		autoSaveLoadInput.checked = !profileOptions.autoSaveLoadOrUnload && profileOptions.autoSaveLoad;
@@ -620,6 +624,7 @@
 				removeVideoSrc: removeVideoSrcInput.checked,
 				displayInfobar: displayInfobarInput.checked,
 				displayStats: displayStatsInput.checked,
+				backgroundSave: backgroundSaveInput.checked,
 				autoSaveDelay: Math.max(autoSaveDelayInput.value, 0),
 				autoSaveLoad: autoSaveLoadInput.checked,
 				autoSaveUnload: autoSaveUnloadInput.checked,

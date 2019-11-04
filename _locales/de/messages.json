@@ -339,6 +339,10 @@
         "message": "Sonstiges",
         "description": "Options sub-title: 'Misc.'"
     },
+	"optionBackgroundSave": {
+		"message": "Speicherung der Seiten im Hintergrund",
+		"description": "Options page label: 'save pages in background'"
+	},
     "optionDisplayStats": {
         "message": "Statistik nach Verarbeitung in der Konsole anzeigen",
         "description": "Options page label: 'display stats in the console after processing'"

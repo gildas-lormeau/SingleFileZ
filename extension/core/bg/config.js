@@ -65,6 +65,7 @@ singlefile.extension.core.bg.config = (() => {
 		removeVideoSrc: true,
 		displayInfobar: true,
 		displayStats: false,
+		backgroundSave: true,
 		autoSaveDelay: 1,
 		autoSaveLoad: false,
 		autoSaveUnload: false,

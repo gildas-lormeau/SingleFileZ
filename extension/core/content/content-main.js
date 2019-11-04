@@ -219,7 +219,8 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				filenameConflictAction: options.filenameConflictAction,
 				filename: pageData.filename,
 				filenameReplacementCharacter: options.filenameReplacementCharacter,
-				includeInfobar: options.includeInfobar
+				includeInfobar: options.includeInfobar,
+				backgroundSave: options.backgroundSave
 			};
 			message.truncated = content.length > MAX_CONTENT_SIZE;
 			if (message.truncated) {

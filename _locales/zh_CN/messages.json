@@ -339,6 +339,10 @@
         "message": "其他",
         "description": "选项页副标题: '其他'"
     },
+	"optionBackgroundSave": {
+		"message": "在后台保存页面",
+		"description": "选项页标签: '在后台保存页面'"
+	},
     "optionDisplayStats": {
         "message": "处理后在控制台消息中显示统计",
         "description": "选项页标签: '处理后在控制台消息中显示统计'"
