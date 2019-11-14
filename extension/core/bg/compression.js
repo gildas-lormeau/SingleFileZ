@@ -168,7 +168,12 @@ singlefile.extension.core.bg.compression = (() => {
 					}
 				}
 			}
+			const DISABLED_NOSCRIPT_ATTRIBUTE_NAME = "data-single-filez-disabled-noscript";
 			const doc = (new DOMParser()).parseFromString(docContent, "text/html");
+			doc.querySelectorAll("noscript:not([" + DISABLED_NOSCRIPT_ATTRIBUTE_NAME + "])").forEach(element => {
+				element.setAttribute(DISABLED_NOSCRIPT_ATTRIBUTE_NAME, element.innerHTML);
+				element.textContent = "";
+			});
 			clearTimeout(displayTimeout);
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 			document.querySelectorAll("link[rel*=icon]").forEach(element => element.parentElement.replaceChild(element, element));
