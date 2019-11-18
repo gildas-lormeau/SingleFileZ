@@ -83,7 +83,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 			singlefile.extension.core.content.updatedResources[message.url] = { content: message.content, type: message.type, encoding: message.encoding };
 		}
 		if (message.method == "common.promptValueRequest") {
-			browser.runtime.sendMessage({ method: "tabs.promptValueResponse", value: prompt("SingleFile: " + message.promptMessage) });
+			browser.runtime.sendMessage({ method: "tabs.promptValueResponse", value: prompt("SingleFileZ: " + message.promptMessage) });
 		}
 	}
 
