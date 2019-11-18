@@ -124,7 +124,7 @@ singlefile.extension.core.bg.autosave = (() => {
 			if (options.includeInfobar) {
 				await singlefile.common.ui.content.infobar.includeScript(pageData);
 			}
-			const blob = new Blob([pageData.content], { type: "text/html" });
+			const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: options.insertTextBody, url: tab.url });
 			if (options.saveToGDrive) {
 				await singlefile.extension.core.bg.downloads.uploadPage(tab.id, pageData.filename, blob, options, {});
 			} else {
