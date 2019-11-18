@@ -114,7 +114,7 @@ singlefile.extension.ui.bg.button = (() => {
 			if (business.isSavingTab(tab)) {
 				business.cancelTab(tab.id);
 			} else {
-				business.saveTabs([tab.id]);
+				business.saveTabs([tab]);
 			}
 		}
 	});
