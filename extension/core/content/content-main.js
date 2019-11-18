@@ -217,10 +217,10 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				options.infobarContent = ui.prompt("Infobar content", options.infobarContent) || "";
 			}
 			page = await processor.getPageData();
-			if (options.selected) {
+			if (options.selected || options.optionallySelected) {
 				ui.unmarkSelection();
 			}
-			ui.onEndPage(options);
+			ui.onEndPage();
 			if (options.displayStats) {
 				console.log("SingleFileZ stats"); // eslint-disable-line no-console
 				console.table(page.stats); // eslint-disable-line no-console
