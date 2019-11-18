@@ -138,7 +138,7 @@ singlefile.extension.core.bg.business = (() => {
 		await saveTabs([tab], options);
 	}
 
-	async function cancelTab(tabId) {
+	function cancelTab(tabId) {
 		if (pendingSaves.has(tabId)) {
 			const saveInfo = pendingSaves.get(tabId);
 			saveInfo.cancelled = true;
