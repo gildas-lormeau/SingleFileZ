@@ -115,9 +115,19 @@ singlefile.extension.core.bg.tabs = (() => {
 		}
 	};
 
-	async function onMessage(message) {
+	async function onMessage(message, sender) {
+		if (message.method.endsWith(".promptValueResponse")) {
+			const promptPromise = pendingPrompts.get(sender.tab.id);
+			if (promptPromise) {
+				promptPromise.resolve(message.value);
+				pendingPrompts.delete(sender.tab.id);
+			}
+		}
 		if (message.method.endsWith(".getOptions")) {
 			return singlefile.extension.core.bg.config.getOptions(message.url);
+		}
+		if (message.method.endsWith(".activate")) {
+			await browser.tabs.update(message.tabId, { active: true });
 		}
 	}
 
