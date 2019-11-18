@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, document, window, setTimeout */
+/* global browser, document, window, setTimeout, URL, Blob, MouseEvent */
 
 this.singlefile.extension.core.content.main = this.singlefile.extension.core.content.main || (() => {
 
@@ -29,14 +29,14 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 
 	const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 
-	let ui, processing = false, processor;
+	let ui, processing = false, processor, pageContents = [];
 
 	singlefile.lib.main.init({
 		fetch: singlefile.extension.lib.fetch.content.resources.fetch,
 		frameFetch: singlefile.extension.lib.fetch.content.resources.frameFetch
 	});
 	browser.runtime.onMessage.addListener(message => {
-		if (message.method == "content.save" || message.method == "content.cancelSave") {
+		if (message.method == "content.save" || message.method == "content.cancelSave" || message.method == "content.download") {
 			return onMessage(message);
 		}
 	});
@@ -55,6 +55,23 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				processor.cancel();
 				ui.onEndPage();
 				browser.runtime.sendMessage({ method: "ui.processCancelled" });
+			}
+			return {};
+		}
+		if (message.method == "content.download") {
+			message.content = new Uint8Array(message.content);			
+			if (message.truncated) {
+				pageContents.push(message.content);
+			} else {
+				pageContents = [message.content];
+			}
+			if (!message.truncated || message.finished) {
+				const link = document.createElement("a");
+				link.download = message.filename;
+				link.href = URL.createObjectURL(new Blob(pageContents), "text/html");
+				pageContents = [];
+				link.dispatchEvent(new MouseEvent("click"));
+				URL.revokeObjectURL(link.href);
 			}
 			return {};
 		}

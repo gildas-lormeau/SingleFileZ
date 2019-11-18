@@ -21,11 +21,12 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, document, MouseEvent, addEventListener */
+/* global browser, singlefile, URL, Response */
 
 singlefile.extension.core.bg.downloads = (() => {
 
 	const partialContents = new Map();
+	const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 	const STATE_DOWNLOAD_COMPLETE = "complete";
 	const STATE_DOWNLOAD_INTERRUPTED = "interrupted";
 	const STATE_ERROR_CANCELED_CHROMIUM = "USER_CANCELED";
@@ -36,7 +37,6 @@ singlefile.extension.core.bg.downloads = (() => {
 	const ERROR_INVALID_FILENAME_GECKO = "illegal characters";
 	const ERROR_INVALID_FILENAME_CHROMIUM = "invalid filename";
 
-	addEventListener("unload", event => event.preventDefault());
 	return {
 		onMessage,
 		download,
@@ -78,10 +78,10 @@ singlefile.extension.core.bg.downloads = (() => {
 			await singlefile.common.ui.content.infobar.includeScript(pageData);
 		}
 		const data = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
-		message.url = URL.createObjectURL(data);
 		singlefile.extension.ui.bg.main.onEnd(tab.id);
 		if (message.backgroundSave) {
 			try {
+				message.url = URL.createObjectURL(data);
 				await downloadPage(message, {
 					confirmFilename: message.confirmFilename,
 					incognito: tab.incognito,
@@ -95,7 +95,7 @@ singlefile.extension.core.bg.downloads = (() => {
 				URL.revokeObjectURL(message.url);
 			}
 		} else {
-			downloadPageForeground(message);
+			await downloadPageForeground(message.filename, data, tab.id);
 		}
 	}
 
@@ -166,13 +166,21 @@ singlefile.extension.core.bg.downloads = (() => {
 		});
 	}
 
-	function downloadPageForeground(pageData) {
-		if (pageData.filename && pageData.filename.length) {
-			const link = document.createElement("a");
-			link.download = pageData.filename;
-			link.href = pageData.url;
-			link.dispatchEvent(new MouseEvent("click"));
-			URL.revokeObjectURL(link.href);
+	async function downloadPageForeground(filename, content, tabId) {
+		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.size; blockIndex++) {
+			const message = {
+				method: "content.download",
+				filename: filename
+			};
+			message.truncated = content.size > MAX_CONTENT_SIZE;
+			if (message.truncated) {
+				message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.size;
+				const blob = content.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
+				message.content = Array.from(new Uint8Array(await new Response(blob).arrayBuffer()));
+			} else {
+				message.content = Array.from(new Uint8Array(await new Response(content).arrayBuffer()));
+			}
+			await singlefile.extension.core.bg.tabs.sendMessage(tabId, message);
 		}
 	}
 
