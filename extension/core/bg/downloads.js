@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, Response */
+/* global browser, singlefile, URL, Response, GDrive */
 
 singlefile.extension.core.bg.downloads = (() => {
 
@@ -36,7 +36,12 @@ singlefile.extension.core.bg.downloads = (() => {
 	const ERROR_INCOGNITO_GECKO_ALT = "\"incognito\"";
 	const ERROR_INVALID_FILENAME_GECKO = "illegal characters";
 	const ERROR_INVALID_FILENAME_CHROMIUM = "invalid filename";
+	const CLIENT_ID = "7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot.apps.googleusercontent.com";
+	const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
 
+	const manifest = browser.runtime.getManifest();
+	const requestPermissionIdentity = manifest.optional_permissions && manifest.optional_permissions.includes("identity");
+	const gDrive = new GDrive(CLIENT_ID, SCOPES);
 	return {
 		onMessage,
 		download,
@@ -45,57 +50,132 @@ singlefile.extension.core.bg.downloads = (() => {
 
 	async function onMessage(message, sender) {
 		if (message.method.endsWith(".download")) {
-			let contents;
-			if (message.truncated) {
-				contents = partialContents.get(sender.tab.id);
-				if (!contents) {
-					contents = [];
-					partialContents.set(sender.tab.id, contents);
-				}
-				contents.push(message.content);
-				if (message.finished) {
-					partialContents.delete(sender.tab.id);
-				}
-			} else if (message.content) {
-				contents = [message.content];
-			}
-			if (!message.truncated || message.finished) {
-				const pageData = JSON.parse(contents.join(""));
-				savePage(message, pageData, sender.tab);
-			}
+			return downloadTabPage(message, sender.tab);
+		}
+		if (message.method.endsWith(".disableGDrive")) {
+			const authInfo = await singlefile.extension.core.bg.config.getAuthInfo();
+			singlefile.extension.core.bg.config.removeAuthInfo();
+			await gDrive.revokeAuthToken(authInfo && (authInfo.accessToken || authInfo.revokableAccessToken));
 			return {};
 		}
 		if (message.method.endsWith(".end")) {
-			if (message.autoClose) {
-				singlefile.extension.core.bg.tabs.remove(sender.tab.id);
-			}
+			singlefile.extension.core.bg.business.onSaveEnd(sender.tab.id);
 			return {};
 		}
 	}
 
-	async function savePage(message, pageData, tab) {
-		if (message.includeInfobar) {
-			await singlefile.common.ui.content.infobar.includeScript(pageData);
+	async function downloadTabPage(message, tab) {
+		let contents;
+		if (message.truncated) {
+			contents = partialContents.get(tab.id);
+			if (!contents) {
+				contents = [];
+				partialContents.set(tab.id, contents);
+			}
+			contents.push(message.content);
+			if (message.finished) {
+				partialContents.delete(tab.id);
+			}
+		} else if (message.content) {
+			contents = [message.content];
 		}
-		const data = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
-		singlefile.extension.ui.bg.main.onEnd(tab.id);
-		if (message.backgroundSave) {
-			try {
-				message.url = URL.createObjectURL(data);
-				await downloadPage(message, {
-					confirmFilename: message.confirmFilename,
-					incognito: tab.incognito,
-					filenameConflictAction: message.filenameConflictAction,
-					filenameReplacementCharacter: message.filenameReplacementCharacter
+		if (!message.truncated || message.finished) {
+			const pageData = JSON.parse(contents.join(""));
+			const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
+			await downloadBlob(blob, tab.id, tab.incognito, message);
+		}
+		return {};
+	}
+
+	async function downloadBlob(blob, tabId, incognito, message) {
+		try {
+			if (message.saveToGDrive) {
+				await uploadPage(tabId, message.filename, blob, {
+					forceWebAuthFlow: message.forceWebAuthFlow,
+					extractAuthCode: message.extractAuthCode
+				}, {
+					onProgress: (offset, size) => singlefile.extension.ui.bg.main.onUploadProgress(tabId, offset, size)
 				});
-			} catch (error) {
+			} else {
+				if (message.backgroundSave) {
+					message.url = URL.createObjectURL(blob);
+					await downloadPage(message, {
+						confirmFilename: message.confirmFilename,
+						incognito,
+						filenameConflictAction: message.filenameConflictAction,
+						filenameReplacementCharacter: message.filenameReplacementCharacter
+					});
+				} else {
+					await downloadPageForeground(message.filename, blob, tabId);
+				}
+			}
+			singlefile.extension.ui.bg.main.onEnd(tabId);
+		} catch (error) {
+			if (!error.message || error.message != "upload_cancelled") {
 				console.error(error); // eslint-disable-line no-console
-				singlefile.extension.ui.bg.main.onError(tab.id);
-			} finally {
+				singlefile.extension.ui.bg.main.onError(tabId);
+			}
+		} finally {
+			if (message.url) {
 				URL.revokeObjectURL(message.url);
 			}
-		} else {
-			await downloadPageForeground(message.filename, data, tab.id);
+		}
+	}
+
+	async function getAuthInfo(authOptions, force) {
+		let authInfo = await singlefile.extension.core.bg.config.getAuthInfo();
+		const options = {
+			interactive: true,
+			auto: authOptions.extractAuthCode,
+			forceWebAuthFlow: authOptions.forceWebAuthFlow,
+			requestPermissionIdentity,
+			launchWebAuthFlow: options => singlefile.extension.core.bg.tabs.launchWebAuthFlow(options),
+			extractAuthCode: authURL => singlefile.extension.core.bg.tabs.extractAuthCode(authURL),
+			promptAuthCode: () => singlefile.extension.core.bg.tabs.promptValue("Please enter the access code for Google Drive")
+		};
+		gDrive.setAuthInfo(authInfo, options);
+		if (!authInfo || !authInfo.accessToken || force) {
+			authInfo = await gDrive.auth(options);
+			if (authInfo) {
+				await singlefile.extension.core.bg.config.setAuthInfo(authInfo);
+			} else {
+				await singlefile.extension.core.bg.config.removeAuthInfo();
+			}
+		}
+		return authInfo;
+	}
+
+	async function uploadPage(tabId, filename, blob, authOptions, uploadOptions) {
+		try {
+			await getAuthInfo(authOptions);
+			const saveInfo = singlefile.extension.core.bg.business.getTabInfo(tabId);
+			if (saveInfo && !saveInfo.cancelled) {
+				const uploadInfo = await gDrive.upload(filename, blob, uploadOptions);
+				singlefile.extension.core.bg.business.setCancelCallback(tabId, uploadInfo.cancelUpload);
+				return await uploadInfo.uploadPromise;
+			}
+		}
+		catch (error) {
+			if (error.message == "invalid_token") {
+				let authInfo;
+				try {
+					authInfo = await gDrive.refreshAuthToken();
+				} catch (error) {
+					if (error.message == "unknown_token") {
+						authInfo = await getAuthInfo(authOptions, true);
+					} else {
+						throw error;
+					}
+				}
+				if (authInfo) {
+					await singlefile.extension.core.bg.config.setAuthInfo(authInfo);
+				} else {
+					await singlefile.extension.core.bg.config.removeAuthInfo();
+				}
+				await uploadPage(tabId, filename, blob, authOptions, uploadOptions);
+			} else {
+				throw error;
+			}
 		}
 	}
 

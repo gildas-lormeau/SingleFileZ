@@ -35,6 +35,7 @@
 	const removeImportsLabel = document.getElementById("removeImportsLabel");
 	const removeScriptsLabel = document.getElementById("removeScriptsLabel");
 	const saveRawPageLabel = document.getElementById("saveRawPageLabel");
+	const saveToGDriveLabel = document.getElementById("saveToGDriveLabel");
 	const compressHTMLLabel = document.getElementById("compressHTMLLabel");
 	const insertTextBodyLabel = document.getElementById("insertTextBodyLabel");
 	const compressCSSLabel = document.getElementById("compressCSSLabel");
@@ -100,6 +101,7 @@
 	const removeImportsInput = document.getElementById("removeImportsInput");
 	const removeScriptsInput = document.getElementById("removeScriptsInput");
 	const saveRawPageInput = document.getElementById("saveRawPageInput");
+	const saveToGDriveInput = document.getElementById("saveToGDriveInput");
 	const compressHTMLInput = document.getElementById("compressHTMLInput");
 	const insertTextBodyInput = document.getElementById("insertTextBodyInput");
 	const compressCSSInput = document.getElementById("compressCSSInput");
@@ -338,6 +340,11 @@
 			removeUnusedStylesInput.checked = false;
 		}
 	}, false);
+	saveToGDriveInput.addEventListener("click", async () => {
+		if (!saveToGDriveInput.checked) {
+			await browser.runtime.sendMessage({ method: "downloads.disableGDrive" });
+		}
+	}, false);	
 	document.body.onchange = async event => {
 		let target = event.target;
 		if (target != ruleUrlInput && target != ruleProfileInput && target != ruleAutoSaveProfileInput && target != ruleEditUrlInput && target != ruleEditProfileInput && target != ruleEditAutoSaveProfileInput && target != showAutoSaveProfileInput) {
@@ -370,6 +377,7 @@
 	removeImportsLabel.textContent = browser.i18n.getMessage("optionRemoveImports");
 	removeScriptsLabel.textContent = browser.i18n.getMessage("optionRemoveScripts");
 	saveRawPageLabel.textContent = browser.i18n.getMessage("optionSaveRawPage");
+	saveToGDriveLabel.textContent = browser.i18n.getMessage("optionSaveToGDrive");
 	compressHTMLLabel.textContent = browser.i18n.getMessage("optionCompressHTML");
 	insertTextBodyLabel.textContent = browser.i18n.getMessage("optionInsertTextBody");
 	compressCSSLabel.textContent = browser.i18n.getMessage("optionCompressCSS");
@@ -545,6 +553,7 @@
 		saveRawPageInput.checked = profileOptions.saveRawPage;
 		compressHTMLInput.checked = profileOptions.compressHTML;
 		insertTextBodyInput.checked = profileOptions.insertTextBody;
+		saveToGDriveInput.checked = profileOptions.saveToGDrive;
 		compressCSSInput.checked = profileOptions.compressCSS;
 		loadDeferredImagesInput.checked = profileOptions.loadDeferredImages && !profileOptions.saveRawPage;
 		loadDeferredImagesInput.disabled = profileOptions.saveRawPage;
@@ -558,11 +567,13 @@
 		maxResourceSizeInput.disabled = !profileOptions.maxResourceSizeEnabled;
 		confirmFilenameInput.checked = profileOptions.confirmFilename;
 		filenameConflictActionInput.value = profileOptions.filenameConflictAction;
+		filenameConflictActionInput.disabled = profileOptions.saveToGDrive;
 		removeAudioSrcInput.checked = profileOptions.removeAudioSrc;
 		removeVideoSrcInput.checked = profileOptions.removeVideoSrc;
 		displayInfobarInput.checked = profileOptions.displayInfobar;
 		displayStatsInput.checked = profileOptions.displayStats;
 		backgroundSaveInput.checked = profileOptions.backgroundSave;
+		backgroundSaveInput.disabled = profileOptions.saveToGDrive;
 		autoSaveDelayInput.value = profileOptions.autoSaveDelay;
 		autoSaveDelayInput.disabled = !profileOptions.autoSaveLoadOrUnload && !profileOptions.autoSaveLoad;
 		autoSaveLoadInput.checked = !profileOptions.autoSaveLoadOrUnload && profileOptions.autoSaveLoad;
@@ -606,8 +617,9 @@
 				removeImports: removeImportsInput.checked,
 				removeScripts: removeScriptsInput.checked,
 				saveRawPage: saveRawPageInput.checked,
+				saveToGDrive: saveToGDriveInput.checked,
 				compressHTML: compressHTMLInput.checked,
-				insertTextBody: insertTextBodyInput.checked,
+				insertTextBody: insertTextBodyInput.checked,				
 				compressCSS: compressCSSInput.checked,
 				loadDeferredImages: loadDeferredImagesInput.checked,
 				loadDeferredImagesMaxIdleTime: Math.max(loadDeferredImagesMaxIdleTimeInput.value, 0),

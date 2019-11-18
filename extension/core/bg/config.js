@@ -76,6 +76,9 @@ singlefile.extension.core.bg.config = (() => {
 		removeAlternativeMedias: true,
 		removeAlternativeImages: true,
 		saveRawPage: false,
+		saveToGDrive: false,
+		forceWebAuthFlow: false,
+		extractAuthCode: true,
 		insertTextBody: true,
 		resolveFragmentIdentifierURLs: false,
 		userScriptEnabled: false
@@ -92,7 +95,10 @@ singlefile.extension.core.bg.config = (() => {
 		getProfiles,
 		onMessage,
 		updateRule,
-		addRule
+		addRule,
+		getAuthInfo,
+		setAuthInfo,
+		removeAuthInfo
 	};
 
 	async function upgrade() {
@@ -350,6 +356,23 @@ singlefile.extension.core.bg.config = (() => {
 		urlConfig.profile = profile;
 		urlConfig.autoSaveProfile = autoSaveProfile;
 		await browser.storage.local.set({ rules: config.rules });
+	}
+
+	async function getAuthInfo() {
+		return (await browser.storage.local.get()).authInfo;
+	}
+
+	async function setAuthInfo(authInfo) {
+		await browser.storage.local.set({ authInfo });
+	}
+
+	async function removeAuthInfo() {
+		let authInfo = getAuthInfo();
+		if (authInfo.revokableAccessToken) {
+			setAuthInfo({ revokableAccessToken: authInfo.revokableAccessToken });
+		} else {
+			await browser.storage.local.remove(["authInfo"]);
+		}
 	}
 
 	async function resetProfiles() {

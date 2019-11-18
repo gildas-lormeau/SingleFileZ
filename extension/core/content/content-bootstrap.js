@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, window, addEventListener, removeEventListener, document, location, setTimeout, top, XMLHttpRequest */
+/* global browser, window, addEventListener, removeEventListener, document, location, setTimeout, top, XMLHttpRequest, prompt */
 
 this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.core.content.bootstrap || (async () => {
 
@@ -81,6 +81,9 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		}
 		if (message.method == "devtools.resourceCommitted") {
 			singlefile.extension.core.content.updatedResources[message.url] = { content: message.content, type: message.type, encoding: message.encoding };
+		}
+		if (message.method == "common.promptValueRequest") {
+			browser.runtime.sendMessage({ method: "tabs.promptValueResponse", value: prompt("SingleFile: " + message.promptMessage) });
 		}
 	}
 

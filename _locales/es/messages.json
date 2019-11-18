@@ -87,6 +87,10 @@
         "message": "Progresión del guardado: ",
         "description": "Button title during save: 'Save progress: xx%'"
     },
+	"buttonUploadProgressTooltip": {
+		"message": "Progresión del upload: ",
+		"description": "Button title during save: 'Upload progress: xx%'"
+	},
     "buttonOKBadge": {
         "message": "OK",
         "description": "Badge label: 'OK'"
@@ -359,6 +363,10 @@
         "message": "guardar página en crudo",
         "description": "Options page label: 'save raw page'"
     },
+	"optionSaveToGDrive": {
+		"message": "save en Google Drive",
+		"description": "Options page label: 'save to Google Drive'"
+	},
     "optionsHelpLink": {
         "message": "ayuda",
         "description": "Options help link"

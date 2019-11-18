@@ -87,6 +87,10 @@
         "message": "Postęp zapisywania: ",
         "description": "Button title during save: 'Save progress: xx%'"
     },
+	"buttonUploadProgressTooltip": {
+		"message": "Postęp przesyłania: ",
+		"description": "Button title during save: 'Upload progress: xx%'"
+	},
     "buttonOKBadge": {
         "message": "OK",
         "description": "Badge label: 'OK'"
@@ -359,6 +363,10 @@
         "message": "zapisuj surową stronę",
         "description": "Options page label: 'save raw page'"
     },
+	"optionSaveToGDrive": {
+		"message": "zapisuj na Dysku Google",
+		"description": "Options page label: 'save to Google Drive'"
+	},
     "optionsHelpLink": {
         "message": "pomoc (w języku angielskim)",
         "description": "Options help link"

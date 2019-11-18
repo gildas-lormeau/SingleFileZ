@@ -36,6 +36,7 @@ singlefile.extension.ui.bg.button = (() => {
 	const BUTTON_BLOCKED_BADGE_MESSAGE = browser.i18n.getMessage("buttonBlockedBadge");
 	const BUTTON_OK_BADGE_MESSAGE = browser.i18n.getMessage("buttonOKBadge");
 	const BUTTON_SAVE_PROGRESS_TOOLTIP_MESSAGE = browser.i18n.getMessage("buttonSaveProgressTooltip");
+	const BUTTON_UPLOAD_PROGRESS_TOOLTIP_MESSAGE = browser.i18n.getMessage("buttonUploadProgressTooltip");
 	const BUTTON_AUTOSAVE_ACTIVE_BADGE_MESSAGE = browser.i18n.getMessage("buttonAutoSaveActiveBadge");
 	const BUTTON_AUTOSAVE_ACTIVE_TOOLTIP_MESSAGE = browser.i18n.getMessage("buttonAutoSaveActiveTooltip");
 	const DEFAULT_COLOR = [2, 147, 20, 192];
@@ -121,6 +122,7 @@ singlefile.extension.ui.bg.button = (() => {
 	return {
 		onMessage,
 		onStart,
+		onUploadProgress,
 		onForbiddenDomain,
 		onError,
 		onEnd,
@@ -135,7 +137,7 @@ singlefile.extension.ui.bg.button = (() => {
 		}
 		if (message.method.endsWith(".processProgress")) {
 			if (message.maxIndex) {
-				onProgress(sender.tab.id, message.index, message.maxIndex);
+				onSaveProgress(sender.tab.id, message.index, message.maxIndex);
 			}
 		}
 		if (message.method.endsWith(".processError")) {
@@ -178,12 +180,20 @@ singlefile.extension.ui.bg.button = (() => {
 		refreshTab(tab);
 	}
 
-	function onProgress(tabId, index, maxIndex) {
+	function onSaveProgress(tabId, index, maxIndex) {
+		onProgress(tabId, index, maxIndex, BUTTON_SAVE_PROGRESS_TOOLTIP_MESSAGE);
+	}
+
+	function onUploadProgress(tabId, index, maxIndex) {
+		onProgress(tabId, index, maxIndex, BUTTON_UPLOAD_PROGRESS_TOOLTIP_MESSAGE);
+	}
+
+	function onProgress(tabId, index, maxIndex, tooltipMessage) {
 		const progress = Math.max(Math.min(20, Math.floor((index / maxIndex) * 20)), 0);
 		const barProgress = Math.min(Math.floor((index / maxIndex) * 8), 8);
 		const path = WAIT_ICON_PATH_PREFIX + barProgress + ".png";
 		const state = getButtonState("progress");
-		state.setTitle = { title: BUTTON_SAVE_PROGRESS_TOOLTIP_MESSAGE + (progress * 5) + "%" };
+		state.setTitle = { title: tooltipMessage + (progress * 5) + "%" };
 		state.setIcon = { path };
 		refresh(tabId, state);
 	}

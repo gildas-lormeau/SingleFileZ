@@ -24,6 +24,8 @@
 
 singlefile.extension.core.bg.tabs = (() => {
 
+	const pendingPrompts = new Map();
+
 	browser.tabs.onCreated.addListener(tab => onTabCreated(tab));
 	browser.tabs.onActivated.addListener(activeInfo => onTabActivated(activeInfo));
 	browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => onTabUpdated(tabId, changeInfo, tab));
@@ -55,7 +57,62 @@ singlefile.extension.core.bg.tabs = (() => {
 			});
 		},
 		sendMessage: (tabId, message, options) => browser.tabs.sendMessage(tabId, message, options),
-		remove: tabId => browser.tabs.remove(tabId)
+		remove: tabId => browser.tabs.remove(tabId),
+		promptValue: async promptMessage => {
+			const tabs = await browser.tabs.query({ currentWindow: true, active: true });
+			return new Promise(async (resolve, reject) => {
+				const selectedTabId = tabs[0].id;
+				browser.tabs.onRemoved.addListener(onTabRemoved);
+				pendingPrompts.set(selectedTabId, { resolve, reject });
+				browser.tabs.sendMessage(selectedTabId, { method: "common.promptValueRequest", promptMessage });
+
+				function onTabRemoved(tabId) {
+					if (tabId == selectedTabId) {
+						pendingPrompts.delete(tabId);
+						browser.tabs.onUpdated.removeListener(onTabRemoved);
+						reject();
+					}
+				}
+			});
+		},
+		extractAuthCode: authURL => {
+			return new Promise((resolve, reject) => {
+				let authTabId;
+				browser.tabs.onUpdated.addListener(onTabUpdated);
+				browser.tabs.onRemoved.addListener(onTabRemoved);
+
+				function onTabUpdated(tabId, changeInfo) {
+					if (changeInfo && changeInfo.url == authURL) {
+						authTabId = tabId;
+					}
+					if (authTabId == tabId && changeInfo && changeInfo.title && changeInfo.title.startsWith("Success code=")) {
+						browser.tabs.onUpdated.removeListener(onTabUpdated);
+						browser.tabs.onUpdated.removeListener(onTabRemoved);
+						resolve(changeInfo.title.substring(13, changeInfo.title.length - 49));
+					}
+				}
+
+				function onTabRemoved(tabId) {
+					if (tabId == authTabId) {
+						browser.tabs.onUpdated.removeListener(onTabUpdated);
+						browser.tabs.onUpdated.removeListener(onTabRemoved);
+						reject();
+					}
+				}
+			});
+		},
+		launchWebAuthFlow: async options => {
+			const tab = await browser.tabs.create({ url: options.url, active: true });
+			return new Promise((resolve, reject) => {
+				browser.tabs.onRemoved.addListener(onTabRemoved);
+				function onTabRemoved(tabId) {
+					if (tabId == tab.id) {
+						browser.tabs.onRemoved.removeListener(onTabRemoved);
+						reject(new Error("code_required"));
+					}
+				}
+			});
+		}
 	};
 
 	async function onMessage(message) {
@@ -76,6 +133,7 @@ singlefile.extension.core.bg.tabs = (() => {
 	function onTabUpdated(tabId, changeInfo, tab) {
 		if (changeInfo.status == "loading") {
 			singlefile.extension.ui.bg.main.onTabUpdated(tabId, changeInfo, tab);
+			singlefile.extension.core.bg.business.onTabUpdated(tabId, changeInfo, tab);
 		}
 		if (changeInfo.status == "complete") {
 			singlefile.extension.core.bg.autosave.onTabUpdated(tabId, changeInfo, tab);
@@ -84,6 +142,7 @@ singlefile.extension.core.bg.tabs = (() => {
 
 	function onTabRemoved(tabId) {
 		singlefile.extension.core.bg.tabsData.onTabRemoved(tabId);
+		singlefile.extension.core.bg.business.onTabRemoved(tabId);
 	}
 
 })();

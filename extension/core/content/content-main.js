@@ -59,7 +59,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			return {};
 		}
 		if (message.method == "content.download") {
-			message.content = new Uint8Array(message.content);			
+			message.content = new Uint8Array(message.content);
 			if (message.truncated) {
 				pageContents.push(message.content);
 			} else {
@@ -94,6 +94,9 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				try {
 					const pageData = await processPage(options);
 					if (pageData) {
+						if ((!options.backgroundSave || options.saveToGDrive) && options.confirmFilename) {
+							pageData.filename = ui.prompt("Save as", pageData.filename) || pageData.filename;
+						}
 						await downloadPage(pageData, options);
 					}
 				} catch (error) {
@@ -235,6 +238,9 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				confirmFilename: options.confirmFilename,
 				filenameConflictAction: options.filenameConflictAction,
 				filename: pageData.filename,
+				saveToGDrive: options.saveToGDrive,
+				forceWebAuthFlow: options.forceWebAuthFlow,
+				extractAuthCode: options.extractAuthCode,
 				filenameReplacementCharacter: options.filenameReplacementCharacter,
 				includeInfobar: options.includeInfobar,
 				backgroundSave: options.backgroundSave

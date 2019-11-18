@@ -87,6 +87,10 @@
         "message": "Speicherung aktiviert: ",
         "description": "Button title during save: 'Save progress: xx%'"
     },
+	"buttonUploadProgressTooltip": {
+		"message": "Upload aktiviert: ",
+		"description": "Button title during save: 'Upload progress: xx%'"
+	},
     "buttonOKBadge": {
         "message": "OK",
         "description": "Badge label: 'OK'"
@@ -359,6 +363,10 @@
         "message": "Originalseite sichern",
         "description": "Options page label: 'save raw page'"
     },
+	"optionSaveToGDrive": {
+		"message": "In Google Drive speichern",
+		"description": "Options page label: 'save to Google Drive'"
+	},
     "optionsHelpLink": {
         "message": "Hilfe",
         "description": "Options help link"

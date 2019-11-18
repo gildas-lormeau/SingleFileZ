@@ -87,6 +87,10 @@
         "message": "保存進度：",
         "description": "保存時候的按鈕標題: '保存進度：xx%'"
     },
+    "buttonUploadProgressTooltip": {
+        "message": "Upload progress: ",
+        "description": "Button title during save: 'Upload progress: xx%'"
+    },
     "buttonOKBadge": {
         "message": "完成",
         "description": "徽標標籤: 'OK'"
@@ -339,10 +343,10 @@
         "message": "其他",
         "description": "選項頁副標題: '其他'"
     },
-	"optionBackgroundSave": {
-		"message": "在後台保存頁面",
-		"description": "選項頁標籤: '在後台保存頁面'"
-	},
+    "optionBackgroundSave": {
+        "message": "在後台保存頁面",
+        "description": "選項頁標籤: '在後台保存頁面'"
+    },
     "optionDisplayStats": {
         "message": "處理後在控制台消息中顯示統計",
         "description": "選項頁標籤: '處理後在控制台消息中顯示統計'"
@@ -359,6 +363,10 @@
         "message": "保存原始頁面",
         "description": "選項頁標籤: '保存原始頁面'"
     },
+	"optionSaveToGDrive": {
+		"message": "save to Google Drive",
+		"description": "Options page label: 'save to Google Drive'"
+	},
     "optionsHelpLink": {
         "message": "幫助",
         "description": "選項頁幫助鏈接"
