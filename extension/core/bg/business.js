@@ -130,10 +130,11 @@ singlefile.extension.core.bg.business = (() => {
 		}
 	}
 
-	async function saveLink(url) {
+	async function saveLink(url, options = {}) {
 		const tabs = singlefile.extension.core.bg.tabs;
 		const tab = await tabs.create({ url, active: false });
-		await saveTabs([tab], { autoClose: true });
+		options.autoClose = true;
+		await saveTabs([tab], options);
 	}
 
 	async function cancelTab(tabId) {
