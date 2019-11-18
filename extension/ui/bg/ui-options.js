@@ -159,6 +159,11 @@
 	const promptConfirmButton = document.getElementById("promptConfirmButton");
 
 	let sidePanelDisplay;
+	if (location.href.endsWith("#side-panel")) {
+		sidePanelDisplay = true;
+		document.querySelector(".options-title").remove();
+		document.documentElement.classList.add("side-panel");
+	}
 	browser.runtime.onMessage.addListener(message => {
 		if (message.method == "options.refresh" || (message.method == "options.refreshPanel" && sidePanelDisplay)) {
 			refresh(message.profileName);
@@ -457,11 +462,6 @@
 	if (location.href.endsWith("#")) {
 		document.querySelector(".new-window-link").remove();
 		document.documentElement.classList.add("maximized");
-	}
-	if (location.href.endsWith("#side-panel")) {
-		sidePanelDisplay = true;
-		document.querySelector(".options-title").remove();
-		document.documentElement.classList.add("side-panel");
 	}
 	const tabsData = await browser.runtime.sendMessage({ method: "tabsData.get" });
 	refresh(tabsData.profileName);
