@@ -126,6 +126,7 @@ singlefile.extension.ui.bg.button = (() => {
 		onForbiddenDomain,
 		onError,
 		onEnd,
+		onCancelled,
 		refreshTab
 	};
 

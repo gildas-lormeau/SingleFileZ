@@ -48,6 +48,9 @@ singlefile.extension.ui.bg.main = (() => {
 		onEnd(tabId, autoSave) {
 			singlefile.extension.ui.bg.button.onEnd(tabId, autoSave);
 		},
+		onCancelled(tabId) {
+			singlefile.extension.ui.bg.button.onCancelled(tabId);
+		},
 		onUploadProgress(tabId, index, maxIndex) {
 			singlefile.extension.ui.bg.button.onUploadProgress(tabId, index, maxIndex);
 		},
