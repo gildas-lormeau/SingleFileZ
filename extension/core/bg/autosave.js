@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global singlefile, URL, Blob */
+/* global singlefile, URL */
 
 singlefile.extension.core.bg.autosave = (() => {
 
