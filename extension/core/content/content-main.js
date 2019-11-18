@@ -27,8 +27,6 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 
 	const singlefile = this.singlefile;
 
-	const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
-
 	let ui, processing = false, processor, pageContents = [];
 
 	singlefile.lib.main.init({
@@ -97,7 +95,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 						if ((!options.backgroundSave || options.saveToGDrive) && options.confirmFilename) {
 							pageData.filename = ui.prompt("Save as", pageData.filename) || pageData.filename;
 						}
-						await downloadPage(pageData, options);
+						await singlefile.extension.core.content.download.downloadPage(pageData, options);
 					}
 				} catch (error) {
 					if (!processor.cancelled) {
@@ -227,34 +225,6 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			}
 		}
 		return page;
-	}
-
-	async function downloadPage(pageData, options) {
-		const content = JSON.stringify({ resources: pageData.resources, content: pageData.content, title: pageData.title, viewport: pageData.viewport, doctype: pageData.doctype });
-		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
-			const message = {
-				method: "downloads.download",
-				insertTextBody: options.insertTextBody,
-				confirmFilename: options.confirmFilename,
-				filenameConflictAction: options.filenameConflictAction,
-				filename: pageData.filename,
-				saveToGDrive: options.saveToGDrive,
-				forceWebAuthFlow: options.forceWebAuthFlow,
-				extractAuthCode: options.extractAuthCode,
-				filenameReplacementCharacter: options.filenameReplacementCharacter,
-				includeInfobar: options.includeInfobar,
-				backgroundSave: options.backgroundSave
-			};
-			message.truncated = content.length > MAX_CONTENT_SIZE;
-			if (message.truncated) {
-				message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.length;
-				message.content = content.substring(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
-			} else {
-				message.content = content;
-			}
-			await browser.runtime.sendMessage(message);
-		}
-		await browser.runtime.sendMessage({ method: "downloads.end", autoClose: options.autoClose });
 	}
 
 })();

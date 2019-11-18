@@ -38,6 +38,7 @@ singlefile.extension.core.bg.business = (() => {
 		"extension/core/index.js",
 		"extension/ui/index.js",
 		"extension/core/content/content-main.js",
+		"extension/core/content/content-download.js",
 		"extension/ui/content/content-ui-main.js"
 	];
 
