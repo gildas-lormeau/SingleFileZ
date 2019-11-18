@@ -1,0 +1,214 @@
+html {
+    background-color: #f0f0f0;
+}
+
+body {
+    margin: 0;
+}
+
+main {
+    background-color: #fff;
+    border: solid 1px rgb(191, 191, 191);
+}
+
+main,
+header {
+    font-size: 12px;
+    font-family: sans-serif;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1024px;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    background-color: #fbfbfb;
+    border-color: rgb(191, 191, 191);
+    border-style: solid;
+    border-radius: 2px;
+    border-width: 1px;
+    color: black;
+}
+
+button:not([disabled]):hover {
+    background-color: #ededed;
+}
+
+header button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    align-self: flex-end;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.result-row {
+    display: flex;
+    flex-direction: row;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-height: 40px;
+}
+
+.result-row:not(:first-child) {
+    border-top: #bfbfbf 1px dashed;
+}
+
+.result-head {
+    background-color: #ececec;
+}
+
+.result-row>span {
+    padding: 10px;
+    align-self: center;
+}
+
+.result-row>span>span {
+    padding: 5px;
+}
+
+.result-head .unselected {
+    opacity: .5;
+}
+
+.result-url-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    white-space: nowrap;
+    user-select: none;
+    cursor: pointer;
+}
+
+.result-row:not(.result-head) .result-url-title {
+    cursor: pointer;
+}
+
+.result-status {
+    min-width: 120px;
+}
+
+.result-cancel {
+    text-align: right;
+    width: 19px;
+}
+
+.result-cancel button {
+    background-color: #fbfbfb;
+    width: 19px;
+    padding: 0;
+}
+
+.no-result {
+    color: #888;
+}
+
+html.side-panel,
+.side-panel .result-head,
+.side-panel main {
+    background-color: #fbfbfb;
+}
+
+.side-panel header button {
+    position: absolute;
+    top: 4px;
+    right: 12px;
+}
+
+.side-panel main {
+    border: 0;
+    margin-left: 8px;
+    margin-right: 12px;
+}
+
+.side-panel .result-status {
+    display: none;
+}
+
+.side-panel .result-row>span,
+.side-panel .result-row>span>span {
+    padding: 0px;
+}
+
+@media (max-width:400px) {
+
+    main,
+    header,
+    header>button {
+        font-size: 11px;
+    }
+
+    .result-row {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        min-height: 30px;
+    }
+
+    .side-panel header button {
+        top: 0px;        
+    }    
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: #373737;
+        color: #fdfdfd;
+    }
+
+    main {
+        border-color: rgb(81, 81, 81);
+    }
+
+    main,
+    button {
+        background-color: #202023;
+        color: #fdfdfd;
+    }
+
+    .result-row {
+        color: #dedede;
+    }
+
+    .result-head {
+        background-color: #191919;
+        color: #fdfdfd;
+    }
+
+    .no-result {
+        color: #888;
+    }
+
+    .result-cancel button {
+        color: #202023;
+    }
+
+    .result-cancel button:hover {
+        background-color: #ccc;
+    }
+
+    button:hover {
+        color: #2A2A2E;
+    }
+
+    html.side-panel,
+    .side-panel .result-head,
+    .side-panel main,
+    .side-panel button {
+        background-color: #38383d;
+    }
+
+    .side-panel .result-head {
+        border-bottom: dashed 1px rgb(191, 191, 191);
+    }
+
+    .side-panel .result-cancel button {
+        color: #fdfdfd;
+    }
+}

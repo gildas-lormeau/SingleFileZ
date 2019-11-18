@@ -7,6 +7,10 @@
         "message": "使用 SingleFileZ 保存頁面",
         "description": "菜單項: '使用 SingleFileZ 保存頁面'"
     },
+    "menuViewPendingSaves": {
+        "message": "View pending saves...",
+        "description": "Menu entry: 'View pending saves...'"
+    },
     "menuSelectProfile": {
         "message": "選擇默認配置文件",
         "description": "Menu entry: 'Select the default profile'"
@@ -363,10 +367,10 @@
         "message": "保存原始頁面",
         "description": "選項頁標籤: '保存原始頁面'"
     },
-	"optionSaveToGDrive": {
-		"message": "save to Google Drive",
-		"description": "Options page label: 'save to Google Drive'"
-	},
+    "optionSaveToGDrive": {
+        "message": "save to Google Drive",
+        "description": "Options page label: 'save to Google Drive'"
+    },
     "optionsHelpLink": {
         "message": "幫助",
         "description": "選項頁幫助鏈接"
@@ -454,6 +458,42 @@
     "profileRenamePrompt": {
         "message": "為所選配置文件輸入新名字",
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
+    },
+    "pendingsTitle": {
+        "message": "Pending saves",
+        "description": "Title of the pending save page 'Pending saves' in the editor"
+    },
+    "pendingsCancelAllButton": {
+        "message": "Cancel all",
+        "description": "Pending saves button 'Cancel all'"
+    },
+    "pendingsTitleTitle": {
+        "message": "Title",
+        "description": "Title of the first column in the table of the pending saves 'Title'"
+    },
+    "pendingsURLTitle": {
+        "message": "URL",
+        "description": "Title of the first column in the table of the pending saves 'URL'"
+    },
+    "pendingsStatusTitle": {
+        "message": "status",
+        "description": "Title of the second column in the table of the pending saves 'status'"
+    },
+    "pendingsPendingStatus": {
+        "message": "pending",
+        "description": "Value of 'status' for pending saves"
+    },
+    "pendingsProcessingStatus": {
+        "message": "processing",
+        "description": "Value of 'status' for current saves"
+    },
+    "pendingsCancellingStatus": {
+        "message": "cancelling",
+        "description": "Value of 'status' for cancelled saves"
+    },
+    "pendingsNoPendings": {
+        "message": "No pending saves",
+        "description": "Label displayed when they are no pending saves"
     },
     "__WET_LOCALE__": {
         "message": "zh_TW"

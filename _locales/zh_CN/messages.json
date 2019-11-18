@@ -7,6 +7,10 @@
         "message": "使用 SingleFileZ 保存页面",
         "description": "菜单项: '使用 SingleFileZ 保存页面'"
     },
+    "menuViewPendingSaves": {
+        "message": "View pending saves...",
+        "description": "Menu entry: 'View pending saves...'"
+    },
     "menuSelectProfile": {
         "message": "选择默认配置文件",
         "description": "Menu entry: 'Select the default profile'"
@@ -87,10 +91,10 @@
         "message": "保存进度：",
         "description": "保存时候的按钮标题: '保存进度：xx%'"
     },
-	"buttonUploadProgressTooltip": {
-		"message": "Upload progress: ",
-		"description": "Button title during save: 'Upload progress: xx%'"
-	},
+    "buttonUploadProgressTooltip": {
+        "message": "Upload progress: ",
+        "description": "Button title during save: 'Upload progress: xx%'"
+    },
     "buttonOKBadge": {
         "message": "完成",
         "description": "徽标标签: 'OK'"
@@ -343,10 +347,10 @@
         "message": "其他",
         "description": "选项页副标题: '其他'"
     },
-	"optionBackgroundSave": {
-		"message": "在后台保存页面",
-		"description": "选项页标签: '在后台保存页面'"
-	},
+    "optionBackgroundSave": {
+        "message": "在后台保存页面",
+        "description": "选项页标签: '在后台保存页面'"
+    },
     "optionDisplayStats": {
         "message": "处理后在控制台消息中显示统计",
         "description": "选项页标签: '处理后在控制台消息中显示统计'"
@@ -363,10 +367,10 @@
         "message": "保存原始页面",
         "description": "选项页标签: '保存原始页面'"
     },
-	"optionSaveToGDrive": {
-		"message": "save to Google Drive",
-		"description": "Options page label: 'save to Google Drive'"
-	},
+    "optionSaveToGDrive": {
+        "message": "save to Google Drive",
+        "description": "Options page label: 'save to Google Drive'"
+    },
     "optionsHelpLink": {
         "message": "帮助",
         "description": "选项页帮助链接"
@@ -454,6 +458,42 @@
     "profileRenamePrompt": {
         "message": "为所选配置文件输入新名字",
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
+    },
+    "pendingsTitle": {
+        "message": "Pending saves",
+        "description": "Title of the pending save page 'Pending saves' in the editor"
+    },
+    "pendingsCancelAllButton": {
+        "message": "Cancel all",
+        "description": "Pending saves button 'Cancel all'"
+    },
+    "pendingsTitleTitle": {
+        "message": "Title",
+        "description": "Title of the first column in the table of the pending saves 'Title'"
+    },
+    "pendingsURLTitle": {
+        "message": "URL",
+        "description": "Title of the first column in the table of the pending saves 'URL'"
+    },
+    "pendingsStatusTitle": {
+        "message": "status",
+        "description": "Title of the second column in the table of the pending saves 'status'"
+    },
+    "pendingsPendingStatus": {
+        "message": "pending",
+        "description": "Value of 'status' for pending saves"
+    },
+    "pendingsProcessingStatus": {
+        "message": "processing",
+        "description": "Value of 'status' for current saves"
+    },
+    "pendingsCancellingStatus": {
+        "message": "cancelling",
+        "description": "Value of 'status' for cancelled saves"
+    },
+    "pendingsNoPendings": {
+        "message": "No pending saves",
+        "description": "Label displayed when they are no pending saves"
     },
     "__WET_LOCALE__": {
         "message": "zh-cn"

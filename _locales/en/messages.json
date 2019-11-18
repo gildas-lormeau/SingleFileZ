@@ -7,6 +7,10 @@
         "message": "Save page with SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
+    "menuViewPendingSaves": {
+        "message": "View pending saves...",
+        "description": "Menu entry: 'View pending saves...'"
+    },
     "menuSelectProfile": {
         "message": "Select the default profile",
         "description": "Menu entry: 'Select the default profile'"
@@ -87,10 +91,10 @@
         "message": "Save progress: ",
         "description": "Button title during save: 'Save progress: xx%'"
     },
-	"buttonUploadProgressTooltip": {
-		"message": "Upload progress: ",
-		"description": "Button title during save: 'Upload progress: xx%'"
-	},
+    "buttonUploadProgressTooltip": {
+        "message": "Upload progress: ",
+        "description": "Button title during save: 'Upload progress: xx%'"
+    },
     "buttonOKBadge": {
         "message": "OK",
         "description": "Badge label: 'OK'"
@@ -134,7 +138,7 @@
     "optionIncludeInfobar": {
         "message": "include the infobar in the saved page",
         "description": "Options page label: 'include the infobar in the saved page'"
-    },    
+    },
     "optionConfirmInfobar": {
         "message": "open a prompt dialog to edit the infobar content",
         "description": "Options page label: 'open a prompt dialog to edit the infobar content'"
@@ -343,10 +347,10 @@
         "message": "Misc.",
         "description": "Options sub-title: 'Misc.'"
     },
-	"optionBackgroundSave": {
-		"message": "save pages in background",
-		"description": "Options page label: 'save pages in background'"
-	},
+    "optionBackgroundSave": {
+        "message": "save pages in background",
+        "description": "Options page label: 'save pages in background'"
+    },
     "optionDisplayStats": {
         "message": "display stats in the console after processing",
         "description": "Options page label: 'display stats in the console after processing'"
@@ -363,10 +367,10 @@
         "message": "save raw page",
         "description": "Options page label: 'save raw page'"
     },
-	"optionSaveToGDrive": {
-		"message": "save to Google Drive",
-		"description": "Options page label: 'save to Google Drive'"
-	},
+    "optionSaveToGDrive": {
+        "message": "save to Google Drive",
+        "description": "Options page label: 'save to Google Drive'"
+    },
     "optionsHelpLink": {
         "message": "help",
         "description": "Options help link"
@@ -454,5 +458,41 @@
     "profileRenamePrompt": {
         "message": "Enter a new name for the selected profile",
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
+    },
+    "pendingsTitle": {
+        "message": "Pending saves",
+        "description": "Title of the pending save page 'Pending saves' in the editor"
+    },
+    "pendingsCancelAllButton": {
+        "message": "Cancel all",
+        "description": "Pending saves button 'Cancel all'"
+    },
+    "pendingsURLTitle": {
+        "message": "URL",
+        "description": "Title of the first column in the table of the pending saves 'URL'"
+    },
+    "pendingsTitleTitle": {
+        "message": "Title",
+        "description": "Title of the first column in the table of the pending saves 'Title'"
+    },
+    "pendingsStatusTitle": {
+        "message": "status",
+        "description": "Title of the second column in the table of the pending saves 'status'"
+    },
+    "pendingsPendingStatus": {
+        "message": "pending",
+        "description": "Value of 'status' for pending saves"
+    },
+    "pendingsProcessingStatus": {
+        "message": "processing",
+        "description": "Value of 'status' for current saves"
+    },
+    "pendingsCancellingStatus": {
+        "message": "cancelling",
+        "description": "Value of 'status' for cancelled saves"
+    },
+    "pendingsNoPendings": {
+        "message": "No pending saves",
+        "description": "Label displayed when they are no pending saves"
     }
 }

@@ -28,6 +28,7 @@ singlefile.extension.ui.bg.menus = (() => {
 	const menus = browser.menus || browser.contextMenus;
 	const BROWSER_MENUS_API_SUPPORTED = menus && menus.onClicked && menus.create && menus.update && menus.removeAll;
 	const MENU_ID_SAVE_PAGE = "save-page";
+	const MENU_ID_VIEW_PENDINGS = "view-pendings";
 	const MENU_ID_SELECT_PROFILE = "select-profile";
 	const MENU_ID_SELECT_PROFILE_PREFIX = "select-profile-";
 	const MENU_ID_ASSOCIATE_WITH_PROFILE = "associate-with-profile";
@@ -49,6 +50,7 @@ singlefile.extension.ui.bg.menus = (() => {
 	const MENU_CREATE_DOMAIN_RULE_MESSAGE = browser.i18n.getMessage("menuCreateDomainRule");
 	const MENU_UPDATE_RULE_MESSAGE = browser.i18n.getMessage("menuUpdateRule");
 	const MENU_SAVE_PAGE_MESSAGE = browser.i18n.getMessage("menuSavePage");
+	const MENU_VIEW_PENDINGS_MESSAGE = browser.i18n.getMessage("menuViewPendingSaves");
 	const MENU_SAVE_SELECTION_MESSAGE = browser.i18n.getMessage("menuSaveSelection");
 	const MENU_SAVE_FRAME_MESSAGE = browser.i18n.getMessage("menuSaveFrame");
 	const MENU_SAVE_TABS_MESSAGE = browser.i18n.getMessage("menuSaveTabs");
@@ -303,6 +305,16 @@ singlefile.extension.ui.bg.menus = (() => {
 				parentId: MENU_ID_AUTO_SAVE
 			});
 			menusCheckedState.set(MENU_ID_AUTO_SAVE_ALL, false);
+			menus.create({
+				id: "separator-4",
+				contexts: defaultContexts,
+				type: "separator"
+			});
+			menus.create({
+				id: MENU_ID_VIEW_PENDINGS,
+				contexts: defaultContexts,
+				title: MENU_VIEW_PENDINGS_MESSAGE
+			});
 		}
 		menusCreated = true;
 		if (pendingRefresh) {
@@ -325,6 +337,9 @@ singlefile.extension.ui.bg.menus = (() => {
 					} else {
 						business.saveTabs([tab]);
 					}
+				}
+				if (event.menuItemId == MENU_ID_VIEW_PENDINGS) {
+					await tabs.create({ active: true, url: "/extension/ui/pages/pendings.html" });
 				}
 				if (event.menuItemId == MENU_ID_SAVE_SELECTED) {
 					business.saveTabs([tab], { selected: true });

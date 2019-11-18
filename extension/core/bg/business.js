@@ -48,6 +48,7 @@ singlefile.extension.core.bg.business = (() => {
 		saveTabs,
 		saveLink,
 		cancelTab,
+		cancelAllTabs: () => Array.from(pendingSaves).forEach(([tabId]) => cancelTab(tabId)),
 		getTabsInfo: () => Array.from(pendingSaves).map(mapSaveInfo),
 		getTabInfo: tabId => pendingSaves.get(tabId),
 		setCancelCallback: (tabId, cancelCallback) => {

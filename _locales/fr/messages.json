@@ -7,6 +7,10 @@
         "message": "Sauver la page avec SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
+	"menuViewPendingSaves": {
+		"message": "Afficher les sauvegardes en cours...",
+		"description": "Menu entry: 'View pending saves...'"
+	},
     "menuSelectProfile": {
         "message": "Sélectionner le profil par défaut",
         "description": "Menu entry: 'Select the default profile'"
@@ -454,5 +458,41 @@
     "profileRenamePrompt": {
         "message": "Saisissez un nouveau nom pour le profil sélectionné",
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
-    }
+    },
+	"pendingsTitle": {
+		"message": "Sauvegardes en cours",
+		"description": "Title of the pending save page 'Pending saves' in the editor"
+	},
+	"pendingsCancelAllButton": {
+		"message": "Annuler tout",
+		"description": "Pending saves button 'Cancel all'"
+	},
+	"pendingsTitleTitle": {
+		"message": "Titre",
+		"description": "Title of the first column in the table of the pending saves 'Title'"
+	},
+	"pendingsURLTitle": {
+		"message": "URL",
+		"description": "Title of the first column in the table of the pending saves 'URL'"
+	},
+	"pendingsStatusTitle": {
+		"message": "statut",
+		"description": "Title of the second column in the table of the pending saves 'status'"
+	},
+	"pendingsPendingStatus": {
+		"message": "en attente",
+		"description": "Value of 'status' for pending saves"
+	},
+	"pendingsProcessingStatus": {
+		"message": "en cours",
+		"description": "Value of 'status' for current saves"
+	},
+	"pendingsCancellingStatus": {
+		"message": "annulation",
+		"description": "Value of 'status' for cancelled saves"
+	},
+	"pendingsNoPendings": {
+		"message": "Aucune sauvegarde en cours",
+		"description": "Label displayed when they are no pending saves"
+	}
 }
