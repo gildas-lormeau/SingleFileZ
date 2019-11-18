@@ -458,12 +458,12 @@
 		document.querySelector(".new-window-link").remove();
 		document.documentElement.classList.add("maximized");
 	}
-	const tabsData = await browser.runtime.sendMessage({ method: "tabsData.get" });
 	if (location.href.endsWith("#side-panel")) {
 		sidePanelDisplay = true;
 		document.querySelector(".options-title").remove();
 		document.documentElement.classList.add("side-panel");
 	}
+	const tabsData = await browser.runtime.sendMessage({ method: "tabsData.get" });
 	refresh(tabsData.profileName);
 
 	async function refresh(profileName) {
