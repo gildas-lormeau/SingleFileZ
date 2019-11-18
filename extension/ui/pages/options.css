@@ -86,6 +86,17 @@ h3 a {
     padding-left: 5px;
 }
 
+.sync-input {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.sync-input input {
+    margin: 0;
+    margin-right: 4px;
+    vertical-align: bottom;
+}
+
 .buttons {
     white-space: nowrap;
 }

@@ -371,6 +371,10 @@
         "message": "ヘルプ",
         "description": "Options help link"
     },
+	"optionSynchronize": {
+		"message": "synchronize options",
+		"description": "Options label: 'synchronize options'"
+	},
 	"optionSaveToGDrive": {
 		"message": "save to Google Drive",
 		"description": "Options page label: 'save to Google Drive'"
