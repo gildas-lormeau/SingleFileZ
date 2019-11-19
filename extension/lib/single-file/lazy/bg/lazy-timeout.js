@@ -43,6 +43,5 @@
 			return Promise.resolve({ id: message.id });
 		}
 	});
-	return {};
 
 })();
