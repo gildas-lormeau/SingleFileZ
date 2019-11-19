@@ -45,7 +45,8 @@ singlefile.extension.core.bg.downloads = (() => {
 	return {
 		onMessage,
 		download,
-		downloadPage
+		downloadPage,
+		uploadPage
 	};
 
 	async function onMessage(message, sender) {
