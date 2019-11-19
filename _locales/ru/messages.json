@@ -8,7 +8,7 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
 	"menuViewPendingSaves": {
-		"message": "View pending saves...",
+		"message": "Просмотр отложенных сохранений...",
 		"description": "Menu entry: 'View pending saves...'"
 	},
     "menuSelectProfile": {
@@ -376,7 +376,7 @@
         "description": "Options help link"
     },
 	"optionSynchronize": {
-		"message": "synchronize options",
+		"message": "параметры синхронизации",
 		"description": "Options label: 'synchronize options'"
 	},
     "optionsResetButton": {
@@ -464,15 +464,15 @@
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
     },
 	"pendingsTitle": {
-		"message": "Pending saves",
+		"message": "Отложенное сохранение",
 		"description": "Title of the pending save page 'Pending saves' in the editor"
 	},
 	"pendingsCancelAllButton": {
-		"message": "Cancel all",
+		"message": "Отменить все",
 		"description": "Pending saves button 'Cancel all'"
 	},
 	"pendingsTitleTitle": {
-		"message": "Title",
+		"message": "Заголовок",
 		"description": "Title of the first column in the table of the pending saves 'Title'"
 	},
 	"pendingsURLTitle": {
@@ -480,23 +480,23 @@
 		"description": "Title of the first column in the table of the pending saves 'URL'"
 	},
 	"pendingsStatusTitle": {
-		"message": "status",
+		"message": "статус",
 		"description": "Title of the second column in the table of the pending saves 'status'"
 	},
 	"pendingsPendingStatus": {
-		"message": "pending",
+		"message": "отложено",
 		"description": "Value of 'status' for pending saves"
 	},
 	"pendingsProcessingStatus": {
-		"message": "processing",
+		"message": "выполнение",
 		"description": "Value of 'status' for current saves"
 	},
 	"pendingsCancellingStatus": {
-		"message": "cancelling",
+		"message": "отмена",
 		"description": "Value of 'status' for cancelled saves"
 	},
 	"pendingsNoPendings": {
-		"message": "No pending saves",
+		"message": "Нет отложенных сохранений",
 		"description": "Label displayed when they are no pending saves"
 	}
 }
