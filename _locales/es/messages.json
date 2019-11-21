@@ -143,7 +143,7 @@
         "message": "abrir un cuadro de diálogo para editar el contenido de la barra informativa",
         "description": "Options page label: 'open a prompt dialog to edit the infobar content'"
     },
-    "optionAutoCloseLabel": {
+    "optionAutoClose": {
         "message": "cerrar automáticamente la pestaña después de guardar la página",
         "description": "Options page label: 'auto-close the tab after the page is saved'"
     },

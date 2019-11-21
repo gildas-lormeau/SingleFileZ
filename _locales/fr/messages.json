@@ -143,7 +143,7 @@
         "message": "ouvrir une boite de dialogue pour éditer le contenu de la barre d'information",
         "description": "Options page label: 'open a prompt dialog to edit the infobar content'"
     },
-    "optionAutoCloseLabel": {
+    "optionAutoClose": {
         "message": "fermer automatiquement l'onglet après l'enregistrement de la page",
         "description": "Options page label: 'auto-close the tab after the page is saved'"
     },
