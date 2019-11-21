@@ -34,6 +34,7 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 			const message = {
 				method: "downloads.download",
+				taskId: options.taskId,
 				insertTextBody: options.insertTextBody,
 				confirmFilename: options.confirmFilename,
 				filenameConflictAction: options.filenameConflictAction,
@@ -54,7 +55,7 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 			}
 			await browser.runtime.sendMessage(message);
 		}
-		await browser.runtime.sendMessage({ method: "downloads.end", autoClose: options.autoClose });
+		await browser.runtime.sendMessage({ method: "downloads.end", taskId: options.taskId });
 	}
 
 })();
