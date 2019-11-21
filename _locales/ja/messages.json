@@ -8,7 +8,7 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
 	"menuViewPendingSaves": {
-		"message": "View pending saves...",
+		"message": "保留中の保存を表示...",
 		"description": "Menu entry: 'View pending saves...'"
 	},
     "menuSelectProfile": {
@@ -92,7 +92,7 @@
         "description": "Button title during save: 'Save progress: xx%'"
     },
 	"buttonUploadProgressTooltip": {
-		"message": "Progression de l'envoi: ",
+		"message": "アップロードの進行状況: ",
 		"description": "Button title during save: 'Upload progress: xx%'"
 	},
     "buttonOKBadge": {
@@ -208,7 +208,7 @@
         "description": "Options page label: 'save deferred images'"
     },
     "optionLoadDeferredImagesMaxIdleTime": {
-        "message": "最大アイドル時間（秒）",
+        "message": "最大アイドル時間（ミリ秒）",
         "description": "Options page label: 'maximum idle time (ms)'"
     },
     "optionRemoveAlternativeImages": {
@@ -372,11 +372,11 @@
         "description": "Options help link"
     },
 	"optionSynchronize": {
-		"message": "synchronize options",
+		"message": "同期オプション",
 		"description": "Options label: 'synchronize options'"
 	},
 	"optionSaveToGDrive": {
-		"message": "save to Google Drive",
+		"message": "Google Drive に保存",
 		"description": "Options page label: 'save to Google Drive'"
 	},
     "optionsResetButton": {
@@ -464,15 +464,15 @@
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
     },
 	"pendingsTitle": {
-		"message": "Pending saves",
+		"message": "保留中の保存",
 		"description": "Title of the pending save page 'Pending saves' in the editor"
 	},
 	"pendingsCancelAllButton": {
-		"message": "Cancel all",
+		"message": "すべてをキャンセルする",
 		"description": "Pending saves button 'Cancel all'"
 	},
 	"pendingsTitleTitle": {
-		"message": "Title",
+		"message": "タイトル",
 		"description": "Title of the first column in the table of the pending saves 'Title'"
 	},
 	"pendingsURLTitle": {
@@ -480,23 +480,23 @@
 		"description": "Title of the first column in the table of the pending saves 'URL'"
 	},
 	"pendingsStatusTitle": {
-		"message": "status",
+		"message": "状態",
 		"description": "Title of the second column in the table of the pending saves 'status'"
 	},
 	"pendingsPendingStatus": {
-		"message": "pending",
+		"message": "保留中",
 		"description": "Value of 'status' for pending saves"
 	},
 	"pendingsProcessingStatus": {
-		"message": "processing",
+		"message": "処理中",
 		"description": "Value of 'status' for current saves"
 	},
 	"pendingsCancellingStatus": {
-		"message": "cancelling",
+		"message": "キャンセル実行中",
 		"description": "Value of 'status' for cancelled saves"
 	},
 	"pendingsNoPendings": {
-		"message": "No pending saves",
+		"message": "保留中の保存はありません",
 		"description": "Label displayed when they are no pending saves"
 	}
 }
