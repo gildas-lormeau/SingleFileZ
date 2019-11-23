@@ -75,7 +75,7 @@ singlefile.extension.ui.bg.menus = (() => {
 		onMessage,
 		onTabCreated: refreshTab,
 		onTabActivated: refreshTab,
-		onTabUpdated: (tabId, changeInfo, tab) => refreshTab(tab),
+		onInit: refreshTab,
 		refreshTab: createMenus
 	};
 

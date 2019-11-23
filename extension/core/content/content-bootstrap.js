@@ -37,8 +37,12 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		refresh();
 	});
 	browser.runtime.onMessage.addListener(message => { onMessage(message); });
+	browser.runtime.sendMessage({ method: "tabs.init" });
 	browser.runtime.sendMessage({ method: "ui.processInit" });
-	addEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, () => browser.runtime.sendMessage({ method: "ui.processInit" }));
+	addEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, () => {
+		browser.runtime.sendMessage({ method: "tabs.init" });
+		browser.runtime.sendMessage({ method: "ui.processInit" });
+	});
 	if (window == top && location && location.href && location.href.startsWith("file:///") && document.documentElement.dataset.sfz !== undefined) {
 		if (document.readyState == "loading") {
 			document.addEventListener("DOMContentLoaded", extractFile, false);
