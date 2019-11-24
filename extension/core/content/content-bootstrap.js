@@ -33,6 +33,12 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	singlefile.extension.core.content.updatedResources = {};
 	browser.runtime.sendMessage({ method: "autosave.init" }).then(message => {
 		options = message.options;
+		if (document.readyState != "complete") {
+			return new Promise(resolve => window.onload = () => resolve(message));
+		} else {
+			return message;
+		}
+	}).then(message => {
 		autoSaveEnabled = message.autoSaveEnabled;
 		refresh();
 	});
