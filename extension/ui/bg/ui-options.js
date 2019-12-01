@@ -170,8 +170,7 @@
 		}
 	});
 	let pendingSave = Promise.resolve();
-	let autoSaveProfileChanged;
-	getHelpContents();
+	let autoSaveProfileChanged;	
 	ruleProfileInput.onchange = () => {
 		if (!autoSaveProfileChanged && ruleProfileInput.value != CURRENT_PROFILE_NAME) {
 			ruleAutoSaveProfileInput.value = ruleProfileInput.value;
@@ -464,6 +463,7 @@
 		document.documentElement.classList.add("maximized");
 	}
 	const tabsData = await browser.runtime.sendMessage({ method: "tabsData.get" });
+	getHelpContents();
 	refresh(tabsData.profileName);
 
 	async function refresh(profileName) {
