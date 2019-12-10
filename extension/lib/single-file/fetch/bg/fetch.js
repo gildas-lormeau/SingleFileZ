@@ -51,11 +51,15 @@
 			xhrRequest.onerror = event => reject(new Error(event.detail));
 			xhrRequest.onreadystatechange = () => {
 				if (xhrRequest.readyState == XMLHttpRequest.DONE) {
-					resolve({
-						array: Array.from(new Uint8Array(xhrRequest.response)),
-						headers: { "content-type": xhrRequest.getResponseHeader("Content-Type") },
-						status: xhrRequest.status
-					});
+					if (xhrRequest.status || xhrRequest.response.byteLength) {
+						resolve({
+							array: Array.from(new Uint8Array(xhrRequest.response)),
+							headers: { "content-type": xhrRequest.getResponseHeader("Content-Type") },
+							status: xhrRequest.status
+						});
+					} else {
+						reject();
+					}
 				}
 			};
 			xhrRequest.open("GET", url, true);
