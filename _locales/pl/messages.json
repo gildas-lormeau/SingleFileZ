@@ -7,10 +7,10 @@
         "message": "Zapisz stronę z SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
-	"menuViewPendingSaves": {
-		"message": "Zobacz oczekujące zapisy...",
-		"description": "Menu entry: 'View pending saves...'"
-	},
+    "menuViewPendingSaves": {
+        "message": "Zobacz oczekujące zapisy...",
+        "description": "Menu entry: 'View pending saves...'"
+    },
     "menuSelectProfile": {
         "message": "Wybierz profil domyślny",
         "description": "Menu entry: 'Select the default profile'"
@@ -91,10 +91,10 @@
         "message": "Postęp zapisywania: ",
         "description": "Button title during save: 'Save progress: xx%'"
     },
-	"buttonUploadProgressTooltip": {
-		"message": "Postęp przesyłania: ",
-		"description": "Button title during save: 'Upload progress: xx%'"
-	},
+    "buttonUploadProgressTooltip": {
+        "message": "Postęp przesyłania: ",
+        "description": "Button title during save: 'Upload progress: xx%'"
+    },
     "buttonOKBadge": {
         "message": "OK",
         "description": "Badge label: 'OK'"
@@ -347,10 +347,10 @@
         "message": "Różne",
         "description": "Options sub-title: 'Misc.'"
     },
-	"optionBackgroundSave": {
-		"message": "zapisuj strony w tle",
-		"description": "Options page label: 'save pages in background'"
-	},
+    "optionBackgroundSave": {
+        "message": "zapisuj strony w tle",
+        "description": "Options page label: 'save pages in background'"
+    },
     "optionDisplayStats": {
         "message": "wyświetlaj statystyki w konsoli po przetworzeniu",
         "description": "Options page label: 'display stats in the console after processing'"
@@ -367,18 +367,18 @@
         "message": "zapisuj surową stronę",
         "description": "Options page label: 'save raw page'"
     },
-	"optionSaveToGDrive": {
-		"message": "zapisuj na Dysku Google",
-		"description": "Options page label: 'save to Google Drive'"
-	},
+    "optionSaveToGDrive": {
+        "message": "zapisuj na Dysku Google",
+        "description": "Options page label: 'save to Google Drive'"
+    },
     "optionsHelpLink": {
         "message": "pomoc (w języku angielskim)",
         "description": "Options help link"
     },
-	"optionSynchronize": {
-		"message": "opcje synchronizacji",
-		"description": "Options label: 'synchronize options'"
-	},
+    "optionSynchronize": {
+        "message": "synchronizuj opcje",
+        "description": "Options label: 'synchronize options'"
+    },
     "optionsResetButton": {
         "message": "Resetuj",
         "description": "Options button: 'Reset'"
@@ -463,40 +463,40 @@
         "message": "Wpisz nową nazwę wybranego profilu",
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
     },
-	"pendingsTitle": {
-		"message": "Oczekujące zapisy",
-		"description": "Title of the pending save page 'Pending saves' in the editor"
-	},
-	"pendingsCancelAllButton": {
-		"message": "Anuluj wszystkie",
-		"description": "Pending saves button 'Cancel all'"
-	},
-	"pendingsTitleTitle": {
-		"message": "Tytuł",
-		"description": "Title of the first column in the table of the pending saves 'Title'"
-	},
-	"pendingsURLTitle": {
-		"message": "Adres URL",
-		"description": "Title of the first column in the table of the pending saves 'URL'"
-	},
-	"pendingsStatusTitle": {
-		"message": "status",
-		"description": "Title of the second column in the table of the pending saves 'status'"
-	},
-	"pendingsPendingStatus": {
-		"message": "oczekiwanie",
-		"description": "Value of 'status' for pending saves"
-	},
-	"pendingsProcessingStatus": {
-		"message": "przetwarzanie",
-		"description": "Value of 'status' for current saves"
-	},
-	"pendingsCancellingStatus": {
-		"message": "anulowanie",
-		"description": "Value of 'status' for cancelled saves"
-	},
-	"pendingsNoPendings": {
-		"message": "Brak oczekujących zapisów",
-		"description": "Label displayed when they are no pending saves"
-	}
+    "pendingsTitle": {
+        "message": "Oczekujące zapisy",
+        "description": "Title of the pending save page 'Pending saves' in the editor"
+    },
+    "pendingsCancelAllButton": {
+        "message": "Anuluj wszystkie",
+        "description": "Pending saves button 'Cancel all'"
+    },
+    "pendingsTitleTitle": {
+        "message": "Tytuł",
+        "description": "Title of the first column in the table of the pending saves 'Title'"
+    },
+    "pendingsURLTitle": {
+        "message": "Adres URL",
+        "description": "Title of the first column in the table of the pending saves 'URL'"
+    },
+    "pendingsStatusTitle": {
+        "message": "status",
+        "description": "Title of the second column in the table of the pending saves 'status'"
+    },
+    "pendingsPendingStatus": {
+        "message": "oczekiwanie",
+        "description": "Value of 'status' for pending saves"
+    },
+    "pendingsProcessingStatus": {
+        "message": "przetwarzanie",
+        "description": "Value of 'status' for current saves"
+    },
+    "pendingsCancellingStatus": {
+        "message": "anulowanie",
+        "description": "Value of 'status' for cancelled saves"
+    },
+    "pendingsNoPendings": {
+        "message": "Brak oczekujących zapisów",
+        "description": "Label displayed when they are no pending saves"
+    }
 }
