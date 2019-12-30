@@ -81,7 +81,8 @@ singlefile.extension.core.bg.config = (() => {
 		extractAuthCode: true,
 		insertTextBody: true,
 		resolveFragmentIdentifierURLs: false,
-		userScriptEnabled: false
+		userScriptEnabled: false,
+		saveCreatedBookmarks: false
 	};
 
 	let configStorage;
