@@ -14,6 +14,7 @@ By default, Chrome extensions are not allowed to access to pages stored on the f
 
 ## What are the permissions requested by SingleFileZ for?
 The permissions requested by SingleFileZ are defined in the [manifest.json](https://github.com/gildas-lormeau/SingleFileZ/blob/master/manifest.json) file. Below are the reasons why they are necessary.
+ - `identity`: allows SingleFile to connect to your Google Drive account.
  - `storage`: allows SingleFileZ to store your settings.
  - `menus/contextMenus`: allows SingleFileZ to display an entry in the context menu of web pages.
  - `tabs` (all_urls): allows SingleFileZ to inject the code needed to process a page in any tab. This permission is needed for saving several tabs in one click, for example.
