@@ -82,7 +82,8 @@ singlefile.extension.core.bg.config = (() => {
 		insertTextBody: true,
 		resolveFragmentIdentifierURLs: false,
 		userScriptEnabled: false,
-		saveCreatedBookmarks: false
+		saveCreatedBookmarks: false,
+		saveFavicon: false
 	};
 
 	let configStorage;
