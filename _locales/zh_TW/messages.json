@@ -120,9 +120,9 @@
         "description": "選項頁副標題: '用戶界面'"
     },
     "optionAddMenuEntry": {
-        "message": "添加菜單項到頁面的右鍵菜單",
-        "description": "選項頁標籤: '添加菜單項到頁面的右鍵菜單'"
-    },
+		"message": "在頁面右鍵菜單中顯示 SingleFile 選項",
+		"description": "選項頁標籤: '添加菜單項到頁面的右鍵菜單'"
+	},
     "optionDisplayShadow": {
         "message": "處理過程中以陰影遮蓋頁面",
         "description": "選項頁標籤: '處理過程中以陰影遮蓋頁面'"
@@ -136,7 +136,7 @@
         "description": "選項頁標籤: '信息欄內容模板'"
     },
     "optionIncludeInfobar": {
-        "message": "include the infobar in the saved page",
+        "message": "在保存的頁面中加入信息欄",
         "description": "Options page label: 'include the infobar in the saved page'"
     },
     "optionConfirmInfobar": {
@@ -144,7 +144,7 @@
         "description": "選項頁標籤: '打開一個提示窗口以編輯信息欄內容'"
     },
     "optionAutoClose": {
-        "message": "auto-close the tab after the page is saved",
+        "message": "保存後自動關閉標籤頁",
         "description": "Options page label: 'auto-close the tab after the page is saved'"
     },
     "optionsFileNameSubTitle": {
@@ -340,7 +340,7 @@
         "description": "Options page label: 'auto-save periodically'"
     },
     "optionAutoSaveRepeatDelay": {
-        "message": "定期自動保存單位（秒）",
+        "message": "定期自動保存週期（秒）",
         "description": "Options page label: 'period (s)'"
     },
     "optionsMiscSubTitle": {
@@ -348,13 +348,13 @@
         "description": "選項頁副標題: '其他'"
     },
     "optionBackgroundSave": {
-        "message": "在後台保存頁面",
-        "description": "選項頁標籤: '在後台保存頁面'"
-    },
+		"message": "在後臺保存頁面",
+		"description": "選項頁標籤: '在後臺保存頁面'"
+	},
     "optionDisplayStats": {
-        "message": "處理後在控制台消息中顯示統計",
-        "description": "選項頁標籤: '處理後在控制台消息中顯示統計'"
-    },
+		"message": "處理後在控制檯消息中顯示統計",
+		"description": "選項頁標籤: '處理後在控制檯消息中顯示統計'"
+	},
     "optionSetMaxResourceSize": {
         "message": "設定嵌入的資源的最大體積",
         "description": "選項頁標籤: '設定嵌入的資源的最大體積'"
@@ -368,11 +368,11 @@
         "description": "選項頁標籤: '保存原始頁面'"
     },
     "optionSaveToGDrive": {
-        "message": "save to Google Drive",
-        "description": "Options page label: 'save to Google Drive'"
-    },
+		"message": "保存到 Google Drive",
+		"description": "Options page label: 'save to Google Drive'"
+	},
 	"optionSaveCreatedBookmarks": {
-		"message": "save the page of a newly created bookmark",
+		"message": "保存到書籤",
 		"description": "Options page label: 'save the page of a newly created bookmark'"
 	},
     "optionsHelpLink": {
@@ -380,7 +380,7 @@
         "description": "選項頁幫助鏈接"
     },
 	"optionSynchronize": {
-		"message": "synchronize options",
+		"message": "同步配置文件",
 		"description": "Options label: 'synchronize options'"
 	},
     "optionsResetButton": {

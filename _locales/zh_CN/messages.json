@@ -120,9 +120,9 @@
         "description": "选项页副标题: '用户界面'"
     },
     "optionAddMenuEntry": {
-        "message": "添加菜单项到页面的右键菜单",
-        "description": "选项页标签: '添加菜单项到页面的右键菜单'"
-    },
+		"message": "在页面右键菜单中显示 SingleFile 选项",
+		"description": "选项页标签: '添加菜单项到页面的右键菜单'"
+	},
     "optionDisplayShadow": {
         "message": "处理过程中以阴影遮盖页面",
         "description": "选项页标签: '处理过程中以阴影遮盖页面'"
@@ -136,17 +136,17 @@
         "description": "选项页标签: '信息栏内容模板'"
     },
     "optionIncludeInfobar": {
-        "message": "include the infobar in the saved page",
-        "description": "Options page label: 'include the infobar in the saved page'"
-    },
+		"message": "在保存的页面中加入信息栏",
+		"description": "Options page label: 'include the infobar in the saved page'"
+	},
     "optionConfirmInfobar": {
         "message": "打开一个提示窗口以编辑信息栏内容",
         "description": "选项页标签: '打开一个提示窗口以编辑信息栏内容'"
     },
     "optionAutoClose": {
-        "message": "auto-close the tab after the page is saved",
-        "description": "Options page label: 'auto-close the tab after the page is saved'"
-    },
+		"message": "保存后自动关闭标签页",
+		"description": "Options page label: 'auto-close the tab after the page is saved'"
+	},
     "optionsFileNameSubTitle": {
         "message": "文件名",
         "description": "选项页副标题: '文件名'"
@@ -340,7 +340,7 @@
         "description": "Options page label: 'auto-save periodically'"
     },
     "optionAutoSaveRepeatDelay": {
-        "message": "定期自动保存单位（秒）",
+        "message": "定期自动保存周期（秒）",
         "description": "Options page label: 'period (s)'"
     },
     "optionsMiscSubTitle": {
@@ -368,19 +368,19 @@
         "description": "选项页标签: '保存原始页面'"
     },
     "optionSaveToGDrive": {
-        "message": "save to Google Drive",
-        "description": "Options page label: 'save to Google Drive'"
-    },
+		"message": "保存到 Google Drive",
+		"description": "Options page label: 'save to Google Drive'"
+	},
 	"optionSaveCreatedBookmarks": {
-		"message": "save the page of a newly created bookmark",
+		"message": "保存到书签",
 		"description": "Options page label: 'save the page of a newly created bookmark'"
 	},
-    "optionsHelpLink": {
+	"optionsHelpLink": {
         "message": "帮助",
         "description": "选项页帮助链接"
     },
 	"optionSynchronize": {
-		"message": "synchronize options",
+		"message": "同步配置文件",
 		"description": "Options label: 'synchronize options'"
 	},
     "optionsResetButton": {
