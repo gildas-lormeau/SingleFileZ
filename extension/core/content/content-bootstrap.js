@@ -33,8 +33,8 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	singlefile.extension.core.content.updatedResources = {};
 	browser.runtime.sendMessage({ method: "autosave.init" }).then(message => {
 		options = message.options;
-		if (document.readyState != "complete") {
-			return new Promise(resolve => window.onload = () => resolve(message));
+		if (document.readyState == "loading") {
+			return new Promise(resolve => document.addEventListener("DOMContentLoaded", () => resolve(message)));
 		} else {
 			return message;
 		}
