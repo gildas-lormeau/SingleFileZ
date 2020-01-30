@@ -204,7 +204,7 @@
         "description": "Options sub-title: 'Images'"
     },
     "optionLoadDeferredImages": {
-        "message": "sauver les images chargées de manière différées",
+        "message": "sauver les images chargées de manière différée",
         "description": "Options page label: 'save deferred images'"
     },
     "optionLoadDeferredImagesMaxIdleTime": {
