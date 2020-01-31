@@ -177,6 +177,7 @@ singlefile.extension.core.bg.compression = (() => {
 			clearTimeout(displayTimeout);
 			document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 			document.querySelectorAll("link[rel*=icon]").forEach(element => element.parentElement.replaceChild(element, element));
+			document.open = document.write = document.close = () => { };
 			for (let element of Array.from(document.querySelectorAll("script"))) {
 				await new Promise((resolve, reject) => {
 					const scriptElement = document.createElement("script");
