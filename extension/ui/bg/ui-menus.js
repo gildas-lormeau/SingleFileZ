@@ -28,6 +28,7 @@ singlefile.extension.ui.bg.menus = (() => {
 	const menus = browser.menus || browser.contextMenus;
 	const BROWSER_MENUS_API_SUPPORTED = menus && menus.onClicked && menus.create && menus.update && menus.removeAll;
 	const MENU_ID_SAVE_PAGE = "save-page";
+	const MENU_ID_SAVE_SELECTED_LINKS = "save-selectec-links";
 	const MENU_ID_VIEW_PENDINGS = "view-pendings";
 	const MENU_ID_SELECT_PROFILE = "select-profile";
 	const MENU_ID_SELECT_PROFILE_PREFIX = "select-profile-";
@@ -50,6 +51,7 @@ singlefile.extension.ui.bg.menus = (() => {
 	const MENU_CREATE_DOMAIN_RULE_MESSAGE = browser.i18n.getMessage("menuCreateDomainRule");
 	const MENU_UPDATE_RULE_MESSAGE = browser.i18n.getMessage("menuUpdateRule");
 	const MENU_SAVE_PAGE_MESSAGE = browser.i18n.getMessage("menuSavePage");
+	const MENU_SAVE_SELECTED_LINKS = browser.i18n.getMessage("menuSaveSelectedLinks");
 	const MENU_VIEW_PENDINGS_MESSAGE = browser.i18n.getMessage("menuViewPendingSaves");
 	const MENU_SAVE_SELECTION_MESSAGE = browser.i18n.getMessage("menuSaveSelection");
 	const MENU_SAVE_FRAME_MESSAGE = browser.i18n.getMessage("menuSaveFrame");
@@ -115,6 +117,11 @@ singlefile.extension.ui.bg.menus = (() => {
 				id: MENU_ID_SAVE_PAGE,
 				contexts: defaultContexts,
 				title: MENU_SAVE_PAGE_MESSAGE
+			});
+			menus.create({
+				id: MENU_ID_SAVE_SELECTED_LINKS,
+				contexts: options.contextMenuEnabled ? defaultContextsDisabled.concat(["selection"]) : defaultContextsDisabled.concat(["selection"]),
+				title: MENU_SAVE_SELECTED_LINKS
 			});
 			menus.create({
 				id: "separator-1",
@@ -333,10 +340,13 @@ singlefile.extension.ui.bg.menus = (() => {
 			menus.onClicked.addListener(async (event, tab) => {
 				if (event.menuItemId == MENU_ID_SAVE_PAGE) {
 					if (event.linkUrl) {
-						business.saveLink(event.linkUrl);
+						business.saveUrls([event.linkUrl]);
 					} else {
 						business.saveTabs([tab]);
 					}
+				}
+				if (event.menuItemId == MENU_ID_SAVE_SELECTED_LINKS) {
+					business.saveSelectedLinks(tab);
 				}
 				if (event.menuItemId == MENU_ID_VIEW_PENDINGS) {
 					await tabs.create({ active: true, url: "/extension/ui/pages/pendings.html" });

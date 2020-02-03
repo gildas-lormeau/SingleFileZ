@@ -7,6 +7,10 @@
         "message": "Sauver la page avec SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
+	"menuSaveSelectedLinks": {
+		"message": "Sauver les liens selectionnés",
+		"description": "Menu entry: 'Save selected links'"
+	},
 	"menuViewPendingSaves": {
 		"message": "Afficher les sauvegardes en cours...",
 		"description": "Menu entry: 'View pending saves...'"
@@ -502,5 +506,21 @@
 	"pendingsNoPendings": {
 		"message": "Aucune sauvegarde en cours",
 		"description": "Label displayed when they are no pending saves"
+	},
+	"pendingsAddUrlsButton": {
+		"message": "Ajouter URLs",
+		"description": "button 'Add URLs'"
+	},
+	"pendingsAddUrls": {
+		"message": "Entrez une liste d'URLs séparées par une nouvelle ligne",
+		"description": "Label of the add URLs input"
+	},
+	"pendingsAddUrlsOKButton": {
+		"message": "OK",
+		"description": "Add URLs popup confirm button: 'OK'"
+	},
+	"pendingsAddUrlsCancelButton": {
+		"message": "Annuler",
+		"description": "Add URLs popup cancel button: 'Cancel'"
 	}
 }
