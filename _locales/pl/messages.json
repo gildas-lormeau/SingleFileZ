@@ -7,10 +7,10 @@
         "message": "Zapisz stronę z SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
-	"menuSaveSelectedLinks": {
-		"message": "Save selected links",
-		"description": "Menu entry: 'Save selected links'"
-	},
+    "menuSaveSelectedLinks": {
+        "message": "Zapisz wybrane odnośniki",
+        "description": "Menu entry: 'Save selected links'"
+    },
     "menuViewPendingSaves": {
         "message": "Zobacz oczekujące zapisy...",
         "description": "Menu entry: 'View pending saves...'"
@@ -375,10 +375,10 @@
         "message": "zapisuj na Dysku Google",
         "description": "Options page label: 'save to Google Drive'"
     },
-	"optionSaveCreatedBookmarks": {
-		"message": "zapisuj stronę nowo utworzonej zakładki",
-		"description": "Options page label: 'save the page of a newly created bookmark'"
-	},
+    "optionSaveCreatedBookmarks": {
+        "message": "zapisuj stronę nowo utworzonej zakładki",
+        "description": "Options page label: 'save the page of a newly created bookmark'"
+    },
     "optionsHelpLink": {
         "message": "pomoc (w języku angielskim)",
         "description": "Options help link"
@@ -507,20 +507,20 @@
         "message": "Brak oczekujących zapisów",
         "description": "Label displayed when they are no pending saves"
     },
-	"pendingsAddUrlsButton": {
-		"message": "Add URLs",
-		"description": "button 'Add URLs'"
-	},
-	"pendingsAddUrls": {
-		"message": "Enter a list of URLs separated by a new line",
-		"description": "Label of the add URLs input"
-	},
-	"pendingsAddUrlsOKButton": {
-		"message": "OK",
-		"description": "Add URLs popup confirm button: 'OK'"
-	},
-	"pendingsAddUrlsCancelButton": {
-		"message": "Cancel",
-		"description": "Add URLs popup cancel button: 'Cancel'"
-	}
+    "pendingsAddUrlsButton": {
+        "message": "Dodaj adresy URL",
+        "description": "button 'Add URLs'"
+    },
+    "pendingsAddUrls": {
+        "message": "Wprowadź listę adresów URL oddzielonych nowym wierszem",
+        "description": "Label of the add URLs input"
+    },
+    "pendingsAddUrlsOKButton": {
+        "message": "OK",
+        "description": "Add URLs popup confirm button: 'OK'"
+    },
+    "pendingsAddUrlsCancelButton": {
+        "message": "Anuluj",
+        "description": "Add URLs popup cancel button: 'Cancel'"
+    }
 }
