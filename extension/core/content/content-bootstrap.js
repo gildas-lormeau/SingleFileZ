@@ -63,17 +63,17 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		xhr.open("GET", location.href);
 		xhr.send();
 		xhr.responseType = "arraybuffer";
-		xhr.onload = async () => {
-			const scriptElement = document.createElement("script");
-			scriptElement.textContent = "this.bootstrap([" + (new Uint8Array(xhr.response)).toString() + "])";
-			document.body.appendChild(scriptElement);
-		};
+		xhr.onload = async () => executeBootstrap(xhr.response);
 		xhr.onerror = async () => {
 			const response = await browser.runtime.sendMessage({ method: "singlefile.fetch", url: location.href });
-			const scriptElement = document.createElement("script");
-			scriptElement.textContent = "this.bootstrap([" + (new Uint8Array(response.array)).toString() + "])";
-			document.body.appendChild(scriptElement);
+			executeBootstrap(response.array);
 		};
+	}
+
+	function executeBootstrap(data) {
+		const scriptElement = document.createElement("script");
+		scriptElement.textContent = "this.bootstrap([" + (new Uint8Array(data)).toString() + "])";
+		document.body.appendChild(scriptElement);
 	}
 
 	async function onMessage(message) {
