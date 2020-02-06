@@ -68,6 +68,12 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 			scriptElement.textContent = "this.bootstrap([" + (new Uint8Array(xhr.response)).toString() + "])";
 			document.body.appendChild(scriptElement);
 		};
+		xhr.onerror = async () => {
+			const response = await browser.runtime.sendMessage({ method: "singlefile.fetch", url: location.href });
+			const scriptElement = document.createElement("script");
+			scriptElement.textContent = "this.bootstrap([" + (new Uint8Array(response.array)).toString() + "])";
+			document.body.appendChild(scriptElement);
+		};
 	}
 
 	async function onMessage(message) {
