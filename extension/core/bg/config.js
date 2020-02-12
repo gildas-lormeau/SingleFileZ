@@ -83,6 +83,7 @@ singlefile.extension.core.bg.config = (() => {
 		resolveFragmentIdentifierURLs: false,
 		userScriptEnabled: false,
 		saveCreatedBookmarks: false,
+		replaceBookmarkURL: true,
 		saveFavicon: true
 	};
 
