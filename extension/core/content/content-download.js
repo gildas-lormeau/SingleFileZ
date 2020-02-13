@@ -44,7 +44,9 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 				extractAuthCode: options.extractAuthCode,
 				filenameReplacementCharacter: options.filenameReplacementCharacter,
 				includeInfobar: options.includeInfobar,
-				backgroundSave: options.backgroundSave
+				backgroundSave: options.backgroundSave,
+				bookmarkId: options.bookmarkId,
+				replaceBookmarkURL: options.replaceBookmarkURL
 			};
 			message.truncated = content.length > MAX_CONTENT_SIZE;
 			if (message.truncated) {

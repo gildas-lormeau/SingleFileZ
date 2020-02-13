@@ -119,7 +119,9 @@ singlefile.extension.core.bg.downloads = (() => {
 						confirmFilename: message.confirmFilename,
 						incognito,
 						filenameConflictAction: message.filenameConflictAction,
-						filenameReplacementCharacter: message.filenameReplacementCharacter
+						filenameReplacementCharacter: message.filenameReplacementCharacter,
+						bookmarkId: message.bookmarkId,
+						replaceBookmarkURL: message.replaceBookmarkURL
 					});
 				} else {
 					await downloadPageForeground(message.filename, blob, tabId);
@@ -206,11 +208,8 @@ singlefile.extension.core.bg.downloads = (() => {
 			downloadInfo.incognito = true;
 		}
 		const downloadData = await download(downloadInfo, options.filenameReplacementCharacter);
-		if (downloadData.filename) {
-			const taskInfo = singlefile.extension.core.bg.business.getTaskInfo(pageData.taskId);
-			if (taskInfo) {
-				taskInfo.options.filename = "file:///" + encodeURI(downloadData.filename.replace(/\\/gi, "/"));
-			}
+		if (downloadData.filename && pageData.bookmarkId && pageData.replaceBookmarkURL) {
+			await singlefile.extension.core.bg.bookmarks.update(pageData.bookmarkId, { url: downloadData.filename });
 		}
 	}
 
