@@ -122,6 +122,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 		processor = new singlefile.lib.SingleFile(options);
 		const preInitializationPromises = [];
 		options.insertSingleFileComment = true;
+		options.insertCanonicalLink = true;
 		if (!options.saveRawPage) {
 			if (!options.removeFrames && frames && window.frames && window.frames.length) {
 				let frameTreePromise;
