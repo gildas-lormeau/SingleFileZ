@@ -371,10 +371,6 @@
 		"message": "сохранить исходную страницу",
 		"description": "Options page label: 'save raw page'"
 	},
-	"optionsAddProofConfirm": {
-		"message": "Confirm you allow SingleFileZ to send to the Woleet API a SHA256 hash of each page you are going to save. You can find more information about this feature in the help page or by clicking on the question mark next to the option.",
-		"description": "Popup text displayed wen enabling the option 'add proof of existence'"
-	},
 	"optionSaveToGDrive": {
 		"message": "сохранить на Google Drive",
 		"description": "Options page label: 'save to Google Drive'"
