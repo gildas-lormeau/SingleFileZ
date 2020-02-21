@@ -4,8 +4,8 @@
 		"description": "Description of the extension."
 	},
 	"menuSavePage": {
-		"message": "Зберегти сторінку з допомогою SingleFile",
-		"description": "Menu entry: 'Save page with SingleFile'"
+		"message": "Зберегти сторінку з допомогою SingleFileZ",
+		"description": "Menu entry: 'Save page with SingleFileZ'"
 	},
 	"menuSaveSelectedLinks": {
 		"message": "Save selected links",
@@ -37,7 +37,7 @@
 	},
 	"menuSaveTabs": {
 		"message": "Зберегти вкладки",
-		"description": "Menu entry (SingleFile button only): 'Save tabs'"
+		"description": "Menu entry (SingleFileZ button only): 'Save tabs'"
 	},
 	"menuSaveSelectedTabs": {
 		"message": "Зберегти вибрані вкладки",
@@ -72,20 +72,20 @@
 		"description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
 	},
 	"buttonDefaultTooltip": {
-		"message": "Зберегти сторінку з допомогою SingleFile",
-		"description": "Button title: 'Save page with SingleFile'"
+		"message": "Зберегти сторінку з допомогою SingleFileZ",
+		"description": "Button title: 'Save page with SingleFileZ'"
 	},
 	"buttonBlockedBadge": {
 		"message": "🚫",
 		"description": "Button badge when the page is blocked: '🚫'"
 	},
 	"buttonBlockedTooltip": {
-		"message": "Ця сторінка не може бути збережена з SingleFile",
-		"description": "Button title: 'This page cannot be saved with SingleFile'"
+		"message": "Ця сторінка не може бути збережена з SingleFileZ",
+		"description": "Button title: 'This page cannot be saved with SingleFileZ'"
 	},
 	"buttonInitializingTooltip": {
-		"message": "Ініціалізація SingleFile",
-		"description": "Button title during initialization: 'Initializing SingleFile (x/2)'"
+		"message": "Ініціалізація SingleFileZ",
+		"description": "Button title during initialization: 'Initializing SingleFileZ (x/2)'"
 	},
 	"buttonInitializingBadge": {
 		"message": "•••",

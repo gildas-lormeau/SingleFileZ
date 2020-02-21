@@ -124,7 +124,7 @@
         "description": "选项页副标题: '用户界面'"
     },
     "optionAddMenuEntry": {
-		"message": "在页面右键菜单中显示 SingleFile 选项",
+		"message": "在页面右键菜单中显示 SingleFileZ 选项",
 		"description": "选项页标签: '添加菜单项到页面的右键菜单'"
 	},
     "optionDisplayShadow": {

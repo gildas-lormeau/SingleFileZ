@@ -124,7 +124,7 @@
         "description": "選項頁副標題: '用戶界面'"
     },
     "optionAddMenuEntry": {
-		"message": "在頁面右鍵菜單中顯示 SingleFile 選項",
+		"message": "在頁面右鍵菜單中顯示 SingleFileZ 選項",
 		"description": "選項頁標籤: '添加菜單項到頁面的右鍵菜單'"
 	},
     "optionDisplayShadow": {
