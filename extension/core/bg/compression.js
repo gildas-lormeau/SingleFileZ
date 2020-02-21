@@ -66,7 +66,9 @@ singlefile.extension.core.bg.compression = (() => {
 		const resources = {};
 		for (const resourceType of Object.keys(pageData.resources)) {
 			for (const data of pageData.resources[resourceType]) {
-				resources[data.name] = data.url;
+				if (data.url && !data.url.startsWith("data:")) {
+					resources[data.name] = data.url;
+				}
 			}
 		}
 		await new Promise(resolve => zipWriter.add(prefixName + "index.json", new zip.TextReader(JSON.stringify({
