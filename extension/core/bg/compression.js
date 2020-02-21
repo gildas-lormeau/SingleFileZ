@@ -63,11 +63,18 @@ singlefile.extension.core.bg.compression = (() => {
 
 	async function addPageResources(zipWriter, pageData, prefixName, url) {
 		await new Promise(resolve => zipWriter.add(prefixName + "index.html", new zip.BlobReader(new Blob([pageData.content], { type: "text/html" })), resolve, null, { comment: url }));
+		const resources = {};
+		for (const resourceType of Object.keys(pageData.resources)) {
+			for (const data of pageData.resources[resourceType]) {
+				resources[data.name] = data.url;
+			}
+		}
 		await new Promise(resolve => zipWriter.add(prefixName + "index.json", new zip.TextReader(JSON.stringify({
 			originalUrl: pageData.url,
 			title: pageData.title,
 			archiveTime: pageData.archiveTime,
-			indexFilename: "index.html"
+			indexFilename: "index.html",
+			resources
 		}, null, 2)), resolve));
 		for (const resourceType of Object.keys(pageData.resources)) {
 			for (const data of pageData.resources[resourceType]) {
