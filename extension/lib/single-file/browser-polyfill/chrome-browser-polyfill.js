@@ -460,6 +460,15 @@
 							resolve();
 						}
 					});
+				}),
+				update: (tabId, updateProperties) => new Promise((resolve, reject) => {
+					nativeAPI.tabs.update(tabId, updateProperties, tab => {
+						if (nativeAPI.runtime.lastError) {
+							reject(nativeAPI.runtime.lastError.message || nativeAPI.runtime.lastError);
+						} else {
+							resolve(tab);
+						}
+					});
 				})
 			},
 			devtools: nativeAPI.devtools && {
