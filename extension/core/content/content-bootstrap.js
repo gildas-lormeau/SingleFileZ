@@ -33,16 +33,14 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	singlefile.extension.core.content.updatedResources = {};
 	browser.runtime.sendMessage({ method: "autosave.init" }).then(message => {
 		options = message.options;
-		if (document.readyState == "loading") {
-			return new Promise(resolve => document.addEventListener("DOMContentLoaded", () => resolve(message)));
-		} else {
-			return message;
-		}
-	}).then(message => {
 		autoSaveEnabled = message.autoSaveEnabled;
+		if (document.readyState == "loading") {
+			return new Promise(resolve => document.addEventListener("DOMContentLoaded", () => resolve()));
+		}
+	}).then(() => {
 		refresh();
 	});
-	browser.runtime.onMessage.addListener(message => { onMessage(message); });
+	browser.runtime.onMessage.addListener(message => onMessage(message));
 	browser.runtime.sendMessage({ method: "tabs.init" });
 	browser.runtime.sendMessage({ method: "ui.processInit" });
 	addEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, () => {
@@ -78,28 +76,39 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 
 	async function onMessage(message) {
 		if (autoSaveEnabled && message.method == "content.autosave") {
-			options = message.options;
-			await autoSavePage();
-			if (options.autoSaveRepeat) {
-				setTimeout(() => {
-					if (autoSaveEnabled && !autoSavingPage) {
-						pageAutoSaved = false;
-						options.autoSaveDelay = 0;
-						onMessage(message);
-					}
-				}, options.autoSaveRepeatDelay * 1000);
-			}
+			initAutoSavePage(message);
+			return {};
 		}
 		if (message.method == "content.init") {
 			options = message.options;
 			autoSaveEnabled = message.autoSaveEnabled;
 			refresh();
+			return {};
 		}
 		if (message.method == "devtools.resourceCommitted") {
 			singlefile.extension.core.content.updatedResources[message.url] = { content: message.content, type: message.type, encoding: message.encoding };
+			return {};
 		}
 		if (message.method == "common.promptValueRequest") {
 			browser.runtime.sendMessage({ method: "tabs.promptValueResponse", value: prompt("SingleFileZ: " + message.promptMessage) });
+			return {};
+		}
+	}
+
+	async function initAutoSavePage(message) {
+		options = message.options;
+		if (document.readyState != "complete") {
+			await new Promise(resolve => window.onload = resolve);
+		}
+		await autoSavePage();
+		if (options.autoSaveRepeat) {
+			setTimeout(() => {
+				if (autoSaveEnabled && !autoSavingPage) {
+					pageAutoSaved = false;
+					options.autoSaveDelay = 0;
+					onMessage(message);
+				}
+			}, options.autoSaveRepeatDelay * 1000);
 		}
 	}
 
@@ -149,7 +158,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		const helper = singlefile.lib.helper;
 		if (!pageAutoSaved || options.autoSaveUnload) {
 			let frames = [];
-			if (!options.removeFrames && singlefile.lib.processors.frameTree.content.frames && singlefile.lib.processors.frameTree.content.frames && window.frames && window.frames.length) {
+			if (!options.removeFrames && singlefile.lib.processors.frameTree.content.frames && window.frames && window.frames.length) {
 				frames = singlefile.lib.processors.frameTree.content.frames.getSync(options);
 			}
 			if (options.userScriptEnabled && helper.waitForUserScript) {
