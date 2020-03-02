@@ -23,7 +23,7 @@
 
 /* global browser, window, addEventListener, removeEventListener, document, location, setTimeout, top, XMLHttpRequest, prompt */
 
-this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.core.content.bootstrap || (async () => {
+this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.core.content.bootstrap || (() => {
 
 	const PUSH_STATE_NOTIFICATION_EVENT_NAME = "single-filez-push-state";
 
@@ -140,7 +140,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		}
 	}
 
-	async function refresh() {
+	function refresh() {
 		if (autoSaveEnabled && options && (options.autoSaveUnload || options.autoSaveLoadOrUnload)) {
 			if (!unloadListenerAdded) {
 				addEventListener("unload", onUnload);
