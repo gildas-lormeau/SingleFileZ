@@ -4,9 +4,12 @@ cp manifest.json manifest.copy.json
 cp extension/core/bg/downloads.js downloads.copy.js
 sed -i 's/7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot/7544745492-oe3q2jjvdluks2st2smslmrofcdederh/g' extension/core/bg/downloads.js
 
+cp extension/core/bg/config.js config.copy.js
 jq "del(.options_page,.background.persistent,.optional_permissions[0],.oauth2)" manifest.copy.json > manifest.json
 sed -i 's/7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot/7544745492-oe3q2jjvdluks2st2smslmrofcdederh/g' manifest.json
+sed -i 's/forceWebAuthFlow: false/forceWebAuthFlow: true/g' extension/core/bg/config.js
 zip -r singlefilez-extension-firefox.zip manifest.json common extension lib _locales
+mv config.copy.js extension/core/bg/config.js
 
 jq "del(.applications,.permissions[0],.permissions[1],.options_ui.browser_style)" manifest.copy.json > manifest.json
 sed -i 's/7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot/7544745492-oe3q2jjvdluks2st2smslmrofcdederh/g' manifest.json
