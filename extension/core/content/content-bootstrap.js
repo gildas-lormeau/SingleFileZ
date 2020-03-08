@@ -47,7 +47,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		browser.runtime.sendMessage({ method: "tabs.init" });
 		browser.runtime.sendMessage({ method: "ui.processInit" });
 	});
-	if (window == top && location && location.href && location.href.startsWith("file:///") && document.documentElement.dataset.sfz !== undefined) {
+	if (window == top && location && location.href && location.href.startsWith("file:///")) {
 		if (document.readyState == "loading") {
 			document.addEventListener("DOMContentLoaded", extractFile, false);
 		} else {
@@ -57,15 +57,28 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	return {};
 
 	async function extractFile() {
-		const xhr = new XMLHttpRequest();
-		xhr.open("GET", location.href);
-		xhr.send();
-		xhr.responseType = "arraybuffer";
-		xhr.onload = async () => executeBootstrap(xhr.response);
-		xhr.onerror = async () => {
-			const response = await browser.runtime.sendMessage({ method: "singlefile.fetch", url: location.href });
-			executeBootstrap(response.array);
-		};
+		if (document.documentElement.dataset.sfz !== undefined) {
+			const xhr = new XMLHttpRequest();
+			xhr.open("GET", location.href);
+			xhr.send();
+			xhr.responseType = "arraybuffer";
+			xhr.onload = async () => executeBootstrap(xhr.response);
+			xhr.onerror = async () => {
+				const response = await browser.runtime.sendMessage({ method: "singlefile.fetch", url: location.href });
+				executeBootstrap(response.array);
+			};
+		} else {
+			if ((document.body && document.body.childNodes.length == 1 && document.body.childNodes[0].tagName == "PRE" && /<html[^>]* data-sfz[^>]*>/.test(document.body.childNodes[0].textContent))) {
+				const doc = (new DOMParser()).parseFromString(document.body.childNodes[0].textContent, "text/html");
+				document.replaceChild(doc.documentElement, document.documentElement);
+				document.querySelectorAll("script").forEach(element => {
+					const scriptElement = document.createElement("script");
+					scriptElement.textContent = element.textContent;
+					element.parentElement.replaceChild(scriptElement, element);
+				});
+				await extractFile();
+			}
+		}
 	}
 
 	function executeBootstrap(data) {
