@@ -68,7 +68,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 				executeBootstrap(response.array);
 			};
 		} else {
-			if ((document.body && document.body.childNodes.length == 1 && document.body.childNodes[0].tagName == "PRE" && /<html[^>]* data-sfz[^>]*>/.test(document.body.childNodes[0].textContent))) {
+			if ((document.body && document.body.childNodes.length == 1 && document.body.childNodes[0].tagName == "PRE" && /<html[^>]* data-sfz[^>]*>/i.test(document.body.childNodes[0].textContent))) {
 				const doc = (new DOMParser()).parseFromString(document.body.childNodes[0].textContent, "text/html");
 				document.replaceChild(doc.documentElement, document.documentElement);
 				document.querySelectorAll("script").forEach(element => {
