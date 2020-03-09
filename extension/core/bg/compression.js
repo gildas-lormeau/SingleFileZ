@@ -37,7 +37,11 @@ singlefile.extension.core.bg.compression = (() => {
 		script += "(" + bootstrapCode.toString().replace(/\n|\t/g, "") + ")()";
 		const blobWriter = new zip.BlobWriter("application/zip");
 		await new Promise(resolve => blobWriter.init(resolve));
-		let pageContent = pageData.doctype + "<html data-sfz><meta charset='utf-8'><title>" + (pageData.title || "") + "</title><body hidden>";
+		let pageContent = "";
+		if (options.includeBOM) {
+			pageContent += "\ufeff";
+		}
+		pageContent += pageData.doctype + "<html data-sfz><meta charset='utf-8'><title>" + (pageData.title || "") + "</title><body hidden>";
 		if (pageData.viewport) {
 			pageContent += "<meta name=\"viewport\" content=" + JSON.stringify(pageData.viewport) + ">";
 		}

@@ -30,6 +30,9 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 	return { downloadPage };
 
 	async function downloadPage(pageData, options) {
+		if (options.includeBOM) {
+			pageData.content = "\ufeff" + pageData.content;
+		}
 		const content = JSON.stringify({ resources: pageData.resources, content: pageData.content, title: pageData.title, viewport: pageData.viewport, doctype: pageData.doctype });
 		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 			const message = {
