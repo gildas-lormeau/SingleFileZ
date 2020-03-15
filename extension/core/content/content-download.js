@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser */
+/* global browser, protobuf */
 
 this.singlefile.extension.core.content.download = this.singlefile.extension.core.content.download || (() => {
 
@@ -33,7 +33,7 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 		if (options.includeBOM) {
 			pageData.content = "\ufeff" + pageData.content;
 		}
-		const content = JSON.stringify({ resources: pageData.resources, content: pageData.content, title: pageData.title, viewport: pageData.viewport, doctype: pageData.doctype });
+		const content = Array.from(protobuf.roots.default.Page.encode(pageData).finish());
 		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 			const message = {
 				method: "downloads.download",
@@ -54,7 +54,7 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 			message.truncated = content.length > MAX_CONTENT_SIZE;
 			if (message.truncated) {
 				message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.length;
-				message.content = content.substring(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
+				message.content = content.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
 			} else {
 				message.content = content;
 			}

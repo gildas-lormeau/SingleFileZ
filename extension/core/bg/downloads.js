@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, Response, GDrive */
+/* global browser, singlefile, URL, Response, GDrive, protobuf */
 
 singlefile.extension.core.bg.downloads = (() => {
 
@@ -96,7 +96,7 @@ singlefile.extension.core.bg.downloads = (() => {
 			contents = [message.content];
 		}
 		if (!message.truncated || message.finished) {
-			const pageData = JSON.parse(contents.join(""));
+			const pageData = protobuf.roots.default.Page.decode(contents.flat());
 			const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
 			await downloadBlob(blob, tab.id, tab.incognito, message);
 		}

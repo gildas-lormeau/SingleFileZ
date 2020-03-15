@@ -35,8 +35,10 @@ singlefile.extension.core.bg.business = (() => {
 		"common/index.js",
 		"common/ui/content/content-infobar.js",
 		"extension/lib/single-file/index.js",
+		"extension/lib/vendor/protobuf/protobuf.js",
 		"extension/core/index.js",
 		"extension/ui/index.js",
+		"extension/core/data/page-proto.js",
 		"extension/core/content/content-main.js",
 		"extension/core/content/content-download.js",
 		"extension/ui/content/content-ui-main.js"
@@ -152,7 +154,7 @@ singlefile.extension.core.bg.business = (() => {
 		const ui = singlefile.extension.ui.bg.main;
 		const tabs = singlefile.extension.core.bg.tabs;
 		const taskId = taskInfo.id;
-		return new Promise(async (resolve, reject) => {
+		return new Promise(async (resolve, reject) => { // eslint-disable-line no-async-promise-executor
 			taskInfo.status = "processing";
 			taskInfo.resolve = () => {
 				tasks.splice(tasks.findIndex(taskInfo => taskInfo.id == taskId), 1);
