@@ -25,7 +25,7 @@
 
 this.singlefile.extension.core.content.download = this.singlefile.extension.core.content.download || (() => {
 
-	const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
+	const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
 
 	return { downloadPage };
 
