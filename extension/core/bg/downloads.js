@@ -96,7 +96,7 @@ singlefile.extension.core.bg.downloads = (() => {
 			contents = [message.content];
 		}
 		if (!message.truncated || message.finished) {
-			const pageData = protobuf.roots.default.Page.decode(contents.flat ? contents.flat() : flatten(contents));
+			const pageData = protobuf.roots.default.Page.decode(singlefile.lib.helper.flatten(contents));
 			const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
 			await downloadBlob(blob, tab.id, tab.incognito, message);
 		}
@@ -291,10 +291,6 @@ singlefile.extension.core.bg.downloads = (() => {
 			}
 			await singlefile.extension.core.bg.tabs.sendMessage(tabId, message);
 		}
-	}
-
-	function flatten(array) {
-		return array.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 	}
 
 })();
