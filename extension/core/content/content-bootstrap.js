@@ -25,8 +25,6 @@
 
 this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.core.content.bootstrap || (() => {
 
-	const PUSH_STATE_NOTIFICATION_EVENT_NAME = "single-filez-push-state";
-
 	const singlefile = this.singlefile;
 
 	let unloadListenerAdded, options, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved;
@@ -47,10 +45,6 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	});
 	browser.runtime.sendMessage({ method: "tabs.init" });
 	browser.runtime.sendMessage({ method: "ui.processInit" });
-	addEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, () => {
-		browser.runtime.sendMessage({ method: "tabs.init" });
-		browser.runtime.sendMessage({ method: "ui.processInit" });
-	});
 	if (window == top && location && location.href && location.href.startsWith("file:///")) {
 		if (document.readyState == "loading") {
 			document.addEventListener("DOMContentLoaded", extractFile, false);
@@ -160,13 +154,11 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	function refresh() {
 		if (autoSaveEnabled && options && (options.autoSaveUnload || options.autoSaveLoadOrUnload)) {
 			if (!unloadListenerAdded) {
-				addEventListener("unload", onUnload);
-				addEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, onUnload);
+				addEventListener("unload", onUnload);				
 				unloadListenerAdded = true;
 			}
 		} else {
-			removeEventListener("unload", onUnload);
-			removeEventListener(PUSH_STATE_NOTIFICATION_EVENT_NAME, onUnload);
+			removeEventListener("unload", onUnload);			
 			unloadListenerAdded = false;
 		}
 	}
