@@ -37,7 +37,7 @@ this.singlefile.extension.lib.fetch.content.resources = this.singlefile.extensio
 	async function onMessage(message) {
 		try {
 			let response = await fetch(message.url, { cache: "force-cache" });
-			if (response.status == 403) {
+			if (response.status == 403 || response.status == 404) {
 				response = hostFetch(message.url);
 			}
 			return {
