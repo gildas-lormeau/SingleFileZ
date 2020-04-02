@@ -55,7 +55,6 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	return {};
 
 	async function extractFile() {
-		let pendingResponseArray = [];
 		if (document.documentElement.dataset.sfz !== undefined) {
 			const xhr = new XMLHttpRequest();
 			xhr.open("GET", location.href);
@@ -63,8 +62,8 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 			xhr.responseType = "arraybuffer";
 			xhr.onload = async () => executeBootstrap(xhr.response);
 			xhr.onerror = async () => {
-				browser.runtime.onMessage.addListener(onMessage);
-				browser.runtime.sendMessage({ method: "singlefile.fetchRequest", url: location.href });
+				const response = await browser.runtime.sendMessage({ method: "singlefile.fetch", url: location.href });
+				executeBootstrap(response.array);
 			};
 		} else {
 			if ((document.body && document.body.childNodes.length == 1 && document.body.childNodes[0].tagName == "PRE" && /<html[^>]* data-sfz[^>]*>/i.test(document.body.childNodes[0].textContent))) {
@@ -78,30 +77,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 				await extractFile();
 			}
 		}
-
-		function onMessage(message) {
-			if (message.method == "singlefile.fetchResponse") {
-				if (message.error) {
-					browser.runtime.onMessage.addListener(onMessage);
-				} else {
-					if (message.truncated) {
-						if (!pendingResponseArray.length) {
-							document.body.childNodes.forEach(node => node.remove());
-							document.body.appendChild(document.createTextNode("Please wait..."));
-						}
-						pendingResponseArray = pendingResponseArray.concat(message.array);
-					} else {
-						pendingResponseArray = message.array;
-					}
-					if (!message.truncated || message.finished) {
-						browser.runtime.onMessage.addListener(onMessage);
-						executeBootstrap(pendingResponseArray);
-					}
-				}
-			}
-		}
 	}
-
 
 	function executeBootstrap(data) {
 		const scriptElement = document.createElement("script");
@@ -178,11 +154,11 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	function refresh() {
 		if (autoSaveEnabled && options && (options.autoSaveUnload || options.autoSaveLoadOrUnload)) {
 			if (!unloadListenerAdded) {
-				addEventListener("unload", onUnload);
+				addEventListener("unload", onUnload);				
 				unloadListenerAdded = true;
 			}
 		} else {
-			removeEventListener("unload", onUnload);
+			removeEventListener("unload", onUnload);			
 			unloadListenerAdded = false;
 		}
 	}
