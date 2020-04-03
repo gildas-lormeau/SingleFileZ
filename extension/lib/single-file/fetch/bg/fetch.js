@@ -25,6 +25,8 @@
 
 (() => {
 
+	const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
+
 	browser.runtime.onMessage.addListener((message, sender) => {
 		if (message.method && message.method.startsWith("singlefile.fetch")) {
 			return new Promise(resolve => {
@@ -32,6 +34,8 @@
 					.then(resolve)
 					.catch(error => resolve({ error: error.toString() }));
 			});
+		} else if (message.method == "singlefile.multipartFetch") {
+			sendMultipartResponse(message, sender);
 		}
 	});
 
@@ -40,6 +44,37 @@
 			return fetchResource(message.url);
 		} else if (message.method == "singlefile.fetchFrame") {
 			return browser.tabs.sendMessage(sender.tab.id, message);
+		}
+	}
+
+	async function sendMultipartResponse(message, sender) {
+		try {
+			const response = await fetchResource(message.url);
+			const id = message.id;
+			for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < response.array.length; blockIndex++) {
+				const message = {
+					method: "singlefile.multipartResponse",
+					id
+				};
+				message.truncated = response.array.length > MAX_CONTENT_SIZE;
+				if (message.truncated) {
+					message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > response.array.length;
+					message.array = response.array.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
+				} else {
+					message.array = response.array;
+				}
+				if (!message.truncated || message.finished) {
+					message.headers = response.headers;
+					message.status = response.status;
+				}
+				browser.tabs.sendMessage(sender.tab.id, message);
+			}
+		} catch (error) {
+			await browser.tabs.sendMessage(sender.tab.id, {
+				method: "singlefile.multipartResponse",
+				id: message.id,
+				error: error.toString()
+			});
 		}
 	}
 

@@ -60,10 +60,38 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 			xhr.open("GET", location.href);
 			xhr.send();
 			xhr.responseType = "arraybuffer";
-			xhr.onload = async () => executeBootstrap(xhr.response);
-			xhr.onerror = async () => {
-				const response = await browser.runtime.sendMessage({ method: "singlefile.fetch", url: location.href });
-				executeBootstrap(response.array);
+			xhr.onload = () => executeBootstrap(xhr.response);
+			xhr.onerror = () => {
+				let pendingResponseArray = [];
+				browser.runtime.onMessage.addListener(message => {
+					if (message.method == "singlefile.multipartResponse") {
+						fetchResponse(message);
+					}
+				});
+				const errorMessageElement = document.getElementById("sfz-error-message");
+				if (errorMessageElement) {
+					errorMessageElement.remove();
+				}
+				browser.runtime.sendMessage({ method: "singlefile.multipartFetch", url: location.href });
+
+				function fetchResponse(message) {
+					if (message.error) {
+						browser.runtime.onMessage.removeListener(fetchResponse);
+					} else {
+						if (!pendingResponseArray.length) {
+							document.body.appendChild(document.createTextNode("Please wait..."));
+						}
+						if (message.truncated) {
+							pendingResponseArray = pendingResponseArray.concat(message.array);
+						} else {
+							pendingResponseArray = message.array;
+						}
+						if (!message.truncated || message.finished) {
+							browser.runtime.onMessage.removeListener(fetchResponse);
+							executeBootstrap(pendingResponseArray);
+						}
+					}
+				}
 			};
 		} else {
 			if ((document.body && document.body.childNodes.length == 1 && document.body.childNodes[0].tagName == "PRE" && /<html[^>]* data-sfz[^>]*>/i.test(document.body.childNodes[0].textContent))) {
@@ -154,11 +182,11 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 	function refresh() {
 		if (autoSaveEnabled && options && (options.autoSaveUnload || options.autoSaveLoadOrUnload)) {
 			if (!unloadListenerAdded) {
-				addEventListener("unload", onUnload);				
+				addEventListener("unload", onUnload);
 				unloadListenerAdded = true;
 			}
 		} else {
-			removeEventListener("unload", onUnload);			
+			removeEventListener("unload", onUnload);
 			unloadListenerAdded = false;
 		}
 	}
