@@ -27,7 +27,7 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 
 	const singlefile = this.singlefile;
 
-	let unloadListenerAdded, options, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved;
+	let unloadListenerAdded, options, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref;
 	singlefile.extension.core.content.updatedResources = {};
 	browser.runtime.sendMessage({ method: "autosave.init" }).then(message => {
 		options = message.options;
@@ -39,12 +39,15 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		refresh();
 	});
 	browser.runtime.onMessage.addListener(message => {
-		if ((autoSaveEnabled && message.method == "content.autosave") || message.method == "content.init" || message.method == "devtools.resourceCommitted" || message.method == "common.promptValueRequest") {
+		if ((autoSaveEnabled && message.method == "content.autosave") ||
+			message.method == "content.maybeInit" ||
+			message.method == "content.init" ||
+			message.method == "devtools.resourceCommitted" ||
+			message.method == "common.promptValueRequest") {
 			return onMessage(message);
 		}
 	});
-	browser.runtime.sendMessage({ method: "tabs.init" });
-	browser.runtime.sendMessage({ method: "ui.processInit" });
+	init();
 	if (window == top && location && location.href && location.href.startsWith("file:///")) {
 		if (document.readyState == "loading") {
 			document.addEventListener("DOMContentLoaded", extractFile, false);
@@ -118,6 +121,10 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 			initAutoSavePage(message);
 			return {};
 		}
+		if (message.method == "content.maybeInit") {
+			init();
+			return {};
+		}
 		if (message.method == "content.init") {
 			options = message.options;
 			autoSaveEnabled = message.autoSaveEnabled;
@@ -131,6 +138,15 @@ this.singlefile.extension.core.content.bootstrap = this.singlefile.extension.cor
 		if (message.method == "common.promptValueRequest") {
 			browser.runtime.sendMessage({ method: "tabs.promptValueResponse", value: prompt("SingleFileZ: " + message.promptMessage) });
 			return {};
+		}
+	}
+
+	function init() {
+		if (previousLocationHref != location.href) {
+			pageAutoSaved = false;
+			previousLocationHref = location.href;
+			browser.runtime.sendMessage({ method: "tabs.init" });
+			browser.runtime.sendMessage({ method: "ui.processInit" });
 		}
 	}
 
