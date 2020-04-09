@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global singlefile, URL */
+/* global singlefile, URL, XMLHttpRequest */
 
 singlefile.extension.core.bg.autosave = (() => {
 
@@ -118,7 +118,7 @@ singlefile.extension.core.bg.autosave = (() => {
 		options.tabIndex = tab.index;
 		let pageData;
 		try {
-			pageData = await singlefile.extension.getPageData(options, null, null);
+			pageData = await singlefile.extension.getPageData(options, null, null, { fetch });
 			if (options.includeInfobar) {
 				await singlefile.common.ui.content.infobar.includeScript(pageData);
 			}
@@ -135,6 +135,28 @@ singlefile.extension.core.bg.autosave = (() => {
 				URL.revokeObjectURL(pageData.url);
 			}
 		}
+	}
+
+	function fetch(url) {
+		return new Promise((resolve, reject) => {
+			const xhrRequest = new XMLHttpRequest();
+			xhrRequest.withCredentials = true;
+			xhrRequest.responseType = "arraybuffer";
+			xhrRequest.onerror = event => reject(new Error(event.detail));
+			xhrRequest.onreadystatechange = () => {
+				if (xhrRequest.readyState == XMLHttpRequest.DONE) {
+					resolve({
+						status: xhrRequest.status,
+						headers: {
+							get: name => xhrRequest.getResponseHeader(name)
+						},
+						arrayBuffer: async () => xhrRequest.response
+					});
+				}
+			};
+			xhrRequest.open("GET", url, true);
+			xhrRequest.send();
+		});
 	}
 
 })();
