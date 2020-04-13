@@ -27,7 +27,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 
 	const singlefile = this.singlefile;
 
-	let ui, processing = false, processor, pageContents = [];
+	let ui, processor, pageContents = [];
 
 	singlefile.lib.main.init({
 		fetch: singlefile.extension.lib.fetch.content.resources.fetch,
@@ -82,7 +82,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 
 	async function savePage(message) {
 		const options = message.options;
-		if (!processing) {
+		if (!singlefile.extension.core.processing) {
 			options.updatedResources = singlefile.extension.core.content.updatedResources || {};
 			Object.keys(options.updatedResources).forEach(url => options.updatedResources[url].retrieved = false);
 			let selectionFound;
@@ -93,7 +93,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				options.selected = true;
 			}
 			if (!options.selected || selectionFound) {
-				processing = true;
+				singlefile.extension.core.processing = true;
 				try {
 					const pageData = await processPage(options);
 					if (pageData) {
@@ -111,7 +111,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			} else {
 				browser.runtime.sendMessage({ method: "ui.processCancelled" });
 			}
-			processing = false;
+			singlefile.extension.core.processing = false;
 		}
 	}
 
