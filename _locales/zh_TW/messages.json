@@ -159,6 +159,10 @@
         "message": "模板",
         "description": "選項頁標籤: '模板'"
     },
+	"optionFilenameMaxLength": {
+		"message": "max length (bytes)",
+		"description": "Options page label: 'max length (bytes)'"
+	},
     "optionConfirmFilename": {
         "message": "打開“另存為”對話框以確認文件名",
         "description": "選項頁標籤: '打開“另存為”對話框以確認文件名'"
