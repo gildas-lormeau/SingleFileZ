@@ -160,7 +160,7 @@
         "description": "Options page label: 'template'"
     },
 	"optionFilenameMaxLength": {
-		"message": "max length (bytes)",
+		"message": "最大长度（字节）",
 		"description": "Options page label: 'max length (bytes)'"
 	},
     "optionConfirmFilename": {
@@ -368,7 +368,7 @@
         "description": "Options page label: 'set a maximum size for embedded resources'"
     },
     "optionMaxResourceSize": {
-        "message": "大小上限（MB）",
+        "message": "大小上限（兆字节）",
         "description": "Options page label: 'maximum size (MB)'"
     },
     "optionSaveRawPage": {
