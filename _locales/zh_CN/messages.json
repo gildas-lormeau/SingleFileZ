@@ -183,6 +183,10 @@
         "message": "指定一个新名称",
         "description": "Value for 'name conflict resolution' option: 'prompt for a name'"
     },
+    "optionFilenameConflictActionSkip": {
+        "message": "skip duplicate files",
+        "description": "Value for 'filename conflict resolution' option: 'skip duplicate files'"
+    },
     "optionsHTMLContentSubTitle": {
         "message": "HTML 内容",
         "description": "Options sub-title: 'HTML content'"

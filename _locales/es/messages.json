@@ -183,6 +183,10 @@
         "message": "preguntar por un nombre",
         "description": "Value for 'name conflict resolution' option: 'prompt for a name'"
     },
+    "optionFilenameConflictActionSkip": {
+        "message": "saltar los archivos duplicados",
+        "description": "Value for 'filename conflict resolution' option: 'skip duplicate files'"
+    },
     "optionsHTMLContentSubTitle": {
         "message": "Contenido HTML",
         "description": "Options sub-title: 'HTML content'"

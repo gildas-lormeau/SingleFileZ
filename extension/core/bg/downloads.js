@@ -38,6 +38,9 @@ singlefile.extension.core.bg.downloads = (() => {
 	const ERROR_INVALID_FILENAME_CHROMIUM = "invalid filename";
 	const CLIENT_ID = "7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot.apps.googleusercontent.com";
 	const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
+	const CONFLICT_ACTION_SKIP = "skip";
+	const CONFLICT_ACTION_UNIQUIFY = "uniquify";
+	const REGEXP_ESCAPE = /([{}()^$&.*?/+|[\\\\]|\]|-)/g;
 
 	const manifest = browser.runtime.getManifest();
 	const requestPermissionIdentity = manifest.optional_permissions && manifest.optional_permissions.includes("identity");
@@ -96,9 +99,25 @@ singlefile.extension.core.bg.downloads = (() => {
 			contents = [message.content];
 		}
 		if (!message.truncated || message.finished) {
-			const pageData = protobuf.roots.default.Page.decode(singlefile.lib.helper.flatten(contents));
-			const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
-			await downloadBlob(blob, tab.id, tab.incognito, message);
+			let skipped;
+			if (message.backgroundSave && !message.saveToGDrive && message.filenameConflictAction == CONFLICT_ACTION_SKIP) {
+				const downloadItems = await browser.downloads.search({
+					filenameRegex: "(\\\\|/)" + getRegExp(message.filename) + "$",
+					exists: true
+				});
+				if (downloadItems.length) {					
+					skipped = true;
+				} else {
+					message.filenameConflictAction = CONFLICT_ACTION_UNIQUIFY;
+				}
+			}
+			if (skipped) {
+				singlefile.extension.ui.bg.main.onEnd(tab.id);
+			} else {				
+				const pageData = protobuf.roots.default.Page.decode(singlefile.lib.helper.flatten(contents));
+				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
+				await downloadBlob(blob, tab.id, tab.incognito, message);
+			}
 		}
 		return {};
 	}
@@ -138,6 +157,10 @@ singlefile.extension.core.bg.downloads = (() => {
 				URL.revokeObjectURL(message.url);
 			}
 		}
+	}
+
+	function getRegExp(string) {
+		return string.replace(REGEXP_ESCAPE, "\\$1");
 	}
 
 	async function getAuthInfo(authOptions, force) {
