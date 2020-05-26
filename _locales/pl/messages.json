@@ -159,10 +159,10 @@
         "message": "szablon",
         "description": "Options page label: 'template'"
     },
-	"optionFilenameMaxLength": {
-		"message": "maksymalna długość (bajty)",
-		"description": "Options page label: 'max length (bytes)'"
-	},
+    "optionFilenameMaxLength": {
+        "message": "maksymalna długość (bajty)",
+        "description": "Options page label: 'max length (bytes)'"
+    },
     "optionConfirmFilename": {
         "message": "otwieraj okno \"Zapisz jako\", aby potwierdzić nazwę pliku",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -184,7 +184,7 @@
         "description": "Value for 'name conflict resolution' option: 'prompt for a name'"
     },
     "optionFilenameConflictActionSkip": {
-        "message": "skip duplicate files",
+        "message": "pomiń duplikaty plików",
         "description": "Value for 'filename conflict resolution' option: 'skip duplicate files'"
     },
     "optionsHTMLContentSubTitle": {
