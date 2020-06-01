@@ -7,14 +7,14 @@
         "message": "SingleFileZ でページを保存",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
-	"menuSaveSelectedLinks": {
-		"message": "Save selected links",
-		"description": "Menu entry: 'Save selected links'"
-	},
-	"menuViewPendingSaves": {
-		"message": "保留中の保存を表示...",
-		"description": "Menu entry: 'View pending saves...'"
-	},
+    "menuSaveSelectedLinks": {
+        "message": "Save selected links",
+        "description": "Menu entry: 'Save selected links'"
+    },
+    "menuViewPendingSaves": {
+        "message": "保留中の保存を表示...",
+        "description": "Menu entry: 'View pending saves...'"
+    },
     "menuSelectProfile": {
         "message": "規定（default）のプロファイルを選択",
         "description": "Menu entry: 'Select the default profile'"
@@ -95,10 +95,10 @@
         "message": "進行状況を保存: ",
         "description": "Button title during save: 'Save progress: xx%'"
     },
-	"buttonUploadProgressTooltip": {
-		"message": "アップロードの進行状況: ",
-		"description": "Button title during save: 'Upload progress: xx%'"
-	},
+    "buttonUploadProgressTooltip": {
+        "message": "アップロードの進行状況: ",
+        "description": "Button title during save: 'Upload progress: xx%'"
+    },
     "buttonOKBadge": {
         "message": "OK",
         "description": "Badge label: 'OK'"
@@ -159,10 +159,10 @@
         "message": "保存時の定形書式",
         "description": "Options page label: 'template'"
     },
-	"optionFilenameMaxLength": {
-		"message": "max length (bytes)",
-		"description": "Options page label: 'max length (bytes)'"
-	},
+    "optionFilenameMaxLength": {
+        "message": "最大長（バイト）",
+        "description": "Options page label: 'max length (bytes)'"
+    },
     "optionConfirmFilename": {
         "message": "を開く（として保存する：ファイル名を確認するためのダイアログ）",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -184,7 +184,7 @@
         "description": "Value for 'name conflict resolution' option: 'prompt for a name'"
     },
     "optionFilenameConflictActionSkip": {
-        "message": "skip duplicate files",
+        "message": "重複ファイルをスキップ",
         "description": "Value for 'filename conflict resolution' option: 'skip duplicate files'"
     },
     "optionsHTMLContentSubTitle": {
@@ -359,10 +359,10 @@
         "message": "その他",
         "description": "Options sub-title: 'Misc.'"
     },
-	"optionBackgroundSave": {
-		"message": "バックグラウンドでページを保存する",
-		"description": "Options page label: 'save pages in background'"
-	},
+    "optionBackgroundSave": {
+        "message": "バックグラウンドでページを保存する",
+        "description": "Options page label: 'save pages in background'"
+    },
     "optionDisplayStats": {
         "message": "処理後、コンソールに統計情報を表示する",
         "description": "Options page label: 'display stats in the console after processing'"
@@ -383,22 +383,22 @@
         "message": "ヘルプ",
         "description": "Options help link"
     },
-	"optionSynchronize": {
-		"message": "同期オプション",
-		"description": "Options label: 'synchronize options'"
-	},
-	"optionSaveToGDrive": {
-		"message": "Google Drive に保存",
-		"description": "Options page label: 'save to Google Drive'"
-	},
-	"optionSaveCreatedBookmarks": {
-		"message": "新しく作成したブックマークのページを保存する",
-		"description": "Options page label: 'save the page of a newly created bookmark'"
-	},
-	"optionReplaceBookmarkURL": {
-		"message": "link the new bookmark to the saved page",
-		"description": "Options page label: 'link the new bookmark to the saved page'"
-	},
+    "optionSynchronize": {
+        "message": "同期オプション",
+        "description": "Options label: 'synchronize options'"
+    },
+    "optionSaveToGDrive": {
+        "message": "Google Drive に保存",
+        "description": "Options page label: 'save to Google Drive'"
+    },
+    "optionSaveCreatedBookmarks": {
+        "message": "新しく作成したブックマークのページを保存する",
+        "description": "Options page label: 'save the page of a newly created bookmark'"
+    },
+    "optionReplaceBookmarkURL": {
+        "message": "新しいブックマークを保存したページにリンクさせることを可能にする",
+        "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
     "optionsResetButton": {
         "message": "リセット",
         "description": "Options button: 'Reset'"
@@ -483,56 +483,56 @@
         "message": "選択したプロファイルの新しい名前を入力します。",
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
     },
-	"pendingsTitle": {
-		"message": "保留中の保存",
-		"description": "Title of the pending save page 'Pending saves' in the editor"
-	},
-	"pendingsCancelAllButton": {
-		"message": "すべてをキャンセルする",
-		"description": "Pending saves button 'Cancel all'"
-	},
-	"pendingsTitleTitle": {
-		"message": "タイトル",
-		"description": "Title of the first column in the table of the pending saves 'Title'"
-	},
-	"pendingsURLTitle": {
-		"message": "URL",
-		"description": "Title of the first column in the table of the pending saves 'URL'"
-	},
-	"pendingsStatusTitle": {
-		"message": "状態",
-		"description": "Title of the second column in the table of the pending saves 'status'"
-	},
-	"pendingsPendingStatus": {
-		"message": "保留中",
-		"description": "Value of 'status' for pending saves"
-	},
-	"pendingsProcessingStatus": {
-		"message": "処理中",
-		"description": "Value of 'status' for current saves"
-	},
-	"pendingsCancellingStatus": {
-		"message": "キャンセル実行中",
-		"description": "Value of 'status' for cancelled saves"
-	},
-	"pendingsNoPendings": {
-		"message": "保留中の保存はありません",
-		"description": "Label displayed when they are no pending saves"
-	},
-	"pendingsAddUrlsButton": {
-		"message": "Add URLs",
-		"description": "button 'Add URLs'"
-	},
-	"pendingsAddUrls": {
-		"message": "Enter a list of URLs separated by a new line",
-		"description": "Label of the add URLs input"
-	},
-	"pendingsAddUrlsOKButton": {
-		"message": "OK",
-		"description": "Add URLs popup confirm button: 'OK'"
-	},
-	"pendingsAddUrlsCancelButton": {
-		"message": "Cancel",
-		"description": "Add URLs popup cancel button: 'Cancel'"
-	}
+    "pendingsTitle": {
+        "message": "保留中の保存",
+        "description": "Title of the pending save page 'Pending saves' in the editor"
+    },
+    "pendingsCancelAllButton": {
+        "message": "すべてをキャンセルする",
+        "description": "Pending saves button 'Cancel all'"
+    },
+    "pendingsTitleTitle": {
+        "message": "タイトル",
+        "description": "Title of the first column in the table of the pending saves 'Title'"
+    },
+    "pendingsURLTitle": {
+        "message": "URL",
+        "description": "Title of the first column in the table of the pending saves 'URL'"
+    },
+    "pendingsStatusTitle": {
+        "message": "状態",
+        "description": "Title of the second column in the table of the pending saves 'status'"
+    },
+    "pendingsPendingStatus": {
+        "message": "保留中",
+        "description": "Value of 'status' for pending saves"
+    },
+    "pendingsProcessingStatus": {
+        "message": "処理中",
+        "description": "Value of 'status' for current saves"
+    },
+    "pendingsCancellingStatus": {
+        "message": "キャンセル実行中",
+        "description": "Value of 'status' for cancelled saves"
+    },
+    "pendingsNoPendings": {
+        "message": "保留中の保存はありません",
+        "description": "Label displayed when they are no pending saves"
+    },
+    "pendingsAddUrlsButton": {
+        "message": "Add URLs",
+        "description": "button 'Add URLs'"
+    },
+    "pendingsAddUrls": {
+        "message": "Enter a list of URLs separated by a new line",
+        "description": "Label of the add URLs input"
+    },
+    "pendingsAddUrlsOKButton": {
+        "message": "OK",
+        "description": "Add URLs popup confirm button: 'OK'"
+    },
+    "pendingsAddUrlsCancelButton": {
+        "message": "Cancel",
+        "description": "Add URLs popup cancel button: 'Cancel'"
+    }
 }
