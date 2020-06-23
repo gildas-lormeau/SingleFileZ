@@ -49,6 +49,7 @@ singlefile.extension.core.bg.downloads = (() => {
 		onMessage,
 		download,
 		downloadPage,
+		testSkipSave,
 		uploadPage
 	};
 
@@ -100,20 +101,14 @@ singlefile.extension.core.bg.downloads = (() => {
 		}
 		if (!message.truncated || message.finished) {
 			let skipped;
-			if (message.backgroundSave && !message.saveToGDrive && message.filenameConflictAction == CONFLICT_ACTION_SKIP) {
-				const downloadItems = await browser.downloads.search({
-					filenameRegex: "(\\\\|/)" + getRegExp(message.filename) + "$",
-					exists: true
-				});
-				if (downloadItems.length) {					
-					skipped = true;
-				} else {
-					message.filenameConflictAction = CONFLICT_ACTION_UNIQUIFY;
-				}
+			if (message.backgroundSave && !message.saveToGDrive) {
+				const testSkip = await testSkipSave(message.filename, message);
+				message.filenameConflictAction = testSkip.filenameConflictAction;
+				skipped = testSkip.skipped;
 			}
 			if (skipped) {
 				singlefile.extension.ui.bg.main.onEnd(tab.id);
-			} else {				
+			} else {
 				const pageData = protobuf.roots.default.Page.decode(singlefile.lib.helper.flatten(contents));
 				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
 				await downloadBlob(blob, tab.id, tab.incognito, message);
@@ -218,6 +213,22 @@ singlefile.extension.core.bg.downloads = (() => {
 				throw error;
 			}
 		}
+	}
+
+	async function testSkipSave(filename, options) {
+		let skipped, filenameConflictAction = options.filenameConflictAction;
+		if (filenameConflictAction == CONFLICT_ACTION_SKIP) {
+			const downloadItems = await browser.downloads.search({
+				filenameRegex: "(\\\\|/)" + getRegExp(filename) + "$",
+				exists: true
+			});
+			if (downloadItems.length) {
+				skipped = true;
+			} else {
+				filenameConflictAction = CONFLICT_ACTION_UNIQUIFY;
+			}
+		}
+		return { skipped, filenameConflictAction };
 	}
 
 	async function downloadPage(pageData, options) {

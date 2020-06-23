@@ -119,15 +119,23 @@ singlefile.extension.core.bg.autosave = (() => {
 		let pageData;
 		try {
 			pageData = await singlefile.extension.getPageData(options, null, null, { fetch });
-			if (options.includeInfobar) {
-				await singlefile.common.ui.content.infobar.includeScript(pageData);
+			let skipped;
+			if (!options.saveToGDrive) {
+				const testSkip = await singlefile.extension.core.bg.downloads.testSkipSave(pageData.filename, options);
+				skipped = testSkip.skipped;
+				options.filenameConflictAction = testSkip.filenameConflictAction;
 			}
-			const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: options.insertTextBody, url: tab.url });
-			if (options.saveToGDrive) {
-				await singlefile.extension.core.bg.downloads.uploadPage(message.taskId, pageData.filename, blob, options, {});
-			} else {
-				pageData.url = URL.createObjectURL(blob);
-				await singlefile.extension.core.bg.downloads.downloadPage(pageData, options);
+			if (!skipped) {
+				if (options.includeInfobar) {
+					await singlefile.common.ui.content.infobar.includeScript(pageData);
+				}
+				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: options.insertTextBody, url: tab.url });
+				if (options.saveToGDrive) {
+					await singlefile.extension.core.bg.downloads.uploadPage(message.taskId, pageData.filename, blob, options, {});
+				} else {
+					pageData.url = URL.createObjectURL(blob);
+					await singlefile.extension.core.bg.downloads.downloadPage(pageData, options);
+				}
 			}
 		} finally {
 			singlefile.extension.core.bg.business.onSaveEnd(message.taskId);
