@@ -41,6 +41,7 @@
 	const compressCSSLabel = document.getElementById("compressCSSLabel");
 	const loadDeferredImagesLabel = document.getElementById("loadDeferredImagesLabel");
 	const loadDeferredImagesMaxIdleTimeLabel = document.getElementById("loadDeferredImagesMaxIdleTimeLabel");
+	const loadDeferredImagesKeepZoomLevelLabel = document.getElementById("loadDeferredImagesKeepZoomLevelLabel");
 	const addMenuEntryLabel = document.getElementById("addMenuEntryLabel");
 	const filenameTemplateLabel = document.getElementById("filenameTemplateLabel");
 	const filenameMaxLengthLabel = document.getElementById("filenameMaxLengthLabel");
@@ -112,6 +113,7 @@
 	const compressCSSInput = document.getElementById("compressCSSInput");
 	const loadDeferredImagesInput = document.getElementById("loadDeferredImagesInput");
 	const loadDeferredImagesMaxIdleTimeInput = document.getElementById("loadDeferredImagesMaxIdleTimeInput");
+	const loadDeferredImagesKeepZoomLevelInput = document.getElementById("loadDeferredImagesKeepZoomLevelInput");
 	const contextMenuEnabledInput = document.getElementById("contextMenuEnabledInput");
 	const filenameTemplateInput = document.getElementById("filenameTemplateInput");
 	const filenameMaxLengthInput = document.getElementById("filenameMaxLengthInput");
@@ -414,6 +416,7 @@
 	compressCSSLabel.textContent = browser.i18n.getMessage("optionCompressCSS");
 	loadDeferredImagesLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImages");
 	loadDeferredImagesMaxIdleTimeLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImagesMaxIdleTime");
+	loadDeferredImagesKeepZoomLevelLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImagesKeepZoomLevel");
 	addMenuEntryLabel.textContent = browser.i18n.getMessage("optionAddMenuEntry");
 	filenameTemplateLabel.textContent = browser.i18n.getMessage("optionFilenameTemplate");
 	filenameMaxLengthLabel.textContent = browser.i18n.getMessage("optionFilenameMaxLength");
@@ -591,6 +594,8 @@
 		loadDeferredImagesInput.disabled = profileOptions.saveRawPage;
 		loadDeferredImagesMaxIdleTimeInput.value = profileOptions.loadDeferredImagesMaxIdleTime;
 		loadDeferredImagesMaxIdleTimeInput.disabled = !profileOptions.loadDeferredImages || profileOptions.saveRawPage;
+		loadDeferredImagesKeepZoomLevelInput.checked = profileOptions.loadDeferredImagesKeepZoomLevel && !profileOptions.saveRawPage;
+		loadDeferredImagesKeepZoomLevelInput.disabled = !profileOptions.loadDeferredImages || profileOptions.saveRawPape;
 		contextMenuEnabledInput.checked = profileOptions.contextMenuEnabled;
 		filenameTemplateInput.value = profileOptions.filenameTemplate;
 		filenameMaxLengthInput.value = profileOptions.filenameMaxLength;
@@ -659,6 +664,7 @@
 				compressCSS: compressCSSInput.checked,
 				loadDeferredImages: loadDeferredImagesInput.checked,
 				loadDeferredImagesMaxIdleTime: Math.max(loadDeferredImagesMaxIdleTimeInput.value, 0),
+				loadDeferredImagesKeepZoomLevel: loadDeferredImagesKeepZoomLevelInput.checked,
 				contextMenuEnabled: contextMenuEnabledInput.checked,
 				filenameTemplate: filenameTemplateInput.value,
 				filenameMaxLength: filenameMaxLengthInput.value,
