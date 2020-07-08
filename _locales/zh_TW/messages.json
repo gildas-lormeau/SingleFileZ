@@ -1,11 +1,11 @@
 {
     "extensionDescription": {
-        "message": "將一個完整的頁面保存到單個 HTML 文件中",
+        "message": "將頁面保存到自解壓式 HTML/ZIP 混合文件中",
         "description": "Description of the extension."
     },
     "menuSavePage": {
-        "message": "使用 SingleFile 保存頁面",
-        "description": "Menu entry: 'Save page with SingleFile'"
+        "message": "使用 SingleFileZ 保存頁面",
+        "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSaveSelectedLinks": {
         "message": "保存所選鏈接",
@@ -37,7 +37,7 @@
     },
     "menuSaveTabs": {
         "message": "保存標籤頁",
-        "description": "Menu entry (SingleFile button only): 'Save tabs'"
+        "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelectedTabs": {
         "message": "保存所選標籤頁",
@@ -72,20 +72,20 @@
         "description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
     },
     "buttonDefaultTooltip": {
-        "message": "使用 SingleFile 保存頁面",
-        "description": "Button title: 'Save page with SingleFile'"
+        "message": "使用 SingleFileZ 保存頁面",
+        "description": "Button title: 'Save page with SingleFileZ'"
     },
     "buttonBlockedBadge": {
         "message": "🚫",
         "description": "Button badge when the page is blocked: '🚫'"
     },
     "buttonBlockedTooltip": {
-        "message": "SingleFile 無法保存此頁面",
-        "description": "Button title: 'This page cannot be saved with SingleFile'"
+        "message": "SingleFileZ 無法保存此頁面",
+        "description": "Button title: 'This page cannot be saved with SingleFileZ'"
     },
     "buttonInitializingTooltip": {
-        "message": "正在初始化 SingleFile",
-        "description": "Button title during initialization: 'Initializing SingleFile (x/2)'"
+        "message": "正在初始化 SingleFileZ",
+        "description": "Button title during initialization: 'Initializing SingleFileZ (x/2)'"
     },
     "buttonInitializingBadge": {
         "message": "•••",
@@ -124,7 +124,7 @@
         "description": "Options sub-title: 'User interface'"
     },
     "optionAddMenuEntry": {
-        "message": "在頁面的上下文菜單中添加 SingleFile 條目",
+        "message": "在頁面的上下文菜單中添加 SingleFileZ 條目",
         "description": "Options page label: 'add entry in the context menu of the webpage'"
     },
     "optionDisplayShadow": {
@@ -159,10 +159,10 @@
         "message": "模板",
         "description": "Options page label: 'template'"
     },
-    "optionFilenameMaxLength": {
-        "message": "最大長度（字節）",
-        "description": "Options page label: 'max length (bytes)'"
-    },
+	"optionFilenameMaxLength": {
+		"message": "最大長度（字節）",
+		"description": "Options page label: 'max length (bytes)'"
+	},
     "optionConfirmFilename": {
         "message": "打開 “另存為” 對話框以確認文件名",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -196,7 +196,7 @@
         "description": "Options page label: 'compress HTML content'"
     },
     "optionInsertTextBody": {
-        "message": "make text searchable",
+        "message": "使文本可被搜索",
         "description": "Options page label: 'make text searchable'"
     },
     "optionRemoveImports": {
@@ -224,7 +224,7 @@
         "description": "Options page label: 'maximum idle time (ms)'"
     },
 	"optionLoadDeferredImagesKeepZoomLevel": {
-		"message": "zoom out the page",
+		"message": "縮小頁面",
 		"description": "Options page label: 'zoom out the page'"
 	},
     "optionRemoveAlternativeImages": {
@@ -366,10 +366,6 @@
     "optionBackgroundSave": {
         "message": "在後臺保存頁面",
         "description": "Options page label: 'save pages in background'"
-    },
-    "optionApplySystemTheme": {
-        "message": "apply the system theme when formatting a page in the annotation editor",
-        "description": "Title of the button 'apply the system theme when formatting a page in the annotation editor"
     },
     "optionDisplayStats": {
         "message": "處理完成後在控制檯中顯示統計數據",
