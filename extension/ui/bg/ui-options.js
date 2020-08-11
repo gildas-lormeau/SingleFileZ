@@ -701,6 +701,7 @@
 				saveCreatedBookmarks: saveCreatedBookmarksInput.checked,
 				replaceBookmarkURL: replaceBookmarkURLInput.checked,
 				createRootDirectory: createRootDirectoryInput.checked,
+				selfExtractingArchive: selfExtractingArchiveInput.checked,
 				infobarTemplate: infobarTemplateInput.value,
 				includeInfobar: includeInfobarInput.checked,
 				confirmInfobarContent: confirmInfobarInput.checked,
