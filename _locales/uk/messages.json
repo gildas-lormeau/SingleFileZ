@@ -183,10 +183,10 @@
 		"message": "запит імені",
 		"description": "Value for 'name conflict resolution' option: 'prompt for a name'"
 	},
-    "optionFilenameConflictActionSkip": {
-        "message": "skip duplicate files",
-        "description": "Value for 'filename conflict resolution' option: 'skip duplicate files'"
-    },
+	"optionFilenameConflictActionSkip": {
+		"message": "skip duplicate files",
+		"description": "Value for 'filename conflict resolution' option: 'skip duplicate files'"
+	},
 	"optionsHTMLContentSubTitle": {
 		"message": "HTML-вміст",
 		"description": "Options sub-title: 'HTML content'"
@@ -194,10 +194,6 @@
 	"optionCompressHTML": {
 		"message": "стискати вміст HTML ",
 		"description": "Options page label: 'compress HTML content'"
-	},
-	"optionInsertTextBody": {
-		"message": "make text searchable",
-		"description": "Options page label: 'make text searchable'"
 	},
 	"optionRemoveImports": {
 		"message": "видалити HTML-імпорт ",
@@ -210,6 +206,18 @@
 	"optionRemoveHiddenElements": {
 		"message": "видалити приховані елементи",
 		"description": "Options page label: 'remove hidden elements'"
+	},
+	"optionsZipContentSubTitle": {
+		"message": "ZIP content",
+		"description": "Options page label: 'ZIP content'"
+	},
+	"optionCreateRootDirectory": {
+		"message": "create a root directory",
+		"description": "Options page label: 'create a root directory'"
+	},
+	"optionInsertTextBody": {
+		"message": "make text searchable",
+		"description": "Options page label: 'make text searchable'"
 	},
 	"optionsImagesSubTitle": {
 		"message": "Зображення",

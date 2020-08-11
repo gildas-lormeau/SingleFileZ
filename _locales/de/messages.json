@@ -7,10 +7,10 @@
         "message": "Speichern einer Webseite mit SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
-	"menuSaveSelectedLinks": {
-		"message": "Speichern ausgewählter Links",
-		"description": "Menu entry: 'Save selected links'"
-	},
+    "menuSaveSelectedLinks": {
+        "message": "Speichern ausgewählter Links",
+        "description": "Menu entry: 'Save selected links'"
+    },
     "menuViewPendingSaves": {
         "message": "Anzeigen der aktuellen Speichern...",
         "description": "Menu entry: 'View pending saves...'"
@@ -159,10 +159,10 @@
         "message": "Vorlage",
         "description": "Options page label: 'template'"
     },
-	"optionFilenameMaxLength": {
-		"message": "maximale Länge (bytes)",
-		"description": "Options page label: 'max length (bytes)'"
-	},
+    "optionFilenameMaxLength": {
+        "message": "maximale Länge (bytes)",
+        "description": "Options page label: 'max length (bytes)'"
+    },
     "optionConfirmFilename": {
         "message": "Dialogfenster \"Sichern als\" zur Bestätigung des Dateinamens öffnen",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -195,10 +195,6 @@
         "message": "HTML-Inhalt komprimieren",
         "description": "Options page label: 'compress HTML content'"
     },
-    "optionInsertTextBody": {
-        "message": "Text durchsuchbar machen",
-        "description": "Options page label: 'make text searchable'"
-    },
     "optionRemoveImports": {
         "message": "Eingebundene HTML-Inhalte entfernen",
         "description": "Options page label: 'remove HTML imports'"
@@ -210,6 +206,18 @@
     "optionRemoveHiddenElements": {
         "message": "Verborgene Elemente entfernen",
         "description": "Options page label: 'remove hidden elements'"
+    },
+    "optionsZipContentSubTitle": {
+        "message": "ZIP-Inhalt",
+        "description": "Options page label: 'ZIP content'"
+    },
+    "optionCreateRootDirectory": {
+        "message": "Stammverzeichnis erstellen",
+        "description": "Options page label: 'create a root directory'"
+    },
+    "optionInsertTextBody": {
+        "message": "Text durchsuchbar machen",
+        "description": "Options page label: 'make text searchable'"
     },
     "optionsImagesSubTitle": {
         "message": "Bilder",
@@ -223,10 +231,10 @@
         "message": "maximale Inaktivitätszeit (ms)",
         "description": "Options page label: 'maximum idle time (ms)'"
     },
-	"optionLoadDeferredImagesKeepZoomLevel": {
-		"message": "Seite verkleinern",
-		"description": "Options page label: 'zoom out the page'"
-	},
+    "optionLoadDeferredImagesKeepZoomLevel": {
+        "message": "Seite verkleinern",
+        "description": "Options page label: 'zoom out the page'"
+    },
     "optionRemoveAlternativeImages": {
         "message": "Bilder für alternative Bildschirmauflösungen entfernen",
         "description": "Options page label: 'remove images for alternative screen resolutions'"
@@ -387,22 +395,22 @@
         "message": "In Google Drive speichern",
         "description": "Options page label: 'save to Google Drive'"
     },
-	"optionSaveCreatedBookmarks": {
-		"message": "Die Seite eines neu angelegten Bookmark speichern",
-		"description": "Options page label: 'save the page of a newly created bookmark'"
-	},
-	"optionReplaceBookmarkURL": {
-		"message": "Das neue Bookmark mit der gespeicherten Seite verlinken",
-		"description": "Options page label: 'link the new bookmark to the saved page'"
-	},
+    "optionSaveCreatedBookmarks": {
+        "message": "Die Seite eines neu angelegten Bookmark speichern",
+        "description": "Options page label: 'save the page of a newly created bookmark'"
+    },
+    "optionReplaceBookmarkURL": {
+        "message": "Das neue Bookmark mit der gespeicherten Seite verlinken",
+        "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
     "optionsHelpLink": {
         "message": "Hilfe",
         "description": "Options help link"
     },
-	"optionSynchronize": {
-		"message": "Optionen synchronisieren",
-		"description": "Options label: 'synchronize options'"
-	},
+    "optionSynchronize": {
+        "message": "Optionen synchronisieren",
+        "description": "Options label: 'synchronize options'"
+    },
     "optionsResetButton": {
         "message": "Zurücksetzen",
         "description": "Options button: 'Reset'"
@@ -523,20 +531,20 @@
         "message": "No pending saves",
         "description": "Label displayed when they are no pending saves"
     },
-	"pendingsAddUrlsButton": {
-		"message": "Add URLs",
-		"description": "button 'Add URLs'"
-	},
-	"pendingsAddUrls": {
-		"message": "Enter a list of URLs separated by a new line",
-		"description": "Label of the add URLs input"
-	},
-	"pendingsAddUrlsOKButton": {
-		"message": "OK",
-		"description": "Add URLs popup confirm button: 'OK'"
-	},
-	"pendingsAddUrlsCancelButton": {
-		"message": "Abbrechen",
-		"description": "Add URLs popup cancel button: 'Cancel'"
-	}
+    "pendingsAddUrlsButton": {
+        "message": "Add URLs",
+        "description": "button 'Add URLs'"
+    },
+    "pendingsAddUrls": {
+        "message": "Enter a list of URLs separated by a new line",
+        "description": "Label of the add URLs input"
+    },
+    "pendingsAddUrlsOKButton": {
+        "message": "OK",
+        "description": "Add URLs popup confirm button: 'OK'"
+    },
+    "pendingsAddUrlsCancelButton": {
+        "message": "Abbrechen",
+        "description": "Add URLs popup cancel button: 'Cancel'"
+    }
 }

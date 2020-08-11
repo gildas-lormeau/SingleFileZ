@@ -70,10 +70,12 @@
 	const removeAlternativeMediasLabel = document.getElementById("removeAlternativeMediasLabel");
 	const saveCreatedBookmarksLabel = document.getElementById("saveCreatedBookmarksLabel");
 	const replaceBookmarkURLLabel = document.getElementById("replaceBookmarkURLLabel");
+	const createRootDirectoryLabel = document.getElementById("createRootDirectoryLabel");
 	const titleLabel = document.getElementById("titleLabel");
 	const userInterfaceLabel = document.getElementById("userInterfaceLabel");
 	const filenameLabel = document.getElementById("filenameLabel");
 	const htmlContentLabel = document.getElementById("htmlContentLabel");
+	const zipContentLabel = document.getElementById("zipContentLabel");
 	const imagesLabel = document.getElementById("imagesLabel");
 	const stylesheetsLabel = document.getElementById("stylesheetsLabel");
 	const fontsLabel = document.getElementById("fontsLabel");
@@ -138,6 +140,7 @@
 	const removeAlternativeMediasInput = document.getElementById("removeAlternativeMediasInput");
 	const saveCreatedBookmarksInput = document.getElementById("saveCreatedBookmarksInput");
 	const replaceBookmarkURLInput = document.getElementById("replaceBookmarkURLInput");
+	const createRootDirectoryInput = document.getElementById("createRootDirectoryInput");
 	const infobarTemplateInput = document.getElementById("infobarTemplateInput");
 	const includeInfobarInput = document.getElementById("includeInfobarInput");
 	const confirmInfobarInput = document.getElementById("confirmInfobarInput");
@@ -445,10 +448,12 @@
 	removeAlternativeMediasLabel.textContent = browser.i18n.getMessage("optionRemoveAlternativeMedias");
 	saveCreatedBookmarksLabel.textContent = browser.i18n.getMessage("optionSaveCreatedBookmarks");
 	replaceBookmarkURLLabel.textContent = browser.i18n.getMessage("optionReplaceBookmarkURL");
+	createRootDirectoryLabel.textContent = browser.i18n.getMessage("optionCreateRootDirectory");
 	titleLabel.textContent = browser.i18n.getMessage("optionsTitle");
 	userInterfaceLabel.textContent = browser.i18n.getMessage("optionsUserInterfaceSubTitle");
 	filenameLabel.textContent = browser.i18n.getMessage("optionsFileNameSubTitle");
 	htmlContentLabel.textContent = browser.i18n.getMessage("optionsHTMLContentSubTitle");
+	zipContentLabel.textContent = browser.i18n.getMessage("optionsZipContentSubTitle");
 	imagesLabel.textContent = browser.i18n.getMessage("optionsImagesSubTitle");
 	stylesheetsLabel.textContent = browser.i18n.getMessage("optionsStylesheetsSubTitle");
 	fontsLabel.textContent = browser.i18n.getMessage("optionsFontsSubTitle");
@@ -629,6 +634,7 @@
 		saveCreatedBookmarksInput.checked = profileOptions.saveCreatedBookmarks;
 		replaceBookmarkURLInput.checked = profileOptions.saveCreatedBookmarks && profileOptions.backgroundSave && profileOptions.replaceBookmarkURL;
 		replaceBookmarkURLInput.disabled = !profileOptions.saveCreatedBookmarks || !profileOptions.backgroundSave || profileOptions.saveToClipboard || profileOptions.saveToGDrive;
+		createRootDirectoryInput.checked = profileOptions.createRootDirectory;
 		infobarTemplateInput.value = profileOptions.infobarTemplate;
 		includeInfobarInput.checked = profileOptions.includeInfobar;
 		confirmInfobarInput.checked = profileOptions.confirmInfobarContent;
@@ -689,6 +695,7 @@
 				removeAlternativeMedias: removeAlternativeMediasInput.checked,
 				saveCreatedBookmarks: saveCreatedBookmarksInput.checked,
 				replaceBookmarkURL: replaceBookmarkURLInput.checked,
+				createRootDirectory: createRootDirectoryInput.checked,
 				infobarTemplate: infobarTemplateInput.value,
 				includeInfobar: includeInfobarInput.checked,
 				confirmInfobarContent: confirmInfobarInput.checked,

@@ -159,10 +159,10 @@
         "message": "模板",
         "description": "Options page label: 'template'"
     },
-	"optionFilenameMaxLength": {
-		"message": "最大长度（字节）",
-		"description": "Options page label: 'max length (bytes)'"
-	},
+    "optionFilenameMaxLength": {
+        "message": "最大长度（字节）",
+        "description": "Options page label: 'max length (bytes)'"
+    },
     "optionConfirmFilename": {
         "message": "打开 “另存为” 对话框以确认文件名",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -195,10 +195,6 @@
         "message": "压缩 HTML 内容",
         "description": "Options page label: 'compress HTML content'"
     },
-    "optionInsertTextBody": {
-        "message": "使文本可被搜索",
-        "description": "Options page label: 'make text searchable'"
-    },
     "optionRemoveImports": {
         "message": "移除 HTML 导入",
         "description": "Options page label: 'remove HTML imports'"
@@ -210,6 +206,18 @@
     "optionRemoveHiddenElements": {
         "message": "移除隐藏元素",
         "description": "Options page label: 'remove hidden elements'"
+    },
+    "optionsZipContentSubTitle": {
+        "message": "ZIP content",
+        "description": "Options page label: 'ZIP content'"
+    },
+    "optionCreateRootDirectory": {
+        "message": "create a root directory",
+        "description": "Options page label: 'create a root directory'"
+    },
+    "optionInsertTextBody": {
+        "message": "使文本可被搜索",
+        "description": "Options page label: 'make text searchable'"
     },
     "optionsImagesSubTitle": {
         "message": "图片",
@@ -223,10 +231,10 @@
         "message": "最长空闲时间（毫秒）",
         "description": "Options page label: 'maximum idle time (ms)'"
     },
-	"optionLoadDeferredImagesKeepZoomLevel": {
-		"message": "缩小页面",
-		"description": "Options page label: 'zoom out the page'"
-	},
+    "optionLoadDeferredImagesKeepZoomLevel": {
+        "message": "缩小页面",
+        "description": "Options page label: 'zoom out the page'"
+    },
     "optionRemoveAlternativeImages": {
         "message": "移除用于备选分辨率的图片",
         "description": "Options page label: 'remove images for alternative screen resolutions'"

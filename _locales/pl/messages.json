@@ -195,10 +195,6 @@
         "message": "kompresuj zawartość HTML",
         "description": "Options page label: 'compress HTML content'"
     },
-    "optionInsertTextBody": {
-        "message": "umożliwiaj wyszukiwanie tekstu",
-        "description": "Options page label: 'make text searchable'"
-    },
     "optionRemoveImports": {
         "message": "usuwaj importy HTML",
         "description": "Options page label: 'remove HTML imports'"
@@ -210,6 +206,18 @@
     "optionRemoveHiddenElements": {
         "message": "usuwaj ukryte elementy",
         "description": "Options page label: 'remove hidden elements'"
+    },
+    "optionsZipContentSubTitle": {
+        "message": "ZIP content",
+        "description": "Options page label: 'ZIP content'"
+    },
+    "optionCreateRootDirectory": {
+        "message": "create a root directory",
+        "description": "Options page label: 'create a root directory'"
+    },
+    "optionInsertTextBody": {
+        "message": "umożliwiaj wyszukiwanie tekstu",
+        "description": "Options page label: 'make text searchable'"
     },
     "optionsImagesSubTitle": {
         "message": "Obrazy",
@@ -223,10 +231,10 @@
         "message": "maksymalny czas bezczynności (ms)",
         "description": "Options page label: 'maximum idle time (ms)'"
     },
-	"optionLoadDeferredImagesKeepZoomLevel": {
-		"message": "pomniejsz stronę",
-		"description": "Options page label: 'zoom out the page'"
-	},
+    "optionLoadDeferredImagesKeepZoomLevel": {
+        "message": "pomniejsz stronę",
+        "description": "Options page label: 'zoom out the page'"
+    },
     "optionRemoveAlternativeImages": {
         "message": "usuwaj obrazy dla alternatywnych rozdzielczości ekranu",
         "description": "Options page label: 'remove images for alternative screen resolutions'"

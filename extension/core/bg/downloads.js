@@ -85,16 +85,17 @@ singlefile.extension.core.bg.downloads = (() => {
 	}
 
 	async function downloadTabPage(message, tab) {
+		const tabId = tab.id;
 		let contents;
 		if (message.truncated) {
-			contents = partialContents.get(tab.id);
+			contents = partialContents.get(tabId);
 			if (!contents) {
 				contents = [];
-				partialContents.set(tab.id, contents);
+				partialContents.set(tabId, contents);
 			}
 			contents.push(message.content);
 			if (message.finished) {
-				partialContents.delete(tab.id);
+				partialContents.delete(tabId);
 			}
 		} else if (message.content) {
 			contents = [message.content];
@@ -107,11 +108,11 @@ singlefile.extension.core.bg.downloads = (() => {
 				skipped = testSkip.skipped;
 			}
 			if (skipped) {
-				singlefile.extension.ui.bg.main.onEnd(tab.id);
+				singlefile.extension.ui.bg.main.onEnd(tabId);
 			} else {
 				const pageData = protobuf.roots.default.Page.decode(singlefile.lib.helper.flatten(contents));
-				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url });
-				await downloadBlob(blob, tab.id, tab.incognito, message);
+				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url, createRootDirectory: message.createRootDirectory, tabId });
+				await downloadBlob(blob, tabId, tab.incognito, message);
 			}
 		}
 		return {};
@@ -135,7 +136,8 @@ singlefile.extension.core.bg.downloads = (() => {
 						filenameConflictAction: message.filenameConflictAction,
 						filenameReplacementCharacter: message.filenameReplacementCharacter,
 						bookmarkId: message.bookmarkId,
-						replaceBookmarkURL: message.replaceBookmarkURL
+						replaceBookmarkURL: message.replaceBookmarkURL,
+						createRootDirectory: message.createRootDirectory
 					});
 				} else {
 					await downloadPageForeground(message.filename, blob, tabId);

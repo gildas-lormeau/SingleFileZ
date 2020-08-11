@@ -60,7 +60,7 @@ singlefile.extension.core.bg.compression = (() => {
 		const zipWriter = await new Promise((resolve, reject) => zip.createWriter(blobWriter, resolve, reject));
 		pageData.url = options.url;
 		pageData.archiveTime = (new Date()).toISOString();
-		await addPageResources(zipWriter, pageData, "", options.url);
+		await addPageResources(zipWriter, pageData, options.createRootDirectory ? String(Date.now()) + "_" + (options.tabId || 0) + "/" : "", options.url);
 		const comment = "]]></xmp></html>";
 		return new Promise(resolve => zipWriter.close(data => resolve(new Blob([data, comment], { type: "text/html" })), comment.length));
 	}
@@ -178,7 +178,7 @@ singlefile.extension.core.bg.compression = (() => {
 					} else if (resource.filename.match(/index\.html$/)) {
 						mimeType = "text/html";
 					}
-					if (resource.filename == "index.html") {
+					if (resource.filename.match(/^([0-9_]+\/)?index.html$/)) {
 						docContent = resource.textContent;
 					} else {
 						const reader = new FileReader();

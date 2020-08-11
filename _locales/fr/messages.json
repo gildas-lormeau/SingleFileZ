@@ -7,14 +7,14 @@
         "message": "Sauver la page avec SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
-	"menuSaveSelectedLinks": {
-		"message": "Sauver les liens selectionnés",
-		"description": "Menu entry: 'Save selected links'"
-	},
-	"menuViewPendingSaves": {
-		"message": "Afficher les sauvegardes en cours...",
-		"description": "Menu entry: 'View pending saves...'"
-	},
+    "menuSaveSelectedLinks": {
+        "message": "Sauver les liens selectionnés",
+        "description": "Menu entry: 'Save selected links'"
+    },
+    "menuViewPendingSaves": {
+        "message": "Afficher les sauvegardes en cours...",
+        "description": "Menu entry: 'View pending saves...'"
+    },
     "menuSelectProfile": {
         "message": "Sélectionner le profil par défaut",
         "description": "Menu entry: 'Select the default profile'"
@@ -95,10 +95,10 @@
         "message": "Progression de la sauvegarde : ",
         "description": "Button title during save: 'Save progress: xx%'"
     },
-	"buttonUploadProgressTooltip": {
-		"message": "Progression de l'envoi: ",
-		"description": "Button title during save: 'Upload progress: xx%'"
-	},
+    "buttonUploadProgressTooltip": {
+        "message": "Progression de l'envoi: ",
+        "description": "Button title during save: 'Upload progress: xx%'"
+    },
     "buttonOKBadge": {
         "message": "OK",
         "description": "Badge label: 'OK'"
@@ -159,10 +159,10 @@
         "message": "modèle",
         "description": "Options page label: 'template'"
     },
-	"optionFilenameMaxLength": {
-		"message": "longueur maximale (octets)",
-		"description": "Options page label: 'max length (bytes)'"
-	},
+    "optionFilenameMaxLength": {
+        "message": "longueur maximale (octets)",
+        "description": "Options page label: 'max length (bytes)'"
+    },
     "optionConfirmFilename": {
         "message": "ouvrir la boite de dialogue \"Sauver sous\" pour confimer le nom de fichier",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -195,10 +195,6 @@
         "message": "compresser le contenu HTML",
         "description": "Options page label: 'compress HTML content'"
     },
-    "optionInsertTextBody": {
-        "message": "rendre le texte cherchable",
-        "description": "Options page label: 'make text searchable'"
-    },
     "optionRemoveImports": {
         "message": "supprimer les imports HTML",
         "description": "Options page label: 'remove HTML imports'"
@@ -210,6 +206,18 @@
     "optionRemoveHiddenElements": {
         "message": "supprimer les élements cachés",
         "description": "Options page label: 'remove hidden elements'"
+    },
+    "optionsZipContentSubTitle": {
+        "message": "Contenu du ZIP",
+        "description": "Options page label: 'ZIP content'"
+    },
+    "optionCreateRootDirectory": {
+        "message": "créer un répertoire racine",
+        "description": "Options page label: 'create a root directory'"
+    },
+    "optionInsertTextBody": {
+        "message": "rendre le texte cherchable",
+        "description": "Options page label: 'make text searchable'"
     },
     "optionsImagesSubTitle": {
         "message": "Images",
@@ -223,10 +231,10 @@
         "message": "temps d'inactivité maximal (ms)",
         "description": "Options page label: 'maximum idle time (ms)'"
     },
-	"optionLoadDeferredImagesKeepZoomLevel": {
-		"message": "dézoomer la page",
-		"description": "Options page label: 'zoom out the page'"
-	},
+    "optionLoadDeferredImagesKeepZoomLevel": {
+        "message": "dézoomer la page",
+        "description": "Options page label: 'zoom out the page'"
+    },
     "optionRemoveAlternativeImages": {
         "message": "supprimer les images pour des résolutions d'écran alternatives",
         "description": "Options page label: 'remove images for alternative screen resolutions'"
@@ -363,10 +371,10 @@
         "message": "Divers",
         "description": "Options sub-title: 'Misc.'"
     },
-	"optionBackgroundSave": {
-		"message": "sauvegarder la page en tâche de fond",
-		"description": "Options page label: 'save pages in background'"
-	},
+    "optionBackgroundSave": {
+        "message": "sauvegarder la page en tâche de fond",
+        "description": "Options page label: 'save pages in background'"
+    },
     "optionDisplayStats": {
         "message": "afficher les statistiques dans la console après la sauvegarde",
         "description": "Options page label: 'display stats in the console after processing'"
@@ -383,26 +391,26 @@
         "message": "sauvegarder la page brute",
         "description": "Options page label: 'save raw page'"
     },
-	"optionSaveToGDrive": {
-		"message": "sauvegarder dans Google Drive",
-		"description": "Options page label: 'save to Google Drive'"
-	},
-	"optionSaveCreatedBookmarks": {
-		"message": "sauvegarder la page d'un signet nouvellement créé",
-		"description": "Options page label: 'save the page of a newly created bookmark'"
-	},
-	"optionReplaceBookmarkURL": {
-		"message": "lier le nouveau signet à la page sauvegardée",
-		"description": "Options page label: 'link the new bookmark to the saved page'"
-	},
+    "optionSaveToGDrive": {
+        "message": "sauvegarder dans Google Drive",
+        "description": "Options page label: 'save to Google Drive'"
+    },
+    "optionSaveCreatedBookmarks": {
+        "message": "sauvegarder la page d'un signet nouvellement créé",
+        "description": "Options page label: 'save the page of a newly created bookmark'"
+    },
+    "optionReplaceBookmarkURL": {
+        "message": "lier le nouveau signet à la page sauvegardée",
+        "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
     "optionsHelpLink": {
         "message": "aide (anglais)",
         "description": "Options help link"
     },
-	"optionSynchronize": {
-		"message": "synchronizer les options",
-		"description": "Options label: 'Synchronize options'"
-	},
+    "optionSynchronize": {
+        "message": "synchronizer les options",
+        "description": "Options label: 'Synchronize options'"
+    },
     "optionsResetButton": {
         "message": "Remise à zéro",
         "description": "Options button: 'Reset'"
@@ -487,56 +495,56 @@
         "message": "Saisissez un nouveau nom pour le profil sélectionné",
         "description": "Popup text 'Enter a new name for the selected profile' in the options page"
     },
-	"pendingsTitle": {
-		"message": "Sauvegardes en cours",
-		"description": "Title of the pending save page 'Pending saves' in the editor"
-	},
-	"pendingsCancelAllButton": {
-		"message": "Annuler tout",
-		"description": "Pending saves button 'Cancel all'"
-	},
-	"pendingsTitleTitle": {
-		"message": "Titre",
-		"description": "Title of the first column in the table of the pending saves 'Title'"
-	},
-	"pendingsURLTitle": {
-		"message": "URL",
-		"description": "Title of the first column in the table of the pending saves 'URL'"
-	},
-	"pendingsStatusTitle": {
-		"message": "statut",
-		"description": "Title of the second column in the table of the pending saves 'status'"
-	},
-	"pendingsPendingStatus": {
-		"message": "en attente",
-		"description": "Value of 'status' for pending saves"
-	},
-	"pendingsProcessingStatus": {
-		"message": "en cours",
-		"description": "Value of 'status' for current saves"
-	},
-	"pendingsCancellingStatus": {
-		"message": "annulation",
-		"description": "Value of 'status' for cancelled saves"
-	},
-	"pendingsNoPendings": {
-		"message": "Aucune sauvegarde en cours",
-		"description": "Label displayed when they are no pending saves"
-	},
-	"pendingsAddUrlsButton": {
-		"message": "Ajouter URLs",
-		"description": "button 'Add URLs'"
-	},
-	"pendingsAddUrls": {
-		"message": "Entrez une liste d'URLs séparées par une nouvelle ligne",
-		"description": "Label of the add URLs input"
-	},
-	"pendingsAddUrlsOKButton": {
-		"message": "OK",
-		"description": "Add URLs popup confirm button: 'OK'"
-	},
-	"pendingsAddUrlsCancelButton": {
-		"message": "Annuler",
-		"description": "Add URLs popup cancel button: 'Cancel'"
-	}
+    "pendingsTitle": {
+        "message": "Sauvegardes en cours",
+        "description": "Title of the pending save page 'Pending saves' in the editor"
+    },
+    "pendingsCancelAllButton": {
+        "message": "Annuler tout",
+        "description": "Pending saves button 'Cancel all'"
+    },
+    "pendingsTitleTitle": {
+        "message": "Titre",
+        "description": "Title of the first column in the table of the pending saves 'Title'"
+    },
+    "pendingsURLTitle": {
+        "message": "URL",
+        "description": "Title of the first column in the table of the pending saves 'URL'"
+    },
+    "pendingsStatusTitle": {
+        "message": "statut",
+        "description": "Title of the second column in the table of the pending saves 'status'"
+    },
+    "pendingsPendingStatus": {
+        "message": "en attente",
+        "description": "Value of 'status' for pending saves"
+    },
+    "pendingsProcessingStatus": {
+        "message": "en cours",
+        "description": "Value of 'status' for current saves"
+    },
+    "pendingsCancellingStatus": {
+        "message": "annulation",
+        "description": "Value of 'status' for cancelled saves"
+    },
+    "pendingsNoPendings": {
+        "message": "Aucune sauvegarde en cours",
+        "description": "Label displayed when they are no pending saves"
+    },
+    "pendingsAddUrlsButton": {
+        "message": "Ajouter URLs",
+        "description": "button 'Add URLs'"
+    },
+    "pendingsAddUrls": {
+        "message": "Entrez une liste d'URLs séparées par une nouvelle ligne",
+        "description": "Label of the add URLs input"
+    },
+    "pendingsAddUrlsOKButton": {
+        "message": "OK",
+        "description": "Add URLs popup confirm button: 'OK'"
+    },
+    "pendingsAddUrlsCancelButton": {
+        "message": "Annuler",
+        "description": "Add URLs popup cancel button: 'Cancel'"
+    }
 }
