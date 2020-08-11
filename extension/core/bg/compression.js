@@ -152,6 +152,7 @@ singlefile.extension.core.bg.compression = (() => {
 				resources.push({ filename: entry.filename, content, textContent });
 			}
 			resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
+			const REGEXP_ESCAPE = /([{}()^$&.*?/+|[\\\\]|\]|-)/g;
 			let docContent;
 			for (const resource of resources) {
 				if (resource.textContent !== undefined) {
@@ -165,7 +166,7 @@ singlefile.extension.core.bg.compression = (() => {
 						resources.forEach(innerResource => {
 							if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
 								const filename = innerResource.filename.substring(prefixPath.length);
-								resource.textContent = resource.textContent.replace(new RegExp(filename, "g"), innerResource.content);
+								resource.textContent = resource.textContent.replace(new RegExp(filename.replace(REGEXP_ESCAPE, "\\$1"), "g"), innerResource.content);
 							}
 						});
 					}
