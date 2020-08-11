@@ -476,7 +476,7 @@
         "description": "Tooltip 'Delete the profile' in the options page"
     },
     "profileAddPrompt": {
-        "message": "请为这个新的配置文件输入名称",
+        "message": "请输入这个新的配置文件名",
         "description": "Popup text 'Enter a name for this new profile' in the options page"
     },
     "profileDeleteConfirm": {
