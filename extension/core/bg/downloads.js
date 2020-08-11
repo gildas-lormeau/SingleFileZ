@@ -111,7 +111,13 @@ singlefile.extension.core.bg.downloads = (() => {
 				singlefile.extension.ui.bg.main.onEnd(tabId);
 			} else {
 				const pageData = protobuf.roots.default.Page.decode(singlefile.lib.helper.flatten(contents));
-				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, { insertTextBody: message.insertTextBody, url: tab.url, createRootDirectory: message.createRootDirectory, tabId });
+				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, {
+					insertTextBody: message.insertTextBody,
+					url: tab.url,
+					createRootDirectory: message.createRootDirectory,
+					tabId,
+					selfExtractingArchive: message.selfExtractingArchive,
+				});
 				await downloadBlob(blob, tabId, tab.incognito, message);
 			}
 		}

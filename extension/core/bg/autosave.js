@@ -132,9 +132,9 @@ singlefile.extension.core.bg.autosave = (() => {
 				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, {
 					insertTextBody: options.insertTextBody,
 					url: tab.url,
-					createRootDirectory:
-						options.createRootDirectory,
-					tabId
+					createRootDirectory: options.createRootDirectory,
+					tabId,
+					selfExtractingArchive: options.selfExtractingArchive
 				});
 				if (options.saveToGDrive) {
 					await singlefile.extension.core.bg.downloads.uploadPage(message.taskId, pageData.filename, blob, options, {});

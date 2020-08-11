@@ -71,6 +71,7 @@
 	const saveCreatedBookmarksLabel = document.getElementById("saveCreatedBookmarksLabel");
 	const replaceBookmarkURLLabel = document.getElementById("replaceBookmarkURLLabel");
 	const createRootDirectoryLabel = document.getElementById("createRootDirectoryLabel");
+	const selfExtractingArchiveLabel = document.getElementById("selfExtractingArchiveLabel");
 	const titleLabel = document.getElementById("titleLabel");
 	const userInterfaceLabel = document.getElementById("userInterfaceLabel");
 	const filenameLabel = document.getElementById("filenameLabel");
@@ -141,6 +142,7 @@
 	const saveCreatedBookmarksInput = document.getElementById("saveCreatedBookmarksInput");
 	const replaceBookmarkURLInput = document.getElementById("replaceBookmarkURLInput");
 	const createRootDirectoryInput = document.getElementById("createRootDirectoryInput");
+	const selfExtractingArchiveInput = document.getElementById("selfExtractingArchiveInput");
 	const infobarTemplateInput = document.getElementById("infobarTemplateInput");
 	const includeInfobarInput = document.getElementById("includeInfobarInput");
 	const confirmInfobarInput = document.getElementById("confirmInfobarInput");
@@ -449,6 +451,7 @@
 	saveCreatedBookmarksLabel.textContent = browser.i18n.getMessage("optionSaveCreatedBookmarks");
 	replaceBookmarkURLLabel.textContent = browser.i18n.getMessage("optionReplaceBookmarkURL");
 	createRootDirectoryLabel.textContent = browser.i18n.getMessage("optionCreateRootDirectory");
+	selfExtractingArchiveLabel.textContent = browser.i18n.getMessage("optionSelfExtractingArchive");
 	titleLabel.textContent = browser.i18n.getMessage("optionsTitle");
 	userInterfaceLabel.textContent = browser.i18n.getMessage("optionsUserInterfaceSubTitle");
 	filenameLabel.textContent = browser.i18n.getMessage("optionsFileNameSubTitle");
@@ -593,6 +596,7 @@
 		saveRawPageInput.checked = profileOptions.saveRawPage;
 		compressHTMLInput.checked = profileOptions.compressHTML;
 		insertTextBodyInput.checked = profileOptions.insertTextBody;
+		insertTextBodyInput.disabled = !profileOptions.selfExtractingArchive;
 		saveToGDriveInput.checked = profileOptions.saveToGDrive;
 		compressCSSInput.checked = profileOptions.compressCSS;
 		loadDeferredImagesInput.checked = profileOptions.loadDeferredImages && !profileOptions.saveRawPage;
@@ -635,6 +639,7 @@
 		replaceBookmarkURLInput.checked = profileOptions.saveCreatedBookmarks && profileOptions.backgroundSave && profileOptions.replaceBookmarkURL;
 		replaceBookmarkURLInput.disabled = !profileOptions.saveCreatedBookmarks || !profileOptions.backgroundSave || profileOptions.saveToClipboard || profileOptions.saveToGDrive;
 		createRootDirectoryInput.checked = profileOptions.createRootDirectory;
+		selfExtractingArchiveInput.checked = profileOptions.selfExtractingArchive;
 		infobarTemplateInput.value = profileOptions.infobarTemplate;
 		includeInfobarInput.checked = profileOptions.includeInfobar;
 		confirmInfobarInput.checked = profileOptions.confirmInfobarContent;

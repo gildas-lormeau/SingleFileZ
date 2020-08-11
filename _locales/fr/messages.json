@@ -215,6 +215,10 @@
         "message": "créer un répertoire racine",
         "description": "Options page label: 'create a root directory'"
     },
+    "optionSelfExtractingArchive": {
+        "message": "créer des archives auto-extractibles",
+        "description": "Options page label: 'create self extracting archives'"
+    },
     "optionInsertTextBody": {
         "message": "rendre le texte cherchable",
         "description": "Options page label: 'make text searchable'"

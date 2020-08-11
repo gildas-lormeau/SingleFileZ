@@ -215,6 +215,10 @@
         "message": "create a root directory",
         "description": "Options page label: 'create a root directory'"
     },
+    "optionSelfExtractingArchive": {
+        "message": "create self extracting archives",
+        "description": "Options page label: 'create self extracting archives'"
+    },
     "optionInsertTextBody": {
         "message": "make text searchable",
         "description": "Options page label: 'make text searchable'"

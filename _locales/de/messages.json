@@ -215,6 +215,10 @@
         "message": "Stammverzeichnis erstellen",
         "description": "Options page label: 'create a root directory'"
     },
+    "optionSelfExtractingArchive": {
+        "message": "Erstellen von selbstextrahierenden Archiven",
+        "description": "Options page label: 'create self extracting archives'"
+    },
     "optionInsertTextBody": {
         "message": "Text durchsuchbar machen",
         "description": "Options page label: 'make text searchable'"

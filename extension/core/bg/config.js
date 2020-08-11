@@ -88,7 +88,8 @@ singlefile.extension.core.bg.config = (() => {
 		replaceBookmarkURL: true,
 		saveFavicon: true,
 		includeBOM: false,
-		createRootDirectory: false
+		createRootDirectory: false,
+		selfExtractingArchive: true
 	};
 
 	let configStorage;

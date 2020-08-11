@@ -55,7 +55,8 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 				backgroundSave: options.backgroundSave,
 				bookmarkId: options.bookmarkId,
 				replaceBookmarkURL: options.replaceBookmarkURL,
-				createRootDirectory: options.createRootDirectory
+				createRootDirectory: options.createRootDirectory,
+				selfExtractingArchive: options.selfExtractingArchive
 			};
 			message.truncated = content.length > MAX_CONTENT_SIZE;
 			if (message.truncated) {
