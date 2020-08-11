@@ -136,8 +136,7 @@ singlefile.extension.core.bg.downloads = (() => {
 						filenameConflictAction: message.filenameConflictAction,
 						filenameReplacementCharacter: message.filenameReplacementCharacter,
 						bookmarkId: message.bookmarkId,
-						replaceBookmarkURL: message.replaceBookmarkURL,
-						createRootDirectory: message.createRootDirectory
+						replaceBookmarkURL: message.replaceBookmarkURL
 					});
 				} else {
 					await downloadPageForeground(message.filename, blob, tabId);
