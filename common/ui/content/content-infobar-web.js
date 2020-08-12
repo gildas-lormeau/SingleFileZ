@@ -38,7 +38,7 @@
 		} else {
 			displayIcon();
 		}
-		document.addEventListener("single-file-display-infobar", displayIcon, false);
+		document.addEventListener("single-filez-display-infobar", displayIcon, false);
 	}
 	return {};
 

@@ -219,7 +219,7 @@ singlefile.extension.core.bg.compression = (() => {
 					}
 				});
 			}
-			document.dispatchEvent(new CustomEvent("single-file-display-infobar"));
+			document.dispatchEvent(new CustomEvent("single-filez-display-infobar"));
 		}
 
 		function displayMessage(elementId) {
