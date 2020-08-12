@@ -7,6 +7,10 @@
         "message": "Save page with SingleFileZ",
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
+    "menuSaveWithProfile": {
+        "message": "Save page with profile",
+        "description": "Menu entry: 'Save with profile'"
+    },
     "menuSaveSelectedLinks": {
         "message": "Save selected links",
         "description": "Menu entry: 'Save selected links'"
@@ -159,10 +163,10 @@
         "message": "template",
         "description": "Options page label: 'template'"
     },
-	"optionFilenameMaxLength": {
-		"message": "max length (bytes)",
-		"description": "Options page label: 'max length (bytes)'"
-	},
+    "optionFilenameMaxLength": {
+        "message": "max length (bytes)",
+        "description": "Options page label: 'max length (bytes)'"
+    },
     "optionConfirmFilename": {
         "message": "open the \"Save as\" dialog to confirm the file name",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -235,10 +239,10 @@
         "message": "maximum idle time (ms)",
         "description": "Options page label: 'maximum idle time (ms)'"
     },
-	"optionLoadDeferredImagesKeepZoomLevel": {
-		"message": "zoom out the page",
-		"description": "Options page label: 'zoom out the page'"
-	},
+    "optionLoadDeferredImagesKeepZoomLevel": {
+        "message": "zoom out the page",
+        "description": "Options page label: 'zoom out the page'"
+    },
     "optionRemoveAlternativeImages": {
         "message": "remove images for alternative screen resolutions",
         "description": "Options page label: 'remove images for alternative screen resolutions'"
@@ -403,10 +407,10 @@
         "message": "save the page of a newly created bookmark",
         "description": "Options page label: 'save the page of a newly created bookmark'"
     },
-	"optionReplaceBookmarkURL": {
-		"message": "link the new bookmark to the saved page",
-		"description": "Options page label: 'link the new bookmark to the saved page'"
-	},
+    "optionReplaceBookmarkURL": {
+        "message": "link the new bookmark to the saved page",
+        "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
     "optionsHelpLink": {
         "message": "help",
         "description": "Options help link"

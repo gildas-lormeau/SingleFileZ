@@ -7,6 +7,10 @@
 		"message": "Сохранить страницу с помощью SingleFileZ",
 		"description": "Menu entry: 'Save page with SingleFileZ'"
 	},
+	"menuSaveWithProfile": {
+		"message": "Save page with profile",
+		"description": "Menu entry: 'Save with profile'"
+	},	
 	"menuSaveSelectedLinks": {
 		"message": "Сохранить выбранные ссылки",
 		"description": "Menu entry: 'Save selected links'"
