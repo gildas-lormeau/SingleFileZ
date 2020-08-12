@@ -208,15 +208,15 @@
         "description": "Options page label: 'remove hidden elements'"
     },
     "optionsZipContentSubTitle": {
-        "message": "ZIP content",
+        "message": "Zawartość ZIP",
         "description": "Options page label: 'ZIP content'"
     },
     "optionCreateRootDirectory": {
-        "message": "create a root directory",
+        "message": "twórz katalog główny",
         "description": "Options page label: 'create a root directory'"
     },
     "optionSelfExtractingArchive": {
-        "message": "create self extracting archives",
+        "message": "twórz samorozpakowujące się archiwa",
         "description": "Options page label: 'create self extracting archives'"
     },
     "optionInsertTextBody": {
