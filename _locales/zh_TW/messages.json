@@ -8,9 +8,9 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSaveWithProfile": {
-        "message": "Save page with profile",
-        "description": "Menu entry: 'Save with profile'"
-    },
+		"message": "使用指定的配置文件保存頁面",
+		"description": "Menu entry: 'Save with profile'"
+	},	
     "menuSaveSelectedLinks": {
         "message": "保存所選鏈接",
         "description": "Menu entry: 'Save selected links'"
@@ -212,15 +212,15 @@
         "description": "Options page label: 'remove hidden elements'"
     },
     "optionsZipContentSubTitle": {
-        "message": "ZIP content",
+        "message": "壓縮文件內容",
         "description": "Options page label: 'ZIP content'"
     },
     "optionCreateRootDirectory": {
-        "message": "create a root directory",
+        "message": "創建根目錄",
         "description": "Options page label: 'create a root directory'"
     },
     "optionSelfExtractingArchive": {
-        "message": "create self extracting archives",
+        "message": "創建自解壓格式壓縮文件",
         "description": "Options page label: 'create self extracting archives'"
     },
     "optionInsertTextBody": {
