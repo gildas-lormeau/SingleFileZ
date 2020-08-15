@@ -212,15 +212,15 @@
         "description": "Options page label: 'remove hidden elements'"
     },
     "optionsZipContentSubTitle": {
-        "message": "ZIP content",
+        "message": "壓縮文件內容",
         "description": "Options page label: 'ZIP content'"
     },
     "optionCreateRootDirectory": {
-        "message": "create a root directory",
+        "message": "創建根目錄",
         "description": "Options page label: 'create a root directory'"
     },
     "optionSelfExtractingArchive": {
-        "message": "create self extracting archives",
+        "message": "創建自解壓格式壓縮文件",
         "description": "Options page label: 'create self extracting archives'"
     },
     "optionInsertTextBody": {
