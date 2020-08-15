@@ -8,7 +8,7 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSaveWithProfile": {
-		"message": "Save page with profile",
+		"message": "使用指定的配置文件保存页面",
 		"description": "Menu entry: 'Save with profile'"
 	},	
     "menuSaveSelectedLinks": {
