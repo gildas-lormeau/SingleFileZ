@@ -4,7 +4,7 @@
         "description": "Description of the extension."
     },
     "commandSaveTab": {
-        "message": "Save the current tab or the selected content",
+        "message": "保存所选标签页或选中部分",
         "description": "Command (Ctrl+Shift+Y): 'Save the current tab or the selected content'"
     },
     "commandSaveAllTabs": {
@@ -16,9 +16,9 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSaveWithProfile": {
-		"message": "使用指定的配置文件保存页面",
-		"description": "Menu entry: 'Save with profile'"
-	},	
+        "message": "使用指定的配置文件保存页面",
+        "description": "Menu entry: 'Save with profile'"
+    },
     "menuSaveSelectedLinks": {
         "message": "保存所选链接",
         "description": "Menu entry: 'Save selected links'"
