@@ -139,7 +139,7 @@ singlefile.extension.core.bg.tabs = (() => {
 		}
 	}
 
-	async function onTabUpdated(tabId, changeInfo) {
+	function onTabUpdated(tabId, changeInfo) {
 		if (changeInfo.status == "complete") {
 			setTimeout(async () => {
 				try {
