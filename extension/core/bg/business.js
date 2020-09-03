@@ -30,6 +30,8 @@ singlefile.extension.core.bg.business = (() => {
 	const ERROR_CONNECTION_LOST_GECKO = "Message manager disconnected";
 	const INJECT_SCRIPTS_STEP = 1;
 	const EXECUTE_SCRIPTS_STEP = 2;
+	const TASK_PENDING_STATE = "pending";
+	const TASK_PROCESSING_STATE = "processing";
 
 	const extensionScriptFiles = [
 		"common/index.js",
@@ -94,7 +96,7 @@ singlefile.extension.core.bg.business = (() => {
 			Object.keys(options).forEach(key => tabOptions[key] = options[key]);
 			tabOptions.autoClose = true;
 			tabOptions.extensionScriptFiles = extensionScriptFiles;
-			tasks.push({ id: currentTaskId, status: "pending", tab: { url }, options: tabOptions, method: "content.save" });
+			tasks.push({ id: currentTaskId, status: TASK_PENDING_STATE, tab: { url }, options: tabOptions, method: "content.save" });
 			currentTaskId++;
 		}));
 		runTasks();
@@ -114,7 +116,7 @@ singlefile.extension.core.bg.business = (() => {
 			tabOptions.extensionScriptFiles = extensionScriptFiles;
 			if (options.autoSave) {
 				if (autosave.isEnabled(tab)) {
-					const taskInfo = { id: currentTaskId, status: "processing", tab, options: tabOptions, method: "content.autosave" };
+					const taskInfo = { id: currentTaskId, status: TASK_PROCESSING_STATE, tab, options: tabOptions, method: "content.autosave" };
 					tasks.push(taskInfo);
 					runTask(taskInfo);
 					currentTaskId++;
@@ -124,7 +126,7 @@ singlefile.extension.core.bg.business = (() => {
 				const scriptsInjected = await singlefile.extension.injectScript(tabId, tabOptions);
 				if (scriptsInjected) {
 					ui.onStart(tabId, EXECUTE_SCRIPTS_STEP);
-					tasks.push({ id: currentTaskId, status: "pending", tab, options: tabOptions, method: "content.save" });
+					tasks.push({ id: currentTaskId, status: TASK_PENDING_STATE, tab, options: tabOptions, method: "content.save" });
 					currentTaskId++;
 				} else {
 					ui.onForbiddenDomain(tab);
@@ -141,9 +143,9 @@ singlefile.extension.core.bg.business = (() => {
 	}
 
 	function runTasks() {
-		const processingCount = tasks.filter(taskInfo => taskInfo.status == "processing").length;
+		const processingCount = tasks.filter(taskInfo => taskInfo.status == TASK_PROCESSING_STATE).length;
 		for (let index = 0; index < Math.min(tasks.length - processingCount, (maxParallelWorkers - processingCount)); index++) {
-			const taskInfo = tasks.find(taskInfo => taskInfo.status == "pending");
+			const taskInfo = tasks.find(taskInfo => taskInfo.status == TASK_PENDING_STATE);
 			if (taskInfo) {
 				runTask(taskInfo);
 			}
@@ -154,7 +156,7 @@ singlefile.extension.core.bg.business = (() => {
 		const ui = singlefile.extension.ui.bg.main;
 		const tabs = singlefile.extension.core.bg.tabs;
 		const taskId = taskInfo.id;
-		taskInfo.status = "processing";
+		taskInfo.status = TASK_PROCESSING_STATE;
 		taskInfo.done = () => {
 			tasks.splice(tasks.findIndex(taskInfo => taskInfo.id == taskId), 1);
 			runTasks();
