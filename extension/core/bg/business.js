@@ -65,8 +65,8 @@ singlefile.extension.core.bg.business = (() => {
 		},
 		onSaveEnd: taskId => {
 			const taskInfo = tasks.find(taskInfo => taskInfo.id == taskId);
-			if (taskInfo) {
-				taskInfo.resolve();
+			if (taskInfo && taskInfo.done) {
+				taskInfo.done();
 			}
 		},
 		onInit: tab => cancelTab(tab.id),
@@ -150,55 +150,47 @@ singlefile.extension.core.bg.business = (() => {
 		}
 	}
 
-	function runTask(taskInfo) {
+	async function runTask(taskInfo) {
 		const ui = singlefile.extension.ui.bg.main;
 		const tabs = singlefile.extension.core.bg.tabs;
 		const taskId = taskInfo.id;
-		return new Promise(async (resolve, reject) => { // eslint-disable-line no-async-promise-executor
-			taskInfo.status = "processing";
-			taskInfo.resolve = () => {
-				tasks.splice(tasks.findIndex(taskInfo => taskInfo.id == taskId), 1);
-				resolve();
-				runTasks();
-			};
-			taskInfo.reject = error => {
-				tasks.splice(tasks.findIndex(taskInfo => taskInfo.id == taskId), 1);
-				reject(error);
-				runTasks();
-			};
-			if (!taskInfo.tab.id) {
-				let scriptsInjected;
-				try {
-					const tab = await tabs.createAndWait({ url: taskInfo.tab.url, active: false });
-					taskInfo.tab.id = taskInfo.options.tabId = tab.id;
-					taskInfo.tab.index = taskInfo.options.tabIndex = tab.index;
-					ui.onStart(taskInfo.tab.id, INJECT_SCRIPTS_STEP);
-					scriptsInjected = await singlefile.extension.injectScript(taskInfo.tab.id, taskInfo.options);
-				} catch (tabId) {
-					taskInfo.tab.id = tabId;
-				}
-				if (scriptsInjected) {
-					ui.onStart(taskInfo.tab.id, EXECUTE_SCRIPTS_STEP);
-				} else {
-					taskInfo.reject();
-					return;
-				}
+		taskInfo.status = "processing";
+		taskInfo.done = () => {
+			tasks.splice(tasks.findIndex(taskInfo => taskInfo.id == taskId), 1);
+			runTasks();
+		};
+		if (!taskInfo.tab.id) {
+			let scriptsInjected;
+			try {
+				const tab = await tabs.createAndWait({ url: taskInfo.tab.url, active: false });
+				taskInfo.tab.id = taskInfo.options.tabId = tab.id;
+				taskInfo.tab.index = taskInfo.options.tabIndex = tab.index;
+				ui.onStart(taskInfo.tab.id, INJECT_SCRIPTS_STEP);
+				scriptsInjected = await singlefile.extension.injectScript(taskInfo.tab.id, taskInfo.options);
+			} catch (tabId) {
+				taskInfo.tab.id = tabId;
 			}
-			taskInfo.options.taskId = taskId;
-			tabs.sendMessage(taskInfo.tab.id, { method: taskInfo.method, options: taskInfo.options })
-				.then(() => {
-					if (taskInfo.options.autoClose && !taskInfo.cancelled) {
-						tabs.remove(taskInfo.tab.id);
-					}
-				})
-				.catch(error => {
-					if (error && (!error.message || (error.message != ERROR_CONNECTION_LOST_CHROMIUM && error.message != ERROR_CONNECTION_ERROR_CHROMIUM && error.message != ERROR_CONNECTION_LOST_GECKO))) {
-						console.log(error); // eslint-disable-line no-console
-						ui.onError(taskInfo.tab.id);
-						taskInfo.reject(error);
-					}
-				});
-		});
+			if (scriptsInjected) {
+				ui.onStart(taskInfo.tab.id, EXECUTE_SCRIPTS_STEP);
+			} else {
+				taskInfo.done();
+				return;
+			}
+		}
+		taskInfo.options.taskId = taskId;
+		tabs.sendMessage(taskInfo.tab.id, { method: taskInfo.method, options: taskInfo.options })
+			.then(() => {
+				if (taskInfo.options.autoClose && !taskInfo.cancelled) {
+					tabs.remove(taskInfo.tab.id);
+				}
+			})
+			.catch(error => {
+				if (error && (!error.message || (error.message != ERROR_CONNECTION_LOST_CHROMIUM && error.message != ERROR_CONNECTION_ERROR_CHROMIUM && error.message != ERROR_CONNECTION_LOST_GECKO))) {
+					console.log(error); // eslint-disable-line no-console
+					ui.onError(taskInfo.tab.id);
+					taskInfo.done(error);
+				}
+			});
 	}
 
 	function cancelTab(tabId) {
@@ -218,8 +210,8 @@ singlefile.extension.core.bg.business = (() => {
 		}
 		singlefile.extension.ui.bg.main.onCancelled(taskInfo.tab);
 		tasks.splice(tasks.findIndex(taskInfo => taskInfo.id == taskId), 1);
-		if (taskInfo.resolve) {
-			taskInfo.resolve();
+		if (taskInfo.done) {
+			taskInfo.done();
 		}
 	}
 
