@@ -205,7 +205,7 @@ singlefile.extension.core.bg.business = (() => {
 		}
 		taskInfo.options.taskId = taskId;
 		try {
-			tabs.sendMessage(taskInfo.tab.id, { method: taskInfo.method, options: taskInfo.options });
+			await tabs.sendMessage(taskInfo.tab.id, { method: taskInfo.method, options: taskInfo.options });
 			if (taskInfo.options.autoClose && !taskInfo.cancelled) {
 				tabs.remove(taskInfo.tab.id);
 			}
