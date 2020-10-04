@@ -69,7 +69,6 @@ this.singlefile.extension.ui.content.main = this.singlefile.extension.ui.content
 					maskElement.offsetWidth;
 					maskElement.style.setProperty("background-color", "black", "important");
 					maskElement.style.setProperty("opacity", .3, "important");
-					document.body.offsetWidth;
 				}
 			}
 		},
