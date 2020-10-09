@@ -4,7 +4,7 @@
         "description": "Description of the extension."
     },
     "commandSaveTab": {
-        "message": "保存所選標籤頁或選中部分",
+        "message": "保存當前標籤頁或選中部分",
         "description": "Command (Ctrl+Shift+Y): 'Save the current tab or the selected content'"
     },
     "commandSaveAllTabs": {
@@ -52,7 +52,7 @@
         "description": "Menu entry (SingleFileZ button only): 'Save tabs'"
     },
     "menuSaveSelectedTabs": {
-        "message": "保存所選標籤頁",
+        "message": "保存當前標籤頁",
         "description": "Menu entry: 'Save selected tabs'"
     },
     "menuSaveUnpinnedTabs": {
