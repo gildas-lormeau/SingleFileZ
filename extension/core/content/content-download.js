@@ -56,7 +56,9 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 				bookmarkId: options.bookmarkId,
 				replaceBookmarkURL: options.replaceBookmarkURL,
 				createRootDirectory: options.createRootDirectory,
-				selfExtractingArchive: options.selfExtractingArchive
+				selfExtractingArchive: options.selfExtractingArchive,
+				insertCanonicalLink: options.insertCanonicalLink,
+				insertMetaNoIndex: options.insertMetaNoIndex
 			};
 			message.truncated = content.length > MAX_CONTENT_SIZE;
 			if (message.truncated) {

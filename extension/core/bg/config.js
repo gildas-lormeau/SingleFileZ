@@ -89,7 +89,8 @@ singlefile.extension.core.bg.config = (() => {
 		saveFavicon: true,
 		includeBOM: false,
 		createRootDirectory: false,
-		selfExtractingArchive: true
+		selfExtractingArchive: true,
+		insertMetaNoIndex: false
 	};
 
 	let configStorage;

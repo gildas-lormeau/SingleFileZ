@@ -134,7 +134,9 @@ singlefile.extension.core.bg.autosave = (() => {
 					url: tab.url,
 					createRootDirectory: options.createRootDirectory,
 					tabId,
-					selfExtractingArchive: options.selfExtractingArchive
+					selfExtractingArchive: options.selfExtractingArchive,
+					insertCanonicalLink: options.insertCanonicalLink,
+					insertMetaNoIndex: options.insertMetaNoIndex
 				});
 				if (options.saveToGDrive) {
 					await singlefile.extension.core.bg.downloads.uploadPage(message.taskId, pageData.filename, blob, options, {});

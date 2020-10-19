@@ -117,6 +117,8 @@ singlefile.extension.core.bg.downloads = (() => {
 					createRootDirectory: message.createRootDirectory,
 					tabId,
 					selfExtractingArchive: message.selfExtractingArchive,
+					insertCanonicalLink: message.insertCanonicalLink,
+					insertMetaNoIndex: message.insertMetaNoIndex
 				});
 				await downloadBlob(blob, tabId, tab.incognito, message);
 			}
