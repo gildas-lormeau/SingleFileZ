@@ -16,7 +16,7 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSaveWithProfile": {
-		"message": "Save page with profile",
+		"message": "Zapisz stronę z profilem",
 		"description": "Menu entry: 'Save with profile'"
 	},	
     "menuSaveSelectedLinks": {
