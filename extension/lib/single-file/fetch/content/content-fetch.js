@@ -42,7 +42,7 @@ this.singlefile.extension.lib.fetch.content.resources = this.singlefile.extensio
 		try {
 			let response = await fetch(message.url, { cache: "force-cache" });
 			if (response.status == 401 || response.status == 403 || response.status == 404) {
-				response = hostFetch(message.url);
+				response = await hostFetch(message.url);
 			}
 			return {
 				status: response.status,
@@ -80,7 +80,7 @@ this.singlefile.extension.lib.fetch.content.resources = this.singlefile.extensio
 				status: response.status,
 				headers: {
 					get: headerName => {
-						const headerArray = response.headers.find(headerArray => headerArray[0] == headerName);
+						const headerArray = response.headers && response.headers.find(headerArray => headerArray[0] == headerName);
 						if (headerArray) {
 							return headerArray[1];
 						}
