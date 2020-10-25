@@ -120,6 +120,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 
 	async function processPage(options) {
 		const frames = singlefile.lib.processors.frameTree.content.frames;
+		let framesSessionId;
 		singlefile.lib.helper.initDoc(document);
 		ui.onStartPage(options);
 		processor = new singlefile.lib.SingleFile(options);
@@ -198,6 +199,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			};
 			preInitializationAllPromises.then(() => resolve(preInitializationAllPromises));
 		});
+		framesSessionId = options.frames && options.frames.sessionId;
 		const selectedFrame = options.frames && options.frames.find(frameData => frameData.requestedFrame);
 		options.win = window;
 		if (selectedFrame) {
@@ -217,8 +219,8 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 		if (!processor.cancelled) {
 			await processor.run();
 		}
-		if (!options.saveRawPage && !options.removeFrames && frames) {
-			frames.cleanup(options);
+		if (framesSessionId) {
+			frames.cleanup(framesSessionId);
 		}
 		let page;
 		if (!processor.cancelled) {
