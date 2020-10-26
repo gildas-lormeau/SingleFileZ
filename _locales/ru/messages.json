@@ -3,11 +3,11 @@
 		"message": "охранение веб-страниц в виде самораспаковывающихся гибридных файлов HTML/ZIP",
 		"description": "Description of the extension."
 	},
-    "commandSaveTab": {
-        "message": "Сохранить текущую вкладку или выделенное",
-        "description": "Command (Ctrl+Shift+Y): 'Save the current tab or the selected content'"
-    },
-    "commandSaveAllTabs": {
+    "commandSaveSelectedTabs": {
+		"message": "Save the selected tabs or their selected contents",
+		"description": "Command (Ctrl+Shift+Y): 'Save the selected tabs or their selected contents'"
+	},
+	"commandSaveAllTabs": {
         "message": "Сохранить все вкладки",
         "description": "Command (Ctrl+Shift+U): 'Save all tabs'"
     },

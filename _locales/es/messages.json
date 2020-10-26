@@ -3,9 +3,9 @@
         "message": "Guarda páginas web como archivos híbridos HTML/ZIP auto-extraíbles",
         "description": "Description of the extension."
     },
-    "commandSaveTab": {
-        "message": "Guardar la pestaña actual o el contenido seleccionado",
-        "description": "Command (Ctrl+Shift+Y): 'Save the current tab or the selected content'"
+    "commandSaveSelectedTabs": {
+        "message": "Guardar las pestañas seleccionadas o su contenidos seleccionados",
+        "description": "Command (Ctrl+Shift+Y): 'Save the selected tabs or their selected contents'"
     },
     "commandSaveAllTabs": {
         "message": "Guardar todas las pestañas",
