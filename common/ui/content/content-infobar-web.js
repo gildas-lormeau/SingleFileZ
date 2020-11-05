@@ -125,8 +125,6 @@
 					color: #2d2d2d;					
 					padding-top: 2px;
 					padding-bottom: 2px;
-					-webkit-padding-start: 8px;
-					-webkit-padding-end: 4px;
 					border: 2px solid #878787;
 					background-image: none;
 					border-radius: 8px;					
@@ -136,6 +134,7 @@
 				.infobar-close-button {
 					display: none;
 					opacity: .7;
+					padding-left: 8px;
 					padding-right: 8px;
 					cursor: pointer;
 					color: rgb(126 135 140);
@@ -166,6 +165,7 @@
 				.infobar-link-icon {
 					padding-top: 3px;
 					padding-left: 2px;
+					padding-right: 8px;
 					cursor: pointer;
 					opacity: .7;
 					transition: opacity 250ms;
