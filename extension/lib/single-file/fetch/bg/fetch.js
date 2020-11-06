@@ -73,7 +73,7 @@
 			await browser.tabs.sendMessage(sender.tab.id, {
 				method: "singlefile.multipartResponse",
 				id: message.id,
-				error: error.toString()
+				error: error && error.toString()
 			});
 		}
 	}
