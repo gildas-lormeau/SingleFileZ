@@ -169,7 +169,7 @@
 			"id": "{e4db92bc-3213-493d-bd9e-5ff2afc72da6}"
 		}
 	},
-	"devtools_page": "extension/ui/devtools/devtools.html",
+	"devtools_page": "extension/core/devtools/devtools.html",
 	"incognito": "spanning",
 	"manifest_version": 2,
 	"default_locale": "en"
