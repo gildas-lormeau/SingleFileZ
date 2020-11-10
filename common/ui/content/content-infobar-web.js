@@ -100,6 +100,7 @@
 		white-space: pre-wrap;
 		position: relative;
 		top: 1px;
+		text-align: left;
 	}
 	.infobar-link {
 		display: none;
