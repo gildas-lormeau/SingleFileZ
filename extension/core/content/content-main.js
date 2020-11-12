@@ -54,7 +54,9 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				ui.onEndPage();
 				browser.runtime.sendMessage({ method: "ui.processCancelled" });
 			}
-			singlefile.lib.processors.lazy.content.loader.resetZoomLevel(message.options);
+			if (message.options.loadDeferredImages) {
+				singlefile.lib.processors.lazy.content.loader.resetZoomLevel(message.options);
+			}
 			return {};
 		}
 		if (message.method == "content.getSelectedLinks") {
@@ -157,7 +159,9 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 			if (!processor.cancelled) {
 				if (event.type == event.RESOURCES_INITIALIZED) {
 					maxIndex = event.detail.max;
-					singlefile.lib.processors.lazy.content.loader.resetZoomLevel(options);
+					if (options.loadDeferredImages) {
+						singlefile.lib.processors.lazy.content.loader.resetZoomLevel(options);
+					}
 				}
 				if (event.type == event.RESOURCES_INITIALIZED || event.type == event.RESOURCE_LOADED) {
 					if (event.type == event.RESOURCE_LOADED) {
