@@ -98,6 +98,7 @@
 			"extension/core/bg/autosave.js",
 			"extension/core/bg/devtools.js",
 			"extension/core/bg/bookmarks.js",
+			"extension/core/bg/requests.js",
 			"extension/ui/bg/ui-main.js",
 			"extension/ui/bg/ui-menus.js",
 			"extension/ui/bg/ui-commands.js",
@@ -141,7 +142,7 @@
 			"description": "__MSG_commandSaveAllTabs__"
 		}
 	},
-	"web_accessible_resources": [		
+	"web_accessible_resources": [
 		"lib/single-file/processors/hooks/content/content-hooks-web.js",
 		"lib/single-file/processors/hooks/content/content-hooks-frames-web.js",
 		"common/ui/content/content-infobar-web.js"
@@ -163,7 +164,9 @@
 	],
 	"optional_permissions": [
 		"identity",
-		"bookmarks"
+		"bookmarks",
+		"webRequest",
+		"webRequestBlocking"
 	],
 	"applications": {
 		"gecko": {

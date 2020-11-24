@@ -69,6 +69,7 @@
 	const removeAlternativeImagesLabel = document.getElementById("removeAlternativeImagesLabel");
 	const removeAlternativeMediasLabel = document.getElementById("removeAlternativeMediasLabel");
 	const saveCreatedBookmarksLabel = document.getElementById("saveCreatedBookmarksLabel");
+	const passReferrerOnErrorLabel = document.getElementById("passReferrerOnErrorLabel");
 	const replaceBookmarkURLLabel = document.getElementById("replaceBookmarkURLLabel");
 	const createRootDirectoryLabel = document.getElementById("createRootDirectoryLabel");
 	const selfExtractingArchiveLabel = document.getElementById("selfExtractingArchiveLabel");
@@ -140,6 +141,7 @@
 	const removeAlternativeImagesInput = document.getElementById("removeAlternativeImagesInput");
 	const removeAlternativeMediasInput = document.getElementById("removeAlternativeMediasInput");
 	const saveCreatedBookmarksInput = document.getElementById("saveCreatedBookmarksInput");
+	const passReferrerOnErrorInput = document.getElementById("passReferrerOnErrorInput");
 	const replaceBookmarkURLInput = document.getElementById("replaceBookmarkURLInput");
 	const createRootDirectoryInput = document.getElementById("createRootDirectoryInput");
 	const selfExtractingArchiveInput = document.getElementById("selfExtractingArchiveInput");
@@ -361,6 +363,7 @@
 		}
 	}, false);
 	saveCreatedBookmarksInput.addEventListener("click", saveCreatedBookmarks, false);
+	passReferrerOnErrorInput.addEventListener("click", passReferrerOnError, false);
 	saveToGDriveInput.addEventListener("click", async () => {
 		if (!saveToGDriveInput.checked) {
 			await browser.runtime.sendMessage({ method: "downloads.disableGDrive" });
@@ -385,7 +388,8 @@
 			target != ruleEditProfileInput &&
 			target != ruleEditAutoSaveProfileInput &&
 			target != showAutoSaveProfileInput &&
-			target != saveCreatedBookmarksInput) {
+			target != saveCreatedBookmarksInput &&
+			target != passReferrerOnErrorInput) {
 			if (target != profileNamesInput && target != showAllProfilesInput) {
 				await update();
 			}
@@ -449,6 +453,7 @@
 	removeAlternativeImagesLabel.textContent = browser.i18n.getMessage("optionRemoveAlternativeImages");
 	removeAlternativeMediasLabel.textContent = browser.i18n.getMessage("optionRemoveAlternativeMedias");
 	saveCreatedBookmarksLabel.textContent = browser.i18n.getMessage("optionSaveCreatedBookmarks");
+	passReferrerOnErrorLabel.textContent = browser.i18n.getMessage("optionPassReferrerOnError");
 	replaceBookmarkURLLabel.textContent = browser.i18n.getMessage("optionReplaceBookmarkURL");
 	createRootDirectoryLabel.textContent = browser.i18n.getMessage("optionCreateRootDirectory");
 	selfExtractingArchiveLabel.textContent = browser.i18n.getMessage("optionSelfExtractingArchive");
@@ -636,6 +641,7 @@
 		removeAlternativeImagesInput.checked = profileOptions.removeAlternativeImages;
 		removeAlternativeMediasInput.checked = profileOptions.removeAlternativeMedias;
 		saveCreatedBookmarksInput.checked = profileOptions.saveCreatedBookmarks;
+		passReferrerOnErrorInput.checked = profileOptions.passReferrerOnError;
 		replaceBookmarkURLInput.checked = profileOptions.saveCreatedBookmarks && profileOptions.backgroundSave && profileOptions.replaceBookmarkURL;
 		replaceBookmarkURLInput.disabled = !profileOptions.saveCreatedBookmarks || !profileOptions.backgroundSave || profileOptions.saveToClipboard || profileOptions.saveToGDrive;
 		createRootDirectoryInput.checked = profileOptions.createRootDirectory;
@@ -699,6 +705,7 @@
 				removeAlternativeImages: removeAlternativeImagesInput.checked,
 				removeAlternativeMedias: removeAlternativeMediasInput.checked,
 				saveCreatedBookmarks: saveCreatedBookmarksInput.checked,
+				passReferrerOnError: passReferrerOnErrorInput.checked,
 				replaceBookmarkURL: replaceBookmarkURLInput.checked,
 				createRootDirectory: createRootDirectoryInput.checked,
 				selfExtractingArchive: selfExtractingArchiveInput.checked,
@@ -748,6 +755,34 @@
 			await update();
 			await refresh();
 			await browser.runtime.sendMessage({ method: "bookmarks.disable" });
+		}
+	}
+
+	async function passReferrerOnError() {
+		if (passReferrerOnErrorInput.checked) {
+			passReferrerOnErrorInput.checked = false;
+			try {
+				const permissionGranted = await browser.permissions.request({ permissions: ["webRequest", "webRequestBlocking"] });
+				if (permissionGranted) {
+					passReferrerOnErrorInput.checked = true;
+					await update();
+					await refresh();
+					await browser.runtime.sendMessage({ method: "requests.enableReferrerOnError" });
+				} else {
+					await disableOption();
+				}
+			} catch (error) {
+				await disableOption();
+			}
+		} else {
+			await disableOption();
+		}
+
+		async function disableOption() {
+			await update();
+			await refresh();
+			await browser.runtime.sendMessage({ method: "requests.disableReferrerOnError" });
+			await browser.permissions.remove({ permissions: ["webRequest", "webRequestBlocking"] });
 		}
 	}
 
