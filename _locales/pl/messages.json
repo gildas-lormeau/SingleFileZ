@@ -16,9 +16,9 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSaveWithProfile": {
-		"message": "Zapisz stronę z profilem",
-		"description": "Menu entry: 'Save with profile'"
-	},	
+        "message": "Zapisz stronę z profilem",
+        "description": "Menu entry: 'Save with profile'"
+    },
     "menuSaveSelectedLinks": {
         "message": "Zapisz wybrane odnośniki",
         "description": "Menu entry: 'Save selected links'"
@@ -404,10 +404,10 @@
         "description": "Options page label: 'maximum size (MB)'"
     },
     "optionPassReferrerOnError": {
-		"message": "pass \"Referer\" header after a cross-origin request error",
-		"description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
-	},
-	"optionSaveRawPage": {
+        "message": "przekazuj nagłówek \"Referer\" po błędzie żądania między źródłami",
+        "description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
+    },
+    "optionSaveRawPage": {
         "message": "zapisuj surową stronę",
         "description": "Options page label: 'save raw page'"
     },
