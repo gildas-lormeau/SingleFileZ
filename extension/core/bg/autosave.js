@@ -128,7 +128,7 @@ singlefile.extension.core.bg.autosave = (() => {
 				if (options.includeInfobar) {
 					await singlefile.common.ui.content.infobar.includeScript(pageData);
 				}
-				const blob = await singlefile.extension.core.bg.compression.compressPage(pageData, {
+				const blob = await singlefile.lib.processors.compression.compressPage(pageData, {
 					insertTextBody: options.insertTextBody,
 					url: tab.url,
 					createRootDirectory: options.createRootDirectory,
