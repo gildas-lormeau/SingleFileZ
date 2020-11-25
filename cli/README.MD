@@ -1,0 +1,85 @@
+# SingleFileZ (Command Line Interface)
+
+## Introduction
+
+SingleFileZ can be launched from the command line by running it into a (headless) browser. It runs through Node.js as a standalone script injected into the web page instead of being embedded into a WebExtension. To connect to the browser, it can use [Puppeteer](https://github.com/GoogleChrome/puppeteer) or [Selenium WebDriver](https://www.npmjs.com/package/selenium-webdriver). Alternatively, it can also emulate a browser with JavaScript disabled by using [jsdom](https://github.com/jsdom/jsdom).
+
+## Install
+
+- Make sure Chrome or Firefox is installed and the executable can be found through the `PATH` environment variable. Otherwise you will need to set the `--browser-executable-path` option to help SingleFileZ locating it. As an alternative to Chrome and Firefox, you can use jsdom by setting the `--back-end` option to `jsdom`.
+
+- Install [Node.js](https://nodejs.org)
+
+- There are 3 ways to download the code of SingleFileZ, choose the one you prefer (`npm` is installed with Node.js):
+
+  - Download and install globally with `npm`
+    
+    `npm install -g "gildas-lormeau/SingleFileZ#master"`
+  
+  - Download and unzip manually the [master archive](https://github.com/gildas-lormeau/SingleFileZ/archive/master.zip) provided by Github      
+
+    `unzip master.zip .`
+  
+    `cd SingleFileZ-master`
+  
+    `npm install`
+  
+    `cd cli`    
+    
+  - Download with `git`
+
+    `git clone --depth 1 --recursive https://github.com/gildas-lormeau/SingleFileZ.git`
+  
+    `cd SingleFileZ`
+    
+    `npm install`
+  
+    `cd cli`           
+  
+- Make `single-filez` executable (Linux/Unix/BSD etc.) if SingleFile is not installed globally.
+
+  `chmod +x single-filez`
+
+- To use Firefox instead of Chrome, you must download the [Selenium WebDriver](https://www.npmjs.com/package/selenium-webdriver) component (i.e. `geckodriver` for Firefox).  Make sure it can be found through the `PATH` environment variable or the `cli` folder. Otherwise you will need to set the `--web-driver-executable-path` option to help WebDriver locating the executable.
+
+## Run
+
+- Syntax
+ 
+  `single-filez <url> [output] [options ...]`
+
+- Display help
+
+  `single-filez --help`
+
+- Examples  
+
+  - Save https://www.wikipedia.org into `wikipedia.html` in the current folder
+
+  `single-filez https://www.wikipedia.org wikipedia.html`
+
+  - Save https://www.wikipedia.org into `wikipedia.html` in the current folder with Firefox instead of Chrome
+
+  `single-filez https://www.wikipedia.org wikipedia.html --back-end=webdriver-gecko`
+
+  - Save a list of URLs stored into `list-urls.txt` in the current folder
+
+  `single-filez --urls-file=list-urls.txt`
+
+  - Save https://www.wikipedia.org and crawl its internal links with the query parameters removed from the URL
+
+  `single-filez https://www.wikipedia.org --crawl-links=true --crawl-inner-links-only=true --crawl-max-depth=1 --crawl-rewrite-rules="^(.*)\\?.*$ $1"`
+
+  - Save https://www.wikipedia.org and external links only
+
+  `single-filez https://www.wikipedia.org --crawl-links=true --crawl-inner-links-only=false --crawl-external-links-max-depth=1 --crawl-rewrite-rules="^.*wikipedia.*$"`
+  
+## Troubleshooting
+
+ - If the error message `UnhandledPromiseRejectionWarning: Error: Browser is not downloaded. Run "npm install" or "yarn install" at ChromeLauncher.launch` is displayed, it probably means that `single-filez` was not able to find the executable of the browser. Using the option `--browser-executable-path` to pass to `single-filez` the complete path of the executable fixes this issue.
+ 
+  - If saving a page takes an unusually long time, this may be due to a timeout error that was automatically recovered. Setting `--browser-wait-until` to a lower value (e.g. `networkidle0` or `load` instead of `networkidle2`) fixes this issue.
+
+## License
+
+SingleFileZ is licensed under AGPL. Code derived from third-party projects is licensed under MIT. Please contact me at gildas.lormeau &lt;at&gt; gmail.com if you are interested in licensing the SingleFileZ code for a commercial service or product.

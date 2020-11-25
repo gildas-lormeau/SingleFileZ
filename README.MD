@@ -19,6 +19,9 @@ To open saved pages from the filesystem in Safari, the option "Disable Local Fil
 ## Notes
  - JavaScript must be enabled to view saved pages.
 
+## Command Line Interface
+You can save web pages to HTML from the command line interface. See here for more info: https://github.com/gildas-lormeau/SingleFileZ/blob/master/cli/README.MD.
+
 ## FAQ
 cf. https://github.com/gildas-lormeau/SingleFileZ/blob/master/faq.md
 
