@@ -90,20 +90,11 @@ async function getPageData(page, options) {
 		waitUntil: options.browserWaitUntil && options.browserWaitUntil.startsWith("networkidle") ? NETWORK_IDLE_STATE : options.browserWaitUntil || NETWORK_IDLE_STATE
 	});
 	const pageData = await page.evaluate(async options => {
+		options.compressContent = true;
 		const pageData = await singlefile.lib.getPageData(options);
 		if (options.includeInfobar) {
 			await singlefile.common.ui.content.infobar.includeScript(pageData);
 		}
-		const blob = await singlefile.lib.processors.compression.compressPage(pageData, {
-			insertTextBody: options.insertTextBody,
-			url: options.url,
-			createRootDirectory: options.createRootDirectory,
-			selfExtractingArchive: options.selfExtractingArchive,
-			insertCanonicalLink: options.insertCanonicalLink,
-			insertMetaNoIndex: options.insertMetaNoIndex
-		});
-		delete pageData.resources;
-		pageData.content = Array.from(new Uint8Array(await blob.arrayBuffer()));
 		return pageData;
 	}, options);
 	pageData.content = new Uint8Array(pageData.content);

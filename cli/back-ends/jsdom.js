@@ -75,20 +75,11 @@ async function getPageData(win, options) {
 	executeFrameScripts(doc, scripts);
 	options.removeHiddenElements = false;
 	options.loadDeferredImages = false;
+	options.compressContent = true;
 	const pageData = await win.singlefile.lib.getPageData(options, { fetch: url => fetchResource(url, options) }, doc, win);
 	if (options.includeInfobar) {
 		await win.singlefile.common.ui.content.infobar.includeScript(pageData);
 	}
-	const blob = await win.singlefile.lib.processors.compression.compressPage(pageData, {
-		insertTextBody: options.insertTextBody,
-		url: options.url,
-		createRootDirectory: options.createRootDirectory,
-		selfExtractingArchive: options.selfExtractingArchive,
-		insertCanonicalLink: options.insertCanonicalLink,
-		insertMetaNoIndex: options.insertMetaNoIndex
-	});
-	delete pageData.resources;
-	pageData.content = new Uint8Array(await blob.arrayBuffer());
 	return pageData;
 
 	async function fetchResource(resourceURL) {
