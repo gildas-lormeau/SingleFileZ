@@ -79,6 +79,20 @@ SingleFileZ can be launched from the command line by running it into a (headless
  - If the error message `UnhandledPromiseRejectionWarning: Error: Browser is not downloaded. Run "npm install" or "yarn install" at ChromeLauncher.launch` is displayed, it probably means that `single-filez` was not able to find the executable of the browser. Using the option `--browser-executable-path` to pass to `single-filez` the complete path of the executable fixes this issue.
  
   - If saving a page takes an unusually long time, this may be due to a timeout error that was automatically recovered. Setting `--browser-wait-until` to a lower value (e.g. `networkidle0` or `load` instead of `networkidle2`) fixes this issue.
+    
+## Docker
+
+- Build
+
+  `docker build -t single-filez .`
+  
+- Run
+
+  `docker run single-filez "https://www.wikipedia.org"`
+  
+- Run and redirect the result into a file
+
+  `docker run single-filez "https://www.wikipedia.org" > wikipedia.html`
 
 ## License
 
