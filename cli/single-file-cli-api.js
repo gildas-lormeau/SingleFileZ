@@ -220,7 +220,3 @@ function getFilename(filename, index = 1) {
 		return newFilename;
 	}
 }
-
-function escapeRegExp(string) {
-	return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
