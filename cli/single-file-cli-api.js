@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global require, module, URL */
+/* global require, module, URL, process */
 
 const fs = require("fs");
 const VALID_URL_TEST = /^(https?|file):\/\//;
@@ -208,7 +208,7 @@ async function capturePage(options) {
 			if (options.filenameTemplate && pageData.filename) {
 				fs.writeFileSync(getFilename(pageData.filename), pageData.content);
 			} else {
-				console.log(pageData.content); // eslint-disable-line no-console
+				await new Promise(resolve => process.stdout.write(pageData.content, resolve));
 			}
 		}
 		return pageData;

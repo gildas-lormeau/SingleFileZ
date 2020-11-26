@@ -45,6 +45,7 @@ const args = require("yargs")
 		"browser-start-minimized": false,
 		"compress-CSS": false,
 		"compress-HTML": true,
+		"dump-content": false,
 		"filename-template": "{page-title} ({date-iso} {time-locale}).html",
 		"filename-replacement-character": "_",
 		"http-header": [],
@@ -133,6 +134,8 @@ const args = require("yargs")
 	.boolean("crawl-replace-urls")
 	.options("crawl-rewrite-rules", { description: "List of rewrite rules used to rewrite URLs of internal and external links" })
 	.array("crawl-rewrite-rules")
+	.options("dump-content", { description: "Dump the content of the processed page in the console" })
+	.boolean("dump-content")	
 	.options("error-file")
 	.string("error-file")
 	.options("filename-template", { description: "Template used to generate the output filename (see help page of the extension for more info)" })
@@ -199,7 +202,9 @@ const args = require("yargs")
 	.options("create-root-directory", { description: "Create a root directory based on the timestamp" })
 	.boolean("create-root-directory")
 	.argv;
-
+if (args.dumpContent) {
+	args.filenameTemplate = "";
+}
 args.compressCSS = args.compressCss;
 args.compressHTML = args.compressHtml;
 args.includeBOM = args.includeBom;
