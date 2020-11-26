@@ -79,26 +79,7 @@ async function capture(urls, options) {
 
 async function finish(options) {
 	const promiseTasks = tasks.map(task => task.promise);
-	await Promise.all(promiseTasks);
-	if (options.crawlReplaceURLs) {
-		tasks.forEach(task => {
-			try {
-				let pageContent = fs.readFileSync(task.filename).toString();
-				tasks.forEach(otherTask => {
-					if (otherTask.filename) {
-						pageContent = pageContent.replace(new RegExp(escapeRegExp("\"" + otherTask.originalUrl + "\""), "gi"), "\"" + otherTask.filename + "\"");
-						pageContent = pageContent.replace(new RegExp(escapeRegExp("'" + otherTask.originalUrl + "'"), "gi"), "'" + otherTask.filename + "'");
-						const filename = otherTask.filename.replace(/ /g, "%20");
-						pageContent = pageContent.replace(new RegExp(escapeRegExp("=" + otherTask.originalUrl + " "), "gi"), "=" + filename + " ");
-						pageContent = pageContent.replace(new RegExp(escapeRegExp("=" + otherTask.originalUrl + ">"), "gi"), "=" + filename + ">");
-					}
-				});
-				fs.writeFileSync(task.filename, pageContent);
-			} catch (error) {
-				// ignored
-			}
-		});
-	}
+	await Promise.all(promiseTasks);	
 	if (!options.browserDebug) {
 		return backend.closeBrowser();
 	}

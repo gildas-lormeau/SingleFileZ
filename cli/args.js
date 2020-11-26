@@ -76,7 +76,6 @@ const args = require("yargs")
 		"crawl-remove-url-fragment": true,
 		"crawl-max-depth": 1,
 		"crawl-external-links-max-depth": 1,
-		"crawl-replace-urls": false,
 		"crawl-rewrite-rules": [],
 		"insert-text-body": false,
 		"create-root-directory": false,
@@ -130,8 +129,6 @@ const args = require("yargs")
 	.number("crawl-max-depth")
 	.options("crawl-external-links-max-depth", { description: "Max depth when crawling pages found in external links (0: infinite)" })
 	.number("crawl-external-links-max-depth")
-	.options("crawl-replace-urls", { description: "Replace URLs of saved pages with relative paths of saved pages on the filesystem" })
-	.boolean("crawl-replace-urls")
 	.options("crawl-rewrite-rules", { description: "List of rewrite rules used to rewrite URLs of internal and external links" })
 	.array("crawl-rewrite-rules")
 	.options("dump-content", { description: "Dump the content of the processed page in the console" })
