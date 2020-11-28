@@ -88,7 +88,9 @@ SingleFileZ can be launched from the command line by running it into a (headless
   
 - Pull from Docker Hub
 
-  `docker pull capsulecode/singlefilez`  
+  `docker pull capsulecode/singlefilez`
+  
+  `docker tag capsulecode/singlefilez singlefilez`
   
 - Run
 
