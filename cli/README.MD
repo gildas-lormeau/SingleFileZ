@@ -84,7 +84,7 @@ SingleFileZ can be launched from the command line by running it into a (headless
 
 - Build
 
-  `docker build -t single-filez .`
+  `docker build -t singlefilez .`
   
 - Pull from Docker Hub
 
@@ -92,11 +92,11 @@ SingleFileZ can be launched from the command line by running it into a (headless
   
 - Run
 
-  `docker run single-filez "https://www.wikipedia.org"`
+  `docker run singlefilez "https://www.wikipedia.org"`
   
 - Run and redirect the result into a file
 
-  `docker run single-filez "https://www.wikipedia.org" > wikipedia.html`
+  `docker run singlefilez "https://www.wikipedia.org" > wikipedia.html`
 
 ## License
 
