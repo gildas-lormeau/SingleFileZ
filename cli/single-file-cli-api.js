@@ -184,12 +184,16 @@ async function capturePage(options) {
 	try {
 		const pageData = await backend.getPageData(options);
 		if (options.output) {
-			fs.writeFileSync(getFilename(options.output), pageData.content);
+			const filename = getFilename(pageData.output, options);
+			if (filename) {
+				fs.writeFileSync(filename, pageData.content);
+			}
 		} else {
-			if (options.filenameTemplate && pageData.filename) {
-				fs.writeFileSync(getFilename(pageData.filename), pageData.content);
-			} else {
+			const filename = getFilename(pageData.filename, options);
+			if (options.dumpContent) {
 				await new Promise(resolve => process.stdout.write(pageData.content, resolve));
+			} else if (filename) {
+				fs.writeFileSync(filename, pageData.content);
 			}
 		}
 		return pageData;
@@ -203,19 +207,23 @@ async function capturePage(options) {
 	}
 }
 
-function getFilename(filename, index = 1) {
+function getFilename(filename, options, index = 1) {
 	let newFilename = filename;
-	if (index > 1) {
+	if (options.filenameConflictAction == "overwrite") {
+		return filename;
+	} else if (options.filenameConflictAction == "uniquify" && index > 1) {
 		const regExpMatchExtension = /(\.[^.]+)$/;
 		const matchExtension = newFilename.match(regExpMatchExtension);
 		if (matchExtension && matchExtension[1]) {
-			newFilename = newFilename.replace(regExpMatchExtension, " - " + index + matchExtension[1]);
+			newFilename = newFilename.replace(regExpMatchExtension, " (" + index + matchExtension[1]) + ")";
 		} else {
-			newFilename += " - " + index;
+			newFilename += " (" + index + ")";
 		}
 	}
 	if (fs.existsSync(newFilename)) {
-		return getFilename(filename, index + 1);
+		if (options.filenameConflictAction != "skip") {
+			return getFilename(filename, options, index + 1);
+		}
 	} else {
 		return newFilename;
 	}
