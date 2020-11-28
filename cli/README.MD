@@ -86,6 +86,10 @@ SingleFileZ can be launched from the command line by running it into a (headless
 
   `docker build -t single-filez .`
   
+- Pull from Docker Hub
+
+  `docker pull capsulecode/singlefilez`  
+  
 - Run
 
   `docker run single-filez "https://www.wikipedia.org"`
