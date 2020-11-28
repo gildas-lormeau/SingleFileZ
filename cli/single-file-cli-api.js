@@ -79,7 +79,7 @@ async function capture(urls, options) {
 
 async function finish(options) {
 	const promiseTasks = tasks.map(task => task.promise);
-	await Promise.all(promiseTasks);	
+	await Promise.all(promiseTasks);
 	if (!options.browserDebug) {
 		return backend.closeBrowser();
 	}
