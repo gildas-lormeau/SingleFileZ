@@ -24,6 +24,12 @@ SingleFileZ can be launched from the command line by running it into a (headless
 
   `docker run singlefilez "https://www.wikipedia.org" > wikipedia.html`
 
+- Run and mount a volume to get the saved file in the current directory
+
+  `docker run -v %cd%:/usr/src/app/SingleFile/cli/out singlefile "https://www.wikipedia.org"` (Windows)
+
+  `docker run -v $(pwd):/usr/src/app/SingleFile/cli/out singlefile "https://www.wikipedia.org"` (Linux/UNIX)
+
 ## Manual installation
 
 - Make sure Chrome or Firefox is installed and the executable can be found through the `PATH` environment variable. Otherwise you will need to set the `--browser-executable-path` option to help SingleFileZ locating it. As an alternative to Chrome and Firefox, you can use jsdom by setting the `--back-end` option to `jsdom`.
