@@ -8,7 +8,7 @@ SingleFileZ can be launched from the command line by running it into a (headless
 
 - Build
 
-  `docker build -t singlefilez .`
+  `docker build  --no-cache -t singlefilez .`
   
 - Pull from Docker Hub
 
