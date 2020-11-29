@@ -200,9 +200,6 @@ const args = require("yargs")
 	.options("create-root-directory", { description: "Create a root directory based on the timestamp" })
 	.boolean("create-root-directory")
 	.argv;
-if (args.dumpContent) {
-	args.filenameTemplate = "";
-}
 args.compressCSS = args.compressCss;
 args.compressHTML = args.compressHtml;
 args.includeBOM = args.includeBom;
