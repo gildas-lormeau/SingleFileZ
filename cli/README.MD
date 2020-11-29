@@ -4,7 +4,27 @@
 
 SingleFileZ can be launched from the command line by running it into a (headless) browser. It runs through Node.js as a standalone script injected into the web page instead of being embedded into a WebExtension. To connect to the browser, it can use [Puppeteer](https://github.com/GoogleChrome/puppeteer) or [Selenium WebDriver](https://www.npmjs.com/package/selenium-webdriver). Alternatively, it can also emulate a browser with JavaScript disabled by using [jsdom](https://github.com/jsdom/jsdom).
 
-## Install
+## Installation with Docker
+
+- Build
+
+  `docker build -t singlefilez .`
+  
+- Pull from Docker Hub
+
+  `docker pull capsulecode/singlefilez`
+  
+  `docker tag capsulecode/singlefilez singlefilez`
+  
+- Run
+
+  `docker run singlefilez "https://www.wikipedia.org"`
+  
+- Run and redirect the result into a file
+
+  `docker run singlefilez "https://www.wikipedia.org" > wikipedia.html`
+
+## Manual installation
 
 - Make sure Chrome or Firefox is installed and the executable can be found through the `PATH` environment variable. Otherwise you will need to set the `--browser-executable-path` option to help SingleFileZ locating it. As an alternative to Chrome and Firefox, you can use jsdom by setting the `--back-end` option to `jsdom`.
 
@@ -79,26 +99,6 @@ SingleFileZ can be launched from the command line by running it into a (headless
  - If the error message `UnhandledPromiseRejectionWarning: Error: Browser is not downloaded. Run "npm install" or "yarn install" at ChromeLauncher.launch` is displayed, it probably means that `single-filez` was not able to find the executable of the browser. Using the option `--browser-executable-path` to pass to `single-filez` the complete path of the executable fixes this issue.
  
   - If saving a page takes an unusually long time, this may be due to a timeout error that was automatically recovered. Setting `--browser-wait-until` to a lower value (e.g. `networkidle0` or `load` instead of `networkidle2`) fixes this issue.
-    
-## Docker
-
-- Build
-
-  `docker build -t singlefilez .`
-  
-- Pull from Docker Hub
-
-  `docker pull capsulecode/singlefilez`
-  
-  `docker tag capsulecode/singlefilez singlefilez`
-  
-- Run
-
-  `docker run singlefilez "https://www.wikipedia.org"`
-  
-- Run and redirect the result into a file
-
-  `docker run singlefilez "https://www.wikipedia.org" > wikipedia.html`
 
 ## License
 
