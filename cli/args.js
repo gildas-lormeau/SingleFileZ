@@ -80,7 +80,8 @@ const args = require("yargs")
 		"crawl-rewrite-rules": [],
 		"insert-text-body": false,
 		"create-root-directory": false,
-		"self-extracting-archive": true
+		"self-extracting-archive": true,
+		"output-directory": ""
 	})
 	.options("back-end", { description: "Back-end to use" })
 	.choices("back-end", ["jsdom", "puppeteer", "webdriver-chromium", "webdriver-gecko", "puppeteer-firefox", "playwright-firefox", "playwright-chromium"])
@@ -199,6 +200,8 @@ const args = require("yargs")
 	.boolean("insert-text-body")
 	.options("create-root-directory", { description: "Create a root directory based on the timestamp" })
 	.boolean("create-root-directory")
+	.options("output-directory", { description: "Path to where to save files, this path must exist." })
+	.string("output-directory")	
 	.argv;
 args.compressCSS = args.compressCss;
 args.compressHTML = args.compressHtml;
