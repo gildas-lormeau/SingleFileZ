@@ -10,4 +10,3 @@ RUN set -x \
 WORKDIR /usr/src/app/SingleFileZ/cli
 
 ENTRYPOINT ["./single-filez", "--browser-executable-path", "/usr/bin/chromium-browser", "--dump-content", "--browser-args", "[\"--no-sandbox\"]"]
-CMD ["https://github.com/Zenika/alpine-chrome"]
