@@ -1,12 +1,8 @@
 FROM zenika/alpine-chrome:with-node
 
-RUN set -x \
-    git \
-    && git clone --depth 1 --recursive https://github.com/gildas-lormeau/SingleFileZ \
-    && mkdir out && cd SingleFileZ/cli && npm install --production \
-    && chmod +x single-filez \
-    && echo
+RUN npm install --production "gildas-lormeau/SingleFileZ#master" \
+    && mkdir out
 
-WORKDIR /usr/src/app/SingleFileZ/cli
+WORKDIR /usr/src/app/node_modules/single-filez/cli
 
 ENTRYPOINT ["./single-filez", "--browser-executable-path", "/usr/bin/chromium-browser", "--dump-content", "--output-directory", "/out", "--browser-args", "[\"--no-sandbox\"]"]
