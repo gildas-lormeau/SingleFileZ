@@ -184,7 +184,7 @@ async function capturePage(options) {
 	try {
 		const pageData = await backend.getPageData(options);
 		if (options.output) {
-			const filename = getFilename(pageData.output, options);
+			const filename = getFilename(options.output, options);
 			if (filename) {
 				fs.writeFileSync(filename, pageData.content);
 			}
