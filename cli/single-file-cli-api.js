@@ -24,6 +24,7 @@
 /* global require, module, URL, process */
 
 const fs = require("fs");
+const path = require("path");
 const VALID_URL_TEST = /^(https?|file):\/\//;
 
 const STATE_PROCESSING = "processing";
@@ -182,19 +183,21 @@ function getHostURL(url) {
 
 async function capturePage(options) {
 	try {
+		let filename;
 		const pageData = await backend.getPageData(options);
 		if (options.output) {
-			const filename = getFilename(options.output, options);
-			if (filename) {
-				fs.writeFileSync(filename, pageData.content);
-			}
+			filename = getFilename(options.output, options);
+		} else if (options.dumpContent) {
+			await new Promise(resolve => process.stdout.write(pageData.content, resolve));
 		} else {
-			const filename = getFilename(pageData.filename, options);
-			if (options.dumpContent) {
-				await new Promise(resolve => process.stdout.write(pageData.content, resolve));
-			} else if (filename) {
-				fs.writeFileSync(filename, pageData.content);
+			filename = getFilename(pageData.filename, options);
+		}
+		if (filename) {
+			const dirname = path.dirname(filename);
+			if (dirname) {
+				fs.mkdirSync(dirname, { recursive: true });
 			}
+			fs.writeFileSync(filename, pageData.content);
 		}
 		return pageData;
 	} catch (error) {
