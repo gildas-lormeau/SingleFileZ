@@ -26,9 +26,9 @@ SingleFileZ can be launched from the command line by running it into a (headless
 
 - Run and mount a volume to get the saved file in the current directory
 
-  `docker run -v %cd%:/out singlefile "https://www.wikipedia.org"` (Windows)
+  `docker run -v %cd%:/out singlefilez "https://www.wikipedia.org"` (Windows)
 
-  `docker run -v $(pwd):/out singlefile "https://www.wikipedia.org"` (Linux/UNIX)
+  `docker run -v $(pwd):/out singlefilez "https://www.wikipedia.org"` (Linux/UNIX)
 
 ## Manual installation
 
