@@ -69,7 +69,9 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 			}
 			await browser.runtime.sendMessage(message);
 		}
-		await browser.runtime.sendMessage({ method: "downloads.end", taskId: options.taskId });
+		if (options.backgroundSave) {
+			await browser.runtime.sendMessage({ method: "downloads.end", taskId: options.taskId });
+		}
 	}
 
 })();

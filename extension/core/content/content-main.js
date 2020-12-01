@@ -79,6 +79,7 @@ this.singlefile.extension.core.content.main = this.singlefile.extension.core.con
 				link.dispatchEvent(new MouseEvent("click"));
 				URL.revokeObjectURL(link.href);
 			}
+			await browser.runtime.sendMessage({ method: "downloads.end", taskId: message.taskId });
 			return {};
 		}
 	}

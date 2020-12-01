@@ -147,7 +147,7 @@ singlefile.extension.core.bg.downloads = (() => {
 						replaceBookmarkURL: message.replaceBookmarkURL
 					});
 				} else {
-					await downloadPageForeground(message.filename, blob, tabId);
+					await downloadPageForeground(message.taskId, message.filename, blob, tabId);
 				}
 			}
 			singlefile.extension.ui.bg.main.onEnd(tabId);
@@ -318,11 +318,12 @@ singlefile.extension.core.bg.downloads = (() => {
 		});
 	}
 
-	async function downloadPageForeground(filename, content, tabId) {
+	async function downloadPageForeground(taskId, filename, content, tabId) {
 		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.size; blockIndex++) {
 			const message = {
 				method: "content.download",
-				filename: filename
+				filename,
+				taskId
 			};
 			message.truncated = content.size > MAX_CONTENT_SIZE;
 			if (message.truncated) {
