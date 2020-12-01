@@ -30,7 +30,6 @@ const args = require("yargs")
 		yargs.positional("output", { description: "Output filename", type: "string" });
 	})
 	.default({
-		"background-save": true,
 		"back-end": "puppeteer",
 		"browser-headless": true,
 		"browser-executable-path": "",
@@ -204,6 +203,7 @@ const args = require("yargs")
 	.options("output-directory", { description: "Path to where to save files, this path must exist." })
 	.string("output-directory")
 	.argv;
+args.backgroundSave = true;
 args.compressCSS = args.compressCss;
 args.compressHTML = args.compressHtml;
 args.includeBOM = args.includeBom;
