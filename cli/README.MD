@@ -6,15 +6,19 @@ SingleFileZ can be launched from the command line by running it into a (headless
 
 ## Installation with Docker
 
-- Build
-
-  `docker build  --no-cache -t singlefilez .`
-  
-- Pull from Docker Hub
+- Installation from Docker Hub
 
   `docker pull capsulecode/singlefilez`
   
   `docker tag capsulecode/singlefilez singlefilez`
+  
+- Manual installation
+
+  `git clone --depth 1 --recursive https://github.com/gildas-lormeau/SingleFileZ.git`
+  
+  `cd SingleFileZ/cli`
+
+  `docker build  --no-cache -t singlefilez .`
   
 - Run
 
