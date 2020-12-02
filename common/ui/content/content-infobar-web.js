@@ -50,6 +50,7 @@
 		background-image: url(${IMAGE_ICON});
 		border-radius: 16px;
 		user-select: none;
+		-moz-user-select: none;
 		opacity: .7;
 		cursor: pointer;
 		padding-left: 0;
@@ -104,6 +105,7 @@
 	.infobar-link {
 		display: none;
 		padding-left: 8px;
+		padding-right: 8px;
 		line-height: 11px;
 		cursor: pointer;
 		user-select: none;
@@ -112,7 +114,6 @@
 	.infobar-link-icon {
 		padding-top: 4px;
 		padding-left: 2px;
-		padding-right: 8px;
 		cursor: pointer;
 		opacity: .7;
 		transition: opacity 250ms;
