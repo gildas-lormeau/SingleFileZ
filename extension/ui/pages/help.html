@@ -20,19 +20,19 @@
 		</span>
 		<hr>
 		<ol>
-			<li> <a id="getting-started">Getting started</a>
+			<li><a id="getting-started">Getting started</a>
 				<ul>
 					<li>Wait until the page is fully loaded.</li>
-					<li>Click on the SingleFileZ button in the extension toolbar <img src="../resources/icon_16.png"
-							class="icon"> to process and save the page.</li>
+					<li>Click on the SingleFileZ button <img src="../resources/icon_16.png" class="icon"> in the
+						extension toolbar to process and save the page.</li>
 					<li>You can click again on the button to cancel the action when processing a page.</li>
 				</ul>
 			</li>
-			<li> <a id="general-notes">Additional notes</a>
+			<li><a id="general-notes">Additional notes</a>
 				<ul>
 					<li>To save multiple tabs, select them first and click on the SingleFileZ button <img
 							src="../resources/icon_16.png" class="icon">.</li>
-					<li> Open the context menu by right-clicking the SingleFileZ button <img
+					<li>Open the context menu by right-clicking the SingleFileZ button <img
 							src="../resources/icon_16.png" class="icon"> in the extension toolbar or on the webpage. It
 						allows you to save: <ul>
 							<li>the current tab,</li>
@@ -40,13 +40,13 @@
 							<li>or the selected frame.</li>
 						</ul>
 					</li>
-					<li> You can also process multiple tabs in one click and save: <ul>
+					<li>You can also process multiple tabs in one click and save: <ul>
 							<li>the selected tabs,</li>
 							<li>or the unpinned tabs,</li>
 							<li>or all the tabs.</li>
 						</ul>
 					</li>
-					<li> The context menu also allows you to activate the auto-save of: <ul>
+					<li>The context menu also allows you to activate the auto-save of: <ul>
 							<li>the current tab,</li>
 							<li>or the unpinned tabs,</li>
 							<li>or all the tabs.</li>
@@ -54,16 +54,18 @@
 					</li>
 					<li>With auto-save active, pages are automatically saved every time after being loaded (or before
 						being unloaded if not). </li>
+					<li>Select "Save Selection" from the context menu without selecting any content first to display a
+						selector that will help you choose content by hovering over it with the mouse.</li>
 					<li>Right-click on the SingleFileZ button and select "Options" to open the options page.</li>
 					<li>Enable the option "Misc. &gt; save to Google Drive" to upload pages to Google Drive</li>
 					<li>You can use the customizable shortcut Ctrl+Shift+Y to save the current tab or the selected tabs.
 						Go to about:addons and select "Manage extension shortcuts" in the cogwheel menu to change it in
 						Firefox. Go to chrome://extensions/shortcuts to change it in Chrome.</li>
 					<li>The default save folder is the download folder configured in your browser, cf.
-						about:preferences in Firefox and chrome://settings in Chrome. </li>
+						about:preferences in Firefox and chrome://settings in Chrome.</li>
 				</ul>
 			</li>
-			<li> <a id="options">Options description</a>
+			<li><a id="options">Options description</a>
 				<p>You can customize SingleFileZ through the options page. Right-click on SingleFileZ button <img
 						src="../resources/icon_16.png" class="icon"> in the browser toolbar and select "Options"/"Manage
 					extension" in the context menu to open the options page.</p>
@@ -171,7 +173,7 @@
 					</li>
 					<li data-options-label="filenameConflictActionLabel"> <span class="option">Option: file name
 							conflict resolution</span>
-						<p>Choose the most appropriate action when a the filename of the saved page is conflicting with
+						<p>Choose the most appropriate action when the filename of the saved page is conflicting with
 							existing ones on the filesystem. The "skip duplicate files" action only detects duplicates
 							among files downloaded during the current browsing session.</p>
 					</li>
@@ -435,12 +437,12 @@
 						<p>Check this option to synchronize your options and make them available in all instances of the
 							browser you are logged into, on different devices.</p>
 					</li>
-					<li> <span class="option">Reset</span>
+					<li><span class="option">Reset</span>
 						<p>Reset all options to their default values.</p>
 					</li>
 				</ul>
 			</li>
-			<li> <a id="template-variables">Template variables</a>
+			<li><a id="template-variables">Template variables</a>
 				<p>The template variables are used to customize the infobar content or the file name of a saved page.
 					They help to insert dynamic values like the save date or the page title.</p>
 				<p>
@@ -514,7 +516,7 @@
 					<li><code>{digest-sha-512}</code>: the SHA-512 hash value of the entire page content</li>
 				</ul>
 			</li>
-			<li> <a id="notes">Technical notes</a>
+			<li><a id="notes">Technical notes</a>
 				<ul>
 					<li>All images are converted into <a href="http://en.wikipedia.org/wiki/Base64">base64</a>. </li>
 					<li>All resources except frame contents are injected in the document using <a
@@ -522,34 +524,42 @@
 					<li>Frame contents are injected as text in the document by using the srcdoc attribute. </li>
 				</ul>
 			</li>
-			<li> <a id="known-issues">Known issues</a>
+			<li><a id="known-issues">Known issues</a>
 				<ul>
-					<li> All browsers <ul>
+					<li>All browsers <ul>
 							<li>For security reasons, you cannot save pages hosted on https://chrome.google.com,
 								https://addons.mozilla.org and some other Mozilla domains. When this happens, 🚫 is
 								displayed on top of the SingleFileZ icon.</li>
+							<li>For security reasons, SingleFileZ is sometimes unable to save the image representation
+								of canvas and snapshots of video elements.</li>
 							<li>The last saved path cannot be remembered by default. To circumvent this limitation,
 								disable the option "Misc. &gt; Save pages in background".</li>
 							<li>The following characters are replaced with _ in filenames: ~, +, \, ?, %, *, :, |, ",
 								&lt;, &gt;</li>
 						</ul>
 					</li>
-					<li> Chrome/Opera <ul>
+					<li>Chrome/Opera <ul>
 							<li>You must enable the option "Allow access to file URLs" in the extension page to display
 								the infobar when viewing a saved page, or to save a page stored on the filesystem.</li>
 							<li>If the filename of a saved page looks like "56833935-156b-4d8c-a00f-19599c6513d3",
 								disable the option "Misc. &gt; Save pages in background". Reinstalling the browser may
 								also fix this issue.</li>
+							<li>Disabling the option 'File name &gt; open the "Save as" dialog to confirm the file name'
+								will work if and only if "Ask where to save each file before downloading" is disabled in
+								chrome://settings/downloads</li>
 						</ul>
 					</li>
-					<li> Firefox <ul>
+					<li>Firefox <ul>
 							<li>The "file name conflict resolution" option does not work if set to "prompt for a name".
 							</li>
+							<li>Sometimes, SingleFile is unable to save the contents of sandboxed iframes.</li>
+							<li>When processing a page from the filesystem, external resources (e.g. images,
+								stylesheets, fonts etc.) will not be embedded into the saved page.</li>
 						</ul>
 					</li>
 				</ul>
 			</li>
-			<li> <a id="unknown-issues">Troubleshooting unknown issues</a>
+			<li><a id="unknown-issues">Troubleshooting unknown issues</a>
 				<p>Please follow these steps if you find an unknown issue:</p>
 				<ul>
 					<li>Save the page in incognito.</li>
@@ -563,27 +573,29 @@
 				</ul>
 				<p>Suggestions are welcome :)</p>
 			</li>
-			<li> <a id="contributors">Contributors</a>
+			<li><a id="contributors">Contributors</a>
 				<ul>
 					<li>Chinese translation done by yfdyh000 (<a href="https://github.com/yfdyh000">GitHub profile</a>),
 						KrasnayaPloshchad (<a href="https://github.com/KrasnayaPloshchad">GitHub profile</a>),
-						frostblazergit (<a href="https://github.com/frostblazergit">GitHub profile</a>),
-						NightSharp (<a href="https://github.com/NightSharp">GitHub profile</a>)</li>
+						frostblazergit (<a href="https://github.com/frostblazergit">GitHub profile</a>), NightSharp (<a
+							href="https://github.com/NightSharp">GitHub profile</a>)</li>
 					<li>Traditional Chinese translation done by frostblazergit (<a
 							href="https://github.com/frostblazergit">GitHub profile</a>)</li>
 					<li>German translation done by womotroll (<a href="https://github.com/womotroll">GitHub
-							profile</a>), bannmann (<a href="https://github.com/bannmann">GitHub profile</a>)
-					</li>
+							profile</a>), bannmann (<a href="https://github.com/bannmann">GitHub profile</a>) </li>
 					<li>Japanese translation, done by Shitennouji （四天王寺) (<a
 							href="https://github.com/Shitennouji">GitHub profile</a>)</li>
 					<li>Polish translation done by xesarni (<a href="https://github.com/xesarni">GitHub profile</a>)
 					</li>
 					<li>Russian translation done by rstp14 (<a href="https://github.com/rstp14">GitHub profile</a>),
-						kramola-RU (<a href="https://github.com/kramola-RU">GitHub profile</a>)</li>
+						kramola-RU (<a href="https://github.com/kramola-RU">GitHub profile</a>), solokot (<a
+							href="https://github.com/solokot">GitHub profile</a>)</li>
+					<li>Ukrainian translation done by perdolka (<a href="https://github.com/perdolka">GitHub
+							profile</a>)</li>
 					<li>Spanish translation done by strel (<a href="https://github.com/strel">GitHub profile</a>)</li>
 				</ul>
 			</li>
-			<li> <a id="icons">Icons</a>
+			<li><a id="icons">Icons</a>
 				<ul>
 					<li> Icon made by <a href="https://www.flaticon.com/authors/pixelmeetup"
 							title="Pixelmeetup">Pixelmeetup</a> from <a href="https://www.flaticon.com/"
