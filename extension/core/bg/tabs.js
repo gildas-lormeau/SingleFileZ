@@ -162,7 +162,7 @@ singlefile.extension.core.bg.tabs = (() => {
 	}
 
 	function onTabRemoved(tabId) {
-		singlefile.extension.core.bg.tabsData.onTabRemoved(tabId);
+		singlefile.extension.core.bg.tabsData.remove(tabId);
 		singlefile.extension.core.bg.business.onTabRemoved(tabId);
 	}
 

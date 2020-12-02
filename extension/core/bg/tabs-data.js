@@ -29,10 +29,10 @@ singlefile.extension.core.bg.tabsData = (() => {
 	setTimeout(() => getPersistent().then(tabsData => persistentData = tabsData), 0);
 	return {
 		onMessage,
-		onTabRemoved,
 		getTemporary,
 		get: getPersistent,
-		set: setPersistent
+		set: setPersistent,
+		remove
 	};
 
 	function onMessage(message) {
@@ -44,13 +44,16 @@ singlefile.extension.core.bg.tabsData = (() => {
 		}
 	}
 
-	async function onTabRemoved(tabId) {
+	async function remove(tabId) {
 		if (temporaryData) {
 			delete temporaryData[tabId];
 		}
 		const tabsData = await getPersistent();
-		delete tabsData[tabId];
-		setPersistent(tabsData);
+		if (tabsData[tabId]) {
+			const autoSave = tabsData[tabId].autoSave;
+			tabsData[tabId] = { autoSave };
+			await setPersistent(tabsData);
+		}
 	}
 
 	function getTemporary(desiredTabId) {
