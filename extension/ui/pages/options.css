@@ -120,8 +120,8 @@ h3 a {
     border: 1px black solid;
     opacity: .2;
     width: 12px;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    margin-top: 4px;
+    margin-bottom: 2px;
     margin-left: 8px;
     margin-right: 8px;
     transition: opacity;
@@ -339,7 +339,7 @@ a {
     margin-left: 10px;
 }
 
-.option {
+.option:not([hidden]) {
     display: flex;
     justify-content: space-between;
     margin-top: 3px;
@@ -504,7 +504,7 @@ html.maximized {
 .maximized #helpLabel {
     padding-left: 4px;
     padding-right: 4px;
-    padding-top: 7px;
+    padding-top: 0;
 }
 
 @media (max-width:400px) {
