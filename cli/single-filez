@@ -42,6 +42,9 @@ async function run(options) {
 		urls = [options.url];
 	}
 	options.retrieveLinks = true;
+	if (options.crawlLinks || urls.length > 1) {
+		options.dumpContent = false;
+	}
 	options.browserScripts = options.browserScripts.map(path => require.resolve(path));
 
 	await singlefile.capture(urls);
