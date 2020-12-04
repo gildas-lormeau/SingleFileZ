@@ -57,7 +57,7 @@
 					<li>Select "Save Selection" from the context menu without selecting any content first to display a
 						selector that will help you choose content by hovering over it with the mouse.</li>
 					<li>Right-click on the SingleFileZ button and select "Options" to open the options page.</li>
-					<li>Enable the option "Misc. &gt; save to Google Drive" to upload pages to Google Drive</li>
+					<li>Enable the option "Destination &gt; upload to Google Drive" to upload pages to Google Drive</li>
 					<li>You can use the customizable shortcut Ctrl+Shift+Y to save the current tab or the selected tabs.
 						Go to about:addons and select "Manage extension shortcuts" in the cogwheel menu to change it in
 						Firefox. Go to chrome://extensions/shortcuts to change it in Chrome.</li>
@@ -208,6 +208,11 @@
 						<p>Check this option to display the ℹ button at the top right of the page when viewing a saved
 							page in a browser where SingleFileZ is not installed.</p>
 					</li>
+					<li data-options-label="saveRawPageLabel"> <span class="option">Option: save raw page</span>
+						<p>Check this option to save the page without interpreting JavaScript. Checking this option may
+							alter the document.</p>
+						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
+					</li>
 				</ul>
 				<p>ZIP content</p>
 				<ul>
@@ -315,6 +320,44 @@
 						<p class="notice">It is recommended to <u>check</u> this option</p>
 					</li>
 				</ul>
+				<p>Destination</p>
+				<ul>
+					<li data-options-label="saveToFilesystemLabel"> <span class="option">Option: save to
+							filesystem</span>
+						<p>Check this option to save the downloaded page on the filesystem of your computer.</p>
+						<p class="notice">It is recommended to <u>check</u> this option</p>
+					</li>
+					<li data-options-label="saveToGDriveLabel"> <span class="option">Option: upload to Google
+							Drive</span>
+						<p>Check this option to save the page on Google Drive.</p>
+						<p>The permissions requested by SingleFileZ allow it to access only to the files and folders it
+							has created. When you uncheck this option, SingleFileZ revokes automatically its access to
+							your Google Drive account. </p>
+						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
+					</li>
+				</ul>
+				<p>Bookmarks</p>
+				<ul>
+					<li data-options-label="saveCreatedBookmarksLabel"> <span class="option">Option: save the page of a
+							newly created bookmark</span>
+						<p>Check this option to save pages that you add into your bookmarks. Note that if the page is to
+							be saved is not already displayed in a tab, SingleFileZ will open temporarily a new tab to
+							save the page. </p>
+						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
+					</li>
+					<li data-options-label="replaceBookmarkURLLabel"> <span class="option">Option: link the new bookmark
+							to the saved page</span>
+						<p>Check this option to replace the URL of the page added into your bookmark with the file URI
+							of the saved page on your disk. </p>
+						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
+					</li>
+					<li data-options-label="ignoredBookmarkFoldersLabel"> <span class="option">Option: ignored
+							folders</span>
+						<p>Enter a list of bookmark folder names to ignore. The folder names must be separated with a
+							comma.
+						</p>
+					</li>
+				</ul>
 				<p>Auto-save</p>
 				<ul>
 					<li data-options-label="autoSaveLoadOrUnloadLabel"> <span class="option">Option: auto-save after
@@ -350,21 +393,6 @@
 				</ul>
 				<p>Misc.</p>
 				<ul>
-					<li data-options-label="backgroundSaveLabel"> <span class="option">Option: save pages in
-							background</span>
-						<p>Uncheck this option if you get invalid file names like
-							"37bec68b-446a-46a5-8642-19a89c231b46.html" or interrupted downloads when saving pages. You
-							can also uncheck this option if you want the "Save as" dialog to remember the last saved
-							path. Unchecking this option prevent using sub-directories in filename templates.</p>
-						<p class="notice">It is recommended to <u>check</u> this option</p>
-					</li>
-					<li data-options-label="displayStatsLabel"> <span class="option">Option: display stats in the
-							console after processing</span>
-						<p>Check this option to display stats about processing in the JavaScript developer tools of your
-							browser. Checking this option may increase the CPU consumption and the time needed to save a
-							page. </p>
-						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
-					</li>
 					<li data-options-label="setMaxResourceSizeLabel"> <span class="option">Option: set a maximum size
 							for embedded resources (MB)</span>
 						<p>Check this option to remove from the saved page embedded resources (i.e. images, stylesheets,
@@ -381,41 +409,19 @@
 							option if you cannot download resources blocked by a hotlink protection.</p>
 						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
 					</li>
-					<li data-options-label="saveRawPageLabel"> <span class="option">Option: save raw page</span>
-						<p>Check this option to save the page without interpreting JavaScript. Checking this option may
-							alter the document, will force the options "remove frames", "remove hidden elements" to
-							be enabled and "save deferred images" to be disabled.</p>
-						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
+					<li data-options-label="backgroundSaveLabel"> <span class="option">Option: save pages in
+							background</span>
+						<p>Uncheck this option if you get invalid file names like
+							"37bec68b-446a-46a5-8642-19a89c231b46.html" or interrupted downloads when saving pages. You
+							can also uncheck this option if you want the "Save as" dialog to remember the last saved
+							path. Unchecking this option prevent using sub-directories in filename templates.</p>
+						<p class="notice">It is recommended to <u>check</u> this option</p>
 					</li>
-					<li data-options-label="saveToGDriveLabel"> <span class="option">Option: save to Google Drive</span>
-						<p>Check this option to save the page on Google Drive instead of downloading it on your
-							computer. Checking this option will force some "File name" options to be disabled.
-							However, you can change the value of the "File name &gt; template" option to save files into
-							sub-folders, e.g. "<code>SingleFileZ/{page-title} ({date-iso} {time-locale}).html</code>" to
-							save pages in the folder named "SingleFileZ".
-						</p>
-						<p>
-							The permissions requested by SingleFileZ allow it to access only to the files and folders it
-							has created. When you uncheck this option, SingleFileZ revokes automatically its access to
-							your Google Drive account.
-						</p>
-						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
-					</li>
-					<li data-options-label="saveCreatedBookmarksLabel"> <span class="option">Option: save the page of a
-							newly created bookmark</span>
-						<p>
-							Check this option to save pages that you add into your bookmarks. Note that if the page is
-							to be saved is not already displayed in a tab, SingleFileZ will open temporarily
-							a new tab to save the page.
-						</p>
-						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
-					</li>
-					<li data-options-label="replaceBookmarkURLLabel"> <span class="option">Option: link the new bookmark
-							to the saved page</span>
-						<p>
-							Check this option to replace the URL of the page added into your bookmark with the file URI
-							of the saved page on your disk.
-						</p>
+					<li data-options-label="displayStatsLabel"> <span class="option">Option: display stats in the
+							console after processing</span>
+						<p>Check this option to display stats about processing in the JavaScript developer tools of your
+							browser. Checking this option may increase the CPU consumption and the time needed to save a
+							page. </p>
 						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
 					</li>
 				</ul>
@@ -503,10 +509,10 @@
 					<li><code>{url-referrer-flat}</code>: the URI of the page that "linked" to the page with slashed
 						replaced (e.g. "http_example.com")</li>
 					<li><code>{bookmark-pathname}</code>: the path name of the newly created bookmark (e.g. "My
-						Bookmarks/Last Month") when the option "Misc &gt; save the page of a
+						Bookmarks/Last Month") when the option "Bookmarks &gt; save the page of a
 						newly created bookmark" is enabled</li>
 					<li><code>{bookmark-pathname-flat}</code>: the path name of the newly created bookmark with replaced
-						slashes (e.g. "My Bookmarks_Last Month") when the option "Misc &gt; save the page of a
+						slashes (e.g. "My Bookmarks_Last Month") when the option "Bookmarks &gt; save the page of a
 						newly created bookmark" is enabled</li>
 					<li><code>{tab-id}</code>: the unique identifier of the tab (e.g. "326")</li>
 					<li><code>{tab-index}</code>: the index of the tab in the window (e.g. "1")</li>
@@ -526,7 +532,8 @@
 			</li>
 			<li><a id="known-issues">Known issues</a>
 				<ul>
-					<li>All browsers <ul>
+					<li>All browsers
+						<ul>
 							<li>For security reasons, you cannot save pages hosted on https://chrome.google.com,
 								https://addons.mozilla.org and some other Mozilla domains. When this happens, 🚫 is
 								displayed on top of the SingleFileZ icon.</li>
@@ -538,9 +545,11 @@
 								&lt;, &gt;</li>
 						</ul>
 					</li>
-					<li>Chrome/Opera <ul>
+					<li>Chromium-based browsers
+						<ul>
 							<li>You must enable the option "Allow access to file URLs" in the extension page to display
-								the infobar when viewing a saved page, or to save a page stored on the filesystem.</li>
+								the infobar when viewing a saved page, to save or to annotate a page stored on the
+								filesystem.</li>
 							<li>If the filename of a saved page looks like "56833935-156b-4d8c-a00f-19599c6513d3",
 								disable the option "Misc. &gt; Save pages in background". Reinstalling the browser may
 								also fix this issue.</li>
@@ -549,8 +558,10 @@
 								chrome://settings/downloads</li>
 						</ul>
 					</li>
-					<li>Firefox <ul>
-							<li>The "file name conflict resolution" option does not work if set to "prompt for a name".
+					<li>Firefox
+						<ul>
+							<li>The "File name &gt; file name conflict resolution" option does not work if set to
+								"prompt for a name".
 							</li>
 							<li>Sometimes, SingleFile is unable to save the contents of sandboxed iframes.</li>
 							<li>When processing a page from the filesystem, external resources (e.g. images,

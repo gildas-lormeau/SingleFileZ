@@ -16,9 +16,9 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSaveWithProfile": {
-		"message": "Save page with profile",
-		"description": "Menu entry: 'Save with profile'"
-	},	
+        "message": "Save page with profile",
+        "description": "Menu entry: 'Save with profile'"
+    },
     "menuSaveSelectedLinks": {
         "message": "Save selected links",
         "description": "Menu entry: 'Save selected links'"
@@ -299,6 +299,14 @@
         "message": "オーディオソースを削除する",
         "description": "Options page label: 'remove audio sources'"
     },
+    "optionsDestionationSubTitle": {
+        "message": "Destination",
+        "description": "Options sub-title: 'Destination'"
+    },
+    "optionsBookmarkSubTitle": {
+        "message": "Bookmarks",
+        "description": "Options sub-title: 'Bookmarks'"
+    },
     "optionsAutoSaveSubTitle": {
         "message": "自動保存",
         "description": "Options sub-title: 'Auto-save'"
@@ -404,10 +412,10 @@
         "description": "Options page label: 'maximum size (MB)'"
     },
     "optionPassReferrerOnError": {
-		"message": "pass \"Referer\" header after a cross-origin request error",
-		"description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
-	},
-	"optionSaveRawPage": {
+        "message": "pass \"Referer\" header after a cross-origin request error",
+        "description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
+    },
+    "optionSaveRawPage": {
         "message": "生のページを保存",
         "description": "Options page label: 'save raw page'"
     },
@@ -419,9 +427,13 @@
         "message": "同期オプション",
         "description": "Options label: 'synchronize options'"
     },
+    "optionSaveToFilesystem": {
+        "message": "save to filesystem",
+        "description": "Options page label: 'save to filesystem'"
+    },
     "optionSaveToGDrive": {
         "message": "Google Drive に保存",
-        "description": "Options page label: 'save to Google Drive'"
+        "description": "Options page label: 'upload to Google Drive'"
     },
     "optionSaveCreatedBookmarks": {
         "message": "新しく作成したブックマークのページを保存する",
@@ -430,6 +442,10 @@
     "optionReplaceBookmarkURL": {
         "message": "新しいブックマークを保存したページにリンクさせることを可能にする",
         "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
+    "optionIgnoredBookmarkFolders": {
+        "message": "ignored folders",
+        "description": "Options page label: 'ignored folders'"
     },
     "optionsResetButton": {
         "message": "リセット",

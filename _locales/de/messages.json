@@ -4,10 +4,10 @@
         "description": "Description of the extension."
     },
     "commandSaveSelectedTabs": {
-		"message": "Speichern der ausgewählten Tabs oder ihrer ausgewählten Inhalte",
-		"description": "Command (Ctrl+Shift+Y): 'Save the selected tabs or their selected contents'"
-	},
-	"commandSaveAllTabs": {
+        "message": "Speichern der ausgewählten Tabs oder ihrer ausgewählten Inhalte",
+        "description": "Command (Ctrl+Shift+Y): 'Save the selected tabs or their selected contents'"
+    },
+    "commandSaveAllTabs": {
         "message": "Speichern aller Tabs",
         "description": "Command (Ctrl+Shift+U): 'Save all tabs'"
     },
@@ -299,6 +299,14 @@
         "message": "Audioquellen entfernen",
         "description": "Options page label: 'remove audio sources'"
     },
+    "optionsDestionationSubTitle": {
+        "message": "Datei-Ziel",
+        "description": "Options sub-title: 'Destination'"
+    },
+    "optionsBookmarkSubTitle": {
+        "message": "Bookmarks",
+        "description": "Options sub-title: 'Bookmarks'"
+    },
     "optionsAutoSaveSubTitle": {
         "message": "Automatische Speicherung",
         "description": "Options sub-title: 'Auto-save'"
@@ -404,16 +412,20 @@
         "description": "Options page label: 'maximum size (MB)'"
     },
     "optionPassReferrerOnError": {
-		"message": "Den \"Referer\"-Header nach einem Fehler bei einer Cross-Origin-Anfrage übergeben",
-		"description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
-	},
-	"optionSaveRawPage": {
+        "message": "Den \"Referer\"-Header nach einem Fehler bei einer Cross-Origin-Anfrage übergeben",
+        "description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
+    },
+    "optionSaveRawPage": {
         "message": "Originalseite sichern",
         "description": "Options page label: 'save raw page'"
     },
+    "optionSaveToFilesystem": {
+        "message": "save to filesystem",
+        "description": "Options page label: 'save to filesystem'"
+    },
     "optionSaveToGDrive": {
         "message": "In Google Drive speichern",
-        "description": "Options page label: 'save to Google Drive'"
+        "description": "Options page label: 'upload to Google Drive'"
     },
     "optionSaveCreatedBookmarks": {
         "message": "Die Seite eines neu angelegten Bookmark speichern",
@@ -422,6 +434,10 @@
     "optionReplaceBookmarkURL": {
         "message": "Das neue Bookmark mit der gespeicherten Seite verlinken",
         "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
+    "optionIgnoredBookmarkFolders": {
+        "message": "Ignorierte Ordner",
+        "description": "Options page label: 'ignored folders'"
     },
     "optionsHelpLink": {
         "message": "Hilfe",

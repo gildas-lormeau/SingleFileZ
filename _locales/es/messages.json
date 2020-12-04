@@ -299,6 +299,14 @@
         "message": "eliminar fuentes de audio",
         "description": "Options page label: 'remove audio sources'"
     },
+    "optionsDestionationSubTitle": {
+        "message": "Destino",
+        "description": "Options sub-title: 'Destination'"
+    },
+    "optionsBookmarkSubTitle": {
+        "message": "Marcadores",
+        "description": "Options sub-title: 'Bookmarks'"
+    },
     "optionsAutoSaveSubTitle": {
         "message": "Auto-guardado",
         "description": "Options sub-title: 'Auto-save'"
@@ -411,9 +419,13 @@
         "message": "guardar página en crudo",
         "description": "Options page label: 'save raw page'"
     },
+    "optionSaveToFilesystem": {
+        "message": "save to filesystem",
+        "description": "Options page label: 'save to filesystem'"
+    },
     "optionSaveToGDrive": {
-        "message": "save en Google Drive",
-        "description": "Options page label: 'save to Google Drive'"
+        "message": "subir a Google Drive",
+        "description": "Options page label: 'upload to Google Drive'"
     },
     "optionSaveCreatedBookmarks": {
         "message": "guardar la página de un marcador recién creado",
@@ -422,6 +434,10 @@
     "optionReplaceBookmarkURL": {
         "message": "enlazar el nuevo marcador a la página guardada",
         "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
+    "optionIgnoredBookmarkFolders": {
+        "message": "carpetas ignoradas",
+        "description": "Options page label: 'ignored folders'"
     },
     "optionsHelpLink": {
         "message": "ayuda",

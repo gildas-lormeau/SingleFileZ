@@ -4,10 +4,10 @@
         "description": "Description of the extension."
     },
     "commandSaveSelectedTabs": {
-		"message": "Sauvegarder les onglets sélectionnés ou leurs contenus sélectionnés",
-		"description": "Command (Ctrl+Shift+Y): 'Save the selected tabs or their selected contents'"
-	},
-	"commandSaveAllTabs": {
+        "message": "Sauvegarder les onglets sélectionnés ou leurs contenus sélectionnés",
+        "description": "Command (Ctrl+Shift+Y): 'Save the selected tabs or their selected contents'"
+    },
+    "commandSaveAllTabs": {
         "message": "Sauver tous les onglets",
         "description": "Command (Ctrl+Shift+U): 'Save all tabs'"
     },
@@ -16,9 +16,9 @@
         "description": "Menu entry: 'Save page with SingleFileZ'"
     },
     "menuSaveWithProfile": {
-		"message": "Sauver la page avec le profil",
-		"description": "Menu entry: 'Save with profile'"
-	},	
+        "message": "Sauver la page avec le profil",
+        "description": "Menu entry: 'Save with profile'"
+    },
     "menuSaveSelectedLinks": {
         "message": "Sauver les liens selectionnés",
         "description": "Menu entry: 'Save selected links'"
@@ -299,6 +299,14 @@
         "message": "supprimer les sources audio",
         "description": "Options page label: 'remove audio sources'"
     },
+    "optionsDestionationSubTitle": {
+        "message": "Destination",
+        "description": "Options sub-title: 'Destination'"
+    },
+    "optionsBookmarkSubTitle": {
+        "message": "Signets",
+        "description": "Options sub-title: 'Bookmarks'"
+    },
     "optionsAutoSaveSubTitle": {
         "message": "Auto-sauvegarde",
         "description": "Options sub-title: 'Auto-save'"
@@ -404,16 +412,20 @@
         "description": "Options page label: 'maximum size (MB)'"
     },
     "optionPassReferrerOnError": {
-		"message": "passer l'en-tête \"Referer\" après une erreur de requête multi-origine",
-		"description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
-	},
-	"optionSaveRawPage": {
+        "message": "passer l'en-tête \"Referer\" après une erreur de requête multi-origine",
+        "description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
+    },
+    "optionSaveRawPage": {
         "message": "sauvegarder la page brute",
         "description": "Options page label: 'save raw page'"
     },
+    "optionSaveToFilesystem": {
+        "message": "enregistrer dans le système de fichiers",
+        "description": "Options page label: 'save to filesystem'"
+    },
     "optionSaveToGDrive": {
-        "message": "sauvegarder dans Google Drive",
-        "description": "Options page label: 'save to Google Drive'"
+        "message": "téléverser sur Google Drive",
+        "description": "Options page label: 'upload to Google Drive'"
     },
     "optionSaveCreatedBookmarks": {
         "message": "sauvegarder la page d'un signet nouvellement créé",
@@ -422,6 +434,10 @@
     "optionReplaceBookmarkURL": {
         "message": "lier le nouveau signet à la page sauvegardée",
         "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
+    "optionIgnoredBookmarkFolders": {
+        "message": "dossiers ignorés",
+        "description": "Options page label: 'ignored folders'"
     },
     "optionsHelpLink": {
         "message": "aide (anglais)",

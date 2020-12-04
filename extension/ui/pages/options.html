@@ -97,6 +97,10 @@
 				<label for="includeInfobarInput" id="includeInfobarLabel"></label>
 				<input type="checkbox" id="includeInfobarInput">
 			</div>
+			<div class="option">
+				<label for="saveRawPageInput" id="saveRawPageLabel"></label>
+				<input type="checkbox" id="saveRawPageInput">
+			</div>
 		</details>
 		<details>
 			<summary id="zipContentLabel"></summary>
@@ -174,6 +178,32 @@
 			</div>
 		</details>
 		<details>
+			<summary id="destinationLabel"></summary>
+			<div class="option">
+				<label for="saveToFilesystemInput" id="saveToFilesystemLabel"></label>
+				<input type="radio" id="saveToFilesystemInput" name="destinationInput">
+			</div>
+			<div class="option">
+				<label for="saveToGDriveInput" id="saveToGDriveLabel"></label>
+				<input type="radio" id="saveToGDriveInput" name="destinationInput">
+			</div>
+		</details>
+		<details>
+			<summary id="bookmarksLabel"></summary>
+			<div class="option">
+				<label for="saveCreatedBookmarksInput" id="saveCreatedBookmarksLabel"></label>
+				<input type="checkbox" id="saveCreatedBookmarksInput">
+			</div>
+			<div class="option second-level">
+				<label for="replaceBookmarkURLInput" id="replaceBookmarkURLLabel"></label>
+				<input type="checkbox" id="replaceBookmarkURLInput">
+			</div>
+			<div class="option second-level vertical">
+				<label for="ignoredBookmarkFoldersInput" id="ignoredBookmarkFoldersLabel"></label>
+				<input type="text" id="ignoredBookmarkFoldersInput">
+			</div>
+		</details>
+		<details>
 			<summary id="autoSaveLabel"></summary>
 			<div class="option">
 				<label for="autoSaveLoadOrUnloadInput" id="autoSaveLoadOrUnloadLabel"></label>
@@ -203,14 +233,6 @@
 		<details>
 			<summary id="miscLabel"></summary>
 			<div class="option">
-				<label for="backgroundSaveInput" id="backgroundSaveLabel"></label>
-				<input type="checkbox" id="backgroundSaveInput">
-			</div>
-			<div class="option">
-				<label for="displayStatsInput" id="displayStatsLabel"></label>
-				<input type="checkbox" id="displayStatsInput">
-			</div>
-			<div class="option">
 				<label for="maxResourceSizeEnabledInput" id="setMaxResourceSizeLabel"></label>
 				<input type="checkbox" id="maxResourceSizeEnabledInput">
 			</div>
@@ -223,20 +245,12 @@
 				<input type="checkbox" id="passReferrerOnErrorInput">
 			</div>
 			<div class="option">
-				<label for="saveRawPageInput" id="saveRawPageLabel"></label>
-				<input type="checkbox" id="saveRawPageInput">
+				<label for="backgroundSaveInput" id="backgroundSaveLabel"></label>
+				<input type="checkbox" id="backgroundSaveInput">
 			</div>
 			<div class="option">
-				<label for="saveToGDriveInput" id="saveToGDriveLabel"></label>
-				<input type="checkbox" id="saveToGDriveInput">
-			</div>
-			<div class="option">
-				<label for="saveCreatedBookmarksInput" id="saveCreatedBookmarksLabel"></label>
-				<input type="checkbox" id="saveCreatedBookmarksInput">
-			</div>
-			<div class="option second-level">
-				<label for="replaceBookmarkURLInput" id="replaceBookmarkURLLabel"></label>
-				<input type="checkbox" id="replaceBookmarkURLInput">
+				<label for="displayStatsInput" id="displayStatsLabel"></label>
+				<input type="checkbox" id="displayStatsInput">
 			</div>
 		</details>
 		<details>

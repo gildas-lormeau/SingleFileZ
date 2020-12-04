@@ -299,6 +299,14 @@
 		"message": "удалить источники аудио",
 		"description": "Options page label: 'remove audio sources'"
 	},
+	"optionsDestionationSubTitle": {
+		"message": "Destination",
+		"description": "Options sub-title: 'Destination'"
+	},
+	"optionsBookmarkSubTitle": {
+		"message": "Bookmarks",
+		"description": "Options sub-title: 'Bookmarks'"
+	},
 	"optionsAutoSaveSubTitle": {
 		"message": "Автосохранение",
 		"description": "Options sub-title: 'Auto-save'"
@@ -411,9 +419,13 @@
 		"message": "сохранить исходную страницу",
 		"description": "Options page label: 'save raw page'"
 	},
+	"optionSaveToFilesystem": {
+		"message": "save to filesystem",
+		"description": "Options page label: 'save to filesystem'"
+	},
 	"optionSaveToGDrive": {
 		"message": "сохранить на Google Drive",
-		"description": "Options page label: 'save to Google Drive'"
+		"description": "Options page label: 'upload to Google Drive'"
 	},
 	"optionSaveCreatedBookmarks": {
 		"message": "сохранить страницу недавно созданной закладки",
@@ -422,6 +434,10 @@
 	"optionReplaceBookmarkURL": {
 		"message": "связать новую закладку с сохранённой страницей",
 		"description": "Options page label: 'связать новую закладку с сохранённой страницей'"
+	},
+	"optionIgnoredBookmarkFolders": {
+		"message": "ignored folders",
+		"description": "Options page label: 'ignored folders'"
 	},
 	"optionsHelpLink": {
 		"message": "помощь",

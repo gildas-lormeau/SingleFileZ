@@ -299,6 +299,14 @@
         "message": "usuwaj źródła audio",
         "description": "Options page label: 'remove audio sources'"
     },
+    "optionsDestionationSubTitle": {
+        "message": "Destination",
+        "description": "Options sub-title: 'Destination'"
+    },
+    "optionsBookmarkSubTitle": {
+        "message": "Bookmarks",
+        "description": "Options sub-title: 'Bookmarks'"
+    },
     "optionsAutoSaveSubTitle": {
         "message": "Automatyczny zapis",
         "description": "Options sub-title: 'Auto-save'"
@@ -411,9 +419,13 @@
         "message": "zapisuj surową stronę",
         "description": "Options page label: 'save raw page'"
     },
+    "optionSaveToFilesystem": {
+        "message": "save to filesystem",
+        "description": "Options page label: 'save to filesystem'"
+    },
     "optionSaveToGDrive": {
         "message": "zapisuj na Dysku Google",
-        "description": "Options page label: 'save to Google Drive'"
+        "description": "Options page label: 'upload to Google Drive'"
     },
     "optionSaveCreatedBookmarks": {
         "message": "zapisuj stronę nowo utworzonej zakładki",
@@ -422,6 +434,10 @@
     "optionReplaceBookmarkURL": {
         "message": "łącz nową zakładkę z zapisaną stroną",
         "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
+    "optionIgnoredBookmarkFolders": {
+        "message": "ignored folders",
+        "description": "Options page label: 'ignored folders'"
     },
     "optionsHelpLink": {
         "message": "pomoc (w języku angielskim)",

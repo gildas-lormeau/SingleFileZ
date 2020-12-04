@@ -299,6 +299,14 @@
         "message": "移除音频资源",
         "description": "Options page label: 'remove audio sources'"
     },
+    "optionsDestionationSubTitle": {
+        "message": "Destination",
+        "description": "Options sub-title: 'Destination'"
+    },
+    "optionsBookmarkSubTitle": {
+        "message": "Bookmarks",
+        "description": "Options sub-title: 'Bookmarks'"
+    },
     "optionsAutoSaveSubTitle": {
         "message": "自动保存",
         "description": "Options sub-title: 'Auto-save'"
@@ -404,16 +412,20 @@
         "description": "Options page label: 'maximum size (MB)'"
     },
     "optionPassReferrerOnError": {
-		"message": "跨域请求失败时添加来源地址头信息（Referer）",
-		"description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
-	},
-	"optionSaveRawPage": {
+        "message": "跨域请求失败时添加来源地址头信息（Referer）",
+        "description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
+    },
+    "optionSaveRawPage": {
         "message": "保存原始页面",
         "description": "Options page label: 'save raw page'"
     },
+    "optionSaveToFilesystem": {
+        "message": "save to filesystem",
+        "description": "Options page label: 'save to filesystem'"
+    },
     "optionSaveToGDrive": {
         "message": "保存到 Google Drive",
-        "description": "Options page label: 'save to Google Drive'"
+        "description": "Options page label: 'upload to Google Drive'"
     },
     "optionSaveCreatedBookmarks": {
         "message": "将该页面保存到一个新创建的书签",
@@ -422,6 +434,10 @@
     "optionReplaceBookmarkURL": {
         "message": "将新书签的链接指向已保存页面",
         "description": "Options page label: 'link the new bookmark to the saved page'"
+    },
+    "optionIgnoredBookmarkFolders": {
+        "message": "ignored folders",
+        "description": "Options page label: 'ignored folders'"
     },
     "optionsHelpLink": {
         "message": "帮助",

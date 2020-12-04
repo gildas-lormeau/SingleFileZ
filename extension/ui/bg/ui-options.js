@@ -35,6 +35,7 @@
 	const removeImportsLabel = document.getElementById("removeImportsLabel");
 	const removeScriptsLabel = document.getElementById("removeScriptsLabel");
 	const saveRawPageLabel = document.getElementById("saveRawPageLabel");
+	const saveToFilesystemLabel = document.getElementById("saveToFilesystemLabel");
 	const saveToGDriveLabel = document.getElementById("saveToGDriveLabel");
 	const compressHTMLLabel = document.getElementById("compressHTMLLabel");
 	const insertTextBodyLabel = document.getElementById("insertTextBodyLabel");
@@ -71,6 +72,7 @@
 	const saveCreatedBookmarksLabel = document.getElementById("saveCreatedBookmarksLabel");
 	const passReferrerOnErrorLabel = document.getElementById("passReferrerOnErrorLabel");
 	const replaceBookmarkURLLabel = document.getElementById("replaceBookmarkURLLabel");
+	const ignoredBookmarkFoldersLabel = document.getElementById("ignoredBookmarkFoldersLabel");
 	const createRootDirectoryLabel = document.getElementById("createRootDirectoryLabel");
 	const selfExtractingArchiveLabel = document.getElementById("selfExtractingArchiveLabel");
 	const titleLabel = document.getElementById("titleLabel");
@@ -82,6 +84,8 @@
 	const stylesheetsLabel = document.getElementById("stylesheetsLabel");
 	const fontsLabel = document.getElementById("fontsLabel");
 	const otherResourcesLabel = document.getElementById("otherResourcesLabel");
+	const destinationLabel = document.getElementById("destinationLabel");
+	const bookmarksLabel = document.getElementById("bookmarksLabel");
 	const autoSaveLabel = document.getElementById("autoSaveLabel");
 	const autoSettingsLabel = document.getElementById("autoSettingsLabel");
 	const autoSettingsUrlLabel = document.getElementById("autoSettingsUrlLabel");
@@ -112,6 +116,7 @@
 	const removeScriptsInput = document.getElementById("removeScriptsInput");
 	const saveRawPageInput = document.getElementById("saveRawPageInput");
 	const saveToGDriveInput = document.getElementById("saveToGDriveInput");
+	const saveToFilesystemInput = document.getElementById("saveToFilesystemInput");
 	const compressHTMLInput = document.getElementById("compressHTMLInput");
 	const insertTextBodyInput = document.getElementById("insertTextBodyInput");
 	const compressCSSInput = document.getElementById("compressCSSInput");
@@ -143,6 +148,7 @@
 	const saveCreatedBookmarksInput = document.getElementById("saveCreatedBookmarksInput");
 	const passReferrerOnErrorInput = document.getElementById("passReferrerOnErrorInput");
 	const replaceBookmarkURLInput = document.getElementById("replaceBookmarkURLInput");
+	const ignoredBookmarkFoldersInput = document.getElementById("ignoredBookmarkFoldersInput");
 	const createRootDirectoryInput = document.getElementById("createRootDirectoryInput");
 	const selfExtractingArchiveInput = document.getElementById("selfExtractingArchiveInput");
 	const infobarTemplateInput = document.getElementById("infobarTemplateInput");
@@ -419,6 +425,7 @@
 	removeImportsLabel.textContent = browser.i18n.getMessage("optionRemoveImports");
 	removeScriptsLabel.textContent = browser.i18n.getMessage("optionRemoveScripts");
 	saveRawPageLabel.textContent = browser.i18n.getMessage("optionSaveRawPage");
+	saveToFilesystemLabel.textContent = browser.i18n.getMessage("optionSaveToFilesystem");
 	saveToGDriveLabel.textContent = browser.i18n.getMessage("optionSaveToGDrive");
 	compressHTMLLabel.textContent = browser.i18n.getMessage("optionCompressHTML");
 	insertTextBodyLabel.textContent = browser.i18n.getMessage("optionInsertTextBody");
@@ -455,6 +462,7 @@
 	saveCreatedBookmarksLabel.textContent = browser.i18n.getMessage("optionSaveCreatedBookmarks");
 	passReferrerOnErrorLabel.textContent = browser.i18n.getMessage("optionPassReferrerOnError");
 	replaceBookmarkURLLabel.textContent = browser.i18n.getMessage("optionReplaceBookmarkURL");
+	ignoredBookmarkFoldersLabel.textContent = browser.i18n.getMessage("optionIgnoredBookmarkFolders");
 	createRootDirectoryLabel.textContent = browser.i18n.getMessage("optionCreateRootDirectory");
 	selfExtractingArchiveLabel.textContent = browser.i18n.getMessage("optionSelfExtractingArchive");
 	titleLabel.textContent = browser.i18n.getMessage("optionsTitle");
@@ -466,6 +474,8 @@
 	stylesheetsLabel.textContent = browser.i18n.getMessage("optionsStylesheetsSubTitle");
 	fontsLabel.textContent = browser.i18n.getMessage("optionsFontsSubTitle");
 	otherResourcesLabel.textContent = browser.i18n.getMessage("optionsOtherResourcesSubTitle");
+	destinationLabel.textContent = browser.i18n.getMessage("optionsDestionationSubTitle");
+	bookmarksLabel.textContent = browser.i18n.getMessage("optionsBookmarkSubTitle");
 	autoSaveLabel.textContent = browser.i18n.getMessage("optionsAutoSaveSubTitle");
 	miscLabel.textContent = browser.i18n.getMessage("optionsMiscSubTitle");
 	helpLabel.textContent = browser.i18n.getMessage("optionsHelpLink");
@@ -590,26 +600,23 @@
 		profileNamesInput.value = selectedProfileName;
 		renameProfileButton.disabled = deleteProfileButton.disabled = profileNamesInput.value == DEFAULT_PROFILE_NAME;
 		const profileOptions = profiles[selectedProfileName];
-		removeHiddenElementsInput.checked = profileOptions.removeHiddenElements || profileOptions.saveRawPage;
-		removeHiddenElementsInput.disabled = profileOptions.saveRawPage;
+		removeHiddenElementsInput.checked = profileOptions.removeHiddenElements;
 		removeUnusedStylesInput.checked = profileOptions.removeUnusedStyles;
 		removeUnusedFontsInput.checked = profileOptions.removeUnusedFonts;
-		removeFramesInput.checked = profileOptions.removeFrames || profileOptions.saveRawPage;
-		removeFramesInput.disabled = profileOptions.saveRawPage;
+		removeFramesInput.checked = profileOptions.removeFrames || profileOptions.saveRawPage;		
 		removeImportsInput.checked = profileOptions.removeImports;
 		removeScriptsInput.checked = profileOptions.removeScripts;
 		saveRawPageInput.checked = profileOptions.saveRawPage;
 		compressHTMLInput.checked = profileOptions.compressHTML;
-		insertTextBodyInput.checked = profileOptions.insertTextBody;
-		insertTextBodyInput.disabled = !profileOptions.selfExtractingArchive;
+		insertTextBodyInput.checked = profileOptions.insertTextBody;		
 		saveToGDriveInput.checked = profileOptions.saveToGDrive;
+		saveToFilesystemInput.checked = !profileOptions.saveToGDrive;
 		compressCSSInput.checked = profileOptions.compressCSS;
 		loadDeferredImagesInput.checked = profileOptions.loadDeferredImages && !profileOptions.saveRawPage;
-		loadDeferredImagesInput.disabled = profileOptions.saveRawPage;
 		loadDeferredImagesMaxIdleTimeInput.value = profileOptions.loadDeferredImagesMaxIdleTime;
-		loadDeferredImagesMaxIdleTimeInput.disabled = !profileOptions.loadDeferredImages || profileOptions.saveRawPage;
-		loadDeferredImagesKeepZoomLevelInput.checked = profileOptions.loadDeferredImagesKeepZoomLevel && !profileOptions.saveRawPage;
-		loadDeferredImagesKeepZoomLevelInput.disabled = !profileOptions.loadDeferredImages || profileOptions.saveRawPape;
+		loadDeferredImagesMaxIdleTimeInput.disabled = !profileOptions.loadDeferredImages;
+		loadDeferredImagesKeepZoomLevelInput.checked = profileOptions.loadDeferredImagesKeepZoomLevel;
+		loadDeferredImagesKeepZoomLevelInput.disabled = !profileOptions.loadDeferredImages;
 		contextMenuEnabledInput.checked = profileOptions.contextMenuEnabled;
 		filenameTemplateInput.value = profileOptions.filenameTemplate;
 		filenameMaxLengthInput.value = profileOptions.filenameMaxLength;
@@ -618,14 +625,12 @@
 		maxResourceSizeInput.value = profileOptions.maxResourceSize;
 		maxResourceSizeInput.disabled = !profileOptions.maxResourceSizeEnabled;
 		confirmFilenameInput.checked = profileOptions.confirmFilename;
-		filenameConflictActionInput.value = profileOptions.filenameConflictAction;
-		filenameConflictActionInput.disabled = profileOptions.saveToGDrive;
+		filenameConflictActionInput.value = profileOptions.filenameConflictAction;		
 		removeAudioSrcInput.checked = profileOptions.removeAudioSrc;
 		removeVideoSrcInput.checked = profileOptions.removeVideoSrc;
 		displayInfobarInput.checked = profileOptions.displayInfobar;
 		displayStatsInput.checked = profileOptions.displayStats;
-		backgroundSaveInput.checked = profileOptions.backgroundSave;
-		backgroundSaveInput.disabled = profileOptions.saveToGDrive;
+		backgroundSaveInput.checked = profileOptions.backgroundSave;		
 		autoSaveDelayInput.value = profileOptions.autoSaveDelay;
 		autoSaveDelayInput.disabled = !profileOptions.autoSaveLoadOrUnload && !profileOptions.autoSaveLoad;
 		autoSaveLoadInput.checked = !profileOptions.autoSaveLoadOrUnload && profileOptions.autoSaveLoad;
@@ -642,20 +647,16 @@
 		removeAlternativeMediasInput.checked = profileOptions.removeAlternativeMedias;
 		saveCreatedBookmarksInput.checked = profileOptions.saveCreatedBookmarks;
 		passReferrerOnErrorInput.checked = profileOptions.passReferrerOnError;
-		replaceBookmarkURLInput.checked = profileOptions.saveCreatedBookmarks && profileOptions.backgroundSave && profileOptions.replaceBookmarkURL;
-		replaceBookmarkURLInput.disabled = !profileOptions.saveCreatedBookmarks || !profileOptions.backgroundSave || profileOptions.saveToClipboard || profileOptions.saveToGDrive;
+		replaceBookmarkURLInput.checked = profileOptions.replaceBookmarkURL;
+		replaceBookmarkURLInput.disabled = !profileOptions.saveCreatedBookmarks;
+		ignoredBookmarkFoldersInput.value = profileOptions.ignoredBookmarkFolders.map(folder => folder.replace(/,/g, "\\,")).join(","); // eslint-disable-line no-useless-escape
+		ignoredBookmarkFoldersInput.disabled = !profileOptions.saveCreatedBookmarks;
 		createRootDirectoryInput.checked = profileOptions.createRootDirectory;
 		selfExtractingArchiveInput.checked = profileOptions.selfExtractingArchive;
 		infobarTemplateInput.value = profileOptions.infobarTemplate;
 		includeInfobarInput.checked = profileOptions.includeInfobar;
 		confirmInfobarInput.checked = profileOptions.confirmInfobarContent;
-		autoCloseInput.checked = profileOptions.autoClose;
-		removeFramesInput.disabled = saveRawPageInput.checked;
-		removeFramesInput.checked = removeFramesInput.checked || saveRawPageInput.checked;
-		loadDeferredImagesInput.disabled = saveRawPageInput.checked;
-		if (saveRawPageInput.checked) {
-			loadDeferredImagesInput.checked = false;
-		}
+		autoCloseInput.checked = profileOptions.autoClose;						
 	}
 
 	function getProfileText(profileName) {
@@ -707,6 +708,7 @@
 				saveCreatedBookmarks: saveCreatedBookmarksInput.checked,
 				passReferrerOnError: passReferrerOnErrorInput.checked,
 				replaceBookmarkURL: replaceBookmarkURLInput.checked,
+				ignoredBookmarkFolders: ignoredBookmarkFoldersInput.value.replace(/([^\\]),/g, "$1 ,").split(/[^\\],/).map(folder => folder.replace(/\\,/g, ",")),
 				createRootDirectory: createRootDirectoryInput.checked,
 				selfExtractingArchive: selfExtractingArchiveInput.checked,
 				infobarTemplate: infobarTemplateInput.value,
