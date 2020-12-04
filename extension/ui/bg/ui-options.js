@@ -664,7 +664,11 @@
 	}
 
 	async function update() {
-		await pendingSave;
+		try {
+			await pendingSave;
+		} catch (error) {
+			// ignored
+		}
 		pendingSave = browser.runtime.sendMessage({
 			method: "config.updateProfile",
 			profileName: profileNamesInput.value,
@@ -717,7 +721,11 @@
 				autoClose: autoCloseInput.checked
 			}
 		});
-		await pendingSave;
+		try {
+			await pendingSave;
+		} catch (error) {
+			// ignored
+		}
 	}
 
 	async function refreshExternalComponents() {
