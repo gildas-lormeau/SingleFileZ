@@ -77,7 +77,7 @@ const args = require("yargs")
 		"crawl-remove-url-fragment": true,
 		"crawl-max-depth": 1,
 		"crawl-external-links-max-depth": 1,
-		"crawl-rewrite-rules": [],
+		"crawl-rewrite-rule": [],
 		"insert-text-body": false,
 		"create-root-directory": false,
 		"self-extracting-archive": true,
@@ -131,8 +131,8 @@ const args = require("yargs")
 	.number("crawl-max-depth")
 	.options("crawl-external-links-max-depth", { description: "Max depth when crawling pages found in external links (0: infinite)" })
 	.number("crawl-external-links-max-depth")
-	.options("crawl-rewrite-rules", { description: "List of rewrite rules used to rewrite URLs of internal and external links" })
-	.array("crawl-rewrite-rules")
+	.options("crawl-rewrite-rule", { description: "Rewrite rule used to rewrite URLs of crawled pages" })
+	.array("crawl-rewrite-rule")
 	.options("dump-content", { description: "Dump the content of the processed page in the console" })
 	.boolean("dump-content")
 	.options("error-file")
@@ -234,9 +234,10 @@ args.browserCookies = cookies.map(cookieValue => {
 		url: value[8] || undefined
 	};
 });
-const scripts = args.browserScript;
+args.browserScripts = args.browserScript;
 delete args.browserScript;
-args.browserScripts = scripts;
+args.crawlRewriteRules = args.crawlRewriteRule;
+delete args.crawlRewriteRule;
 Object.keys(args).filter(optionName => optionName.includes("-"))
 	.forEach(optionName => delete args[optionName]);
 delete args["$0"];
