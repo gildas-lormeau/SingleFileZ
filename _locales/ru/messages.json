@@ -92,7 +92,7 @@
 		"description": "Button badge when the page is blocked: '🚫'"
 	},
 	"buttonBlockedTooltip": {
-		"message": "Эта страница не может быть сохранена с SingleFileZ",
+		"message": "Эта страница не может быть сохранена SingleFileZ",
 		"description": "Button title: 'This page cannot be saved with SingleFileZ'"
 	},
 	"buttonInitializingTooltip": {
@@ -300,11 +300,11 @@
 		"description": "Options page label: 'remove audio sources'"
 	},
 	"optionsDestionationSubTitle": {
-		"message": "Destination",
+		"message": "Место назначения",
 		"description": "Options sub-title: 'Destination'"
 	},
 	"optionsBookmarkSubTitle": {
-		"message": "Bookmarks",
+		"message": "Закладки",
 		"description": "Options sub-title: 'Bookmarks'"
 	},
 	"optionsAutoSaveSubTitle": {
@@ -424,7 +424,7 @@
 		"description": "Options page label: 'save to filesystem'"
 	},
 	"optionSaveToGDrive": {
-		"message": "сохранить на Google Drive",
+		"message": "загрузить на Google Drive",
 		"description": "Options page label: 'upload to Google Drive'"
 	},
 	"optionSaveCreatedBookmarks": {
@@ -436,7 +436,7 @@
 		"description": "Options page label: 'связать новую закладку с сохранённой страницей'"
 	},
 	"optionIgnoredBookmarkFolders": {
-		"message": "ignored folders",
+		"message": "игнорируемые папки",
 		"description": "Options page label: 'ignored folders'"
 	},
 	"optionsHelpLink": {
