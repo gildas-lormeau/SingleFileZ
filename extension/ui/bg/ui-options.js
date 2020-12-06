@@ -370,11 +370,7 @@
 	}, false);
 	saveCreatedBookmarksInput.addEventListener("click", saveCreatedBookmarks, false);
 	passReferrerOnErrorInput.addEventListener("click", passReferrerOnError, false);
-	saveToGDriveInput.addEventListener("click", async () => {
-		if (!saveToGDriveInput.checked) {
-			await browser.runtime.sendMessage({ method: "downloads.disableGDrive" });
-		}
-	}, false);
+	saveToFilesystemInput.addEventListener("click", async () => await browser.runtime.sendMessage({ method: "downloads.disableGDrive" }), false);
 	synchronizeInput.checked = (await browser.runtime.sendMessage({ method: "config.isSync" })).sync;
 	synchronizeInput.addEventListener("click", async () => {
 		if (synchronizeInput.checked) {
