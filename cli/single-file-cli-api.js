@@ -211,7 +211,7 @@ async function capturePage(options) {
 }
 
 function getFilename(filename, options, index = 1) {
-	let outputDirectory = options.outputDirectory;
+	let outputDirectory = options.outputDirectory || "";
 	if (outputDirectory && !outputDirectory.endsWith("/")) {
 		outputDirectory += "/";
 	}
