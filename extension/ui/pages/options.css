@@ -590,7 +590,7 @@ html.maximized {
     }
 
     .side-panel,
-    .side-panel main,
+    .side-panel body>main,
     .side-panel details>summary,
     .side-panel button,
     .side-panel select,
