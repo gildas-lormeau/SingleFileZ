@@ -8,7 +8,7 @@ SingleFileZ is a fork of [SingleFile](https://github.com/gildas-lormeau/SingleFi
 Here is an example of page produced by SingleFileZ: https://gildas-lormeau.github.io. Other examples of files can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
 
 ## Download
-SingleFileZ is available on Firefox and Chrome. You can download the extension here:
+SingleFileZ is available on Firefox, Chrome and Microsoft Edge. You can download the extension here:
  - Firefox: https://addons.mozilla.org/firefox/addon/singlefilez
  - Chrome: https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg
  - Microsoft Edge: https://microsoftedge.microsoft.com/addons/detail/singlefilez/gofneaifncimeglaecpnanbnmnpfjekk
