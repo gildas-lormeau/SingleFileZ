@@ -118,7 +118,8 @@ singlefile.extension.core.bg.downloads = (() => {
 					tabId,
 					selfExtractingArchive: message.selfExtractingArchive,
 					insertCanonicalLink: message.insertCanonicalLink,
-					insertMetaNoIndex: message.insertMetaNoIndex
+					insertMetaNoIndex: message.insertMetaNoIndex,
+					password: message.password
 				});
 				await downloadBlob(blob, tabId, tab.incognito, message);
 			}

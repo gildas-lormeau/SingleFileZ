@@ -227,6 +227,10 @@
         "message": "twórz katalog główny",
         "description": "Options page label: 'create a root directory'"
     },
+    "optionPassword": {
+        "message": "hasło",
+        "description": "Options page label: 'password'"
+    },
     "optionSelfExtractingArchive": {
         "message": "twórz samorozpakowujące się archiwa",
         "description": "Options page label: 'create self extracting archives'"

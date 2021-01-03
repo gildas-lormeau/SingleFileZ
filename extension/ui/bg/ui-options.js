@@ -74,6 +74,7 @@
 	const replaceBookmarkURLLabel = document.getElementById("replaceBookmarkURLLabel");
 	const ignoredBookmarkFoldersLabel = document.getElementById("ignoredBookmarkFoldersLabel");
 	const createRootDirectoryLabel = document.getElementById("createRootDirectoryLabel");
+	const passwordLabel = document.getElementById("passwordLabel");
 	const selfExtractingArchiveLabel = document.getElementById("selfExtractingArchiveLabel");
 	const titleLabel = document.getElementById("titleLabel");
 	const userInterfaceLabel = document.getElementById("userInterfaceLabel");
@@ -150,6 +151,7 @@
 	const replaceBookmarkURLInput = document.getElementById("replaceBookmarkURLInput");
 	const ignoredBookmarkFoldersInput = document.getElementById("ignoredBookmarkFoldersInput");
 	const createRootDirectoryInput = document.getElementById("createRootDirectoryInput");
+	const passwordInput = document.getElementById("passwordInput");
 	const selfExtractingArchiveInput = document.getElementById("selfExtractingArchiveInput");
 	const infobarTemplateInput = document.getElementById("infobarTemplateInput");
 	const includeInfobarInput = document.getElementById("includeInfobarInput");
@@ -460,6 +462,7 @@
 	replaceBookmarkURLLabel.textContent = browser.i18n.getMessage("optionReplaceBookmarkURL");
 	ignoredBookmarkFoldersLabel.textContent = browser.i18n.getMessage("optionIgnoredBookmarkFolders");
 	createRootDirectoryLabel.textContent = browser.i18n.getMessage("optionCreateRootDirectory");
+	passwordLabel.textContent = browser.i18n.getMessage("optionPassword");
 	selfExtractingArchiveLabel.textContent = browser.i18n.getMessage("optionSelfExtractingArchive");
 	titleLabel.textContent = browser.i18n.getMessage("optionsTitle");
 	userInterfaceLabel.textContent = browser.i18n.getMessage("optionsUserInterfaceSubTitle");
@@ -648,6 +651,7 @@
 		ignoredBookmarkFoldersInput.value = profileOptions.ignoredBookmarkFolders.map(folder => folder.replace(/,/g, "\\,")).join(","); // eslint-disable-line no-useless-escape
 		ignoredBookmarkFoldersInput.disabled = !profileOptions.saveCreatedBookmarks;
 		createRootDirectoryInput.checked = profileOptions.createRootDirectory;
+		passwordInput.value = profileOptions.password;
 		selfExtractingArchiveInput.checked = profileOptions.selfExtractingArchive;
 		infobarTemplateInput.value = profileOptions.infobarTemplate;
 		includeInfobarInput.checked = profileOptions.includeInfobar;
@@ -711,6 +715,7 @@
 				ignoredBookmarkFolders: ignoredBookmarkFoldersInput.value.replace(/([^\\]),/g, "$1 ,").split(/[^\\],/).map(folder => folder.replace(/\\,/g, ",")),
 				createRootDirectory: createRootDirectoryInput.checked,
 				selfExtractingArchive: selfExtractingArchiveInput.checked,
+				password: passwordInput.value,
 				infobarTemplate: infobarTemplateInput.value,
 				includeInfobar: includeInfobarInput.checked,
 				confirmInfobarContent: confirmInfobarInput.checked,

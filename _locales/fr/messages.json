@@ -227,6 +227,10 @@
         "message": "créer un répertoire racine",
         "description": "Options page label: 'create a root directory'"
     },
+    "optionPassword": {
+        "message": "mot de passe",
+        "description": "Options page label: 'password'"
+    },
     "optionSelfExtractingArchive": {
         "message": "créer des archives auto-extractibles",
         "description": "Options page label: 'create self extracting archives'"

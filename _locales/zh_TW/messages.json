@@ -227,6 +227,10 @@
         "message": "創建根目錄",
         "description": "Options page label: 'create a root directory'"
     },
+    "optionPassword": {
+        "message": "密碼",
+        "description": "Options page label: 'password'"
+    },
     "optionSelfExtractingArchive": {
         "message": "創建自解壓格式壓縮文件",
         "description": "Options page label: 'create self extracting archives'"

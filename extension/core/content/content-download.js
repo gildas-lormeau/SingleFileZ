@@ -58,7 +58,8 @@ this.singlefile.extension.core.content.download = this.singlefile.extension.core
 				createRootDirectory: options.createRootDirectory,
 				selfExtractingArchive: options.selfExtractingArchive,
 				insertCanonicalLink: options.insertCanonicalLink,
-				insertMetaNoIndex: options.insertMetaNoIndex
+				insertMetaNoIndex: options.insertMetaNoIndex,
+				password: options.password
 			};
 			message.truncated = content.length > MAX_CONTENT_SIZE;
 			if (message.truncated) {

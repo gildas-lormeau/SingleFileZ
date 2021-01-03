@@ -227,6 +227,10 @@
         "message": "create a root directory",
         "description": "Options page label: 'create a root directory'"
     },
+    "optionPassword": {
+        "message": "password",
+        "description": "Options page label: 'password'"
+    },
     "optionSelfExtractingArchive": {
         "message": "create self extracting archives",
         "description": "Options page label: 'create self extracting archives'"

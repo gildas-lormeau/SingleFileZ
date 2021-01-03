@@ -92,7 +92,8 @@ singlefile.extension.core.bg.config = (() => {
 		createRootDirectory: false,
 		selfExtractingArchive: true,
 		insertMetaNoIndex: false,
-		passReferrerOnError: false
+		passReferrerOnError: false,
+		password: ""
 	};
 
 	let configStorage;

@@ -59,6 +59,7 @@ const args = require("yargs")
 		"maxParallelWorkers": 8,
 		"max-resource-size-enabled": false,
 		"max-resource-size": 10,
+		"password": "",
 		"remove-hidden-elements": true,
 		"remove-unused-styles": true,
 		"remove-unused-fonts": true,
@@ -168,6 +169,8 @@ const args = require("yargs")
 	.boolean("max-resource-size-enabled")
 	.options("max-resource-size", { description: "Maximum size of embedded resources in MB (i.e. images, stylesheets, scripts and iframes)" })
 	.number("max-resource-size")
+	.options("password", { description: "Password of the zip file" })
+	.string("password")
 	.options("remove-frames", { description: "Remove frames (puppeteer, webdriver-gecko, webdriver-chromium)" })
 	.boolean("remove-frames")
 	.options("remove-hidden-elements", { description: "Remove HTML elements which are not displayed" })
