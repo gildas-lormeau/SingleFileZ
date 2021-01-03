@@ -5,7 +5,7 @@ SingleFileZ is a fork of [SingleFile](https://github.com/gildas-lormeau/SingleFi
 ![](https://github.com/gildas-lormeau/SingleFile-Demos/blob/master/demo-sfz.gif)
 
 ## Examples
-Here is an example of page produced by SingleFileZ: https://gildas-lormeau.github.io. Here is the same example but protected by a password (`thisisapage`).
+Here is an example of page produced by SingleFileZ: https://gildas-lormeau.github.io. Here is the same example but protected by a password (`thisisapage`): https://gildas-lormeau.github.io/private.
 
 Other examples of files can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
 
