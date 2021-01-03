@@ -5,7 +5,9 @@ SingleFileZ is a fork of [SingleFile](https://github.com/gildas-lormeau/SingleFi
 ![](https://github.com/gildas-lormeau/SingleFile-Demos/blob/master/demo-sfz.gif)
 
 ## Examples
-Here is an example of page produced by SingleFileZ: https://gildas-lormeau.github.io. Other examples of files can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
+Here is an example of page produced by SingleFileZ: https://gildas-lormeau.github.io. Here is the same example but protected by a password (`thisisapage`).
+
+Other examples of files can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
 
 ## Download
 SingleFileZ is available on Firefox, Chrome and Microsoft Edge. You can download the extension here:
