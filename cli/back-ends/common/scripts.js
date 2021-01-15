@@ -38,6 +38,7 @@ const SCRIPTS = [
 	"lib/single-file/single-file-helper.js",
 	"lib/single-file/vendor/zip/zip.js",
 	"lib/single-file/vendor/zip/deflate.js",
+	"lib/single-file/vendor/zip/crypto.js",
 	"lib/single-file/vendor/css-tree.js",
 	"lib/single-file/vendor/html-srcset-parser.js",
 	"lib/single-file/vendor/css-minifier.js",
