@@ -27,13 +27,13 @@
 
 const fileUrl = require("file-url");
 const fs = require("fs");
+const api = require("./single-file-cli-api");
 run(require("./args"))
 	.catch(error => console.error(error.message || error)); // eslint-disable-line no-console	
 
 async function run(options) {
-	const singlefile = await require("./single-file-cli-api").initialize(options);
 	let urls;
-	if (options.url && !singlefile.VALID_URL_TEST.test(options.url)) {
+	if (options.url && !api.VALID_URL_TEST.test(options.url)) {
 		options.url = fileUrl(options.url);
 	}
 	if (options.urlsFile) {
@@ -53,6 +53,7 @@ async function run(options) {
 	if (options.crawlLinks || urls.length > 1) {
 		options.dumpContent = false;
 	}
+	const singlefile = await api.initialize(options);
 	await singlefile.capture(urls);
 	await singlefile.finish();
 }
