@@ -126,6 +126,9 @@ async function getPageData(browser, page, options) {
 		}
 	}
 	try {
+		if (options.browserWaitDelay) {
+			await page.waitForTimeout(options.browserWaitDelay);
+		}
 		const pageData = await page.evaluate(async options => {
 			options.compressContent = true;
 			const pageData = await singlefile.lib.getPageData(options);

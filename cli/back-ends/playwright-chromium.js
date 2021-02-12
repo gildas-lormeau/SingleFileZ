@@ -97,6 +97,9 @@ async function getPageData(page, options) {
 		timeout: options.browserLoadMaxTime || 0,
 		waitUntil: options.browserWaitUntil && options.browserWaitUntil.startsWith("networkidle") ? NETWORK_IDLE_STATE : options.browserWaitUntil || NETWORK_IDLE_STATE
 	});
+	if (options.browserWaitDelay) {
+		await page.waitForTimeout(options.browserWaitDelay);
+	}
 	const pageData = await page.evaluate(async options => {
 		options.compressContent = true;
 		const pageData = await singlefile.lib.getPageData(options);
