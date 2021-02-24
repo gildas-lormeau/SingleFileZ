@@ -81,7 +81,6 @@
 			"lib/single-file/modules/html-serializer.js",
 			"lib/single-file/modules/html-images-alt-minifier.js",
 			"lib/single-file/single-file-core.js",
-			"lib/single-file/single-file.js",
 			"common/index.js",
 			"common/ui/content/content-infobar.js",
 			"extension/lib/single-file/core/bg/scripts.js",
