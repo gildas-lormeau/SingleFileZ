@@ -23,7 +23,7 @@
 
 /* global browser, window, CustomEvent, setTimeout */
 
-this.singlefile.extension.lib.fetch.content.resources = this.singlefile.extension.lib.fetch.content.resources || (() => {
+this.extension.lib.fetch.content.resources = this.extension.lib.fetch.content.resources || (() => {
 
 	const FETCH_REQUEST_EVENT = "single-filez-request-fetch";
 	const FETCH_RESPONSE_EVENT = "single-filez-response-fetch";

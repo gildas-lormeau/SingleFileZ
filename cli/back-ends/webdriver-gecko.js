@@ -174,7 +174,7 @@ function getPageDataScript() {
 		options.compressContent = true;
 		const pageData = await window.singlefile.lib.getPageData(options);
 		if (options.includeInfobar) {
-			await window.singlefile.common.ui.content.infobar.includeScript(pageData);
+			await window.common.ui.content.infobar.includeScript(pageData);
 		}
 		return pageData;
 	}

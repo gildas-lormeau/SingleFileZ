@@ -20,9 +20,9 @@
  *   notice and a URL through which recipients can access the Corresponding 
  *   Source.
  */
-/* global browser, singlefile, setTimeout */
+/* global extension, browser, setTimeout */
 
-singlefile.extension.core.bg.tabs = (() => {
+extension.core.bg.tabs = (() => {
 
 	const DELAY_MAYBE_INIT = 1500;
 	const pendingPrompts = new Map();
@@ -46,9 +46,9 @@ singlefile.extension.core.bg.tabs = (() => {
 
 	async function onMessage(message, sender) {
 		if (message.method.endsWith(".init")) {
-			singlefile.extension.ui.bg.main.onInit(sender.tab);
-			singlefile.extension.core.bg.business.onInit(sender.tab);
-			singlefile.extension.core.bg.autosave.onInit(sender.tab);
+			extension.ui.bg.main.onInit(sender.tab);
+			extension.core.bg.business.onInit(sender.tab);
+			extension.core.bg.autosave.onInit(sender.tab);
 		}
 		if (message.method.endsWith(".promptValueResponse")) {
 			const promptPromise = pendingPrompts.get(sender.tab.id);
@@ -58,7 +58,7 @@ singlefile.extension.core.bg.tabs = (() => {
 			}
 		}
 		if (message.method.endsWith(".getOptions")) {
-			return singlefile.extension.core.bg.config.getOptions(message.url);
+			return extension.core.bg.config.getOptions(message.url);
 		}
 		if (message.method.endsWith(".activate")) {
 			await browser.tabs.update(message.tabId, { active: true });
@@ -177,17 +177,17 @@ singlefile.extension.core.bg.tabs = (() => {
 	}
 
 	function onTabCreated(tab) {
-		singlefile.extension.ui.bg.main.onTabCreated(tab);
+		extension.ui.bg.main.onTabCreated(tab);
 	}
 
 	async function onTabActivated(activeInfo) {
 		const tab = await browser.tabs.get(activeInfo.tabId);
-		singlefile.extension.ui.bg.main.onTabActivated(tab, activeInfo);
+		extension.ui.bg.main.onTabActivated(tab, activeInfo);
 	}
 
 	function onTabRemoved(tabId) {
-		singlefile.extension.core.bg.tabsData.remove(tabId);
-		singlefile.extension.core.bg.business.onTabRemoved(tabId);
+		extension.core.bg.tabsData.remove(tabId);
+		extension.core.bg.business.onTabRemoved(tabId);
 	}
 
 })();

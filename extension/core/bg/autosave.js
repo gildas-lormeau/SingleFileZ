@@ -21,9 +21,9 @@
  *   Source.
  */
 
-/* global singlefile, URL, XMLHttpRequest */
+/* global extension, common, singlefile, URL, XMLHttpRequest */
 
-singlefile.extension.core.bg.autosave = (() => {
+extension.core.bg.autosave = (() => {
 
 	return {
 		onMessage,
@@ -34,14 +34,14 @@ singlefile.extension.core.bg.autosave = (() => {
 	};
 
 	async function onMessage(message, sender) {
-		const ui = singlefile.extension.ui.bg.main;
+		const ui = extension.ui.bg.main;
 		if (message.method.endsWith(".init")) {
-			const [options, autoSaveEnabled] = await Promise.all([singlefile.extension.core.bg.config.getOptions(sender.tab.url, true), isEnabled(sender.tab)]);
+			const [options, autoSaveEnabled] = await Promise.all([extension.core.bg.config.getOptions(sender.tab.url, true), isEnabled(sender.tab)]);
 			return { options, autoSaveEnabled };
 		}
 		if (message.method.endsWith(".save")) {
 			const tabId = sender.tab.id;
-			const options = await singlefile.extension.core.bg.config.getOptions(sender.tab.url, true);
+			const options = await extension.core.bg.config.getOptions(sender.tab.url, true);
 			if (options) {
 				ui.onStart(tabId, 1, true);
 				await saveContent(message, sender.tab);
@@ -53,10 +53,10 @@ singlefile.extension.core.bg.autosave = (() => {
 
 	async function onMessageExternal(message, currentTab) {
 		if (message.method == "enableAutoSave") {
-			const tabsData = await singlefile.extension.core.bg.tabsData.get(currentTab.id);
+			const tabsData = await extension.core.bg.tabsData.get(currentTab.id);
 			tabsData[currentTab.id].autoSave = message.enabled;
-			await singlefile.extension.core.bg.tabsData.set(tabsData);
-			singlefile.extension.ui.bg.main.refreshTab(currentTab);
+			await extension.core.bg.tabsData.set(tabsData);
+			extension.ui.bg.main.refreshTab(currentTab);
 		}
 		if (message.method == "isAutoSaveEnabled") {
 			return isEnabled(currentTab);
@@ -64,16 +64,16 @@ singlefile.extension.core.bg.autosave = (() => {
 	}
 
 	async function onInit(tab) {
-		const [options, autoSaveEnabled] = await Promise.all([singlefile.extension.core.bg.config.getOptions(tab.url, true), isEnabled(tab)]);
+		const [options, autoSaveEnabled] = await Promise.all([extension.core.bg.config.getOptions(tab.url, true), isEnabled(tab)]);
 		if (options && ((options.autoSaveLoad || options.autoSaveLoadOrUnload) && autoSaveEnabled)) {
-			singlefile.extension.core.bg.business.saveTabs([tab], { autoSave: true });
+			extension.core.bg.business.saveTabs([tab], { autoSave: true });
 		}
 	}
 
 	async function isEnabled(tab) {
-		const config = singlefile.extension.core.bg.config;
+		const config = extension.core.bg.config;
 		if (tab) {
-			const [tabsData, rule] = await Promise.all([singlefile.extension.core.bg.tabsData.get(), config.getRule(tab.url)]);
+			const [tabsData, rule] = await Promise.all([extension.core.bg.tabsData.get(), config.getRule(tab.url)]);
 			return Boolean(tabsData.autoSaveAll ||
 				(tabsData.autoSaveUnpinned && !tab.pinned) ||
 				(tabsData[tab.id] && tabsData[tab.id].autoSave)) &&
@@ -82,10 +82,10 @@ singlefile.extension.core.bg.autosave = (() => {
 	}
 
 	async function refreshTabs() {
-		const tabs = singlefile.extension.core.bg.tabs;
-		const allTabs = (await singlefile.extension.core.bg.tabs.get({}));
+		const tabs = extension.core.bg.tabs;
+		const allTabs = (await extension.core.bg.tabs.get({}));
 		return Promise.all(allTabs.map(async tab => {
-			const [options, autoSaveEnabled] = await Promise.all([singlefile.extension.core.bg.config.getOptions(tab.url, true), isEnabled(tab)]);
+			const [options, autoSaveEnabled] = await Promise.all([extension.core.bg.config.getOptions(tab.url, true), isEnabled(tab)]);
 			try {
 				await tabs.sendMessage(tab.id, { method: "content.init", autoSaveEnabled, options });
 			} catch (error) {
@@ -95,7 +95,7 @@ singlefile.extension.core.bg.autosave = (() => {
 	}
 
 	async function saveContent(message, tab) {
-		const options = await singlefile.extension.core.bg.config.getOptions(tab.url, true);
+		const options = await extension.core.bg.config.getOptions(tab.url, true);
 		const tabId = tab.id;
 		options.content = message.content;
 		options.url = message.url;
@@ -118,16 +118,16 @@ singlefile.extension.core.bg.autosave = (() => {
 		options.tabIndex = tab.index;
 		let pageData;
 		try {
-			pageData = await singlefile.extension.getPageData(options, null, null, { fetch });
+			pageData = await extension.getPageData(options, null, null, { fetch });
 			let skipped;
 			if (!options.saveToGDrive) {
-				const testSkip = await singlefile.extension.core.bg.downloads.testSkipSave(pageData.filename, options);
+				const testSkip = await extension.core.bg.downloads.testSkipSave(pageData.filename, options);
 				skipped = testSkip.skipped;
 				options.filenameConflictAction = testSkip.filenameConflictAction;
 			}
 			if (!skipped) {
 				if (options.includeInfobar) {
-					await singlefile.common.ui.content.infobar.includeScript(pageData);
+					await common.ui.content.infobar.includeScript(pageData);
 				}
 				const blob = await singlefile.lib.processors.compression.compressPage(pageData, {
 					insertTextBody: options.insertTextBody,
@@ -140,14 +140,14 @@ singlefile.extension.core.bg.autosave = (() => {
 					password: options.password
 				});
 				if (options.saveToGDrive) {
-					await singlefile.extension.core.bg.downloads.uploadPage(message.taskId, pageData.filename, blob, options, {});
+					await extension.core.bg.downloads.uploadPage(message.taskId, pageData.filename, blob, options, {});
 				} else {
 					pageData.url = URL.createObjectURL(blob);
-					await singlefile.extension.core.bg.downloads.downloadPage(pageData, options);
+					await extension.core.bg.downloads.downloadPage(pageData, options);
 				}
 			}
 		} finally {
-			singlefile.extension.core.bg.business.onSaveEnd(message.taskId);
+			extension.core.bg.business.onSaveEnd(message.taskId);
 			if (pageData && pageData.url) {
 				URL.revokeObjectURL(pageData.url);
 			}
