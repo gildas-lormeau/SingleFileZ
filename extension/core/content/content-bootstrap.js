@@ -177,6 +177,7 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 				await new Promise(resolve => autoSaveTimeout = setTimeout(resolve, options.autoSaveDelay * 1000));
 				await autoSavePage();
 			} else {
+				const waitForUserScript = this._singleFileZ_waitForUserScript;
 				let frames = [];
 				let framesSessionId;
 				autoSaveTimeout = null;
@@ -184,8 +185,8 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 					frames = await singlefile.processors.frameTree.getAsync(options);
 				}
 				framesSessionId = frames && frames.sessionId;
-				if (options.userScriptEnabled && helper.waitForUserScript.callback) {
-					await helper.waitForUserScript.callback(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
+				if (options.userScriptEnabled && waitForUserScript) {
+					await waitForUserScript(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
 				}
 				const docData = helper.preProcessDoc(document, window, options);
 				savePage(docData, frames);
@@ -193,8 +194,8 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 					singlefile.processors.frameTree.cleanup(framesSessionId);
 				}
 				helper.postProcessDoc(document, docData.markedElements);
-				if (options.userScriptEnabled && helper.waitForUserScript.callback) {
-					await helper.waitForUserScript.callback(helper.ON_AFTER_CAPTURE_EVENT_NAME);
+				if (options.userScriptEnabled && waitForUserScript) {
+					await waitForUserScript(helper.ON_AFTER_CAPTURE_EVENT_NAME);
 				}
 				pageAutoSaved = true;
 				autoSavingPage = false;
@@ -217,12 +218,13 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 	function onUnload() {
 		const helper = singlefile.helper;
 		if (!pageAutoSaved || options.autoSaveUnload) {
+			const waitForUserScript = this._singleFileZ_waitForUserScript;
 			let frames = [];
 			if (!options.removeFrames && window.frames && window.frames.length) {
 				frames = singlefile.processors.frameTree.getSync(options);
 			}
-			if (options.userScriptEnabled && helper.waitForUserScript.callback) {
-				helper.waitForUserScript.callback(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
+			if (options.userScriptEnabled && waitForUserScript) {
+				waitForUserScript(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
 			}
 			const docData = helper.preProcessDoc(document, window, options);
 			savePage(docData, frames);
