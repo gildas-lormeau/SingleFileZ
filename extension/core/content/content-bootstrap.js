@@ -177,7 +177,7 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 				await new Promise(resolve => autoSaveTimeout = setTimeout(resolve, options.autoSaveDelay * 1000));
 				await autoSavePage();
 			} else {
-				const waitForUserScript = this._singleFileZ_waitForUserScript;
+				const waitForUserScript = window._singleFileZ_waitForUserScript;
 				let frames = [];
 				let framesSessionId;
 				autoSaveTimeout = null;
@@ -218,7 +218,7 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 	function onUnload() {
 		const helper = singlefile.helper;
 		if (!pageAutoSaved || options.autoSaveUnload) {
-			const waitForUserScript = this._singleFileZ_waitForUserScript;
+			const waitForUserScript = window._singleFileZ_waitForUserScript;
 			let frames = [];
 			if (!options.removeFrames && window.frames && window.frames.length) {
 				frames = singlefile.processors.frameTree.getSync(options);
