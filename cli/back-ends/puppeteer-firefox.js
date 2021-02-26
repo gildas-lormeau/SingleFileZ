@@ -107,7 +107,8 @@ async function getPageData(browser, page, options) {
 		}
 		const pageData = await page.evaluate(async options => {
 			options.compressContent = true;
-			const pageData = await singlefile.lib.getPageData(options);
+			options.getFileContent = singlefile.getFileContent;
+			const pageData = await singlefile.getPageData(options);
 			if (options.includeInfobar) {
 				await common.ui.content.infobar.includeScript(pageData);
 			}

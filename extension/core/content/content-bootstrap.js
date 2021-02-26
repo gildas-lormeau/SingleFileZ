@@ -170,7 +170,7 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 	}
 
 	async function autoSavePage() {
-		const helper = singlefile.lib.helper;
+		const helper = singlefile.helper;
 		if ((!autoSavingPage || autoSaveTimeout) && !pageAutoSaved) {
 			autoSavingPage = true;
 			if (options.autoSaveDelay && !autoSaveTimeout) {
@@ -180,21 +180,21 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 				let frames = [];
 				let framesSessionId;
 				autoSaveTimeout = null;
-				if (!options.removeFrames && singlefile.lib.processors.frameTree.content.frames && window.frames && window.frames.length) {
-					frames = await singlefile.lib.processors.frameTree.content.frames.getAsync(options);
+				if (!options.removeFrames && window.frames && window.frames.length) {
+					frames = await singlefile.processors.frameTree.getAsync(options);
 				}
 				framesSessionId = frames && frames.sessionId;
-				if (options.userScriptEnabled && helper.waitForUserScript) {
-					await helper.waitForUserScript(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
+				if (options.userScriptEnabled && helper.waitForUserScript.callback) {
+					await helper.waitForUserScript.callback(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
 				}
 				const docData = helper.preProcessDoc(document, window, options);
 				savePage(docData, frames);
 				if (framesSessionId) {
-					singlefile.lib.processors.frameTree.content.frames.cleanup(framesSessionId);
+					singlefile.processors.frameTree.cleanup(framesSessionId);
 				}
 				helper.postProcessDoc(document, docData.markedElements);
-				if (options.userScriptEnabled && helper.waitForUserScript) {
-					await helper.waitForUserScript(helper.ON_AFTER_CAPTURE_EVENT_NAME);
+				if (options.userScriptEnabled && helper.waitForUserScript.callback) {
+					await helper.waitForUserScript.callback(helper.ON_AFTER_CAPTURE_EVENT_NAME);
 				}
 				pageAutoSaved = true;
 				autoSavingPage = false;
@@ -215,14 +215,14 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 	}
 
 	function onUnload() {
-		const helper = singlefile.lib.helper;
+		const helper = singlefile.helper;
 		if (!pageAutoSaved || options.autoSaveUnload) {
 			let frames = [];
-			if (!options.removeFrames && singlefile.lib.processors.frameTree.content.frames && window.frames && window.frames.length) {
-				frames = singlefile.lib.processors.frameTree.content.frames.getSync(options);
+			if (!options.removeFrames && window.frames && window.frames.length) {
+				frames = singlefile.processors.frameTree.getSync(options);
 			}
-			if (options.userScriptEnabled && helper.waitForUserScript) {
-				helper.waitForUserScript(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
+			if (options.userScriptEnabled && helper.waitForUserScript.callback) {
+				helper.waitForUserScript.callback(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
 			}
 			const docData = helper.preProcessDoc(document, window, options);
 			savePage(docData, frames);
@@ -230,7 +230,7 @@ this.extension.core.content.bootstrap = this.extension.core.content.bootstrap ||
 	}
 
 	function savePage(docData, frames) {
-		const helper = singlefile.lib.helper;
+		const helper = singlefile.helper;
 		const updatedResources = extension.core.content.updatedResources;
 		const visitDate = extension.core.content.visitDate.getTime();
 		Object.keys(updatedResources).forEach(url => updatedResources[url].retrieved = false);

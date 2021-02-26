@@ -110,8 +110,8 @@ extension.core.bg.downloads = (() => {
 			if (skipped) {
 				extension.ui.bg.main.onEnd(tabId);
 			} else {
-				const pageData = protobuf.roots.default.Page.decode(singlefile.lib.helper.flatten(contents));
-				const blob = await singlefile.lib.processors.compression.compressPage(pageData, {
+				const pageData = protobuf.roots.default.Page.decode(singlefile.helper.flatten(contents));
+				const blob = await singlefile.processors.compression.process(pageData, {
 					insertTextBody: message.insertTextBody,
 					url: tab.url,
 					createRootDirectory: message.createRootDirectory,
