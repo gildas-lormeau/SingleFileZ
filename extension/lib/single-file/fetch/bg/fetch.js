@@ -21,96 +21,94 @@
  *   Source.
  */
 
-/* global extension, browser, XMLHttpRequest */
+/* global browser, XMLHttpRequest */
 
-(() => {
+import * as requests from "./../../../../core/bg/requests.js";
 
-	const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
+const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
 
-	browser.runtime.onMessage.addListener((message, sender) => {
-		if (message.method && message.method.startsWith("singlefile.fetch")) {
-			return new Promise(resolve => {
-				onRequest(message, sender)
-					.then(resolve)
-					.catch(error => resolve({ error: error && error.toString() }));
-			});
-		} else if (message.method == "singlefile.multipartFetch") {
-			sendMultipartResponse(message, sender);
-		}
-	});
-
-	function onRequest(message, sender) {
-		if (message.method == "singlefile.fetch") {
-			return fetchResource(message.url, { referrer: message.referrer });
-		} else if (message.method == "singlefile.fetchFrame") {
-			return browser.tabs.sendMessage(sender.tab.id, message);
-		}
+browser.runtime.onMessage.addListener((message, sender) => {
+	if (message.method && message.method.startsWith("singlefile.fetch")) {
+		return new Promise(resolve => {
+			onRequest(message, sender)
+				.then(resolve)
+				.catch(error => resolve({ error: error && error.toString() }));
+		});
+	} else if (message.method == "singlefile.multipartFetch") {
+		sendMultipartResponse(message, sender);
 	}
+});
 
-	async function sendMultipartResponse(message, sender) {
-		try {
-			const response = await fetchResource(message.url);
-			const id = message.id;
-			for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < response.array.length; blockIndex++) {
-				const message = {
-					method: "singlefile.multipartResponse",
-					id
-				};
-				message.truncated = response.array.length > MAX_CONTENT_SIZE;
-				if (message.truncated) {
-					message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > response.array.length;
-					message.array = response.array.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
-				} else {
-					message.array = response.array;
-				}
-				if (!message.truncated || message.finished) {
-					message.headers = response.headers;
-					message.status = response.status;
-				}
-				browser.tabs.sendMessage(sender.tab.id, message);
-			}
-		} catch (error) {
-			await browser.tabs.sendMessage(sender.tab.id, {
+function onRequest(message, sender) {
+	if (message.method == "singlefile.fetch") {
+		return fetchResource(message.url, { referrer: message.referrer });
+	} else if (message.method == "singlefile.fetchFrame") {
+		return browser.tabs.sendMessage(sender.tab.id, message);
+	}
+}
+
+async function sendMultipartResponse(message, sender) {
+	try {
+		const response = await fetchResource(message.url);
+		const id = message.id;
+		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < response.array.length; blockIndex++) {
+			const message = {
 				method: "singlefile.multipartResponse",
-				id: message.id,
-				error: error && error.toString()
-			});
-		}
-	}
-
-	function fetchResource(url, options, includeRequestId) {
-		return new Promise((resolve, reject) => {
-			const xhrRequest = new XMLHttpRequest();
-			xhrRequest.withCredentials = true;
-			xhrRequest.responseType = "arraybuffer";
-			xhrRequest.onerror = event => reject(new Error(event.detail));
-			xhrRequest.onreadystatechange = () => {
-				if (xhrRequest.readyState == XMLHttpRequest.DONE) {
-					if (xhrRequest.status || xhrRequest.response.byteLength) {
-						if ((xhrRequest.status == 401 || xhrRequest.status == 403 || xhrRequest.status == 404) && !includeRequestId) {
-							fetchResource(url, options, true)
-								.then(resolve)
-								.catch(reject);
-						} else {
-							resolve({
-								array: Array.from(new Uint8Array(xhrRequest.response)),
-								headers: { "content-type": xhrRequest.getResponseHeader("Content-Type") },
-								status: xhrRequest.status
-							});
-						}
-					} else {
-						reject();
-					}
-				}
+				id
 			};
-			xhrRequest.open("GET", url, true);
-			if (includeRequestId) {
-				const randomId = String(Math.random()).substring(2);
-				extension.core.bg.requests.setReferrer(randomId, options.referrer);
-				xhrRequest.setRequestHeader(extension.core.bg.requests.REQUEST_ID_HEADER_NAME, randomId);
+			message.truncated = response.array.length > MAX_CONTENT_SIZE;
+			if (message.truncated) {
+				message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > response.array.length;
+				message.array = response.array.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
+			} else {
+				message.array = response.array;
 			}
-			xhrRequest.send();
+			if (!message.truncated || message.finished) {
+				message.headers = response.headers;
+				message.status = response.status;
+			}
+			browser.tabs.sendMessage(sender.tab.id, message);
+		}
+	} catch (error) {
+		await browser.tabs.sendMessage(sender.tab.id, {
+			method: "singlefile.multipartResponse",
+			id: message.id,
+			error: error && error.toString()
 		});
 	}
+}
 
-})();
+function fetchResource(url, options, includeRequestId) {
+	return new Promise((resolve, reject) => {
+		const xhrRequest = new XMLHttpRequest();
+		xhrRequest.withCredentials = true;
+		xhrRequest.responseType = "arraybuffer";
+		xhrRequest.onerror = event => reject(new Error(event.detail));
+		xhrRequest.onreadystatechange = () => {
+			if (xhrRequest.readyState == XMLHttpRequest.DONE) {
+				if (xhrRequest.status || xhrRequest.response.byteLength) {
+					if ((xhrRequest.status == 401 || xhrRequest.status == 403 || xhrRequest.status == 404) && !includeRequestId) {
+						fetchResource(url, options, true)
+							.then(resolve)
+							.catch(reject);
+					} else {
+						resolve({
+							array: Array.from(new Uint8Array(xhrRequest.response)),
+							headers: { "content-type": xhrRequest.getResponseHeader("Content-Type") },
+							status: xhrRequest.status
+						});
+					}
+				} else {
+					reject();
+				}
+			}
+		};
+		xhrRequest.open("GET", url, true);
+		if (includeRequestId) {
+			const randomId = String(Math.random()).substring(2);
+			requests.setReferrer(randomId, options.referrer);
+			xhrRequest.setRequestHeader(requests.REQUEST_ID_HEADER_NAME, randomId);
+		}
+		xhrRequest.send();
+	});
+}

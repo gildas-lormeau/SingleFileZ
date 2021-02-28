@@ -163,7 +163,7 @@ function getPageDataScript() {
 		options.getFileContent = singlefile.getFileContent;	
 		const pageData = await singlefile.getPageData(options);
 		if (options.includeInfobar) {
-			await common.ui.content.infobar.includeScript(pageData);
+			await infobar.includeScript(pageData);
 		}
 		return pageData;
 	}
