@@ -49,7 +49,7 @@ browser.runtime.onMessage.addListener(message => {
 	}
 });
 init();
-if (globalThis.window == globalThis.top && location && location.href && location.href.startsWith("file:///")) {
+if (globalThis.window == globalThis.top && location && location.href && (location.href.startsWith("file://") || location.href.startsWith("content://"))) {
 	if (document.readyState == "loading") {
 		document.addEventListener("DOMContentLoaded", extractFile, false);
 	} else {
