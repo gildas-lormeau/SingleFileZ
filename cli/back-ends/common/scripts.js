@@ -26,7 +26,8 @@
 const fs = require("fs");
 
 const SCRIPTS = [
-	"dist/infobar.js"
+	"dist/infobar.js",
+	"dist/single-file-bootstrap.js"
 ];
 
 const INDEX_SCRIPTS = [
