@@ -33,7 +33,11 @@ const NETWORK_STATES = ["networkidle0", "networkidle2", "load", "domcontentloade
 let browser;
 
 exports.initialize = async options => {
-	browser = await puppeteer.launch(getBrowserOptions(options));
+	if (options.browserServer) {
+		browser = await puppeteer.connect({ browserWSEndpoint: options.browserServer });
+	} else {
+		browser = await puppeteer.launch(getBrowserOptions(options));
+	}
 	return browser;
 };
 
@@ -131,7 +135,7 @@ async function getPageData(browser, page, options) {
 		}
 		const pageData = await page.evaluate(async options => {
 			options.compressContent = true;
-			options.getFileContent = singlefile.getFileContent;	
+			options.getFileContent = singlefile.getFileContent;
 			const pageData = await singlefile.getPageData(options);
 			if (options.includeInfobar) {
 				await infobar.includeScript(pageData);
