@@ -212,7 +212,8 @@
 							page in a browser where SingleFileZ is not installed.</p>
 					</li>
 					<li data-options-label="saveRawPageLabel"> <span class="option">Option: save raw page</span>
-						<p>Check this option to save the page without interpreting JavaScript. Checking this option may
+						<p>Check this option to save the raw HTML file that the browser received. When this option is
+							checked, the page will be saved as if JavaScript was disabled. Checking this option may
 							alter the document.</p>
 						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
 					</li>
@@ -502,10 +503,11 @@
 					<li><code>{visit-datetime-locale}</code>: the localized value of the date and time (e.g. "9_16_2018,
 						12_54_31 AM")</li>
 					<li><code>{visit-date-iso}</code>: the visit date in the ISO format (e.g. "2018-09-15")</li>
-					<li><code>{visit-date-locale}</code>: the localized value of the visit date (e.g. "16_09_2018")</li>					
+					<li><code>{visit-date-locale}</code>: the localized value of the visit date (e.g. "16_09_2018")</li>
 					<li><code>{visit-time-iso}</code>: the visit time in the ISO format (e.g. "22_38_26_317")</li>
 					<li><code>{visit-time-locale}</code>: the localized value of the visit time (e.g. "00_38_26")</li>
-					<li><code>{visit-time-ms}</code>: the visit time is ms since the Unix Epoch (e.g. 1563582018000)</li>
+					<li><code>{visit-time-ms}</code>: the visit time is ms since the Unix Epoch (e.g. 1563582018000)
+					</li>
 					<li><code>{visit-day-utc}</code>: the day of the visit date in UTC format (e.g. "15")</li>
 					<li><code>{visit-day-locale}</code>: the localized value of the day (e.g. "15")</li>
 					<li><code>{visit-month-utc}</code>: the month of the visit date in UTC format (e.g. "09")</li>
