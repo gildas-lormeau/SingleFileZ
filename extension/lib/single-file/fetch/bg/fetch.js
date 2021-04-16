@@ -23,7 +23,12 @@
 
 /* global browser, XMLHttpRequest */
 
-import * as requests from "./../../../../core/bg/requests.js";
+const referrers = new Map();
+const REQUEST_ID_HEADER_NAME = "x-single-file-request-id";
+export {
+	REQUEST_ID_HEADER_NAME,
+	referrers
+};
 
 const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
 
@@ -106,9 +111,13 @@ function fetchResource(url, options, includeRequestId) {
 		xhrRequest.open("GET", url, true);
 		if (includeRequestId) {
 			const randomId = String(Math.random()).substring(2);
-			requests.setReferrer(randomId, options.referrer);
-			xhrRequest.setRequestHeader(requests.REQUEST_ID_HEADER_NAME, randomId);
+			setReferrer(randomId, options.referrer);
+			xhrRequest.setRequestHeader(REQUEST_ID_HEADER_NAME, randomId);
 		}
 		xhrRequest.send();
 	});
+}
+
+function setReferrer(requestId, referrer) {
+	referrers.set(requestId, referrer);
 }
