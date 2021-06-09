@@ -21,11 +21,10 @@
  *   Source.
  */
 
-/* global browser, window, CustomEvent, setTimeout, Headers */
+/* global browser, window, CustomEvent, setTimeout */
 
 const FETCH_REQUEST_EVENT = "single-filez-request-fetch";
 const FETCH_RESPONSE_EVENT = "single-filez-response-fetch";
-const ACCEPT_HEADER = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
 
 const HOST_FETCH_MAX_DELAY = 5000;
 const addEventListener = (type, listener, options) => window.addEventListener(type, listener, options);
@@ -41,7 +40,7 @@ browser.runtime.onMessage.addListener(message => {
 
 async function onMessage(message) {
 	try {
-		let response = await fetch(message.url, { cache: "force-cache", headers: new Headers({ accept: ACCEPT_HEADER }) });
+		let response = await fetch(message.url, { cache: "force-cache" });
 		if (response.status == 401 || response.status == 403 || response.status == 404) {
 			response = await Promise.race(
 				[
@@ -68,7 +67,7 @@ export {
 
 async function fetchResource(url, options = {}) {
 	try {
-		let response = await fetch(url, { cache: "force-cache", headers: new Headers({ accept: ACCEPT_HEADER }) });
+		let response = await fetch(url, { cache: "force-cache" });
 		if (response.status == 401 || response.status == 403 || response.status == 404) {
 			response = await hostFetch(url);
 		}
