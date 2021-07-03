@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, URL, protobuf, Response */
+/* global browser, singlefile, URL, protobuf, Response */
 
 import * as config from "./config.js";
 import * as bookmarks from "./bookmarks.js";
