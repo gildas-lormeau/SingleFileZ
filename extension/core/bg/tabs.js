@@ -195,4 +195,5 @@ async function onTabActivated(activeInfo) {
 function onTabRemoved(tabId) {
 	tabsData.remove(tabId);
 	business.onTabRemoved(tabId);
+	autosave.onTabRemoved(tabId);
 }

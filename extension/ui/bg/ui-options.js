@@ -63,6 +63,7 @@ const autoSaveDelayLabel = document.getElementById("autoSaveDelayLabel");
 const autoSaveLoadLabel = document.getElementById("autoSaveLoadLabel");
 const autoSaveUnloadLabel = document.getElementById("autoSaveUnloadLabel");
 const autoSaveLoadOrUnloadLabel = document.getElementById("autoSaveLoadOrUnloadLabel");
+const autoSaveDiscardLabel = document.getElementById("autoSaveDiscardLabel");
 const autoSaveRepeatLabel = document.getElementById("autoSaveRepeatLabel");
 const autoSaveRepeatDelayLabel = document.getElementById("autoSaveRepeatDelayLabel");
 const removeAlternativeFontsLabel = document.getElementById("removeAlternativeFontsLabel");
@@ -140,6 +141,7 @@ const autoSaveDelayInput = document.getElementById("autoSaveDelayInput");
 const autoSaveLoadInput = document.getElementById("autoSaveLoadInput");
 const autoSaveUnloadInput = document.getElementById("autoSaveUnloadInput");
 const autoSaveLoadOrUnloadInput = document.getElementById("autoSaveLoadOrUnloadInput");
+const autoSaveDiscardInput = document.getElementById("autoSaveDiscardInput");
 const autoSaveRepeatInput = document.getElementById("autoSaveRepeatInput");
 const autoSaveRepeatDelayInput = document.getElementById("autoSaveRepeatDelayInput");
 const removeAlternativeFontsInput = document.getElementById("removeAlternativeFontsInput");
@@ -338,19 +340,24 @@ importButton.addEventListener("click", () => {
 	fileInput.click();
 }, false);
 autoSaveUnloadInput.addEventListener("click", async () => {
-	if (!autoSaveLoadInput.checked && !autoSaveUnloadInput.checked) {
+	if (!autoSaveLoadInput.checked && !autoSaveUnloadInput.checked && !autoSaveDiscardInput.checked) {
 		autoSaveLoadOrUnloadInput.checked = true;
 	}
 }, false);
 autoSaveLoadInput.addEventListener("click", async () => {
-	if (!autoSaveLoadInput.checked && !autoSaveUnloadInput.checked) {
+	if (!autoSaveLoadInput.checked && !autoSaveUnloadInput.checked && !autoSaveDiscardInput.checked) {
+		autoSaveLoadOrUnloadInput.checked = true;
+	}
+}, false);
+autoSaveDiscardInput.addEventListener("click", async () => {
+	if (!autoSaveLoadInput.checked && !autoSaveUnloadInput.checked && !autoSaveDiscardInput.checked) {
 		autoSaveLoadOrUnloadInput.checked = true;
 	}
 }, false);
 autoSaveLoadOrUnloadInput.addEventListener("click", async () => {
 	if (autoSaveLoadOrUnloadInput.checked) {
 		autoSaveUnloadInput.checked = autoSaveLoadInput.checked = false;
-	} else {
+	} else if (!autoSaveDiscardInput.checked) {
 		autoSaveUnloadInput.checked = false;
 		autoSaveLoadInput.checked = true;
 	}
@@ -451,6 +458,7 @@ autoSaveDelayLabel.textContent = browser.i18n.getMessage("optionAutoSaveDelay");
 autoSaveLoadLabel.textContent = browser.i18n.getMessage("optionAutoSaveLoad");
 autoSaveUnloadLabel.textContent = browser.i18n.getMessage("optionAutoSaveUnload");
 autoSaveLoadOrUnloadLabel.textContent = browser.i18n.getMessage("optionAutoSaveLoadOrUnload");
+autoSaveDiscardLabel.textContent = browser.i18n.getMessage("optionAutoSaveDiscard");
 autoSaveRepeatLabel.textContent = browser.i18n.getMessage("optionAutoSaveRepeat");
 autoSaveRepeatDelayLabel.textContent = browser.i18n.getMessage("optionAutoSaveRepeatDelay");
 removeAlternativeFontsLabel.textContent = browser.i18n.getMessage("optionRemoveAlternativeFonts");
@@ -639,6 +647,7 @@ async function refresh(profileName) {
 	autoSaveUnloadInput.checked = !profileOptions.autoSaveLoadOrUnload && profileOptions.autoSaveUnload;
 	autoSaveLoadInput.disabled = profileOptions.autoSaveLoadOrUnload;
 	autoSaveUnloadInput.disabled = profileOptions.autoSaveLoadOrUnload;
+	autoSaveDiscardInput.checked = profileOptions.autoSaveDiscard;	
 	autoSaveRepeatInput.checked = profileOptions.autoSaveRepeat;
 	autoSaveRepeatInput.disabled = !profileOptions.autoSaveLoadOrUnload && !profileOptions.autoSaveLoad;
 	autoSaveRepeatDelayInput.value = profileOptions.autoSaveRepeatDelay;
@@ -706,6 +715,7 @@ async function update() {
 			autoSaveLoad: autoSaveLoadInput.checked,
 			autoSaveUnload: autoSaveUnloadInput.checked,
 			autoSaveLoadOrUnload: autoSaveLoadOrUnloadInput.checked,
+			autoSaveDiscard: autoSaveDiscardInput.checked,
 			autoSaveRepeat: autoSaveRepeatInput.checked,
 			autoSaveRepeatDelay: Math.max(autoSaveRepeatDelayInput.value, 1),
 			removeAlternativeFonts: removeAlternativeFontsInput.checked,

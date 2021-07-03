@@ -73,6 +73,7 @@ const DEFAULT_CONFIG = {
 	autoSaveLoad: false,
 	autoSaveUnload: false,
 	autoSaveLoadOrUnload: true,
+	autoSaveDiscard: false,
 	autoSaveRepeat: false,
 	autoSaveRepeatDelay: 10,
 	removeAlternativeFonts: true,
