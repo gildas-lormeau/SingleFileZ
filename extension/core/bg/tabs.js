@@ -181,6 +181,9 @@ function onTabUpdated(tabId, changeInfo) {
 			}
 		}, DELAY_MAYBE_INIT);
 	}
+	if (changeInfo.discarded) {
+		autosave.onTabRemoved(tabId);
+	}
 }
 
 function onTabCreated(tab) {
