@@ -95,7 +95,8 @@ const DEFAULT_CONFIG = {
 	selfExtractingArchive: true,
 	insertMetaNoIndex: false,
 	passReferrerOnError: false,
-	password: ""
+	password: "",
+	insertSingleFileComment: true
 };
 
 let configStorage;
