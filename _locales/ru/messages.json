@@ -384,7 +384,7 @@
 		"description": "Options page label: 'auto-save on page unload'"
 	},
 	"optionAutoSaveDiscard": {
-		"message": "auto-save on tab discard",
+		"message": "автосохранение при сбросе вкладки",
 		"description": "Options page label: 'auto-save on tab discard'"
 	},
 	"optionAutoSaveDelay": {
