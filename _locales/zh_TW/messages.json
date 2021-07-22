@@ -384,7 +384,7 @@
         "description": "Options page label: 'auto-save on page unload'"
     },
 	"optionAutoSaveDiscard": {
-		"message": "auto-save on tab discard",
+		"message": "在頁面丟棄時進行自動保存",
 		"description": "Options page label: 'auto-save on tab discard'"
 	},
     "optionAutoSaveDelay": {
