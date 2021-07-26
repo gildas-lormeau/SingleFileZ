@@ -427,7 +427,11 @@
         "message": "sauvegarder la page brute",
         "description": "Options page label: 'save raw page'"
     },
-    "optionSaveToFilesystem": {
+    "optionInsertMetaCSP": {
+		"message": "définir la stratégie de sécurité du contenu",
+		"description": "Options page label: 'set content security policy'"
+	},
+	"optionSaveToFilesystem": {
         "message": "enregistrer dans le système de fichiers",
         "description": "Options page label: 'save to filesystem'"
     },

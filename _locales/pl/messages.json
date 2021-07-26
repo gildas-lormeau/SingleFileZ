@@ -427,7 +427,11 @@
         "message": "zapisuj surową stronę",
         "description": "Options page label: 'save raw page'"
     },
-    "optionSaveToFilesystem": {
+    "optionInsertMetaCSP": {
+		"message": "set content security policy",
+		"description": "Options page label: 'set content security policy'"
+	},
+	"optionSaveToFilesystem": {
         "message": "zapisuj do systemu plików",
         "description": "Options page label: 'save to filesystem'"
     },

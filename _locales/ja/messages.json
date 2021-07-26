@@ -427,7 +427,11 @@
         "message": "生のページを保存",
         "description": "Options page label: 'save raw page'"
     },
-    "optionsHelpLink": {
+    "optionInsertMetaCSP": {
+		"message": "set content security policy",
+		"description": "Options page label: 'set content security policy'"
+	},
+	"optionsHelpLink": {
         "message": "ヘルプ",
         "description": "Options help link"
     },

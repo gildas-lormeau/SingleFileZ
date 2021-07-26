@@ -427,7 +427,11 @@
         "message": "guardar página en crudo",
         "description": "Options page label: 'save raw page'"
     },
-    "optionSaveToFilesystem": {
+    "optionInsertMetaCSP": {
+		"message": "establecer la política de seguridad del contenido",
+		"description": "Options page label: 'set content security policy'"
+	},
+	"optionSaveToFilesystem": {
         "message": "save to filesystem",
         "description": "Options page label: 'save to filesystem'"
     },

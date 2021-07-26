@@ -427,6 +427,10 @@
 		"message": "зберегти вихідну сторінку",
 		"description": "Options page label: 'save raw page'"
 	},
+	"optionInsertMetaCSP": {
+		"message": "set content security policy",
+		"description": "Options page label: 'set content security policy'"
+	},
 	"optionSaveToFilesystem": {
 		"message": "save to filesystem",
 		"description": "Options page label: 'save to filesystem'"

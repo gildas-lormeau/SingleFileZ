@@ -95,6 +95,7 @@ const DEFAULT_CONFIG = {
 	createRootDirectory: false,
 	selfExtractingArchive: true,
 	insertMetaNoIndex: false,
+	insertMetaCSP: true,
 	passReferrerOnError: false,
 	password: "",
 	insertSingleFileComment: true
