@@ -443,7 +443,11 @@
         "message": "link the new bookmark to the saved page",
         "description": "Options page label: 'link the new bookmark to the saved page'"
     },
-    "optionIgnoredBookmarkFolders": {
+    "optionAllowedBookmarkFolders": {
+		"message": "allowed folders",
+		"description": "Options page label: 'allowed folders'"
+	},
+	"optionIgnoredBookmarkFolders": {
         "message": "ignored folders",
         "description": "Options page label: 'ignored folders'"
     },

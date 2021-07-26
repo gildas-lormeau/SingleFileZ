@@ -87,6 +87,7 @@ const DEFAULT_CONFIG = {
 	resolveFragmentIdentifierURLs: false,
 	userScriptEnabled: false,
 	saveCreatedBookmarks: false,
+	allowedBookmarkFolders: [],
 	ignoredBookmarkFolders: [],
 	replaceBookmarkURL: true,
 	saveFavicon: true,

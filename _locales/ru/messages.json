@@ -443,6 +443,10 @@
 		"message": "связать новую закладку с сохранённой страницей",
 		"description": "Options page label: 'связать новую закладку с сохранённой страницей'"
 	},
+	"optionAllowedBookmarkFolders": {
+		"message": "allowed folders",
+		"description": "Options page label: 'allowed folders'"
+	},
 	"optionIgnoredBookmarkFolders": {
 		"message": "игнорируемые папки",
 		"description": "Options page label: 'ignored folders'"
