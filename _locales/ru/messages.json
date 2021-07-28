@@ -428,7 +428,7 @@
 		"description": "Options page label: 'save raw page'"
 	},
 	"optionInsertMetaCSP": {
-		"message": "set content security policy",
+		"message": "установить политику безопасности содержимого",
 		"description": "Options page label: 'set content security policy'"
 	},
 	"optionSaveToFilesystem": {
@@ -448,7 +448,7 @@
 		"description": "Options page label: 'связать новую закладку с сохранённой страницей'"
 	},
 	"optionAllowedBookmarkFolders": {
-		"message": "allowed folders",
+		"message": "разрешённые папки",
 		"description": "Options page label: 'allowed folders'"
 	},
 	"optionIgnoredBookmarkFolders": {
