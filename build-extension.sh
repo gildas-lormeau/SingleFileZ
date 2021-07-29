@@ -13,12 +13,12 @@ sed -i 's/forceWebAuthFlow: false/forceWebAuthFlow: true/g' extension/core/bg/co
 zip -r singlefilez-extension-firefox.zip manifest.json dist _locales extension lib/single-file/vendor/zip/zip.min.js lib/single-file/vendor/zip/z-worker.js
 mv config.copy.js extension/core/bg/config.js
 
-jq "del(.browser_specific_settings,.permissions[0],.permissions[1],.options_ui.browser_style)" manifest.copy.json >manifest.json
+jq "del(.browser_specific_settings,.sidebar_action,.permissions[0],.permissions[1],.options_ui.browser_style)" manifest.copy.json >manifest.json
 sed -i 's/7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot/7544745492-oe3q2jjvdluks2st2smslmrofcdederh/g' manifest.json
 zip -r singlefilez-extension-chromium.zip manifest.json dist _locales extension lib/single-file/vendor/zip/zip.min.js lib/single-file/vendor/zip/z-worker.js
 
 cp extension/core/bg/config.js config.copy.js
-jq "del(.browser_specific_settings,.permissions[0],.permissions[1],.options_ui.browser_style)" manifest.copy.json >manifest.json
+jq "del(.browser_specific_settings,.sidebar_action,.permissions[0],.permissions[1],.options_ui.browser_style)" manifest.copy.json >manifest.json
 sed -i 's/7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot/7544745492-oe3q2jjvdluks2st2smslmrofcdederh/g' manifest.json
 sed -i 's/forceWebAuthFlow: false/forceWebAuthFlow: true/g' extension/core/bg/config.js
 mkdir _locales.copy
