@@ -36,6 +36,7 @@ browser.tabs.onCreated.addListener(tab => onTabCreated(tab));
 browser.tabs.onActivated.addListener(activeInfo => onTabActivated(activeInfo));
 browser.tabs.onRemoved.addListener(tabId => onTabRemoved(tabId));
 browser.tabs.onUpdated.addListener((tabId, changeInfo) => onTabUpdated(tabId, changeInfo));
+browser.tabs.onReplaced.addListener((addedTabId, removedTabId) => onTabReplaced(addedTabId, removedTabId));
 export {
 	onMessage,
 	get,
@@ -180,10 +181,15 @@ function onTabUpdated(tabId, changeInfo) {
 				// ignored
 			}
 		}, DELAY_MAYBE_INIT);
+		autosave.onTabUpdated(tabId);		
 	}
 	if (changeInfo.discarded) {
-		autosave.onTabRemoved(tabId);
+		autosave.onTabDiscarded(tabId);
 	}
+}
+
+function onTabReplaced(addedTabId, removedTabId) {
+	autosave.onTabReplaced(addedTabId, removedTabId);
 }
 
 function onTabCreated(tab) {

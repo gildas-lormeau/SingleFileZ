@@ -387,6 +387,10 @@
 		"message": "автосохранение при сбросе вкладки",
 		"description": "Options page label: 'auto-save on tab discard'"
 	},
+	"optionAutoSaveRemove": {
+		"message": "auto-save on tab removal",
+		"description": "Options page label: 'auto-save on tab removal'"
+	},
 	"optionAutoSaveDelay": {
 		"message": "задержка автосохранения после загрузки страницы (с)",
 		"description": "Options page label: 'auto-save waiting delay after page load (s)'"

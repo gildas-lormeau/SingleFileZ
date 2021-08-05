@@ -25,13 +25,15 @@
 
 const singlefile = globalThis.singlefileBootstrap;
 
-let unloadListenerAdded, options, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref;
+let unloadListenerAdded, options, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref;
 singlefile.pageInfo = {
 	updatedResources: {},
 	visitDate: new Date()
 };
 browser.runtime.sendMessage({ method: "autosave.init" }).then(message => {
 	options = message.options;
+	tabId = message.tabId;
+	tabIndex = message.tabIndex;
 	autoSaveEnabled = message.autoSaveEnabled;
 	if (document.readyState == "loading") {
 		return new Promise(resolve => document.addEventListener("DOMContentLoaded", () => resolve()));
@@ -202,40 +204,54 @@ async function autoSavePage() {
 }
 
 function refresh() {
-	if (autoSaveEnabled && options && (options.autoSaveUnload || options.autoSaveLoadOrUnload || options.autoSaveDiscard)) {
+	if (autoSaveEnabled && options && (options.autoSaveUnload || options.autoSaveLoadOrUnload || options.autoSaveDiscard || options.autoSaveRemove)) {
 		if (!unloadListenerAdded) {
 			globalThis.addEventListener("unload", onUnload);
+			document.addEventListener("visibilitychange", onVisibilityChange);
 			unloadListenerAdded = true;
 		}
 	} else {
 		globalThis.removeEventListener("unload", onUnload);
+		document.removeEventListener("visibilitychange", onVisibilityChange);
 		unloadListenerAdded = false;
 	}
 }
 
-function onUnload() {
-	const helper = singlefile.helper;
-	if (!pageAutoSaved || options.autoSaveUnload || options.autoSaveDiscard) {
-		const waitForUserScript = window._singleFileZ_waitForUserScript;
-		let frames = [];
-		if (!options.removeFrames && globalThis.frames && globalThis.frames.length) {
-			frames = singlefile.processors.frameTree.getSync(options);
-		}
-		if (options.userScriptEnabled && waitForUserScript) {
-			waitForUserScript(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
-		}
-		const docData = helper.preProcessDoc(document, globalThis, options);
-		savePage(docData, frames, options.autoSaveUnload, options.autoSaveDiscard);
+function onVisibilityChange() {
+	if (document.visibilityState == "hidden" && options.autoSaveDiscard) {
+		autoSaveUnloadedPage({ autoSaveDiscard: options.autoSaveDiscard });
 	}
 }
 
-function savePage(docData, frames, autoSaveUnload, autoSaveDiscard) {
+function onUnload() {
+	if (!pageAutoSaved && (options.autoSaveUnload || options.autoSaveLoadOrUnload || options.autoSaveRemove)) {
+		autoSaveUnloadedPage({ autoSaveUnload: options.autoSaveUnload, autoSaveRemove: options.autoSaveRemove });
+	}
+}
+
+function autoSaveUnloadedPage({ autoSaveUnload, autoSaveDiscard, autoSaveRemove }) {
+	const helper = singlefile.helper;
+	const waitForUserScript = window._singleFile_waitForUserScript;
+	let frames = [];
+	if (!options.removeFrames && globalThis.frames && globalThis.frames.length) {
+		frames = singlefile.processors.frameTree.getSync(options);
+	}
+	if (options.userScriptEnabled && waitForUserScript) {
+		waitForUserScript(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
+	}
+	const docData = helper.preProcessDoc(document, globalThis, options);
+	savePage(docData, frames, { autoSaveUnload, autoSaveDiscard, autoSaveRemove });
+}
+
+function savePage(docData, frames, { autoSaveUnload, autoSaveDiscard, autoSaveRemove } = {}) {
 	const helper = singlefile.helper;
 	const updatedResources = singlefile.pageInfo.updatedResources;
 	const visitDate = singlefile.pageInfo.visitDate.getTime();
 	Object.keys(updatedResources).forEach(url => updatedResources[url].retrieved = false);
 	browser.runtime.sendMessage({
 		method: "autosave.save",
+		tabId,
+		tabIndex,
 		taskId: options.taskId,
 		content: helper.serialize(document),
 		canvases: docData.canvases,
@@ -252,6 +268,7 @@ function savePage(docData, frames, autoSaveUnload, autoSaveDiscard) {
 		updatedResources,
 		visitDate,
 		autoSaveUnload,
-		autoSaveDiscard
+		autoSaveDiscard,
+		autoSaveRemove
 	});
 }
