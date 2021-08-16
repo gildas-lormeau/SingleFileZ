@@ -1,6 +1,6 @@
 {
     "extensionDescription": {
-        "message": "Sauvegardez vos pages web sous forme de fichier hybride HTML/ZIP",
+        "message": "Sauvegardez vos pages web sous forme de fichier polyglote HTML/ZIP",
         "description": "Description of the extension."
     },
     "commandSaveSelectedTabs": {

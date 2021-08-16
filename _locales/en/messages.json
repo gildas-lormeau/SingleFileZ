@@ -1,6 +1,6 @@
 {
     "extensionDescription": {
-        "message": "Save web pages as self-extracting HTML/ZIP hybrid files",
+        "message": "Save web pages as self-extracting HTML/ZIP polyglot files",
         "description": "Description of the extension."
     },
     "commandSaveSelectedTabs": {
