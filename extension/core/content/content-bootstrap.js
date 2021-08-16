@@ -147,8 +147,8 @@ function init() {
 	if (previousLocationHref != location.href && !singlefile.pageInfo.processing) {
 		pageAutoSaved = false;
 		previousLocationHref = location.href;
-		browser.runtime.sendMessage({ method: "tabs.init" });
-		browser.runtime.sendMessage({ method: "ui.processInit" });
+		browser.runtime.sendMessage({ method: "tabs.init" }).catch(() => { });
+		browser.runtime.sendMessage({ method: "ui.processInit" }).catch(() => { });
 	}
 }
 
