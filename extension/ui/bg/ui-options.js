@@ -37,6 +37,11 @@ const saveRawPageLabel = document.getElementById("saveRawPageLabel");
 const insertMetaCSPLabel = document.getElementById("insertMetaCSPLabel");
 const saveToFilesystemLabel = document.getElementById("saveToFilesystemLabel");
 const saveToGDriveLabel = document.getElementById("saveToGDriveLabel");
+const saveToGitHubLabel = document.getElementById("saveToGitHubLabel");
+const githubTokenLabel = document.getElementById("githubTokenLabel");
+const githubUserLabel = document.getElementById("githubUserLabel");
+const githubRepositoryLabel = document.getElementById("githubRepositoryLabel");
+const githubBranchLabel = document.getElementById("githubBranchLabel");
 const compressHTMLLabel = document.getElementById("compressHTMLLabel");
 const insertTextBodyLabel = document.getElementById("insertTextBodyLabel");
 const compressCSSLabel = document.getElementById("compressCSSLabel");
@@ -121,6 +126,11 @@ const removeScriptsInput = document.getElementById("removeScriptsInput");
 const saveRawPageInput = document.getElementById("saveRawPageInput");
 const insertMetaCSPInput = document.getElementById("insertMetaCSPInput");
 const saveToGDriveInput = document.getElementById("saveToGDriveInput");
+const saveToGitHubInput = document.getElementById("saveToGitHubInput");
+const githubTokenInput = document.getElementById("githubTokenInput");
+const githubUserInput = document.getElementById("githubUserInput");
+const githubRepositoryInput = document.getElementById("githubRepositoryInput");
+const githubBranchInput = document.getElementById("githubBranchInput");
 const saveToFilesystemInput = document.getElementById("saveToFilesystemInput");
 const compressHTMLInput = document.getElementById("compressHTMLInput");
 const insertTextBodyInput = document.getElementById("insertTextBodyInput");
@@ -432,6 +442,11 @@ saveRawPageLabel.textContent = browser.i18n.getMessage("optionSaveRawPage");
 insertMetaCSPLabel.textContent = browser.i18n.getMessage("optionInsertMetaCSP");
 saveToFilesystemLabel.textContent = browser.i18n.getMessage("optionSaveToFilesystem");
 saveToGDriveLabel.textContent = browser.i18n.getMessage("optionSaveToGDrive");
+saveToGitHubLabel.textContent = browser.i18n.getMessage("optionSaveToGitHub");
+githubTokenLabel.textContent = browser.i18n.getMessage("optionGitHubToken");
+githubUserLabel.textContent = browser.i18n.getMessage("optionGitHubUser");
+githubRepositoryLabel.textContent = browser.i18n.getMessage("optionGitHubRepository");
+githubBranchLabel.textContent = browser.i18n.getMessage("optionGitHubBranch");
 compressHTMLLabel.textContent = browser.i18n.getMessage("optionCompressHTML");
 insertTextBodyLabel.textContent = browser.i18n.getMessage("optionInsertTextBody");
 compressCSSLabel.textContent = browser.i18n.getMessage("optionCompressCSS");
@@ -623,7 +638,16 @@ async function refresh(profileName) {
 	compressHTMLInput.checked = profileOptions.compressHTML;
 	insertTextBodyInput.checked = profileOptions.insertTextBody;
 	saveToGDriveInput.checked = profileOptions.saveToGDrive;
-	saveToFilesystemInput.checked = !profileOptions.saveToGDrive;
+	saveToGitHubInput.checked = profileOptions.saveToGitHub;
+	githubTokenInput.value = profileOptions.githubToken;
+	githubTokenInput.disabled = !profileOptions.saveToGitHub;
+	githubUserInput.value = profileOptions.githubUser;
+	githubUserInput.disabled = !profileOptions.saveToGitHub;
+	githubRepositoryInput.value = profileOptions.githubRepository;
+	githubRepositoryInput.disabled = !profileOptions.saveToGitHub;
+	githubBranchInput.value = profileOptions.githubBranch;
+	githubBranchInput.disabled = !profileOptions.saveToGitHub;
+	saveToFilesystemInput.checked = !profileOptions.saveToGDrive && !profileOptions.saveToGitHub;
 	compressCSSInput.checked = profileOptions.compressCSS;
 	loadDeferredImagesInput.checked = profileOptions.loadDeferredImages;
 	loadDeferredImagesMaxIdleTimeInput.value = profileOptions.loadDeferredImagesMaxIdleTime;
@@ -698,6 +722,11 @@ async function update() {
 			saveRawPage: saveRawPageInput.checked,
 			insertMetaCSP: insertMetaCSPInput.checked,
 			saveToGDrive: saveToGDriveInput.checked,
+			saveToGitHub: saveToGitHubInput.checked,
+			githubToken: githubTokenInput.value,
+			githubUser: githubUserInput.value,
+			githubRepository: githubRepositoryInput.value,
+			githubBranch: githubBranchInput.value,
 			compressHTML: compressHTMLInput.checked,
 			insertTextBody: insertTextBodyInput.checked,
 			compressCSS: compressCSSInput.checked,

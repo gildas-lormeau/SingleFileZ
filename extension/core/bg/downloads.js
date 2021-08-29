@@ -29,6 +29,7 @@ import * as business from "./business.js";
 import * as tabs from "./tabs.js";
 import * as ui from "./../../ui/bg/index.js";
 import { GDrive } from "./../../lib/gdrive/gdrive.js";
+import { pushGitHub } from "./../../lib/github/github.js";
 
 const partialContents = new Map();
 const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
@@ -55,7 +56,8 @@ export {
 	download,
 	downloadPage,
 	testSkipSave,
-	uploadPage
+	saveToGDrive,
+	saveToGitHub
 };
 
 async function onMessage(message, sender) {
@@ -135,12 +137,14 @@ async function downloadTabPage(message, tab) {
 async function downloadBlob(blob, tabId, incognito, message) {
 	try {
 		if (message.saveToGDrive) {
-			await uploadPage(message.taskId, message.filename, blob, {
+			await saveToGDrive(message.taskId, message.filename, blob, {
 				forceWebAuthFlow: message.forceWebAuthFlow,
 				extractAuthCode: message.extractAuthCode
 			}, {
 				onProgress: (offset, size) => ui.onUploadProgress(tabId, offset, size)
-			});
+			}).uploadPromise;
+		} else if (message.saveToGitHub) {
+			await saveToGitHub(message.taskId, message.filename, blob, message.githubToken, message.githubUser, message.githubRepository, message.githubBranch).pushPromise;
 		} else {
 			if (message.backgroundSave) {
 				message.url = URL.createObjectURL(blob);
@@ -196,7 +200,16 @@ async function getAuthInfo(authOptions, force) {
 	return authInfo;
 }
 
-async function uploadPage(taskId, filename, blob, authOptions, uploadOptions) {
+function saveToGitHub(taskId, filename, content, githubToken, githubUser, githubRepository, githubBranch) {
+	const taskInfo = business.getTaskInfo(taskId);
+	if (taskInfo && !taskInfo.cancelled) {
+		const pushInfo = pushGitHub(githubToken, githubUser, githubRepository, githubBranch, filename, content);
+		business.setCancelCallback(taskId, pushInfo.cancelPush);
+		return pushInfo;
+	}
+}
+
+async function saveToGDrive(taskId, filename, blob, authOptions, uploadOptions) {
 	try {
 		await getAuthInfo(authOptions);
 		const taskInfo = business.getTaskInfo(taskId);
@@ -223,7 +236,7 @@ async function uploadPage(taskId, filename, blob, authOptions, uploadOptions) {
 			} else {
 				await config.removeAuthInfo();
 			}
-			await uploadPage(taskId, filename, blob, authOptions, uploadOptions);
+			await saveToGDrive(taskId, filename, blob, authOptions, uploadOptions);
 		} else {
 			throw error;
 		}

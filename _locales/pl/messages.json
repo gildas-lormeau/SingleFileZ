@@ -443,6 +443,26 @@
         "message": "przesyłaj na Dysk Google",
         "description": "Options page label: 'upload to Google Drive'"
     },
+	"optionSaveToGitHub": {
+		"message": "przesyłaj do GitHuba",
+		"description": "Options page label: 'upload to GitHub'"
+	},
+	"optionGitHubToken": {
+		"message": "token dostępu",
+		"description": "Options page label: 'access token'"
+	},
+	"optionGitHubUser": {
+		"message": "nazwa użytkownika",
+		"description": "Options page label: 'user name'"
+	},
+	"optionGitHubRepository": {
+		"message": "nazwa repozytorium",
+		"description": "Options page label: 'repository name'"
+	},
+	"optionGitHubBranch": {
+		"message": "nazwa gałęzi",
+		"description": "Options page label: 'branch name'"
+	},
     "optionSaveCreatedBookmarks": {
         "message": "zapisuj stronę nowo utworzonej zakładki",
         "description": "Options page label: 'save the page of a newly created bookmark'"

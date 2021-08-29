@@ -204,7 +204,9 @@ async function saveContent(message, tab) {
 					password: options.password
 				});
 				if (options.saveToGDrive) {
-					await downloads.uploadPage(message.taskId, pageData.filename, blob, options, {});
+					await downloads.saveToGDrive(message.taskId, pageData.filename, blob, options, {}).uploadPromise;
+				} else if (options.saveToGitHub) {
+					await downloads.saveToGitHub(message.taskId, pageData.filename, blob, options.githubToken, options.githubUser, options.githubRepository, options.githubBranch).pushPromise;
 				} else {
 					pageData.url = URL.createObjectURL(blob);
 					await downloads.downloadPage(pageData, options);

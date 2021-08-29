@@ -443,6 +443,26 @@
         "message": "téléverser sur Google Drive",
         "description": "Options page label: 'upload to Google Drive'"
     },
+	"optionSaveToGitHub": {
+		"message": "téléverser sur GitHub",
+		"description": "Options page label: 'upload to GitHub'"
+	},
+	"optionGitHubToken": {
+		"message": "jeton d'accès",
+		"description": "Options page label: 'access token'"
+	},
+	"optionGitHubUser": {
+		"message": "nom d'utilisateur",
+		"description": "Options page label: 'user name'"
+	},
+	"optionGitHubRepository": {
+		"message": "nom du dépôt",
+		"description": "Options page label: 'repository name'"
+	},
+	"optionGitHubBranch": {
+		"message": "nom de la branche",
+		"description": "Options page label: 'branch name'"
+	},
     "optionSaveCreatedBookmarks": {
         "message": "sauvegarder la page d'un signet nouvellement créé",
         "description": "Options page label: 'save the page of a newly created bookmark'"

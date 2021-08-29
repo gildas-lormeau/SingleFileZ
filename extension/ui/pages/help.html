@@ -343,6 +343,40 @@
 						<p>Check this option to save the downloaded page on the filesystem of your computer.</p>
 						<p class="notice">It is recommended to <u>check</u> this option</p>
 					</li>
+					<li data-options-label="saveToGitHubLabel"> <span class="option">Option: upload to GitHub</span>
+						<p>Check this option to save the page on GitHub. See the <a
+								href="https://github.com/gildas-lormeau/SingleFile/wiki/How-to-publish-saved-pages-with-SingleFile-on-GitHub"
+								target="_blank">documentation page</a> to learn how to configure SingleFileZ to save
+							pages on GitHub. Warning: once a page saved on GitHub, it is complicated to delete it, see
+							the <a
+								href="https://docs.github.com/github/authenticating-to-github/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository"
+								target="_blank">documentation page</a> on GitHub for more information.</p>
+						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
+					</li>
+					<li data-options-label="githubTokenLabel"> <span class="option">Option: access token</span>
+						<p>Enter your personal access token on GitHub, see the <a
+								href="https://docs.github.com/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token"
+								target="_blank">documentation page</a> on GitHub for more information.</p>
+					</li>
+					<li data-options-label="githubUserLabel"> <span class="option">Option: user name</span>
+						<p>Enter your user name on GitHub.</p>
+					</li>
+					<li data-options-label="githubRepositoryLabel"> <span class="option">Option: repository name</span>
+						<p>Enter the name of the repository on GitHub where the saved pages will be archived, see
+							the <a
+								href="https://docs.github.com/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/creating-a-new-repository"
+								target="_blank">documentation page</a> on GitHub for more information on how to create a
+							repository.
+						</p>
+					</li>
+					<li data-options-label="githubBranchLabel"> <span class="option">Option: branch name</span>
+						<p>Enter the repository branch name where pages will be archived. The branch
+							<strong>must</strong> exist on GitHub, see the <a
+								href="https://docs.github.com/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+								target="_blank">documentation page</a> on GitHub for more information on how to publish
+							the branch on github.io.
+						</p>
+					</li>
 					<li data-options-label="saveToGDriveLabel"> <span class="option">Option: upload to Google
 							Drive</span>
 						<p>Check this option to save the page on Google Drive.</p>
@@ -370,13 +404,13 @@
 					<li data-options-label="ignoredBookmarkFoldersLabel"> <span class="option">Option: ignored
 							folders</span>
 						<p>Enter a list of bookmark folder names to ignore. The folder names must be separated with a
-							comma. SingleFile will ignore bookmarks added in folders that contains these names.
+							comma. SingleFileZ will ignore bookmarks added in folders that contains these names.
 						</p>
 					</li>
 					<li data-options-label="allowedBookmarkFoldersLabel"> <span class="option">Option: ignored
 							folders</span>
 						<p>Enter a list of bookmark folder names to allow. The folder names must be separated with a
-							comma. SingleFile will only save pages added in folders that contains these names.
+							comma. SingleFileZ will only save pages added in folders that contains these names.
 						</p>
 					</li>
 				</ul>
@@ -621,7 +655,7 @@
 							<li>The "File name &gt; file name conflict resolution" option does not work if set to
 								"prompt for a name".
 							</li>
-							<li>Sometimes, SingleFile is unable to save the contents of sandboxed iframes.</li>
+							<li>Sometimes, SingleFileZ is unable to save the contents of sandboxed iframes.</li>
 							<li>When processing a page from the filesystem, external resources (e.g. images,
 								stylesheets, fonts etc.) will not be embedded into the saved page.</li>
 						</ul>

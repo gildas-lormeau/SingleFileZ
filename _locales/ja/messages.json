@@ -451,6 +451,26 @@
         "message": "Google Drive に保存",
         "description": "Options page label: 'upload to Google Drive'"
     },
+	"optionSaveToGitHub": {
+		"message": "upload to GitHub",
+		"description": "Options page label: 'upload to GitHub'"
+	},
+	"optionGitHubToken": {
+		"message": "access token",
+		"description": "Options page label: 'access token'"
+	},
+	"optionGitHubUser": {
+		"message": "user name",
+		"description": "Options page label: 'user name'"
+	},
+	"optionGitHubRepository": {
+		"message": "repository name",
+		"description": "Options page label: 'repository name'"
+	},
+	"optionGitHubBranch": {
+		"message": "branch name",
+		"description": "Options page label: 'branch name'"
+	},
     "optionSaveCreatedBookmarks": {
         "message": "新しく作成したブックマークのページを保存する",
         "description": "Options page label: 'save the page of a newly created bookmark'"
