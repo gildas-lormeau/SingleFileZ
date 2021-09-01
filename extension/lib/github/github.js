@@ -47,7 +47,7 @@ async function pushGitHub(token, userName, repositoryName, branchName, path, blo
 	async function createContent({ path, blob, message = "" }, signal) {
 		try {
 			const content = await blobToBase64(blob);
-			const response = await fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${path}`, {
+			const response = await fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${path.replace(/#/g, "%23")}`, {
 				method: "PUT",
 				headers: new Map([
 					["Authorization", `token ${token}`],
