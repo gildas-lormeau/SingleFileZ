@@ -137,14 +137,14 @@ async function downloadTabPage(message, tab) {
 async function downloadBlob(blob, tabId, incognito, message) {
 	try {
 		if (message.saveToGDrive) {
-			await saveToGDrive(message.taskId, message.filename, blob, {
+			await (await saveToGDrive(message.taskId, message.filename, blob, {
 				forceWebAuthFlow: message.forceWebAuthFlow,
 				extractAuthCode: message.extractAuthCode
 			}, {
 				onProgress: (offset, size) => ui.onUploadProgress(tabId, offset, size)
-			}).uploadPromise;
+			})).uploadPromise;
 		} else if (message.saveToGitHub) {
-			await saveToGitHub(message.taskId, message.filename, blob, message.githubToken, message.githubUser, message.githubRepository, message.githubBranch).pushPromise;
+			await (await saveToGitHub(message.taskId, message.filename, blob, message.githubToken, message.githubUser, message.githubRepository, message.githubBranch)).pushPromise;
 		} else {
 			if (message.backgroundSave) {
 				message.url = URL.createObjectURL(blob);
@@ -200,10 +200,10 @@ async function getAuthInfo(authOptions, force) {
 	return authInfo;
 }
 
-function saveToGitHub(taskId, filename, content, githubToken, githubUser, githubRepository, githubBranch) {
+async function saveToGitHub(taskId, filename, content, githubToken, githubUser, githubRepository, githubBranch) {
 	const taskInfo = business.getTaskInfo(taskId);
 	if (taskInfo && !taskInfo.cancelled) {
-		const pushInfo = pushGitHub(githubToken, githubUser, githubRepository, githubBranch, filename, content);
+		const pushInfo = await pushGitHub(githubToken, githubUser, githubRepository, githubBranch, filename, content);
 		business.setCancelCallback(taskId, pushInfo.cancelPush);
 		return pushInfo;
 	}
