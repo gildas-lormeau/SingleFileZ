@@ -164,7 +164,7 @@ async function downloadBlob(blob, tabId, incognito, message) {
 	} catch (error) {
 		if (!error.message || error.message != "upload_cancelled") {
 			console.error(error); // eslint-disable-line no-console
-			ui.onError(tabId);
+			ui.onError(tabId, error.message);
 		}
 	} finally {
 		if (message.url) {
@@ -202,10 +202,15 @@ async function getAuthInfo(authOptions, force) {
 
 async function saveToGitHub(taskId, filename, content, githubToken, githubUser, githubRepository, githubBranch) {
 	const taskInfo = business.getTaskInfo(taskId);
-	if (taskInfo && !taskInfo.cancelled) {
-		const pushInfo = await pushGitHub(githubToken, githubUser, githubRepository, githubBranch, filename, content);
+	if (!taskInfo || !taskInfo.cancelled) {
+		const pushInfo = pushGitHub(githubToken, githubUser, githubRepository, githubBranch, filename, content);
 		business.setCancelCallback(taskId, pushInfo.cancelPush);
-		return pushInfo;
+		try {
+			await (await pushInfo).pushPromise;
+			return pushInfo;
+		} catch (error) {
+			throw new Error(error.message + " (GitHub)");
+		}
 	}
 }
 
@@ -213,7 +218,7 @@ async function saveToGDrive(taskId, filename, blob, authOptions, uploadOptions) 
 	try {
 		await getAuthInfo(authOptions);
 		const taskInfo = business.getTaskInfo(taskId);
-		if (taskInfo && !taskInfo.cancelled) {
+		if (!taskInfo || !taskInfo.cancelled) {
 			const uploadInfo = await gDrive.upload(filename, blob, uploadOptions);
 			business.setCancelCallback(taskId, uploadInfo.cancelUpload);
 			return await uploadInfo.uploadPromise;
@@ -228,7 +233,7 @@ async function saveToGDrive(taskId, filename, blob, authOptions, uploadOptions) 
 				if (error.message == "unknown_token") {
 					authInfo = await getAuthInfo(authOptions, true);
 				} else {
-					throw error;
+					throw new Error(error.message + " (Google Drive)");
 				}
 			}
 			if (authInfo) {
@@ -238,7 +243,7 @@ async function saveToGDrive(taskId, filename, blob, authOptions, uploadOptions) 
 			}
 			await saveToGDrive(taskId, filename, blob, authOptions, uploadOptions);
 		} else {
-			throw error;
+			throw new Error(error.message + " (Google Drive)");
 		}
 	}
 }
