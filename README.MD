@@ -10,10 +10,12 @@ Here is an example of page produced by SingleFileZ: https://gildas-lormeau.githu
 Other examples of files can be found here: https://github.com/gildas-lormeau/SingleFileZ/tree/master/examples
 
 ## Download
-SingleFileZ is available on Firefox, Chrome and Microsoft Edge. You can download the extension here:
+SingleFileZ is available on Firefox and Microsoft Edge. You can download the extension here:
  - Firefox: https://addons.mozilla.org/firefox/addon/singlefilez
- - Chrome: https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg
  - Microsoft Edge: https://microsoftedge.microsoft.com/addons/detail/singlefilez/gofneaifncimeglaecpnanbnmnpfjekk
+
+It is *not recommended* to use SingleFileZ on Chrome because it will stop working starting January 2023 (see https://github.com/gildas-lormeau/SingleFileZ/issues/105). You can however download it from here: https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg.
+
 
 To open saved pages from the filesystem in a Chromium-based browser, SingleFileZ must be installed and the option "Allow access to file URLs" must be enabled in the details page of the extension (e.g. chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). Otherwise, the browser must be started with the switch --allow-file-access-from-files.
 
