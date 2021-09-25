@@ -23,10 +23,9 @@
 
 /* global browser */
 
-import * as business from "./../../core/bg/business.js";
-import * as tabs from "./../../core/bg/tabs.js";
+import { queryTabs } from "./../../core/bg/tabs-util.js";
 import * as tabsData from "./../../core/bg/tabs-data.js";
-import * as autosave from "./../../core/bg/autosave.js";
+import { autoSaveIsEnabled } from "../../core/bg/autosave-util.js";
 
 const DEFAULT_ICON_PATH = "/extension/ui/resources/icon_128.png";
 const WAIT_ICON_PATH_PREFIX = "/extension/ui/resources/icon_128_wait";
@@ -104,8 +103,10 @@ const BUTTON_STATES = {
 	}
 };
 
+let business;
+
 browser.browserAction.onClicked.addListener(async tab => {
-	const highlightedTabs = await tabs.get({ currentWindow: true, highlighted: true });
+	const highlightedTabs = await queryTabs({ currentWindow: true, highlighted: true });
 	if (highlightedTabs.length <= 1) {
 		toggleSaveTab(tab);
 	} else {
@@ -129,8 +130,13 @@ export {
 	onError,
 	onEnd,
 	onCancelled,
-	refreshTab
+	refreshTab,
+	setBusiness
 };
+
+function setBusiness(businessApi) {
+	business = businessApi;
+}
 
 function onMessage(message, sender) {
 	if (message.method.endsWith(".processInit")) {
@@ -202,7 +208,7 @@ function onProgress(tabId, index, maxIndex, tooltipMessage) {
 }
 
 async function refreshTab(tab) {
-	const autoSave = await autosave.isEnabled(tab);
+	const autoSave = await autoSaveIsEnabled(tab);
 	const state = getButtonState("default", autoSave);
 	await refresh(tab.id, state);
 }

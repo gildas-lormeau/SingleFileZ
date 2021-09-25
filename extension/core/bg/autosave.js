@@ -21,15 +21,15 @@
  *   Source.
  */
 
-/* global infobar, URL, XMLHttpRequest, singlefile */
+/* global browser, infobar, URL, XMLHttpRequest, singlefile */
 
 import * as config from "./config.js";
 import * as business from "./business.js";
 import * as downloads from "./downloads.js";
 import * as tabsData from "./tabs-data.js";
-import * as tabs from "./tabs.js";
 import * as ui from "./../../ui/bg/index.js";
 import { getPageData } from "./../../index.js";
+import { autoSaveIsEnabled } from "./autosave-util.js";
 
 const pendingMessages = {};
 const replacedTabIds = {};
@@ -38,8 +38,6 @@ export {
 	onMessage,
 	onMessageExternal,
 	onInit,
-	isEnabled,
-	refreshTabs,
 	onTabUpdated,
 	onTabRemoved,
 	onTabDiscarded,
@@ -48,7 +46,7 @@ export {
 
 async function onMessage(message, sender) {
 	if (message.method.endsWith(".init")) {
-		const [options, autoSaveEnabled] = await Promise.all([config.getOptions(sender.tab.url, true), isEnabled(sender.tab)]);
+		const [options, autoSaveEnabled] = await Promise.all([config.getOptions(sender.tab.url, true), autoSaveIsEnabled(sender.tab)]);
 		return { options, autoSaveEnabled, tabId: sender.tab.id, tabIndex: sender.tab.index };
 	}
 	if (message.method.endsWith(".save")) {
@@ -123,37 +121,15 @@ async function onMessageExternal(message, currentTab) {
 		ui.refreshTab(currentTab);
 	}
 	if (message.method == "isAutoSaveEnabled") {
-		return isEnabled(currentTab);
+		return autoSaveIsEnabled(currentTab);
 	}
 }
 
 async function onInit(tab) {
-	const [options, autoSaveEnabled] = await Promise.all([config.getOptions(tab.url, true), isEnabled(tab)]);
+	const [options, autoSaveEnabled] = await Promise.all([config.getOptions(tab.url, true), autoSaveIsEnabled(tab)]);
 	if (options && ((options.autoSaveLoad || options.autoSaveLoadOrUnload) && autoSaveEnabled)) {
 		business.saveTabs([tab], { autoSave: true });
 	}
-}
-
-async function isEnabled(tab) {
-	if (tab) {
-		const [allTabsData, rule] = await Promise.all([tabsData.get(), config.getRule(tab.url)]);
-		return Boolean(allTabsData.autoSaveAll ||
-			(allTabsData.autoSaveUnpinned && !tab.pinned) ||
-			(allTabsData[tab.id] && allTabsData[tab.id].autoSave)) &&
-			(!rule || rule.autoSaveProfile != config.DISABLED_PROFILE_NAME);
-	}
-}
-
-async function refreshTabs() {
-	const allTabs = (await tabs.get({}));
-	return Promise.all(allTabs.map(async tab => {
-		const [options, autoSaveEnabled] = await Promise.all([config.getOptions(tab.url, true), isEnabled(tab)]);
-		try {
-			await tabs.sendMessage(tab.id, { method: "content.init", autoSaveEnabled, options });
-		} catch (error) {
-			// ignored
-		}
-	}));
 }
 
 async function saveContent(message, tab) {
@@ -216,7 +192,7 @@ async function saveContent(message, tab) {
 			if (message.taskId) {
 				business.onSaveEnd(message.taskId);
 			} else if (options.autoClose) {
-				tabs.remove(replacedTabIds[tabId] || tabId);
+				browser.tabs.remove(replacedTabIds[tabId] || tabId);
 				delete replacedTabIds[tabId];
 			}
 			if (pageData && pageData.url) {
