@@ -49,11 +49,8 @@ let currentTaskId = 0, maxParallelWorkers;
 ui.setBusiness({ isSavingTab, saveTabs, saveUrls, cancelTab, saveSelectedLinks });
 
 export {
-	isSavingTab,
 	saveTabs,
 	saveUrls,
-	saveSelectedLinks,
-	cancelTab,
 	cancelTask,
 	cancelAllTasks,
 	getTasksInfo,
