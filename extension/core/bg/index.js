@@ -24,6 +24,7 @@
 /* global browser */
 
 import * as config from "./config.js";
+import * as bootstrap from "./bootstrap.js";
 import * as autosave from "./autosave.js";
 import * as bookmarks from "./bookmarks.js";
 import * as devtools from "./devtools.js";
@@ -61,6 +62,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
 	}
 	if (message.method.startsWith("requests.")) {
 		return requests.onMessage(message, sender);
+	}
+	if (message.method.startsWith("bootstrap.")) {
+		return bootstrap.onMessage(message, sender);
 	}
 });
 if (browser.runtime.onMessageExternal) {
