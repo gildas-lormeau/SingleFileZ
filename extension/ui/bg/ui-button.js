@@ -131,10 +131,10 @@ export {
 	onEnd,
 	onCancelled,
 	refreshTab,
-	setBusiness
+	init
 };
 
-function setBusiness(businessApi) {
+function init(businessApi) {
 	business = businessApi;
 }
 
