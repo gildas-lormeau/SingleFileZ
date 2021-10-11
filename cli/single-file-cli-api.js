@@ -257,7 +257,7 @@ function getFilename(filename, options, index = 1) {
 		if (outputDirectory.startsWith("/")) {
 			options.outputDirectory = outputDirectory;
 		} else {
-			options.outputDirectory = options.outputDirectory.join("");
+			options.outputDirectory = options.outputDirectory[0] + outputDirectory;
 		}
 	}
 	let outputDirectory = options.outputDirectory || "";
