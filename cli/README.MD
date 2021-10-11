@@ -32,15 +32,15 @@ SingleFileZ can be launched from the command line by running it into a (headless
 
   - Save one page
 
-    `docker run -v %cd%:/usr/src/app/out singlefile "https://www.wikipedia.org" wikipedia.html` (Windows)
+    `docker run -v %cd%:/usr/src/app/out singlefilez "https://www.wikipedia.org" wikipedia.html` (Windows)
 
-    `docker run -v $(pwd):/usr/src/app/out singlefile "https://www.wikipedia.org" wikipedia.html` (Linux/UNIX)
+    `docker run -v $(pwd):/usr/src/app/out singlefilez "https://www.wikipedia.org" wikipedia.html` (Linux/UNIX)
 
   - Save one or multiple pages by using the filename template (see `--filename-template` option)
 
-    `docker run -v %cd%:/usr/src/app/out singlefile "https://www.wikipedia.org" --dump-content=false` (Windows)
+    `docker run -v %cd%:/usr/src/app/out singlefilez "https://www.wikipedia.org" --dump-content=false` (Windows)
 
-    `docker run -v $(pwd):/usr/src/app/out singlefile "https://www.wikipedia.org" --dump-content=false` (Linux/UNIX)
+    `docker run -v $(pwd):/usr/src/app/out singlefilez "https://www.wikipedia.org" --dump-content=false` (Linux/UNIX)
 
 ## Manual installation
 
