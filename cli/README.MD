@@ -26,13 +26,13 @@ SingleFileZ can be launched from the command line by running it into a (headless
   
 - Run and redirect the result into a file
 
-  `docker run singlefilez "https://www.wikipedia.org" > wikipedia.html`
+  `docker run singlefilez "https://www.wikipedia.org" > wikipedia.html` (Linux/UNIX or Windows with `cmd.exe`)
 
 - Run and mount a volume to get the saved file in the current directory
 
   - Save one page
 
-    `docker run -v %cd%:/usr/src/app/out singlefilez "https://www.wikipedia.org" wikipedia.html` (Windows)
+    `docker run -v %cd%:/usr/src/app/out singlefilez "https://www.wikipedia.org" wikipedia.html`
 
     `docker run -v $(pwd):/usr/src/app/out singlefilez "https://www.wikipedia.org" wikipedia.html` (Linux/UNIX)
 
