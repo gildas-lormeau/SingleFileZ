@@ -105,6 +105,7 @@ const showAutoSaveProfileLabel = document.getElementById("showAutoSaveProfileLab
 const confirmInfobarLabel = document.getElementById("confirmInfobarLabel");
 const autoCloseLabel = document.getElementById("autoCloseLabel");
 const infobarTemplateLabel = document.getElementById("infobarTemplateLabel");
+const blockMixedContentLabel = document.getElementById("blockMixedContentLabel");
 const includeInfobarLabel = document.getElementById("includeInfobarLabel");
 const miscLabel = document.getElementById("miscLabel");
 const helpLabel = document.getElementById("helpLabel");
@@ -171,6 +172,7 @@ const createRootDirectoryInput = document.getElementById("createRootDirectoryInp
 const passwordInput = document.getElementById("passwordInput");
 const selfExtractingArchiveInput = document.getElementById("selfExtractingArchiveInput");
 const infobarTemplateInput = document.getElementById("infobarTemplateInput");
+const blockMixedContentInput = document.getElementById("blockMixedContentInput");
 const includeInfobarInput = document.getElementById("includeInfobarInput");
 const confirmInfobarInput = document.getElementById("confirmInfobarInput");
 const autoCloseInput = document.getElementById("autoCloseInput");
@@ -504,6 +506,7 @@ autoSaveLabel.textContent = browser.i18n.getMessage("optionsAutoSaveSubTitle");
 miscLabel.textContent = browser.i18n.getMessage("optionsMiscSubTitle");
 helpLabel.textContent = browser.i18n.getMessage("optionsHelpLink");
 infobarTemplateLabel.textContent = browser.i18n.getMessage("optionInfobarTemplate");
+blockMixedContentLabel.textContent = browser.i18n.getMessage("optionBlockMixedContent");
 includeInfobarLabel.textContent = browser.i18n.getMessage("optionIncludeInfobar");
 confirmInfobarLabel.textContent = browser.i18n.getMessage("optionConfirmInfobar");
 autoCloseLabel.textContent = browser.i18n.getMessage("optionAutoClose");
@@ -694,6 +697,7 @@ async function refresh(profileName) {
 	passwordInput.value = profileOptions.password;
 	selfExtractingArchiveInput.checked = profileOptions.selfExtractingArchive;
 	infobarTemplateInput.value = profileOptions.infobarTemplate;
+	blockMixedContentInput.checked = profileOptions.blockMixedContent;
 	includeInfobarInput.checked = profileOptions.includeInfobar;
 	confirmInfobarInput.checked = profileOptions.confirmInfobarContent;
 	autoCloseInput.checked = profileOptions.autoClose;
@@ -766,6 +770,7 @@ async function update() {
 			selfExtractingArchive: selfExtractingArchiveInput.checked,
 			password: passwordInput.value,
 			infobarTemplate: infobarTemplateInput.value,
+			blockMixedContent: blockMixedContentInput.checked,
 			includeInfobar: includeInfobarInput.checked,
 			confirmInfobarContent: confirmInfobarInput.checked,
 			autoClose: autoCloseInput.checked

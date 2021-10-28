@@ -104,7 +104,8 @@ const DEFAULT_CONFIG = {
 	insertMetaCSP: true,
 	passReferrerOnError: false,
 	password: "",
-	insertSingleFileComment: true
+	insertSingleFileComment: true,
+	blockMixedContent: false
 };
 
 let configStorage;
