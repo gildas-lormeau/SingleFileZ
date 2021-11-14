@@ -54,6 +54,7 @@ const args = require("yargs")
 		"filename-template": "{page-title} ({date-iso} {time-locale}).html",
 		"filename-conflict-action": "uniquify",
 		"filename-replacement-character": "_",
+		"filename-max-length": 192,
 		"http-header": [],
 		"include-infobar": false,
 		"load-deferred-images": true,
@@ -160,6 +161,8 @@ const args = require("yargs")
 	.options("filename-replacement-character", { description: "The character used for replacing invalid characters in filenames" })
 	.string("filename-replacement-character")
 	.string("filename-replacement-character")
+	.options("filename-max-length", { description: "Specify the maximum length in bytes of the filename " })
+	.string("filename-max-length")	
 	.options("http-header", { description: "Extra HTTP header (puppeteer, jsdom)" })
 	.array("http-header")
 	.options("include-BOM", { description: "Include the UTF-8 BOM into the HTML page" })
