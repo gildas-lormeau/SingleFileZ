@@ -106,6 +106,7 @@ const confirmInfobarLabel = document.getElementById("confirmInfobarLabel");
 const autoCloseLabel = document.getElementById("autoCloseLabel");
 const infobarTemplateLabel = document.getElementById("infobarTemplateLabel");
 const blockMixedContentLabel = document.getElementById("blockMixedContentLabel");
+const saveOriginalURLsLabel = document.getElementById("saveOriginalURLsLabel");
 const includeInfobarLabel = document.getElementById("includeInfobarLabel");
 const miscLabel = document.getElementById("miscLabel");
 const helpLabel = document.getElementById("helpLabel");
@@ -173,6 +174,7 @@ const passwordInput = document.getElementById("passwordInput");
 const selfExtractingArchiveInput = document.getElementById("selfExtractingArchiveInput");
 const infobarTemplateInput = document.getElementById("infobarTemplateInput");
 const blockMixedContentInput = document.getElementById("blockMixedContentInput");
+const saveOriginalURLsInput = document.getElementById("saveOriginalURLsInput");
 const includeInfobarInput = document.getElementById("includeInfobarInput");
 const confirmInfobarInput = document.getElementById("confirmInfobarInput");
 const autoCloseInput = document.getElementById("autoCloseInput");
@@ -507,6 +509,7 @@ miscLabel.textContent = browser.i18n.getMessage("optionsMiscSubTitle");
 helpLabel.textContent = browser.i18n.getMessage("optionsHelpLink");
 infobarTemplateLabel.textContent = browser.i18n.getMessage("optionInfobarTemplate");
 blockMixedContentLabel.textContent = browser.i18n.getMessage("optionBlockMixedContent");
+saveOriginalURLsLabel.textContent = browser.i18n.getMessage("optionSaveOriginalURLs");
 includeInfobarLabel.textContent = browser.i18n.getMessage("optionIncludeInfobar");
 confirmInfobarLabel.textContent = browser.i18n.getMessage("optionConfirmInfobar");
 autoCloseLabel.textContent = browser.i18n.getMessage("optionAutoClose");
@@ -698,6 +701,7 @@ async function refresh(profileName) {
 	selfExtractingArchiveInput.checked = profileOptions.selfExtractingArchive;
 	infobarTemplateInput.value = profileOptions.infobarTemplate;
 	blockMixedContentInput.checked = profileOptions.blockMixedContent;
+	saveOriginalURLsInput.checked = profileOptions.saveOriginalURLs;
 	includeInfobarInput.checked = profileOptions.includeInfobar;
 	confirmInfobarInput.checked = profileOptions.confirmInfobarContent;
 	autoCloseInput.checked = profileOptions.autoClose;
@@ -771,6 +775,7 @@ async function update() {
 			password: passwordInput.value,
 			infobarTemplate: infobarTemplateInput.value,
 			blockMixedContent: blockMixedContentInput.checked,
+			saveOriginalURLs: saveOriginalURLsInput.checked,
 			includeInfobar: includeInfobarInput.checked,
 			confirmInfobarContent: confirmInfobarInput.checked,
 			autoClose: autoCloseInput.checked

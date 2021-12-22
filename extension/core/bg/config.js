@@ -105,6 +105,7 @@ const DEFAULT_CONFIG = {
 	passReferrerOnError: false,
 	password: "",
 	insertSingleFileComment: true,
+	saveOriginalURLs: false,	
 	blockMixedContent: false
 };
 
