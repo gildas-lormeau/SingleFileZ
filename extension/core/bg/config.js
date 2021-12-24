@@ -105,8 +105,15 @@ const DEFAULT_CONFIG = {
 	passReferrerOnError: false,
 	password: "",
 	insertSingleFileComment: true,
+	blockMixedContent: false,
 	saveOriginalURLs: false,	
-	blockMixedContent: false
+	acceptHeaders: {
+		font: "application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8",
+		image: "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+		stylesheet: "text/css,*/*;q=0.1",
+		script: "*/*",
+		document: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+	}
 };
 
 let configStorage;
