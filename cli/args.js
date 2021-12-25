@@ -88,7 +88,16 @@ const args = require("yargs")
 		"insert-text-body": false,
 		"create-root-directory": false,
 		"self-extracting-archive": true,
-		"output-directory": ""
+		"output-directory": "",
+		"blockMixedContent": false,
+		"saveOriginalURLs": false,
+		"acceptHeaders": {
+			"font": "application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8",
+			"image": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+			"stylesheet": "text/css,*/*;q=0.1",
+			"script": "*/*",
+			"document": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+		}
 	})
 	.options("back-end", { description: "Back-end to use" })
 	.choices("back-end", ["jsdom", "puppeteer", "webdriver-chromium", "webdriver-gecko", "puppeteer-firefox", "playwright-firefox", "playwright-chromium"])
@@ -161,7 +170,7 @@ const args = require("yargs")
 	.options("filename-replacement-character", { description: "The character used for replacing invalid characters in filenames" })
 	.string("filename-replacement-character")
 	.options("filename-max-length", { description: "Specify the maximum length in bytes of the filename " })
-	.string("filename-max-length")	
+	.string("filename-max-length")
 	.options("http-header", { description: "Extra HTTP header (puppeteer, jsdom)" })
 	.array("http-header")
 	.options("include-BOM", { description: "Include the UTF-8 BOM into the HTML page" })
