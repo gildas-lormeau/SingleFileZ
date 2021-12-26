@@ -151,14 +151,14 @@
         "message": "信息欄內容模板",
         "description": "Options page label: 'template of the infobar content'"
     },
-	"optionBlockMixedContent": {
-		"message": "攔截混合內容",
-		"description": "Options page label: 'block mixed content'"
-	},
-	"optionSaveOriginalURLs": {
-		"message": "save original URLs of embedded resources",
-		"description": "Options page label: 'save original URLs of embedded resources'"
-	},
+    "optionBlockMixedContent": {
+        "message": "攔截混合內容",
+        "description": "Options page label: 'block mixed content'"
+    },
+    "optionSaveOriginalURLs": {
+        "message": "save original URLs of embedded resources",
+        "description": "Options page label: 'save original URLs of embedded resources'"
+    },
     "optionIncludeInfobar": {
         "message": "在已保存頁面中將信息欄包括在內",
         "description": "Options page label: 'include the infobar in the saved page'"
@@ -287,6 +287,10 @@
         "message": "壓縮 CSS 內容",
         "description": "Options page label: 'compress CSS content'"
     },
+    "optionMoveStylesInHead": {
+        "message": "move in the head element the styles found outside of it",
+        "description": "Options page label: 'move in the head element the styles found outside of it'"
+    },
     "optionRemoveUnusedStyles": {
         "message": "移除未使用的樣式",
         "description": "Options page label: 'remove unused styles'"
@@ -391,14 +395,14 @@
         "message": "在頁面開始卸載時進行自動保存",
         "description": "Options page label: 'auto-save on page unload'"
     },
-	"optionAutoSaveDiscard": {
-		"message": "在頁面丟棄時進行自動保存",
-		"description": "Options page label: 'auto-save on tab discard'"
-	},
-	"optionAutoSaveRemove": {
-		"message": "在頁面移除時進行自動保存",
-		"description": "Options page label: 'auto-save on tab removal'"
-	},
+    "optionAutoSaveDiscard": {
+        "message": "在頁面丟棄時進行自動保存",
+        "description": "Options page label: 'auto-save on tab discard'"
+    },
+    "optionAutoSaveRemove": {
+        "message": "在頁面移除時進行自動保存",
+        "description": "Options page label: 'auto-save on tab removal'"
+    },
     "optionAutoSaveDelay": {
         "message": "頁面加載完成後延遲該時間再進行自動保存（秒）",
         "description": "Options page label: 'auto-save waiting delay after page load (s)'"
@@ -440,10 +444,10 @@
         "description": "Options page label: 'save raw page'"
     },
     "optionInsertMetaCSP": {
-		"message": "設置內容安全策略",
-		"description": "Options page label: 'set content security policy'"
-	},
-	"optionSaveToFilesystem": {
+        "message": "設置內容安全策略",
+        "description": "Options page label: 'set content security policy'"
+    },
+    "optionSaveToFilesystem": {
         "message": "保存到文件系統",
         "description": "Options page label: 'save to filesystem'"
     },
@@ -451,26 +455,26 @@
         "message": "保存到 Google Drive",
         "description": "Options page label: 'upload to Google Drive'"
     },
-	"optionSaveToGitHub": {
-		"message": "保存到 GitHub",
-		"description": "Options page label: 'upload to GitHub'"
-	},
-	"optionGitHubToken": {
-		"message": "訪問令牌",
-		"description": "Options page label: 'access token'"
-	},
-	"optionGitHubUser": {
-		"message": "用戶名",
-		"description": "Options page label: 'user name'"
-	},
-	"optionGitHubRepository": {
-		"message": "倉庫名稱",
-		"description": "Options page label: 'repository name'"
-	},
-	"optionGitHubBranch": {
-		"message": "分支名稱",
-		"description": "Options page label: 'branch name'"
-	},
+    "optionSaveToGitHub": {
+        "message": "保存到 GitHub",
+        "description": "Options page label: 'upload to GitHub'"
+    },
+    "optionGitHubToken": {
+        "message": "訪問令牌",
+        "description": "Options page label: 'access token'"
+    },
+    "optionGitHubUser": {
+        "message": "用戶名",
+        "description": "Options page label: 'user name'"
+    },
+    "optionGitHubRepository": {
+        "message": "倉庫名稱",
+        "description": "Options page label: 'repository name'"
+    },
+    "optionGitHubBranch": {
+        "message": "分支名稱",
+        "description": "Options page label: 'branch name'"
+    },
     "optionSaveCreatedBookmarks": {
         "message": "創建新書籤時保存其對應頁面",
         "description": "Options page label: 'save the page of a newly created bookmark'"
@@ -480,10 +484,10 @@
         "description": "Options page label: 'link the new bookmark to the saved page'"
     },
     "optionAllowedBookmarkFolders": {
-		"message": "允許文件夾",
-		"description": "Options page label: 'allowed folders'"
-	},
-	"optionIgnoredBookmarkFolders": {
+        "message": "允許文件夾",
+        "description": "Options page label: 'allowed folders'"
+    },
+    "optionIgnoredBookmarkFolders": {
         "message": "忽略文件夾",
         "description": "Options page label: 'ignored folders'"
     },

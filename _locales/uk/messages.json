@@ -235,10 +235,10 @@
 		"message": "create a root directory",
 		"description": "Options page label: 'create a root directory'"
 	},
-    "optionPassword": {
-        "message": "пароль",
-        "description": "Options page label: 'password'"
-    },
+	"optionPassword": {
+		"message": "пароль",
+		"description": "Options page label: 'password'"
+	},
 	"optionSelfExtractingArchive": {
 		"message": "create self extracting archives",
 		"description": "Options page label: 'create self extracting archives'"
@@ -286,6 +286,10 @@
 	"optionCompressCSS": {
 		"message": "стискати вміст CSS ",
 		"description": "Options page label: 'compress CSS content'"
+	},
+	"optionMoveStylesInHead": {
+		"message": "move in the head element the styles found outside of it",
+		"description": "Options page label: 'move in the head element the styles found outside of it'"
 	},
 	"optionRemoveUnusedStyles": {
 		"message": "видалити невикористовувані стилі",

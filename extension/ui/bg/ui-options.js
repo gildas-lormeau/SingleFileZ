@@ -45,6 +45,7 @@ const githubBranchLabel = document.getElementById("githubBranchLabel");
 const compressHTMLLabel = document.getElementById("compressHTMLLabel");
 const insertTextBodyLabel = document.getElementById("insertTextBodyLabel");
 const compressCSSLabel = document.getElementById("compressCSSLabel");
+const moveStylesInHeadLabel = document.getElementById("moveStylesInHeadLabel");
 const loadDeferredImagesLabel = document.getElementById("loadDeferredImagesLabel");
 const loadDeferredImagesMaxIdleTimeLabel = document.getElementById("loadDeferredImagesMaxIdleTimeLabel");
 const loadDeferredImagesKeepZoomLevelLabel = document.getElementById("loadDeferredImagesKeepZoomLevelLabel");
@@ -137,6 +138,7 @@ const saveToFilesystemInput = document.getElementById("saveToFilesystemInput");
 const compressHTMLInput = document.getElementById("compressHTMLInput");
 const insertTextBodyInput = document.getElementById("insertTextBodyInput");
 const compressCSSInput = document.getElementById("compressCSSInput");
+const moveStylesInHeadInput = document.getElementById("moveStylesInHeadInput");
 const loadDeferredImagesInput = document.getElementById("loadDeferredImagesInput");
 const loadDeferredImagesMaxIdleTimeInput = document.getElementById("loadDeferredImagesMaxIdleTimeInput");
 const loadDeferredImagesKeepZoomLevelInput = document.getElementById("loadDeferredImagesKeepZoomLevelInput");
@@ -454,6 +456,7 @@ githubBranchLabel.textContent = browser.i18n.getMessage("optionGitHubBranch");
 compressHTMLLabel.textContent = browser.i18n.getMessage("optionCompressHTML");
 insertTextBodyLabel.textContent = browser.i18n.getMessage("optionInsertTextBody");
 compressCSSLabel.textContent = browser.i18n.getMessage("optionCompressCSS");
+moveStylesInHeadLabel.textContent = browser.i18n.getMessage("optionMoveStylesInHead");
 loadDeferredImagesLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImages");
 loadDeferredImagesMaxIdleTimeLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImagesMaxIdleTime");
 loadDeferredImagesKeepZoomLevelLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImagesKeepZoomLevel");
@@ -655,6 +658,7 @@ async function refresh(profileName) {
 	githubBranchInput.disabled = !profileOptions.saveToGitHub;
 	saveToFilesystemInput.checked = !profileOptions.saveToGDrive && !profileOptions.saveToGitHub;
 	compressCSSInput.checked = profileOptions.compressCSS;
+	moveStylesInHeadInput.checked = profileOptions.moveStylesInHead;
 	loadDeferredImagesInput.checked = profileOptions.loadDeferredImages;
 	loadDeferredImagesMaxIdleTimeInput.value = profileOptions.loadDeferredImagesMaxIdleTime;
 	loadDeferredImagesKeepZoomLevelInput.checked = profileOptions.loadDeferredImagesKeepZoomLevel;
@@ -738,6 +742,7 @@ async function update() {
 			compressHTML: compressHTMLInput.checked,
 			insertTextBody: insertTextBodyInput.checked,
 			compressCSS: compressCSSInput.checked,
+			moveStylesInHead: moveStylesInHeadInput.checked,
 			loadDeferredImages: loadDeferredImagesInput.checked,
 			loadDeferredImagesMaxIdleTime: Math.max(loadDeferredImagesMaxIdleTimeInput.value, 0),
 			loadDeferredImagesKeepZoomLevel: loadDeferredImagesKeepZoomLevelInput.checked,

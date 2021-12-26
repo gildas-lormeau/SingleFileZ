@@ -151,14 +151,14 @@
         "message": "Modello del contenuto della barra informativa",
         "description": "Options page label: 'template of the infobar content'"
     },
-	"optionBlockMixedContent": {
-		"message": "block mixed content",
-		"description": "Options page label: 'block mixed content'"
-	},
-	"optionSaveOriginalURLs": {
-		"message": "save original URLs of embedded resources",
-		"description": "Options page label: 'save original URLs of embedded resources'"
-	},
+    "optionBlockMixedContent": {
+        "message": "block mixed content",
+        "description": "Options page label: 'block mixed content'"
+    },
+    "optionSaveOriginalURLs": {
+        "message": "save original URLs of embedded resources",
+        "description": "Options page label: 'save original URLs of embedded resources'"
+    },
     "optionIncludeInfobar": {
         "message": "includi una barra informativa nella pagina salvata",
         "description": "Options page label: 'include the infobar in the saved page'"
@@ -286,6 +286,10 @@
     "optionCompressCSS": {
         "message": "comprimi contenuto CSS",
         "description": "Options page label: 'compress CSS content'"
+    },
+    "optionMoveStylesInHead": {
+        "message": "move in the head element the styles found outside of it",
+        "description": "Options page label: 'move in the head element the styles found outside of it'"
     },
     "optionRemoveUnusedStyles": {
         "message": "Rimuovi stili non utilizzati",

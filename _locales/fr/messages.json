@@ -151,14 +151,14 @@
         "message": "modèle du contenu de la barre d'information",
         "description": "Options page label: 'template of the infobar content'"
     },
-	"optionBlockMixedContent": {
-		"message": "bloquer les contenus mixtes",
-		"description": "Options page label: 'block mixed content'"
-	},
-	"optionSaveOriginalURLs": {
-		"message": "sauvegarder les URLs d'origine des ressources embarquées",
-		"description": "Options page label: 'save original URLs of embedded resources'"
-	},
+    "optionBlockMixedContent": {
+        "message": "bloquer les contenus mixtes",
+        "description": "Options page label: 'block mixed content'"
+    },
+    "optionSaveOriginalURLs": {
+        "message": "sauvegarder les URLs d'origine des ressources embarquées",
+        "description": "Options page label: 'save original URLs of embedded resources'"
+    },
     "optionIncludeInfobar": {
         "message": "inclure la barre d'information dans la page sauvegardée",
         "description": "Options page label: 'include the infobar in the saved page'"
@@ -287,6 +287,10 @@
         "message": "compresser le contenu CSS",
         "description": "Options page label: 'compress CSS content'"
     },
+    "optionMoveStylesInHead": {
+        "message": "déplacer dans l'élément head les styles trouvés en dehors de celui-ci",
+        "description": "Options page label: 'move in the head element the styles found outside of it'"
+    },
     "optionRemoveUnusedStyles": {
         "message": "supprimer les styles inutilisés",
         "description": "Options page label: 'remove unused styles'"
@@ -391,14 +395,14 @@
         "message": "auto-sauvegarder au déchargement de la page",
         "description": "Options page label: 'auto-save on page unload'"
     },
-	"optionAutoSaveDiscard": {
-		"message": "auto-sauvegarder à la mise à l'écart de l'onglet",
-		"description": "Options page label: 'auto-save on tab discard'"
-	},
-	"optionAutoSaveRemove": {
-		"message": "auto-save à la fermeture de l'onglet",
-		"description": "Options page label: 'auto-save on tab removal'"
-	},
+    "optionAutoSaveDiscard": {
+        "message": "auto-sauvegarder à la mise à l'écart de l'onglet",
+        "description": "Options page label: 'auto-save on tab discard'"
+    },
+    "optionAutoSaveRemove": {
+        "message": "auto-save à la fermeture de l'onglet",
+        "description": "Options page label: 'auto-save on tab removal'"
+    },
     "optionAutoSaveDelay": {
         "message": "délai d'attente après le chargement de la page (s)",
         "description": "Options page label: 'auto-save waiting delay after page load (s)'"
@@ -440,10 +444,10 @@
         "description": "Options page label: 'save raw page'"
     },
     "optionInsertMetaCSP": {
-		"message": "définir la stratégie de sécurité du contenu",
-		"description": "Options page label: 'set content security policy'"
-	},
-	"optionSaveToFilesystem": {
+        "message": "définir la stratégie de sécurité du contenu",
+        "description": "Options page label: 'set content security policy'"
+    },
+    "optionSaveToFilesystem": {
         "message": "enregistrer dans le système de fichiers",
         "description": "Options page label: 'save to filesystem'"
     },
@@ -451,26 +455,26 @@
         "message": "téléverser sur Google Drive",
         "description": "Options page label: 'upload to Google Drive'"
     },
-	"optionSaveToGitHub": {
-		"message": "téléverser sur GitHub",
-		"description": "Options page label: 'upload to GitHub'"
-	},
-	"optionGitHubToken": {
-		"message": "jeton d'accès",
-		"description": "Options page label: 'access token'"
-	},
-	"optionGitHubUser": {
-		"message": "nom d'utilisateur",
-		"description": "Options page label: 'user name'"
-	},
-	"optionGitHubRepository": {
-		"message": "nom du dépôt",
-		"description": "Options page label: 'repository name'"
-	},
-	"optionGitHubBranch": {
-		"message": "nom de la branche",
-		"description": "Options page label: 'branch name'"
-	},
+    "optionSaveToGitHub": {
+        "message": "téléverser sur GitHub",
+        "description": "Options page label: 'upload to GitHub'"
+    },
+    "optionGitHubToken": {
+        "message": "jeton d'accès",
+        "description": "Options page label: 'access token'"
+    },
+    "optionGitHubUser": {
+        "message": "nom d'utilisateur",
+        "description": "Options page label: 'user name'"
+    },
+    "optionGitHubRepository": {
+        "message": "nom du dépôt",
+        "description": "Options page label: 'repository name'"
+    },
+    "optionGitHubBranch": {
+        "message": "nom de la branche",
+        "description": "Options page label: 'branch name'"
+    },
     "optionSaveCreatedBookmarks": {
         "message": "sauvegarder la page d'un signet nouvellement créé",
         "description": "Options page label: 'save the page of a newly created bookmark'"
@@ -480,10 +484,10 @@
         "description": "Options page label: 'link the new bookmark to the saved page'"
     },
     "optionAllowedBookmarkFolders": {
-		"message": "dossiers autorisés",
-		"description": "Options page label: 'allowed folders'"
-	},
-	"optionIgnoredBookmarkFolders": {
+        "message": "dossiers autorisés",
+        "description": "Options page label: 'allowed folders'"
+    },
+    "optionIgnoredBookmarkFolders": {
         "message": "dossiers ignorés",
         "description": "Options page label: 'ignored folders'"
     },
