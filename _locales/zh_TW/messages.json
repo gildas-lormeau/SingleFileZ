@@ -156,7 +156,7 @@
         "description": "Options page label: 'block mixed content'"
     },
     "optionSaveOriginalURLs": {
-        "message": "嵌入原始资源链接",
+        "message": "嵌入原始資源鏈接",
         "description": "Options page label: 'save original URLs of embedded resources'"
     },
     "optionIncludeInfobar": {
