@@ -57,6 +57,11 @@ async function getPageData(win, options) {
 			return iconv.decode(Buffer.from(buffer), this.utfLabel);
 		}
 	};
+	win.TextEncoder = class {
+		encode(value) {
+			return iconv.encode(value, "utf-8");
+		}
+	};
 	win.crypto = {
 		subtle: {
 			digest: async function digestText(algo, text) {
@@ -84,6 +89,7 @@ async function getPageData(win, options) {
 	if (options.includeInfobar) {
 		await win.infobar.includeScript(pageData);
 	}
+	pageData.content = new Uint8Array(pageData.content);
 	return pageData;
 
 	async function fetchResource(resourceURL) {
