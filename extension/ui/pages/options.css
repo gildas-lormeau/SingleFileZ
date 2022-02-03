@@ -67,12 +67,27 @@ input[type="number"] {
 }
 
 select {
+    min-height: 20px;
+}
+
+#profileNamesInput {
     min-height: 22px;
-    max-height: 22px;
+}
+
+input.medium-input {
+    min-width: 50%;
 }
 
 input.large-input {
     min-width: 60px;
+}
+
+.option-input {
+    display: flex;
+}
+
+#filenameMaxLengthUnitInput {
+    margin-left: 2px;
 }
 
 h3 {
@@ -539,7 +554,7 @@ html.maximized {
         margin-top: 8px;
         margin-left: 16px;
         max-width: 100%;
-        justify-content: flex-start;        
+        justify-content: flex-start;
     }
 
     .side-panel .profiles {
@@ -573,7 +588,7 @@ html.maximized {
     ::-webkit-scrollbar {
         background-color: #2A2A2E;
     }
-    
+
     ::-webkit-scrollbar-thumb {
         background-color: #555;
     }

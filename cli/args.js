@@ -63,6 +63,7 @@ const args = require("yargs")
 		"filename-conflict-action": "uniquify",
 		"filename-replacement-character": "_",
 		"filename-max-length": 192,
+		"filename-max-length-unit": "bytes",
 		"http-header": [],
 		"include-infobar": false,
 		"load-deferred-images": true,
@@ -172,8 +173,10 @@ const args = require("yargs")
 	.string("filename-conflict-action")
 	.options("filename-replacement-character", { description: "The character used for replacing invalid characters in filenames" })
 	.string("filename-replacement-character")
-	.options("filename-max-length", { description: "Specify the maximum length in bytes of the filename " })
-	.string("filename-max-length")
+	.options("filename-max-length", { description: "Specify the maximum length of the filename" })
+	.number("filename-max-length")
+	.options("filename-max-length-unit", { description: "Specify the unit of the maximum length of the filename ('bytes' or 'chars')" })
+	.string("filename-max-length-unit")
 	.options("http-header", { description: "Extra HTTP header (puppeteer, jsdom)" })
 	.array("http-header")
 	.options("include-BOM", { description: "Include the UTF-8 BOM into the HTML page" })
