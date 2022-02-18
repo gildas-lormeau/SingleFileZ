@@ -1211,17 +1211,17 @@ class Processor {
 			["image", "href"]
 		];
 		let resourcePromises = processAttributeArgs.map(([selector, attributeName, removeElementIfMissing]) =>
-			ProcessorHelper.processAttribute(this.doc.querySelectorAll(selector), attributeName, this.baseURI, this.options, this.resources, this.batchRequest, removeElementIfMissing)
+			ProcessorHelper.processAttribute(this.doc.querySelectorAll(selector), attributeName, this.baseURI, this.options, "image", this.resources, this.batchRequest, removeElementIfMissing)
 		);
 		resourcePromises = resourcePromises.concat([
 			ProcessorHelper.processXLinks(this.doc.querySelectorAll("use"), this.doc, this.baseURI, this.options, this.batchRequest),
 			ProcessorHelper.processSrcset(this.doc.querySelectorAll("img[srcset], source[srcset]"), "srcset", this.baseURI, this.resources, this.batchRequest)
 		]);
 		if (!this.options.removeAudioSrc) {
-			resourcePromises.push(ProcessorHelper.processAttribute(this.doc.querySelectorAll("audio[src], audio > source[src]"), "src", this.baseURI, this.options, this.resources, this.batchRequest));
+			resourcePromises.push(ProcessorHelper.processAttribute(this.doc.querySelectorAll("audio[src], audio > source[src]"), "src", this.baseURI, this.options, "audio", this.resources, this.batchRequest));
 		}
 		if (!this.options.removeVideoSrc) {
-			resourcePromises.push(ProcessorHelper.processAttribute(this.doc.querySelectorAll("video[src], video > source[src]"), "src", this.baseURI, this.options, this.resources, this.batchRequest));
+			resourcePromises.push(ProcessorHelper.processAttribute(this.doc.querySelectorAll("video[src], video > source[src]"), "src", this.baseURI, this.options, "video", this.resources, this.batchRequest));
 		}
 		await Promise.all(resourcePromises);
 		if (this.options.saveFavicon) {
@@ -1856,7 +1856,7 @@ class ProcessorHelper {
 		}
 	}
 
-	static async processAttribute(resourceElements, attributeName, baseURI, options, resources, batchRequest, removeElementIfMissing) {
+	static async processAttribute(resourceElements, attributeName, baseURI, options, expectedType, resources, batchRequest, removeElementIfMissing) {
 		await Promise.all(Array.from(resourceElements).map(async resourceElement => {
 			let resourceURL = resourceElement.getAttribute(attributeName);
 			if (resourceURL != null) {
@@ -1876,7 +1876,7 @@ class ProcessorHelper {
 						}
 						if (testValidURL(resourceURL)) {
 							let { content, indexResource, extension, contentType } = await batchRequest.addURL(resourceURL,
-								{ asBinary: true, expectedType: "image" });
+								{ asBinary: true, expectedType });
 							if (originURL) {
 								if (!content) {
 									try {
