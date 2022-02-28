@@ -1,6 +1,8 @@
 #!/bin/sh
 rollup -c rollup.config.js
 
+zip -r singlefilez-extension-source.zip manifest.json package.json _locales src rollup*.js .eslintrc.js build-extension.sh
+
 rm singlefilez-extension-firefox.zip singlefilez-extension-chromium.zip singlefilez-extension-edge.zip
 cp manifest.json manifest.copy.json
 cp src/extension/core/bg/downloads.js downloads.copy.js
