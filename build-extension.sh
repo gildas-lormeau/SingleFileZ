@@ -1,5 +1,5 @@
 #!/bin/sh
-rollup -c rollup.config.js
+npx rollup -c rollup.config.js
 
 zip -r singlefilez-extension-source.zip manifest.json package.json _locales src rollup*.js .eslintrc.js build-extension.sh
 
