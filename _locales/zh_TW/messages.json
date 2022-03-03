@@ -188,7 +188,7 @@
 		"description": "Options page label: 'bytes'"
 	},
 	"optionFilenameMaxLengthCharsUnit": {
-		"message": "characters",
+		"message": "字符",
 		"description": "Options page label: 'characters'"
 	},
     "optionConfirmFilename": {
@@ -324,7 +324,7 @@
         "description": "Options page label: 'remove audio sources'"
     },
     "optionsDestionationSubTitle": {
-        "message": "目的地",
+        "message": "保存位置",
         "description": "Options sub-title: 'Destination'"
     },
     "optionsBookmarkSubTitle": {
@@ -344,7 +344,7 @@
         "description": "Popup text 'Delete all displayed rules'"
     },
     "optionsAutoSettingsSubTitle": {
-        "message": "自動設置 規則",
+        "message": "自動設置規則",
         "description": "Options sub-title: 'Auto-settings rules'"
     },
     "optionsAutoSettingsUrl": {
