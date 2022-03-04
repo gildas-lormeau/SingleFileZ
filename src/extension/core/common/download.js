@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, infobar, protobuf */
+/* global browser, infobar */
 
 const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
 
@@ -36,7 +36,7 @@ async function downloadPage(pageData, options) {
 	if (options.includeBOM) {
 		pageData.content = "\ufeff" + pageData.content;
 	}
-	const content = Array.from(protobuf.roots.default.Page.encode(pageData).finish());
+	const content = JSON.stringify(pageData);
 	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 		const message = {
 			method: "downloads.download",

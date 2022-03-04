@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, protobuf, Response */
+/* global browser, singlefile, URL, Response */
 
 import * as config from "./config.js";
 import * as bookmarks from "./bookmarks.js";
@@ -108,7 +108,7 @@ async function downloadTabPage(message, tab) {
 		if (skipped) {
 			ui.onEnd(tabId);
 		} else {
-			const pageData = protobuf.roots.default.Page.decode(singlefile.helper.flatten(contents));
+			const pageData = JSON.parse(singlefile.helper.flatten(contents).join(""));
 			const blob = await singlefile.processors.compression.process(pageData, {
 				insertTextBody: message.insertTextBody,
 				url: tab.url,

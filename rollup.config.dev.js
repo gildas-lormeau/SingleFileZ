@@ -81,13 +81,6 @@ export default [{
 		plugins: []
 	}]
 }, {
-	input: ["src/extension/lib/vendor/protobuf/protobuf.js"],
-	output: [{
-		file: "lib/protobuf.js",
-		format: "iife",
-		plugins: []
-	}]
-}, {
 	input: ["src/extension/lib/single-file/browser-polyfill/chrome-browser-polyfill.js"],
 	output: [{
 		file: "lib/chrome-browser-polyfill.js",

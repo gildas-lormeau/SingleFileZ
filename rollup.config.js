@@ -83,13 +83,6 @@ export default [{
 		plugins: [terser()]
 	}]
 }, {
-	input: ["src/extension/lib/vendor/protobuf/protobuf.js"],
-	output: [{
-		file: "lib/protobuf.js",
-		format: "iife",
-		plugins: [terser()]
-	}]
-}, {
 	input: ["src/extension/lib/single-file/browser-polyfill/chrome-browser-polyfill.js"],
 	output: [{
 		file: "lib/chrome-browser-polyfill.js",

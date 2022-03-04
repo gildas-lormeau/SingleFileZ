@@ -254,7 +254,7 @@ function getInstance(utilOptions) {
 				if (options.maxResourceSizeEnabled && buffer.byteLength > options.maxResourceSize * ONE_MB) {
 					return { resourceURL };
 				} else {
-					return { data: new Uint8Array(buffer), resourceURL, contentType };
+					return { data: Array.from(new Uint8Array(buffer)), resourceURL, contentType };
 				}
 			} catch (error) {
 				return { resourceURL };

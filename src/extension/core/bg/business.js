@@ -38,10 +38,8 @@ const TASK_PENDING_STATE = "pending";
 const TASK_PROCESSING_STATE = "processing";
 
 const extensionScriptFiles = [
-	"lib/protobuf.js",
 	"lib/infobar.js",
-	"lib/extension.js",
-	"/src/extension/core/common/page-proto.js"
+	"lib/extension.js"
 ];
 
 const tasks = [];
