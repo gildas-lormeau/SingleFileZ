@@ -89,7 +89,6 @@ const DEFAULT_CONFIG = {
 	githubRepository: "SingleFileZ-Archives",
 	githubBranch: "main",
 	forceWebAuthFlow: false,
-	extractAuthCode: true,
 	insertTextBody: true,
 	resolveFragmentIdentifierURLs: false,
 	userScriptEnabled: false,

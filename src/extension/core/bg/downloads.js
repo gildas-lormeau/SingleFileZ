@@ -26,7 +26,7 @@
 import * as config from "./config.js";
 import * as bookmarks from "./bookmarks.js";
 import * as business from "./business.js";
-import { launchWebAuthFlow, extractAuthCode, promptValue } from "./tabs-util.js";
+import { launchWebAuthFlow, extractAuthCode } from "./tabs-util.js";
 import * as ui from "./../../ui/bg/index.js";
 import { GDrive } from "./../../lib/gdrive/gdrive.js";
 import { pushGitHub } from "./../../lib/github/github.js";
@@ -34,7 +34,8 @@ import { download } from "./download-util.js";
 
 const partialContents = new Map();
 const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
-const CLIENT_ID = "7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot.apps.googleusercontent.com";
+const GDRIVE_CLIENT_ID = "7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot.apps.googleusercontent.com";
+const GDRIVE_CLIENT_KEY = "000000000000000000000000";
 const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
 const CONFLICT_ACTION_SKIP = "skip";
 const CONFLICT_ACTION_UNIQUIFY = "uniquify";
@@ -42,7 +43,7 @@ const REGEXP_ESCAPE = /([{}()^$&.*?/+|[\\\\]|\]|-)/g;
 
 const manifest = browser.runtime.getManifest();
 const requestPermissionIdentity = manifest.optional_permissions && manifest.optional_permissions.includes("identity");
-const gDrive = new GDrive(CLIENT_ID, SCOPES);
+const gDrive = new GDrive(GDRIVE_CLIENT_ID, GDRIVE_CLIENT_KEY, SCOPES);
 export {
 	onMessage,
 	downloadPage,
@@ -129,8 +130,7 @@ async function downloadBlob(blob, tabId, incognito, message) {
 	try {
 		if (message.saveToGDrive) {
 			await (await saveToGDrive(message.taskId, message.filename, blob, {
-				forceWebAuthFlow: message.forceWebAuthFlow,
-				extractAuthCode: message.extractAuthCode
+				forceWebAuthFlow: message.forceWebAuthFlow
 			}, {
 				onProgress: (offset, size) => ui.onUploadProgress(tabId, offset, size)
 			})).uploadPromise;
@@ -172,12 +172,10 @@ async function getAuthInfo(authOptions, force) {
 	let authInfo = await config.getAuthInfo();
 	const options = {
 		interactive: true,
-		auto: authOptions.extractAuthCode,
 		forceWebAuthFlow: authOptions.forceWebAuthFlow,
 		requestPermissionIdentity,
 		launchWebAuthFlow: options => launchWebAuthFlow(options),
-		extractAuthCode: authURL => extractAuthCode(authURL),
-		promptAuthCode: () => promptValue("Please enter the access code for Google Drive")
+		extractAuthCode: authURL => extractAuthCode(authURL)
 	};
 	gDrive.setAuthInfo(authInfo, options);
 	if (!authInfo || !authInfo.accessToken || force) {

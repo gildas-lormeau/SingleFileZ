@@ -28,7 +28,6 @@ import * as autosave from "./autosave.js";
 import * as business from "./business.js";
 import * as tabsData from "./tabs-data.js";
 import * as ui from "./../../ui/bg/index.js";
-import { onPromptValueResponse } from "./tabs-util.js";
 
 const DELAY_MAYBE_INIT = 1500;
 
@@ -46,9 +45,6 @@ async function onMessage(message, sender) {
 		ui.onInit(sender.tab);
 		business.onInit(sender.tab);
 		autosave.onInit(sender.tab);
-	}
-	if (message.method.endsWith(".promptValueResponse")) {
-		onPromptValueResponse(message, sender);
 	}
 	if (message.method.endsWith(".getOptions")) {
 		return config.getOptions(message.url);
