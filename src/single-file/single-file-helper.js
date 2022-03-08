@@ -37,6 +37,7 @@ const SHADOW_ROOT_ATTRIBUTE_NAME = "data-single-filez-shadow-root-element";
 const WIN_ID_ATTRIBUTE_NAME = "data-single-filez-win-id";
 const IMAGE_ATTRIBUTE_NAME = "data-single-filez-image";
 const POSTER_ATTRIBUTE_NAME = "data-single-filez-poster";
+const VIDEO_ATTRIBUTE_NAME = "data-single-filez-video";
 const CANVAS_ATTRIBUTE_NAME = "data-single-filez-canvas";
 const HTML_IMPORT_ATTRIBUTE_NAME = "data-single-filez-import";
 const STYLE_ATTRIBUTE_NAME = "data-single-filez-movable-style";
@@ -81,6 +82,7 @@ export {
 	HIDDEN_FRAME_ATTRIBUTE_NAME,
 	IMAGE_ATTRIBUTE_NAME,
 	POSTER_ATTRIBUTE_NAME,
+	VIDEO_ATTRIBUTE_NAME,
 	CANVAS_ATTRIBUTE_NAME,
 	INPUT_VALUE_ATTRIBUTE_NAME,
 	SHADOW_ROOT_ATTRIBUTE_NAME,
@@ -144,6 +146,7 @@ function preProcessDoc(doc, win, options) {
 			canvases: [],
 			images: [],
 			posters: [],
+			videos: [],
 			usedFonts: [],
 			shadowRoots: [],
 			imports: [],
@@ -156,6 +159,7 @@ function preProcessDoc(doc, win, options) {
 		stylesheets: getStylesheetsData(doc),
 		images: elementsInfo.images,
 		posters: elementsInfo.posters,
+		videos: elementsInfo.videos,
 		usedFonts: Array.from(elementsInfo.usedFonts.values()),
 		shadowRoots: elementsInfo.shadowRoots,
 		imports: elementsInfo.imports,
@@ -164,7 +168,7 @@ function preProcessDoc(doc, win, options) {
 	};
 }
 
-function getElementsInfo(win, doc, element, options, data = { usedFonts: new Map(), canvases: [], images: [], posters: [], shadowRoots: [], imports: [], markedElements: [] }, ascendantHidden) {
+function getElementsInfo(win, doc, element, options, data = { usedFonts: new Map(), canvases: [], images: [], posters: [], videos: [], shadowRoots: [], imports: [], markedElements: [] }, ascendantHidden) {
 	const elements = Array.from(element.childNodes).filter(node => (node instanceof win.HTMLElement) || (node instanceof win.SVGElement));
 	elements.forEach(element => {
 		let elementHidden, elementKept, computedStyle;
@@ -251,6 +255,10 @@ function getResourcesInfo(doc, element, options, data, elementHidden) {
 		element.removeAttribute(LAZY_SRC_ATTRIBUTE_NAME);
 	}
 	if (element.tagName == "VIDEO") {
+		if (element.currentSrc) {
+			data.videos.push(element.currentSrc);
+			element.setAttribute(VIDEO_ATTRIBUTE_NAME, data.videos.length - 1);
+		}
 		if (!element.poster) {
 			const canvasElement = doc.createElement("canvas");
 			const context = canvasElement.getContext("2d");
@@ -377,7 +385,7 @@ function postProcessDoc(doc, markedElements) {
 		doc.head.querySelectorAll("*:not(base):not(link):not(meta):not(noscript):not(script):not(style):not(template):not(title)").forEach(element => element.removeAttribute("hidden"));
 	}
 	if (!markedElements) {
-		const singleFileAttributes = [REMOVED_CONTENT_ATTRIBUTE_NAME, HIDDEN_FRAME_ATTRIBUTE_NAME, HIDDEN_CONTENT_ATTRIBUTE_NAME, PRESERVED_SPACE_ELEMENT_ATTRIBUTE_NAME, IMAGE_ATTRIBUTE_NAME, POSTER_ATTRIBUTE_NAME, CANVAS_ATTRIBUTE_NAME, INPUT_VALUE_ATTRIBUTE_NAME, SHADOW_ROOT_ATTRIBUTE_NAME, HTML_IMPORT_ATTRIBUTE_NAME, STYLESHEET_ATTRIBUTE_NAME, ASYNC_SCRIPT_ATTRIBUTE_NAME];
+		const singleFileAttributes = [REMOVED_CONTENT_ATTRIBUTE_NAME, HIDDEN_FRAME_ATTRIBUTE_NAME, HIDDEN_CONTENT_ATTRIBUTE_NAME, PRESERVED_SPACE_ELEMENT_ATTRIBUTE_NAME, IMAGE_ATTRIBUTE_NAME, POSTER_ATTRIBUTE_NAME, VIDEO_ATTRIBUTE_NAME, CANVAS_ATTRIBUTE_NAME, INPUT_VALUE_ATTRIBUTE_NAME, SHADOW_ROOT_ATTRIBUTE_NAME, HTML_IMPORT_ATTRIBUTE_NAME, STYLESHEET_ATTRIBUTE_NAME, ASYNC_SCRIPT_ATTRIBUTE_NAME];
 		markedElements = doc.querySelectorAll(singleFileAttributes.map(name => "[" + name + "]").join(","));
 	}
 	markedElements.forEach(element => {
@@ -388,6 +396,7 @@ function postProcessDoc(doc, markedElements) {
 		element.removeAttribute(PRESERVED_SPACE_ELEMENT_ATTRIBUTE_NAME);
 		element.removeAttribute(IMAGE_ATTRIBUTE_NAME);
 		element.removeAttribute(POSTER_ATTRIBUTE_NAME);
+		element.removeAttribute(VIDEO_ATTRIBUTE_NAME);
 		element.removeAttribute(CANVAS_ATTRIBUTE_NAME);
 		element.removeAttribute(INPUT_VALUE_ATTRIBUTE_NAME);
 		element.removeAttribute(SHADOW_ROOT_ATTRIBUTE_NAME);
