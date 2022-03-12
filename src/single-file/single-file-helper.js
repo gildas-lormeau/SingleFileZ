@@ -202,7 +202,7 @@ function getElementsInfo(win, doc, element, options, data = { usedFonts: new Map
 				}
 			}
 		}
-		getResourcesInfo(doc, element, options, data, elementHidden);
+		getResourcesInfo(win, doc, element, options, data, elementHidden);
 		const shadowRoot = !(element instanceof win.SVGElement) && getShadowRoot(element);
 		if (shadowRoot && !element.classList.contains(SINGLE_FILE_UI_ELEMENT_CLASS)) {
 			const shadowRootInfo = {};
@@ -233,7 +233,7 @@ function getElementsInfo(win, doc, element, options, data = { usedFonts: new Map
 	return data;
 }
 
-function getResourcesInfo(doc, element, options, data, elementHidden) {
+function getResourcesInfo(win, doc, element, options, data, elementHidden) {
 	if (element.tagName == "CANVAS") {
 		try {
 			data.canvases.push({ dataURI: element.toDataURL("image/png", "") });
@@ -255,8 +255,10 @@ function getResourcesInfo(doc, element, options, data, elementHidden) {
 		element.removeAttribute(LAZY_SRC_ATTRIBUTE_NAME);
 	}
 	if (element.tagName == "VIDEO") {
-		if (element.currentSrc) {
-			data.videos.push(element.currentSrc);
+		const src = element.currentSrc;
+		if (src && !src.startsWith("blob:") && !src.startsWith("data:")) {
+			const positionParent = win.getComputedStyle(element.parentNode).getPropertyValue("position");
+			data.videos.push({ positionParent, src });
 			element.setAttribute(VIDEO_ATTRIBUTE_NAME, data.videos.length - 1);
 		}
 		if (!element.poster) {
