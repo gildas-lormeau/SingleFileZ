@@ -38,6 +38,7 @@ const TASK_PENDING_STATE = "pending";
 const TASK_PROCESSING_STATE = "processing";
 
 const extensionScriptFiles = [
+	"lib/yabson.js",
 	"lib/infobar.js",
 	"lib/extension.js"
 ];

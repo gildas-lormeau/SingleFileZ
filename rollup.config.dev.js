@@ -81,6 +81,14 @@ export default [{
 		plugins: []
 	}]
 }, {
+	input: ["src/extension/lib/yabson/yabson.js"],
+	output: [{
+		file: "lib/yabson.js",
+		format: "umd",
+		name: "yabson",
+		plugins: []
+	}]
+}, {
 	input: ["src/extension/lib/single-file/browser-polyfill/chrome-browser-polyfill.js"],
 	output: [{
 		file: "lib/chrome-browser-polyfill.js",

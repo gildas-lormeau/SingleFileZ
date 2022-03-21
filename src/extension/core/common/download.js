@@ -21,9 +21,7 @@
  *   Source.
  */
 
-/* global browser, infobar */
-
-const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
+/* global browser, infobar, yabson */
 
 export {
 	downloadPage
@@ -36,42 +34,38 @@ async function downloadPage(pageData, options) {
 	if (options.includeBOM) {
 		pageData.content = "\ufeff" + pageData.content;
 	}
-	const content = JSON.stringify(pageData);
-	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
-		const message = {
+	const message = {
+		taskId: options.taskId,
+		insertTextBody: options.insertTextBody,
+		confirmFilename: options.confirmFilename,
+		filenameConflictAction: options.filenameConflictAction,
+		filename: pageData.filename,
+		saveToGDrive: options.saveToGDrive,
+		saveToGitHub: options.saveToGitHub,
+		githubToken: options.githubToken,
+		githubUser: options.githubUser,
+		githubRepository: options.githubRepository,
+		githubBranch: options.githubBranch,
+		forceWebAuthFlow: options.forceWebAuthFlow,
+		filenameReplacementCharacter: options.filenameReplacementCharacter,
+		compressHTML: options.compressHTML,
+		backgroundSave: options.backgroundSave,
+		bookmarkId: options.bookmarkId,
+		replaceBookmarkURL: options.replaceBookmarkURL,
+		includeInfobar: options.includeInfobar,
+		createRootDirectory: options.createRootDirectory,
+		selfExtractingArchive: options.selfExtractingArchive,
+		insertCanonicalLink: options.insertCanonicalLink,
+		insertMetaNoIndex: options.insertMetaNoIndex,
+		password: options.password,
+		pageData: pageData
+	};
+	const serializer = yabson.getSerializer(message);
+	for (const content of serializer) {
+		await browser.runtime.sendMessage({
 			method: "downloads.download",
-			taskId: options.taskId,
-			insertTextBody: options.insertTextBody,
-			confirmFilename: options.confirmFilename,
-			filenameConflictAction: options.filenameConflictAction,
-			filename: pageData.filename,
-			saveToGDrive: options.saveToGDrive,
-			saveToGitHub: options.saveToGitHub,
-			githubToken: options.githubToken,
-			githubUser: options.githubUser,
-			githubRepository: options.githubRepository,
-			githubBranch: options.githubBranch,
-			forceWebAuthFlow: options.forceWebAuthFlow,
-			filenameReplacementCharacter: options.filenameReplacementCharacter,
-			compressHTML: options.compressHTML,
-			backgroundSave: options.backgroundSave,
-			bookmarkId: options.bookmarkId,
-			replaceBookmarkURL: options.replaceBookmarkURL,
-			includeInfobar: options.includeInfobar,
-			createRootDirectory: options.createRootDirectory,
-			selfExtractingArchive: options.selfExtractingArchive,
-			insertCanonicalLink: options.insertCanonicalLink,
-			insertMetaNoIndex: options.insertMetaNoIndex,
-			password: options.password
-		};
-		message.truncated = content.length > MAX_CONTENT_SIZE;
-		if (message.truncated) {
-			message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.length;
-			message.content = content.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
-		} else {
-			message.content = content;
-		}
-		await browser.runtime.sendMessage(message);
+			content: Array.from(content)
+		});
 	}
 	if (options.backgroundSave) {
 		await browser.runtime.sendMessage({ method: "downloads.end", taskId: options.taskId });

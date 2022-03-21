@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, Response */
+/* global browser, singlefile, URL, yabson, Response */
 
 import * as config from "./config.js";
 import * as bookmarks from "./bookmarks.js";
@@ -32,7 +32,7 @@ import { GDrive } from "./../../lib/gdrive/gdrive.js";
 import { pushGitHub } from "./../../lib/github/github.js";
 import { download } from "./download-util.js";
 
-const partialContents = new Map();
+const parsers = new Map();
 const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 const GDRIVE_CLIENT_ID = "207618107333-h1220p1oasj3050kr5r416661adm091a.apps.googleusercontent.com";
 const GDRIVE_CLIENT_KEY = "VQJ8Gq8Vxx72QyxPyeLtWvUt";
@@ -85,22 +85,16 @@ async function onMessage(message, sender) {
 
 async function downloadTabPage(message, tab) {
 	const tabId = tab.id;
-	let contents;
-	if (message.truncated) {
-		contents = partialContents.get(tabId);
-		if (!contents) {
-			contents = [];
-			partialContents.set(tabId, contents);
-		}
-		contents.push(message.content);
-		if (message.finished) {
-			partialContents.delete(tabId);
-		}
-	} else if (message.content) {
-		contents = [message.content];
+	let parser = parsers.get(tabId);
+	if (!parser) {
+		parser = yabson.getParser();
+		parsers.set(tabId, parser);
 	}
-	if (!message.truncated || message.finished) {
+	let result = parser.next(new Uint8Array(message.content));
+	if (result.done) {
 		let skipped;
+		message = result.value;
+		parsers.delete(tabId);
 		if (message.backgroundSave && !message.saveToGDrive) {
 			const testSkip = await testSkipSave(message.filename, message);
 			message.filenameConflictAction = testSkip.filenameConflictAction;
@@ -109,7 +103,7 @@ async function downloadTabPage(message, tab) {
 		if (skipped) {
 			ui.onEnd(tabId);
 		} else {
-			const pageData = JSON.parse(singlefile.helper.flatten(contents).join(""));
+			const pageData = message.pageData;
 			const blob = await singlefile.processors.compression.process(pageData, {
 				insertTextBody: message.insertTextBody,
 				url: tab.url,
