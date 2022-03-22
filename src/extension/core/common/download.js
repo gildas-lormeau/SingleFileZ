@@ -23,6 +23,8 @@
 
 /* global browser, infobar, yabson */
 
+const MAX_CHUNK_SIZE = 4 * 1024 * 1024;
+
 export {
 	downloadPage
 };
@@ -60,7 +62,7 @@ async function downloadPage(pageData, options) {
 		password: options.password,
 		pageData: pageData
 	};
-	const serializer = yabson.getSerializer(message);
+	const serializer = yabson.getSerializer(message, { chunkSize: MAX_CHUNK_SIZE });
 	for (const content of serializer) {
 		await browser.runtime.sendMessage({
 			method: "downloads.download",
