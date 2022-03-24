@@ -129,8 +129,14 @@ function preProcessDoc(doc, win, options) {
 			flowElements.forEach(flowElement => element.appendChild(flowElement));
 		}
 	});
+	const invalidElements = new Map();
 	let elementsInfo;
 	if (win && doc.documentElement) {
+		doc.querySelectorAll("button button").forEach(element => {
+			const placeHolderElement = doc.createComment("");
+			invalidElements.set(element, placeHolderElement);
+			element.replaceWith(placeHolderElement);
+		});
 		elementsInfo = getElementsInfo(win, doc, doc.documentElement, options);
 		if (options.moveStylesInHead) {
 			doc.querySelectorAll("body style, body ~ style").forEach(element => {
@@ -164,7 +170,8 @@ function preProcessDoc(doc, win, options) {
 		shadowRoots: elementsInfo.shadowRoots,
 		imports: elementsInfo.imports,
 		referrer: doc.referrer,
-		markedElements: elementsInfo.markedElements
+		markedElements: elementsInfo.markedElements,
+		invalidElements
 	};
 }
 
@@ -369,7 +376,7 @@ function testHiddenElement(element, computedStyle) {
 	return Boolean(hidden);
 }
 
-function postProcessDoc(doc, markedElements) {
+function postProcessDoc(doc, markedElements, invalidElements) {
 	doc.querySelectorAll("[" + DISABLED_NOSCRIPT_ATTRIBUTE_NAME + "]").forEach(element => {
 		element.textContent = element.getAttribute(DISABLED_NOSCRIPT_ATTRIBUTE_NAME);
 		element.removeAttribute(DISABLED_NOSCRIPT_ATTRIBUTE_NAME);
@@ -407,6 +414,9 @@ function postProcessDoc(doc, markedElements) {
 		element.removeAttribute(ASYNC_SCRIPT_ATTRIBUTE_NAME);
 		element.removeAttribute(STYLE_ATTRIBUTE_NAME);
 	});
+	if (invalidElements) {
+		Array.from(invalidElements.entries()).forEach(([element, placeholderElement]) => placeholderElement.replaceWith(element));
+	}
 }
 
 function getStylesheetsData(doc) {
