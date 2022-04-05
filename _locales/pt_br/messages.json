@@ -63,6 +63,10 @@
 		"message": "Salvar todas abas",
 		"description": "Menu entry: 'Save all tabs'"
 	},
+	"menuBatchSaveUrls": {
+		"message": "Batch save URLs...",
+		"description": "Menu entry: 'Batch save URLs...'"
+	},
 	"menuAutoSave": {
 		"message": "Salvar autom.",
 		"description": "Menu entry: 'Auto-save'"
@@ -235,26 +239,26 @@
 		"message": "remover elementos escondidos",
 		"description": "Options page label: 'remove hidden elements'"
 	},
-    "optionsZipContentSubTitle": {
-        "message": "ZIP content",
-        "description": "Options page label: 'ZIP content'"
-    },
-    "optionCreateRootDirectory": {
-        "message": "create a root directory",
-        "description": "Options page label: 'create a root directory'"
-    },
-    "optionPassword": {
-        "message": "password",
-        "description": "Options page label: 'password'"
-    },
-    "optionSelfExtractingArchive": {
-        "message": "create self extracting archives",
-        "description": "Options page label: 'create self extracting archives'"
-    },
-    "optionInsertTextBody": {
-        "message": "make text searchable",
-        "description": "Options page label: 'make text searchable'"
-    },
+	"optionsZipContentSubTitle": {
+		"message": "ZIP content",
+		"description": "Options page label: 'ZIP content'"
+	},
+	"optionCreateRootDirectory": {
+		"message": "create a root directory",
+		"description": "Options page label: 'create a root directory'"
+	},
+	"optionPassword": {
+		"message": "password",
+		"description": "Options page label: 'password'"
+	},
+	"optionSelfExtractingArchive": {
+		"message": "create self extracting archives",
+		"description": "Options page label: 'create self extracting archives'"
+	},
+	"optionInsertTextBody": {
+		"message": "make text searchable",
+		"description": "Options page label: 'make text searchable'"
+	},
 	"optionsImagesSubTitle": {
 		"message": "Imagens",
 		"description": "Options sub-title: 'Images'"
@@ -646,5 +650,33 @@
 	"pendingsAddUrlsCancelButton": {
 		"message": "Cancelar",
 		"description": "Add URLs popup cancel button: 'Cancel'"
+	},
+	"batchSaveUrlsTitle": {
+		"message": "Batch save URLs",
+		"description": "Title of the 'batch save URLs' page"
+	},
+	"batchSaveUrlsNoURLs": {
+		"message": "No URLs",
+		"description": "Label displayed when they are no URLs"
+	},
+	"batchSaveUrlsAddUrlButton": {
+		"message": "Add URL",
+		"description": "label of the button 'Add URL'"
+	},
+	"batchSaveUrlsAddUrlsButton": {
+		"message": "Add URLs...",
+		"description": "label of the button 'Add URLs...'"
+	},
+	"batchSaveUrlsRemoveAllButton": {
+		"message": "Remove all",
+		"description": "label of the button 'Remove all'"
+	},
+	"batchSaveUrlsSavePagesButton": {
+		"message": "Save pages",
+		"description": "label of the button 'Save pages'"
+	},
+	"batchSaveUrlsURLTitle": {
+		"message": "URL",
+		"description": "Title of the column in the table of the URLs"
 	}
 }

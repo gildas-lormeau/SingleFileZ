@@ -63,6 +63,10 @@
         "message": "Salva tutte le schede",
         "description": "Menu entry: 'Save all tabs'"
     },
+    "menuBatchSaveUrls": {
+        "message": "Salvare in batch gli URL...",
+        "description": "Menu entry: 'Batch save URLs...'"
+    },
     "menuAutoSave": {
         "message": "Auto-salvataggio",
         "description": "Menu entry: 'Auto-save'"
@@ -180,17 +184,17 @@
         "description": "Options page label: 'template'"
     },
     "optionFilenameMaxLength": {
-		"message": "lunghezza massima",
-		"description": "Options page label: 'max length'"
-	},
-	"optionFilenameMaxLengthBytesUnit": {
-		"message": "bytes",
-		"description": "Options page label: 'bytes'"
-	},
-	"optionFilenameMaxLengthCharsUnit": {
-		"message": "caratteri",
-		"description": "Options page label: 'characters'"
-	},
+        "message": "lunghezza massima",
+        "description": "Options page label: 'max length'"
+    },
+    "optionFilenameMaxLengthBytesUnit": {
+        "message": "bytes",
+        "description": "Options page label: 'bytes'"
+    },
+    "optionFilenameMaxLengthCharsUnit": {
+        "message": "caratteri",
+        "description": "Options page label: 'characters'"
+    },
     "optionConfirmFilename": {
         "message": "Apri la finesta di dialogo \"Salva come\" per confermare il nome del file",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -642,5 +646,33 @@
     "pendingsAddUrlsCancelButton": {
         "message": "Annulla",
         "description": "Add URLs popup cancel button: 'Cancel'"
+    },
+    "batchSaveUrlsTitle": {
+        "message": "Batch save URLs",
+        "description": "Title of the 'batch save URLs' page"
+    },
+    "batchSaveUrlsNoURLs": {
+        "message": "No URLs",
+        "description": "Label displayed when they are no URLs"
+    },
+    "batchSaveUrlsAddUrlButton": {
+        "message": "Add URL",
+        "description": "label of the button 'Add URL'"
+    },
+    "batchSaveUrlsAddUrlsButton": {
+        "message": "Add URLs...",
+        "description": "label of the button 'Add URLs...'"
+    },
+    "batchSaveUrlsRemoveAllButton": {
+        "message": "Remove all",
+        "description": "label of the button 'Remove all'"
+    },
+    "batchSaveUrlsSavePagesButton": {
+        "message": "Save pages",
+        "description": "label of the button 'Save pages'"
+    },
+    "batchSaveUrlsURLTitle": {
+        "message": "URL",
+        "description": "Title of the column in the table of the URLs"
     }
 }

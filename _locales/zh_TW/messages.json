@@ -63,6 +63,10 @@
         "message": "保存所有標籤頁",
         "description": "Menu entry: 'Save all tabs'"
     },
+    "menuBatchSaveUrls": {
+        "message": "Batch save URLs...",
+        "description": "Menu entry: 'Batch save URLs...'"
+    },
     "menuAutoSave": {
         "message": "自動保存",
         "description": "Menu entry: 'Auto-save'"
@@ -180,17 +184,17 @@
         "description": "Options page label: 'template'"
     },
     "optionFilenameMaxLength": {
-		"message": "最大長度",
-		"description": "Options page label: 'max length'"
-	},
-	"optionFilenameMaxLengthBytesUnit": {
-		"message": "字節",
-		"description": "Options page label: 'bytes'"
-	},
-	"optionFilenameMaxLengthCharsUnit": {
-		"message": "字符",
-		"description": "Options page label: 'characters'"
-	},
+        "message": "最大長度",
+        "description": "Options page label: 'max length'"
+    },
+    "optionFilenameMaxLengthBytesUnit": {
+        "message": "字節",
+        "description": "Options page label: 'bytes'"
+    },
+    "optionFilenameMaxLengthCharsUnit": {
+        "message": "字符",
+        "description": "Options page label: 'characters'"
+    },
     "optionConfirmFilename": {
         "message": "打開 “另存為” 對話框以確認文件名",
         "description": "Options page label: 'open the \"Save as\" dialog to confirm the file name'"
@@ -642,5 +646,33 @@
     "pendingsAddUrlsCancelButton": {
         "message": "取消",
         "description": "Add URLs popup cancel button: 'Cancel'"
+    },
+    "batchSaveUrlsTitle": {
+        "message": "Batch save URLs",
+        "description": "Title of the 'batch save URLs' page"
+    },
+    "batchSaveUrlsNoURLs": {
+        "message": "No URLs",
+        "description": "Label displayed when they are no URLs"
+    },
+    "batchSaveUrlsAddUrlButton": {
+        "message": "Add URL",
+        "description": "label of the button 'Add URL'"
+    },
+    "batchSaveUrlsAddUrlsButton": {
+        "message": "Add URLs...",
+        "description": "label of the button 'Add URLs...'"
+    },
+    "batchSaveUrlsRemoveAllButton": {
+        "message": "Remove all",
+        "description": "label of the button 'Remove all'"
+    },
+    "batchSaveUrlsSavePagesButton": {
+        "message": "Save pages",
+        "description": "label of the button 'Save pages'"
+    },
+    "batchSaveUrlsURLTitle": {
+        "message": "URL",
+        "description": "Title of the column in the table of the URLs"
     }
 }
