@@ -1,13 +1,17 @@
 /* global TextEncoder, TextDecoder, BigInt64Array, BigUint64Array */
 
-const MAX_CHUNK_SIZE = 8 * 1024 * 1024;
+const DEFAULT_CHUNK_SIZE = 8 * 1024 * 1024;
+const TYPE_REFERENCE = 0;
+const SPECIAL_TYPES = [TYPE_REFERENCE];
+const EMPTY_SLOT_VALUE = Symbol();
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
 const types = new Array(256);
 let typeIndex = 0;
 
-registerType(serializeObject, parseObject, testObject);
+registerType(serializeCircularReference, parseCircularReference, testCircularReference, TYPE_REFERENCE);
+registerType(null, parseObject, testObject);
 registerType(serializeArray, parseArray, testArray);
 registerType(serializeString, parseString, testString);
 registerType(serializeTypedArray, parseBigUint64Array, testBigUint64Array);
@@ -33,18 +37,25 @@ registerType(null, parseUndefined, testUndefined);
 registerType(null, parseNull, testNull);
 registerType(null, parseNaN, testNaN);
 registerType(serializeBoolean, parseBoolean, testBoolean);
+registerType(serializeSymbol, parseSymbol, testSymbol);
+registerType(null, parseEmptySlot, testEmptySlot);
 registerType(serializeMap, parseMap, testMap);
 registerType(serializeSet, parseSet, testSet);
 registerType(serializeDate, parseDate, testDate);
 registerType(serializeError, parseError, testError);
 registerType(serializeRegExp, parseRegExp, testRegExp);
+registerType(serializeStringObject, parseStringObject, testStringObject);
+registerType(serializeNumberObject, parseNumberObject, testNumberObject);
+registerType(serializeBooleanObject, parseBooleanObject, testBooleanObject);
 
 export {
 	getSerializer,
 	getParser,
 	registerType,
+	clone,
+	serialize,
+	parse,
 	serializeValue,
-	serializeObject,
 	serializeArray,
 	serializeString,
 	serializeTypedArray,
@@ -62,6 +73,10 @@ export {
 	serializeDate,
 	serializeError,
 	serializeRegExp,
+	serializeStringObject,
+	serializeNumberObject,
+	serializeBooleanObject,
+	serializeSymbol,
 	parseValue,
 	parseObject,
 	parseArray,
@@ -94,6 +109,10 @@ export {
 	parseDate,
 	parseError,
 	parseRegExp,
+	parseStringObject,
+	parseNumberObject,
+	parseBooleanObject,
+	parseSymbol,
 	testObject,
 	testArray,
 	testString,
@@ -125,12 +144,71 @@ export {
 	testSet,
 	testDate,
 	testError,
-	testRegExp
+	testRegExp,
+	testStringObject,
+	testNumberObject,
+	testBooleanObject,
+	testSymbol
 };
 
-function registerType(serialize, parse, test) {
-	typeIndex++;
-	types[types.length - typeIndex] = { serialize, parse, test };
+function registerType(serialize, parse, test, type) {
+	if (type === undefined) {
+		typeIndex++;
+		if (types.length - typeIndex >= SPECIAL_TYPES.length) {
+			types[types.length - typeIndex] = { serialize, parse, test };
+		} else {
+			throw new Error("Reached maximum number of custom types");
+		}
+	} else {
+		types[type] = { serialize, parse, test };
+	}
+}
+
+function clone(object, options) {
+	const serializer = getSerializer(object, options);
+	const parser = getParser();
+	let result;
+	for (const chunk of serializer) {
+		result = parser.next(chunk);
+	}
+	return result.value;
+}
+
+function serialize(object, options) {
+	const serializer = getSerializer(object, options);
+	let result = new Uint8Array([]);
+	for (const chunk of serializer) {
+		const previousResult = result;
+		result = new Uint8Array(previousResult.length + chunk.length);
+		result.set(previousResult, 0);
+		result.set(chunk, previousResult.length);
+	}
+	return result;
+}
+
+function parse(array) {
+	const parser = getParser();
+	const result = parser.next(array);
+	return result.value;
+}
+
+class SerializerData {
+	constructor(chunkSize) {
+		this.stream = new WriteStream(chunkSize);
+		this.objects = [];
+	}
+
+	append(array) {
+		return this.stream.append(array);
+	}
+
+	flush() {
+		return this.stream.flush();
+	}
+
+	addObject(value) {
+		this.objects.push(testReferenceable(value) && !testCircularReference(value, this) ? value : undefined);
+	}
 }
 
 class WriteStream {
@@ -140,56 +218,76 @@ class WriteStream {
 	}
 
 	*append(array) {
-		if (this.pending) {
-			const pending = this.pending;
-			this.pending = null;
-			this.offset = 0;
-			this.value = new Uint8Array(this.value.length);
-			yield* this.append(pending);
-			yield* this.append(array);
-		} else if (this.offset + array.length > this.value.length) {
-			this.value.set(array.subarray(0, this.value.length - this.offset), this.offset);
-			this.pending = array.subarray(this.value.length - this.offset);
+		if (this.offset + array.length > this.value.length) {
+			const offset = this.value.length - this.offset;
+			yield* this.append(array.subarray(0, offset));
 			yield this.value;
+			this.offset = 0;
+			yield* this.append(array.subarray(offset));
 		} else {
 			this.value.set(array, this.offset);
 			this.offset += array.length;
 		}
 	}
+
+	*flush() {
+		if (this.offset) {
+			yield this.value.subarray(0, this.offset);
+		}
+	}
 }
 
-function* getSerializer(value, { chunkSize = MAX_CHUNK_SIZE } = {}) {
-	const data = new WriteStream(chunkSize);
+function* getSerializer(value, { chunkSize = DEFAULT_CHUNK_SIZE } = {}) {
+	const data = new SerializerData(chunkSize);
 	yield* serializeValue(data, value);
-	if (data.pending) {
-		yield* data.append(new Uint8Array([]));
-	}
-	if (data.offset) {
-		yield data.value.subarray(0, data.offset);
-	}
+	yield* data.flush();
 }
 
 function* serializeValue(data, value) {
-	const type = types.findIndex(({ test } = {}) => test && test(value));
+	const type = types.findIndex(({ test } = {}) => test && test(value, data));
+	data.addObject(value);
 	yield* data.append(new Uint8Array([type]));
 	const serialize = types[type].serialize;
 	if (serialize) {
 		yield* serialize(data, value);
 	}
+	if (type != TYPE_REFERENCE && testObject(value)) {
+		yield* serializeSymbols(data, value);
+		yield* serializeOwnProperties(data, value);
+	}
 }
 
-function* serializeObject(data, object) {
-	const entries = Object.entries(object);
-	yield* serializeValue(data, entries.length);
-	for (const [key, value] of entries) {
-		yield* serializeString(data, key);
-		yield* serializeValue(data, value);
+function* serializeSymbols(data, value) {
+	const ownPropertySymbols = Object.getOwnPropertySymbols(value);
+	const symbols = ownPropertySymbols.map(propertySymbol => [propertySymbol, value[propertySymbol]]);
+	yield* serializeArray(data, symbols);
+}
+
+function* serializeOwnProperties(data, value) {
+	let entries = Object.entries(value);
+	if (testArray(value)) {
+		entries = entries.filter(([key]) => !testInteger(Number(key)));
 	}
+	yield* serializeEntries(data, entries);
+}
+
+function* serializeCircularReference(data, value) {
+	const index = data.objects.indexOf(value);
+	yield* serializeValue(data, index);
 }
 
 function* serializeArray(data, array) {
 	yield* serializeValue(data, array.length);
-	for (const value of array) {
+	const notEmptyIndexes = Object.keys(array).filter(key => testInteger(Number(key))).map(key => Number(key));
+	for (const [indexArray, value] of array.entries()) {
+		yield* serializeValue(data, notEmptyIndexes.includes(indexArray) ? value : EMPTY_SLOT_VALUE);
+	}
+}
+
+function* serializeEntries(data, entries) {
+	yield* serializeValue(data, entries.length);
+	for (const [key, value] of entries) {
+		yield* serializeString(data, key);
 		yield* serializeValue(data, value);
 	}
 }
@@ -271,7 +369,6 @@ function* serializeDate(data, date) {
 }
 
 function* serializeError(data, error) {
-	yield* serializeString(data, error.name);
 	yield* serializeString(data, error.message);
 	yield* serializeString(data, error.stack);
 }
@@ -279,6 +376,68 @@ function* serializeError(data, error) {
 function* serializeRegExp(data, regExp) {
 	yield* serializeString(data, regExp.source);
 	yield* serializeString(data, regExp.flags);
+}
+
+function* serializeStringObject(data, string) {
+	yield* serializeString(data, string.valueOf());
+}
+
+function* serializeNumberObject(data, number) {
+	yield* serializeNumber(data, number.valueOf());
+}
+
+function* serializeBooleanObject(data, boolean) {
+	yield* serializeBoolean(data, boolean.valueOf());
+}
+
+function* serializeSymbol(data, symbol) {
+	yield* serializeString(data, symbol.description);
+}
+
+class Reference {
+	constructor(index, data) {
+		this.index = index;
+		this.data = data;
+	}
+
+	getObject() {
+		return this.data.objects[this.index];
+	}
+}
+
+class ParserData {
+	constructor() {
+		this.stream = new ReadStream();
+		this.objects = [];
+		this.setters = [];
+	}
+
+	consume(size) {
+		return this.stream.consume(size);
+	}
+
+	getObjectId() {
+		const objectIndex = this.objects.length;
+		this.objects.push(undefined);
+		return objectIndex;
+	}
+
+	resolveObject(objectId, value) {
+		if (testReferenceable(value) && !testReference(value)) {
+			this.objects[objectId] = value;
+		}
+	}
+
+	setObject(functionArguments, setterFunction) {
+		this.setters.push({ functionArguments, setterFunction });
+	}
+
+	executeSetters() {
+		this.setters.forEach(({ functionArguments, setterFunction }) => {
+			const resolvedArguments = functionArguments.map(argument => testReference(argument) ? argument.getObject() : argument);
+			setterFunction(...resolvedArguments);
+		});
+	}
 }
 
 class ReadStream {
@@ -291,7 +450,9 @@ class ReadStream {
 		if (this.offset + size > this.value.length) {
 			const pending = this.value.subarray(this.offset, this.value.length);
 			const value = yield;
-			this.value = new Uint8Array(pending.length + value.length);
+			if (pending.length + value.length != this.value.length) {
+				this.value = new Uint8Array(pending.length + value.length);
+			}
 			this.value.set(pending);
 			this.value.set(value, pending.length);
 			this.offset = 0;
@@ -311,35 +472,70 @@ function getParser() {
 }
 
 function* getParseGenerator() {
-	return yield* parseValue(new ReadStream());
+	const data = new ParserData();
+	const result = yield* parseValue(data);
+	data.executeSetters();
+	return result;
 }
 
 function* parseValue(data) {
 	const array = yield* data.consume(1);
 	const parserType = array[0];
 	const parse = types[parserType].parse;
+	const valueId = data.getObjectId();
 	const result = yield* parse(data);
+	if (parserType != TYPE_REFERENCE && testObject(result)) {
+		yield* parseSymbols(data, result);
+		yield* parseOwnProperties(data, result);
+	}
+	data.resolveObject(valueId, result);
 	return result;
 }
 
-function* parseObject(data) {
-	const size = yield* parseValue(data);
-	const object = {};
-	for (let indexKey = 0; indexKey < size; indexKey++) {
-		const key = yield* parseString(data);
-		const value = yield* parseValue(data);
-		object[key] = value;
-	}
-	return object;
+function* parseSymbols(data, value) {
+	const symbols = yield* parseArray(data);
+	data.setObject([symbols], symbols => symbols.forEach(([symbol, propertyValue]) => value[symbol] = propertyValue));
+}
+
+function* parseOwnProperties(data, value) {
+	yield* parseEntries(data, value);
+}
+
+function* parseCircularReference(data) {
+	const index = yield* parseValue(data);
+	const result = new Reference(index, data);
+	return result;
+}
+
+// eslint-disable-next-line require-yield
+function* parseObject() {
+	return {};
 }
 
 function* parseArray(data) {
 	const length = yield* parseValue(data);
 	const array = [];
 	for (let indexArray = 0; indexArray < length; indexArray++) {
-		array.push(yield* parseValue(data));
+		const value = yield* parseValue(data);
+		if (!testEmptySlot(value)) {
+			data.setObject([value], value => array[indexArray] = value);
+		}
 	}
 	return array;
+}
+
+function* parseEntries(data, object) {
+	const size = yield* parseValue(data);
+	for (let indexKey = 0; indexKey < size; indexKey++) {
+		const key = yield* parseString(data);
+		const value = yield* parseValue(data);
+		data.setObject([value], value => object[key] = value);
+	}
+}
+
+// eslint-disable-next-line require-yield
+function* parseEmptySlot() {
+	return EMPTY_SLOT_VALUE;
 }
 
 function* parseString(data) {
@@ -480,7 +676,7 @@ function* parseMap(data) {
 	for (let indexKey = 0; indexKey < size; indexKey++) {
 		const key = yield* parseValue(data);
 		const value = yield* parseValue(data);
-		map.set(key, value);
+		data.setObject([key, value], (key, value) => map.set(key, value));
 	}
 	return map;
 }
@@ -490,7 +686,7 @@ function* parseSet(data) {
 	const set = new Set();
 	for (let indexKey = 0; indexKey < size; indexKey++) {
 		const value = yield* parseValue(data);
-		set.add(value);
+		data.setObject([value], value => set.add(value));
 	}
 	return set;
 }
@@ -501,11 +697,9 @@ function* parseDate(data) {
 }
 
 function* parseError(data) {
-	const name = yield* parseString(data);
 	const message = yield* parseString(data);
 	const stack = yield* parseString(data);
 	const error = new Error(message);
-	error.name = name;
 	error.stack = stack;
 	return error;
 }
@@ -516,12 +710,41 @@ function* parseRegExp(data) {
 	return new RegExp(source, flags);
 }
 
+function* parseStringObject(data) {
+	return new String(yield* parseString(data));
+}
+
+function* parseNumberObject(data) {
+	return new Number(yield* parseNumber(data));
+}
+
+function* parseBooleanObject(data) {
+	return new Boolean(yield* parseBoolean(data));
+}
+
+function* parseSymbol(data) {
+	const description = yield* parseString(data);
+	return Symbol(description);
+}
+
+function testCircularReference(value, data) {
+	return testObject(value) && data.objects.includes(value);
+}
+
+function testReference(value) {
+	return value instanceof Reference;
+}
+
 function testObject(value) {
 	return value === Object(value);
 }
 
 function testArray(value) {
 	return typeof value.length == "number";
+}
+
+function testEmptySlot(value) {
+	return value === EMPTY_SLOT_VALUE;
 }
 
 function testString(value) {
@@ -575,6 +798,7 @@ function testInt8Array(value) {
 function testNumber(value) {
 	return typeof value == "number";
 }
+
 function testBigInt(value) {
 	return typeof value == "bigint";
 }
@@ -604,7 +828,7 @@ function testInt8(value) {
 }
 
 function testInteger(value) {
-	return testNumber(value) && value == Number.parseInt(value, 10);
+	return testNumber(value) && Number.isInteger(value);
 }
 
 function testUndefined(value) {
@@ -641,4 +865,24 @@ function testError(value) {
 
 function testRegExp(value) {
 	return value instanceof RegExp;
+}
+
+function testStringObject(value) {
+	return value instanceof String;
+}
+
+function testNumberObject(value) {
+	return value instanceof Number;
+}
+
+function testBooleanObject(value) {
+	return value instanceof Boolean;
+}
+
+function testSymbol(value) {
+	return typeof value == "symbol";
+}
+
+function testReferenceable(value) {
+	return testObject(value) || testSymbol(value);
 }
