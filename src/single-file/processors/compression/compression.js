@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global globalThis, zip, Blob, document, fetch, XMLHttpRequest, TextEncoder, DOMParser, FileReader, stop, setTimeout, clearTimeout, CustomEvent, URL, prompt, alert */
+/* global globalThis, zip, Blob, document, fetch, XMLHttpRequest, TextEncoder, DOMParser, stop, setTimeout, clearTimeout */
 
 import {
 	configure,
@@ -30,6 +30,12 @@ import {
 	TextReader,
 	ZipWriter
 } from "./../../vendor/zip/zip.js";
+import {
+	extract
+} from "./compression-extract.js";
+import {
+	display
+} from "./compression-display.js";
 
 const NO_COMPRESSION_EXTENSIONS = [".jpg", ".jpeg", ".png", ".pdf", ".woff2", ".mp4", ".mp3", ".ogg", ".webp", ".webm"];
 const SCRIPT_PATH = "src/single-file/vendor/zip/zip.min.js";
@@ -49,7 +55,10 @@ async function process(pageData, options) {
 		configure({ useWebWorkers: false });
 		script = options.getFileContent(SCRIPT_PATH);
 	}
-	script += "(" + bootstrapCode.toString().replace(/\n|\t/g, "") + ")()";
+	script += "globalThis.bootstrap = (() => { let bootstrapStarted; return content => { if (bootstrapStarted) return; bootstrapStarted = true; (" +
+		extract.toString().replace(/\n|\t/g, "") + ")(content, { prompt }).then(docContent => " +
+		display.toString().replace(/\n|\t/g, "") + "(document, docContent))}})();(" +
+		getContent.toString().replace(/\n|\t/g, "") + ")().then(globalThis.bootstrap).catch(() => {});";
 	const blobWriter = new BlobWriter("application/octet-stream");
 	await blobWriter.init();
 	if (options.selfExtractingArchive) {
@@ -135,34 +144,7 @@ async function addFile(zipWriter, prefixName, data) {
 	await zipWriter.add(prefixName + data.name, dataReader, options);
 }
 
-function bootstrapCode() {
-	const KNOWN_MIMETYPES = {
-		"gif": "image/gif",
-		"jpg": "image/jpeg",
-		"png": "image/png",
-		"tif": "image/tiff",
-		"tiff": "image/tiff",
-		"bmp": "image/bmp",
-		"ico": "image/vnd.microsoft.icon",
-		"webp": "image/webp",
-		"svg": "image/svg+xml",
-		"avi": "video/x-msvideo",
-		"ogv": "video/ogg",
-		"mp4": "video/mp4",
-		"mpeg": "video/mpeg",
-		"ts": "video/mp2t",
-		"webm": "video/webm",
-		"3gp": "video/3gpp",
-		"3g2": "video/3gpp",
-		"mp3": "audio/mpeg",
-		"oga": "audio/ogg",
-		"mid": "audio/midi",
-		"midi": "audio/midi",
-		"opus": "audio/opus",
-		"wav": "audio/wav",
-		"weba": "audio/webm"
-	};
-	let bootstrapStarted;
+async function getContent() {
 	zip.configure({ useWebWorkers: false });
 	const xhr = new XMLHttpRequest();
 	let displayTimeout;
@@ -173,139 +155,32 @@ function bootstrapCode() {
 	});
 	xhr.responseType = "blob";
 	xhr.open("GET", "");
-	xhr.onerror = () => displayTimeout = displayMessage("sfz-error-message");
-	xhr.send();
-	xhr.onload = async () => bootstrap(xhr.response);
-	globalThis.bootstrap = bootstrap;
-
-	async function bootstrap(content) {
-		if (bootstrapStarted) {
-			return;
-		}
-		bootstrapStarted = true;
-		stop();
-		if (displayTimeout) {
-			clearTimeout(displayTimeout);
-		}
-		displayTimeout = displayMessage("sfz-wait-message");
-		if (Array.isArray(content)) {
-			content = new Blob([new Uint8Array(content)]);
-		}
-		const blobReader = new zip.BlobReader(content);
-		let resources = [];
-		try {
-			const zipReader = new zip.ZipReader(blobReader);
-			const entries = await zipReader.getEntries();
-			let options;
-			await Promise.all(entries.map(async entry => {
-				let dataWriter, content, textContent;
-				if (!options && entry.bitFlag.encrypted) {
-					options = { password: prompt("Please enter the password to view the page") };
-				}
-				if (entry.filename.match(/index\.html$/) || entry.filename.match(/stylesheet_[0-9]+\.css/) || entry.filename.match(/scripts\/[0-9]+\.js/)) {
-					dataWriter = new zip.TextWriter();
-					textContent = await entry.getData(dataWriter, options);
-				} else {
-					const extension = entry.filename.match(/\.([^.]+)/);
-					let mimeType;
-					if (extension && extension[1] && KNOWN_MIMETYPES[extension[1]]) {
-						mimeType = KNOWN_MIMETYPES[extension[1]];
-					} else {
-						mimeType = "application/octet-stream";
-					}
-					if (entry.filename.match(/frames\//)) {
-						content = await entry.getData(new zip.Data64URIWriter(mimeType), options);
-					} else {
-						content = URL.createObjectURL(await entry.getData(new zip.BlobWriter(mimeType), options));
-					}
-				}
-				resources.push({ filename: entry.filename, content, textContent });
-			}));
-			await zipReader.close();
-		} catch (error) {
-			alert("Error: " + error.message || error);
-			const waitMessage = document.getElementById("sfz-wait-message");
-			if (waitMessage) {
-				waitMessage.remove();
+	return new Promise((resolve, reject) => {
+		xhr.onerror = () => {
+			displayTimeout = displayMessage("sfz-error-message");
+			reject();
+		};
+		xhr.send();
+		xhr.onload = () => {
+			displayTimeout = displayMessage("sfz-wait-message");
+			stop();
+			if (displayTimeout) {
+				clearTimeout(displayTimeout);
 			}
-		}
-		let docContent;
-		resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
-		const REGEXP_ESCAPE = /([{}()^$&.*?/+|[\\\\]|\]|-)/g;
-		for (const resource of resources) {
-			if (resource.textContent !== undefined) {
-				let prefixPath = "";
-				const prefixPathMatch = resource.filename.match(/(.*\/)[^/]+$/);
-				if (prefixPathMatch && prefixPathMatch[1]) {
-					prefixPath = prefixPathMatch[1];
-				}
-				const isScript = resource.filename.match(/scripts\/[0-9]+\.js/);
-				if (!isScript) {
-					resources.forEach(innerResource => {
-						if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
-							const filename = innerResource.filename.substring(prefixPath.length);
-							resource.textContent = resource.textContent.replace(new RegExp(filename.replace(REGEXP_ESCAPE, "\\$1"), "g"), innerResource.content);
-						}
-					});
-				}
-				let mimeType;
-				if (resource.filename.match(/stylesheet_[0-9]+\.css/)) {
-					mimeType = "text/css";
-				} else if (isScript) {
-					mimeType = "text/javascript";
-				} else if (resource.filename.match(/index\.html$/)) {
-					mimeType = "text/html";
-				}
-				if (resource.filename.match(/^([0-9_]+\/)?index.html$/)) {
-					docContent = resource.textContent;
-				} else {
-					const reader = new FileReader();
-					reader.readAsDataURL(new Blob([resource.textContent], { type: mimeType + ";charset=utf-8" }));
-					resource.content = await new Promise((resolve, reject) => {
-						reader.addEventListener("load", () => resolve(reader.result), false);
-						reader.addEventListener("error", reject, false);
-					});
-				}
-			}
-		}
-		const DISABLED_NOSCRIPT_ATTRIBUTE_NAME = "data-single-filez-disabled-noscript";
-		const doc = (new DOMParser()).parseFromString(docContent, "text/html");
-		doc.querySelectorAll("noscript:not([" + DISABLED_NOSCRIPT_ATTRIBUTE_NAME + "])").forEach(element => {
-			element.setAttribute(DISABLED_NOSCRIPT_ATTRIBUTE_NAME, element.innerHTML);
-			element.textContent = "";
-		});
-		clearTimeout(displayTimeout);
-		document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
-		document.querySelectorAll("link[rel*=icon]").forEach(element => element.parentElement.replaceChild(element, element));
-		document.open = document.write = document.close = () => { };
-		for (let element of Array.from(document.querySelectorAll("script"))) {
-			await new Promise((resolve, reject) => {
-				const scriptElement = document.createElement("script");
-				Array.from(element.attributes).forEach(attribute => scriptElement.setAttribute(attribute.name, attribute.value));
-				const async = element.getAttribute("async") == "" || element.getAttribute("async") == "async";
-				if (element.textContent) {
-					scriptElement.textContent = element.textContent;
-				} else if (!async) {
-					scriptElement.addEventListener("load", resolve);
-					scriptElement.addEventListener("error", reject);
-				}
-				element.parentElement.replaceChild(scriptElement, element);
-				if (element.textContent || async) {
-					resolve();
-				}
-			});
-		}
-		document.dispatchEvent(new CustomEvent("single-filez-display-infobar"));
-	}
+			resolve(xhr.response);
+		};
+	});
 
 	function displayMessage(elementId) {
 		return setTimeout(() => {
-			Array.from(document.body.childNodes).forEach(node => {
-				if (node.id != elementId) {
-					node.remove();
-				}
-			});
-			document.body.hidden = false;
+			if (document.getElementById(elementId)) {
+				Array.from(document.body.childNodes).forEach(node => {
+					if (node.id != elementId) {
+						node.remove();
+					}
+				});
+				document.body.hidden = false;
+			}
 		}, 1500);
 	}
 }
