@@ -55,10 +55,10 @@ async function process(pageData, options) {
 		configure({ useWebWorkers: false });
 		script = options.getFileContent(SCRIPT_PATH);
 	}
-	script += "globalThis.bootstrap = (() => { let bootstrapStarted; return content => { if (bootstrapStarted) return; bootstrapStarted = true; (" +
-		extract.toString().replace(/\n|\t/g, "") + ")(content, { prompt }).then(docContent => " +
-		display.toString().replace(/\n|\t/g, "") + "(document, docContent))}})();(" +
-		getContent.toString().replace(/\n|\t/g, "") + ")().then(globalThis.bootstrap).catch(() => {});";
+	script += "globalThis.bootstrap=(()=>{let bootstrapStarted;return content=>{if (bootstrapStarted) return;bootstrapStarted = true;(" +
+		extract.toString().replace(/\n|\t/g, "") + ")(content,{prompt}).then(docContent => " +
+		display.toString().replace(/\n|\t/g, "") + "(document,docContent))}})();(" +
+		getContent.toString().replace(/\n|\t/g, "") + ")().then(globalThis.bootstrap).catch(()=>{});";
 	const blobWriter = new BlobWriter("application/octet-stream");
 	await blobWriter.init();
 	if (options.selfExtractingArchive) {
