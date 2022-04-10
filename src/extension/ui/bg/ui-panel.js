@@ -28,8 +28,8 @@ const pendingsTab = document.getElementById("tab-pendings");
 const batchSaveUrlsTab = document.getElementById("tab-batch-save-urls");
 const viewPanel = document.getElementById("view-panel");
 
-optionsTab.textContent = browser.i18n.getMessage("optionsTitle");
-pendingsTab.textContent = browser.i18n.getMessage("pendingsTitle");
+optionsTab.textContent = optionsTab.title = browser.i18n.getMessage("optionsTitle");
+pendingsTab.textContent = pendingsTab.title = browser.i18n.getMessage("pendingsTitle");
 batchSaveUrlsTab.textContent = batchSaveUrlsTab.title = browser.i18n.getMessage("batchSaveUrlsTitle");
 
 optionsTab.onclick = () => {
