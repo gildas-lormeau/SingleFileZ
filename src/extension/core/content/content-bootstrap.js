@@ -113,7 +113,7 @@ async function extractFile() {
 
 function executeBootstrap(data) {
 	const scriptElement = document.createElement("script");
-	scriptElement.textContent = "this.bootstrap([" + (new Uint8Array(data)).toString() + "])";
+	scriptElement.textContent = "this.bootstrap([" + (new Uint8Array(data)).toString() + "]).then(() => document.dispatchEvent(new CustomEvent(\"single-filez-display-infobar\")))";
 	document.body.appendChild(scriptElement);
 }
 

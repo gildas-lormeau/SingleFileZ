@@ -57,6 +57,7 @@ async function extract(content, { prompt = () => { } } = {}) {
 	if (Array.isArray(content)) {
 		content = new Blob([new Uint8Array(content)]);
 	}
+	zip.configure({ useWebWorkers: false });
 	const blobReader = new zip.BlobReader(content);
 	let resources = [];
 	const zipReader = new zip.ZipReader(blobReader);

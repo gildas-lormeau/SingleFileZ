@@ -55,9 +55,9 @@ async function process(pageData, options) {
 		configure({ useWebWorkers: false });
 		script = options.getFileContent(SCRIPT_PATH);
 	}
-	script += "globalThis.bootstrap=(()=>{let bootstrapStarted;return content=>{if (bootstrapStarted) return;bootstrapStarted = true;(" +
+	script += "globalThis.bootstrap=(()=>{let bootstrapStarted;return async content=>{if (bootstrapStarted) return bootstrapStarted;bootstrapStarted = (" +
 		extract.toString().replace(/\n|\t/g, "") + ")(content,{prompt}).then(docContent => " +
-		display.toString().replace(/\n|\t/g, "") + "(document,docContent))}})();(" +
+		display.toString().replace(/\n|\t/g, "") + "(document,docContent));return bootstrapStarted;}})();(" +
 		getContent.toString().replace(/\n|\t/g, "") + ")().then(globalThis.bootstrap).catch(()=>{});";
 	const blobWriter = new BlobWriter("application/octet-stream");
 	await blobWriter.init();
@@ -145,7 +145,6 @@ async function addFile(zipWriter, prefixName, data) {
 }
 
 async function getContent() {
-	zip.configure({ useWebWorkers: false });
 	const xhr = new XMLHttpRequest();
 	let displayTimeout;
 	Array.from(document.documentElement.childNodes).forEach(node => {
