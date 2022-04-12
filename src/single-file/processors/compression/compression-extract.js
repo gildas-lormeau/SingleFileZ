@@ -27,7 +27,7 @@ export {
 	extract
 };
 
-async function extract(content, { prompt = () => { } } = {}) {
+async function extract(content, { prompt = () => { }, shadowRootScriptURL } = {}) {
 	const KNOWN_MIMETYPES = {
 		"gif": "image/gif",
 		"jpg": "image/jpeg",
@@ -114,6 +114,9 @@ async function extract(content, { prompt = () => { } } = {}) {
 				mimeType = "text/javascript";
 			} else if (resource.filename.match(/index\.html$/)) {
 				mimeType = "text/html";
+				if (shadowRootScriptURL) {
+					resource.textContent = resource.textContent.replace(/<script data-template-shadow-root.*<\/script>/g, "<script data-template-shadow-root src=" + shadowRootScriptURL + "></" + "script>");
+				}
 			}
 			if (resource.filename.match(/^([0-9_]+\/)?index.html$/)) {
 				docContent = resource.textContent;
