@@ -27,13 +27,29 @@ export {
 	display
 };
 
-async function display(document, docContent) {
+async function display(document, docContent, { disableFramePointerEvents } = {}) {
 	const DISABLED_NOSCRIPT_ATTRIBUTE_NAME = "data-single-filez-disabled-noscript";
 	const doc = (new DOMParser()).parseFromString(docContent, "text/html");
 	doc.querySelectorAll("noscript:not([" + DISABLED_NOSCRIPT_ATTRIBUTE_NAME + "])").forEach(element => {
 		element.setAttribute(DISABLED_NOSCRIPT_ATTRIBUTE_NAME, element.innerHTML);
 		element.textContent = "";
 	});
+	if (doc.doctype) {
+		if (document.doctype) {
+			document.replaceChild(doc.doctype, document.doctype);
+		} else {
+			document.insertBefore(doc.doctype, document.documentElement);
+		}
+	} else {
+		document.doctype.remove();
+	}
+	if (disableFramePointerEvents) {
+		doc.querySelectorAll("iframe").forEach(element => {
+			const pointerEvents = "pointer-events";
+			element.style.setProperty("-sf-" + pointerEvents, element.style.getPropertyValue(pointerEvents), element.style.getPropertyPriority(pointerEvents));
+			element.style.setProperty(pointerEvents, "none", "important");
+		});
+	}
 	document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
 	document.documentElement.setAttribute("data-sfz", "");
 	document.querySelectorAll("link[rel*=icon]").forEach(element => element.parentElement.replaceChild(element, element));
