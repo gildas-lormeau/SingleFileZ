@@ -122,7 +122,7 @@ function getContent() {
 
 function executeBootstrap(data) {
 	const scriptElement = document.createElement("script");
-	scriptElement.textContent = "const bootstrapReady = this.bootstrap([" + (new Uint8Array(data)).toString() + "]); if (bootstrapReady) { bootstrapReady.then(() => document.dispatchEvent(new CustomEvent(\"single-filez-display-infobar\"))); }";
+	scriptElement.textContent = "(() => { const bootstrapReady = this.bootstrap([" + (new Uint8Array(data)).toString() + "]); if (bootstrapReady) { bootstrapReady.then(() => document.dispatchEvent(new CustomEvent(\"single-filez-display-infobar\"))); } })()";
 	document.body.appendChild(scriptElement);
 }
 
