@@ -84,7 +84,7 @@ function getContent() {
 		xhr.open("GET", location.href);
 		xhr.send();
 		xhr.responseType = "arraybuffer";
-		xhr.onload = () => executeBootstrap(xhr.response);
+		xhr.onload = () => resolve(new Uint8Array(xhr.response));
 		xhr.onerror = () => {
 			let pendingResponseArray = [];
 			browser.runtime.onMessage.addListener(message => {
