@@ -80,7 +80,16 @@
 	"web_accessible_resources": [
 		"lib/web/hooks/hooks-web.js",
 		"lib/web/hooks/hooks-frames-web.js",
-		"lib/web/infobar-web.js"
+		"lib/web/infobar-web.js",
+		"lib/web/editor/editor-init-web.js",
+		"lib/web/editor/editor-web.js",
+		"lib/web/editor/editor-helper-web.js",
+		"src/extension/lib/readability/Readability.js",
+		"src/extension/lib/readability/Readability-readerable.js",
+		"src/single-file/vendor/zip/zip.min.js",
+		"src/extension/ui/pages/editor-note-web.css",
+		"src/extension/ui/pages/editor-mask-web.css",
+		"src/extension/ui/pages/editor-frame-web.css"
 	],
 	"oauth2": {
 		"client_id": "7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot.apps.googleusercontent.com",

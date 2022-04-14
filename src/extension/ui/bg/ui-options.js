@@ -107,6 +107,12 @@ const showAllProfilesLabel = document.getElementById("showAllProfilesLabel");
 const showAutoSaveProfileLabel = document.getElementById("showAutoSaveProfileLabel");
 const confirmInfobarLabel = document.getElementById("confirmInfobarLabel");
 const autoCloseLabel = document.getElementById("autoCloseLabel");
+const editorLabel = document.getElementById("editorLabel");
+const openEditorLabel = document.getElementById("openEditorLabel");
+const autoOpenEditorLabel = document.getElementById("autoOpenEditorLabel");
+const defaultEditorModeLabel = document.getElementById("defaultEditorModeLabel");
+const applySystemThemeLabel = document.getElementById("applySystemThemeLabel");
+const warnUnsavedPageLabel = document.getElementById("warnUnsavedPageLabel");
 const infobarTemplateLabel = document.getElementById("infobarTemplateLabel");
 const blockMixedContentLabel = document.getElementById("blockMixedContentLabel");
 const saveOriginalURLsLabel = document.getElementById("saveOriginalURLsLabel");
@@ -161,9 +167,9 @@ const backgroundSaveInput = document.getElementById("backgroundSaveInput");
 const autoSaveDelayInput = document.getElementById("autoSaveDelayInput");
 const autoSaveLoadInput = document.getElementById("autoSaveLoadInput");
 const autoSaveUnloadInput = document.getElementById("autoSaveUnloadInput");
-const autoSaveLoadOrUnloadInput = document.getElementById("autoSaveLoadOrUnloadInput");
 const autoSaveDiscardInput = document.getElementById("autoSaveDiscardInput");
 const autoSaveRemoveInput = document.getElementById("autoSaveRemoveInput");
+const autoSaveLoadOrUnloadInput = document.getElementById("autoSaveLoadOrUnloadInput");
 const autoSaveRepeatInput = document.getElementById("autoSaveRepeatInput");
 const autoSaveRepeatDelayInput = document.getElementById("autoSaveRepeatDelayInput");
 const removeAlternativeFontsInput = document.getElementById("removeAlternativeFontsInput");
@@ -183,6 +189,16 @@ const saveOriginalURLsInput = document.getElementById("saveOriginalURLsInput");
 const includeInfobarInput = document.getElementById("includeInfobarInput");
 const confirmInfobarInput = document.getElementById("confirmInfobarInput");
 const autoCloseInput = document.getElementById("autoCloseInput");
+const openEditorInput = document.getElementById("openEditorInput");
+const autoOpenEditorInput = document.getElementById("autoOpenEditorInput");
+const defaultEditorModeInput = document.getElementById("defaultEditorModeInput");
+const defaultEditorModeNormalLabel = document.getElementById("defaultEditorModeNormalLabel");
+const defaultEditorModeEditLabel = document.getElementById("defaultEditorModeEditLabel");
+const defaultEditorModeFormatLabel = document.getElementById("defaultEditorModeFormatLabel");
+const defaultEditorModeCutLabel = document.getElementById("defaultEditorModeCutLabel");
+const defaultEditorModeCutExternalLabel = document.getElementById("defaultEditorModeCutExternalLabel");
+const applySystemThemeInput = document.getElementById("applySystemThemeInput");
+const warnUnsavedPageInput = document.getElementById("warnUnsavedPageInput");
 const expandAllButton = document.getElementById("expandAllButton");
 const rulesDeleteAllButton = document.getElementById("rulesDeleteAllButton");
 const ruleUrlInput = document.getElementById("ruleUrlInput");
@@ -434,6 +450,9 @@ document.body.onchange = async event => {
 			if (target == contextMenuEnabledInput) {
 				await browser.runtime.sendMessage({ method: "ui.refreshMenu" });
 			}
+			if (target == openEditorInput) {
+				await browser.runtime.sendMessage({ method: "ui.refreshMenu" });
+			}
 			await refresh();
 		}
 	}
@@ -521,6 +540,17 @@ saveOriginalURLsLabel.textContent = browser.i18n.getMessage("optionSaveOriginalU
 includeInfobarLabel.textContent = browser.i18n.getMessage("optionIncludeInfobar");
 confirmInfobarLabel.textContent = browser.i18n.getMessage("optionConfirmInfobar");
 autoCloseLabel.textContent = browser.i18n.getMessage("optionAutoClose");
+editorLabel.textContent = browser.i18n.getMessage("optionsEditorSubTitle");
+openEditorLabel.textContent = browser.i18n.getMessage("optionOpenEditor");
+autoOpenEditorLabel.textContent = browser.i18n.getMessage("optionAutoOpenEditor");
+defaultEditorModeLabel.textContent = browser.i18n.getMessage("optionDefaultEditorMode");
+defaultEditorModeNormalLabel.textContent = browser.i18n.getMessage("optionDefaultEditorModeNormal");
+defaultEditorModeEditLabel.textContent = browser.i18n.getMessage("optionDefaultEditorModeEdit");
+defaultEditorModeFormatLabel.textContent = browser.i18n.getMessage("optionDefaultEditorModeFormat");
+defaultEditorModeCutLabel.textContent = browser.i18n.getMessage("optionDefaultEditorModeCut");
+defaultEditorModeCutExternalLabel.textContent = browser.i18n.getMessage("optionDefaultEditorModeCutExternal");
+applySystemThemeLabel.textContent = browser.i18n.getMessage("optionApplySystemTheme");
+warnUnsavedPageLabel.textContent = browser.i18n.getMessage("optionWarnUnsavedPage");
 resetButton.textContent = browser.i18n.getMessage("optionsResetButton");
 exportButton.textContent = browser.i18n.getMessage("optionsExportButton");
 importButton.textContent = browser.i18n.getMessage("optionsImportButton");
@@ -553,7 +583,9 @@ browser.runtime.sendMessage({ method: "tabsData.get" }).then(allTabsData => {
 getHelpContents();
 
 async function refresh(profileName) {
-	const [profiles, rules] = await Promise.all([browser.runtime.sendMessage({ method: "config.getProfiles" }), browser.runtime.sendMessage({ method: "config.getRules" })]);
+	const [profiles, rules] = await Promise.all([
+		browser.runtime.sendMessage({ method: "config.getProfiles" }),
+		browser.runtime.sendMessage({ method: "config.getRules" })]);
 	const selectedProfileName = profileName || profileNamesInput.value || DEFAULT_PROFILE_NAME;
 	Array.from(profileNamesInput.childNodes).forEach(node => node.remove());
 	profileNamesInput.options.length = 0;
@@ -649,7 +681,6 @@ async function refresh(profileName) {
 	removeScriptsInput.checked = profileOptions.removeScripts;
 	saveRawPageInput.checked = profileOptions.saveRawPage;
 	insertMetaCSPInput.checked = profileOptions.insertMetaCSP;
-	compressHTMLInput.checked = profileOptions.compressHTML;
 	insertTextBodyInput.checked = profileOptions.insertTextBody;
 	saveToGDriveInput.checked = profileOptions.saveToGDrive;
 	saveToGitHubInput.checked = profileOptions.saveToGitHub;
@@ -662,6 +693,7 @@ async function refresh(profileName) {
 	githubBranchInput.value = profileOptions.githubBranch;
 	githubBranchInput.disabled = !profileOptions.saveToGitHub;
 	saveToFilesystemInput.checked = !profileOptions.saveToGDrive && !profileOptions.saveToGitHub;
+	compressHTMLInput.checked = profileOptions.compressHTML;
 	compressCSSInput.checked = profileOptions.compressCSS;
 	moveStylesInHeadInput.checked = profileOptions.moveStylesInHead;
 	loadDeferredImagesInput.checked = profileOptions.loadDeferredImages;
@@ -715,6 +747,11 @@ async function refresh(profileName) {
 	includeInfobarInput.checked = profileOptions.includeInfobar;
 	confirmInfobarInput.checked = profileOptions.confirmInfobarContent;
 	autoCloseInput.checked = profileOptions.autoClose;
+	openEditorInput.checked = profileOptions.openEditor;
+	autoOpenEditorInput.checked = profileOptions.autoOpenEditor;
+	defaultEditorModeInput.value = profileOptions.defaultEditorMode;
+	applySystemThemeInput.checked = profileOptions.applySystemTheme;
+	warnUnsavedPageInput.checked = profileOptions.warnUnsavedPage;
 }
 
 function getProfileText(profileName) {
@@ -769,9 +806,9 @@ async function update() {
 			autoSaveDelay: Math.max(autoSaveDelayInput.value, 0),
 			autoSaveLoad: autoSaveLoadInput.checked,
 			autoSaveUnload: autoSaveUnloadInput.checked,
-			autoSaveLoadOrUnload: autoSaveLoadOrUnloadInput.checked,
 			autoSaveDiscard: autoSaveDiscardInput.checked,
 			autoSaveRemove: autoSaveRemoveInput.checked,
+			autoSaveLoadOrUnload: autoSaveLoadOrUnloadInput.checked,
 			autoSaveRepeat: autoSaveRepeatInput.checked,
 			autoSaveRepeatDelay: Math.max(autoSaveRepeatDelayInput.value, 1),
 			removeAlternativeFonts: removeAlternativeFontsInput.checked,
@@ -790,7 +827,12 @@ async function update() {
 			saveOriginalURLs: saveOriginalURLsInput.checked,
 			includeInfobar: includeInfobarInput.checked,
 			confirmInfobarContent: confirmInfobarInput.checked,
-			autoClose: autoCloseInput.checked
+			autoClose: autoCloseInput.checked,
+			openEditor: openEditorInput.checked,
+			autoOpenEditor: autoOpenEditorInput.checked,
+			defaultEditorMode: defaultEditorModeInput.value,
+			applySystemTheme: applySystemThemeInput.checked,
+			warnUnsavedPage: warnUnsavedPageInput.checked
 		}
 	});
 	try {

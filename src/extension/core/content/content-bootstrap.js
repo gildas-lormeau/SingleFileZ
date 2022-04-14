@@ -37,21 +37,30 @@ browser.runtime.sendMessage({ method: "bootstrap.init" }).then(message => {
 	tabId = message.tabId;
 	tabIndex = message.tabIndex;
 	autoSaveEnabled = message.autoSaveEnabled;
-	if (document.readyState == "loading") {
-		return new Promise(resolve => document.addEventListener("DOMContentLoaded", () => resolve()));
+	if (options && options.autoOpenEditor && detectSavedPage(document)) {
+		if (document.readyState == "loading") {
+			document.addEventListener("DOMContentLoaded", () => openEditor());
+		} else {
+			openEditor();
+		}
+	} else {
+		if (document.readyState == "loading") {
+			document.addEventListener("DOMContentLoaded", refresh);
+		} else {
+			refresh();
+		}
 	}
-}).then(() => {
-	refresh();
 });
 browser.runtime.onMessage.addListener(message => {
 	if ((autoSaveEnabled && message.method == "content.autosave") ||
 		message.method == "content.maybeInit" ||
 		message.method == "content.init" ||
+		message.method == "content.openEditor" ||
 		message.method == "devtools.resourceCommitted") {
 		return onMessage(message);
 	}
 });
-init();
+document.addEventListener("DOMContentLoaded", init, false);
 if (globalThis.window == globalThis.top && location && location.href && (location.href.startsWith("file://") || location.href.startsWith("content://"))) {
 	if (document.readyState == "loading") {
 		document.addEventListener("DOMContentLoaded", extractFile, false);
@@ -141,6 +150,14 @@ async function onMessage(message) {
 		refresh();
 		return {};
 	}
+	if (message.method == "content.openEditor") {
+		if (detectSavedPage(document)) {
+			openEditor();
+		} else {
+			refresh();
+		}
+		return {};
+	}
 	if (message.method == "devtools.resourceCommitted") {
 		singlefile.pageInfo.updatedResources[message.url] = { content: message.content, type: message.type, encoding: message.encoding };
 		return {};
@@ -151,7 +168,7 @@ function init() {
 	if (previousLocationHref != location.href && !singlefile.pageInfo.processing) {
 		pageAutoSaved = false;
 		previousLocationHref = location.href;
-		browser.runtime.sendMessage({ method: "tabs.init" }).catch(() => { });
+		browser.runtime.sendMessage({ method: "tabs.init", savedPageDetected: detectSavedPage(document) }).catch(() => { });
 		browser.runtime.sendMessage({ method: "ui.processInit" }).catch(() => { });
 	}
 }
@@ -275,4 +292,26 @@ function savePage(docData, frames, { autoSaveUnload, autoSaveDiscard, autoSaveRe
 		autoSaveDiscard,
 		autoSaveRemove
 	});
+}
+
+async function openEditor() {
+	const content = await getContent();
+	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
+		const message = {
+			method: "editor.open",
+			filename: decodeURIComponent(location.href.match(/^.*\/(.*)$/)[1])
+		};
+		message.truncated = content.length > MAX_CONTENT_SIZE;
+		if (message.truncated) {
+			message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.length;
+			message.content = content.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
+		} else {
+			message.content = content;
+		}
+		await browser.runtime.sendMessage(message);
+	}
+}
+
+function detectSavedPage(document) {
+	return document.documentElement.dataset.sfz == "";
 }

@@ -15,13 +15,21 @@
 		"message": "Сохранить страницу с помощью SingleFileZ",
 		"description": "Menu entry: 'Save page with SingleFileZ'"
 	},
-	"menuSaveWithProfile": {
-		"message": "Сохранить с профилем",
-		"description": "Menu entry: 'Save with profile'"
-	},
 	"menuSaveSelectedLinks": {
 		"message": "Сохранить выбранные ссылки",
 		"description": "Menu entry: 'Save selected links'"
+	},
+	"menuEditPage": {
+		"message": "Аннотировать страницу...",
+		"description": "Menu entry: 'Annotate the page...'"
+	},
+	"menuEditAndSavePage": {
+		"message": "Аннотировать и сохранить страницу...",
+		"description": "Menu entry: 'Annotate and save the page...'"
+	},
+	"menuSaveWithProfile": {
+		"message": "Сохранить с профилем",
+		"description": "Menu entry: 'Save with profile'"
 	},
 	"menuViewPendingSaves": {
 		"message": "Просмотр отложенных сохранений...",
@@ -220,15 +228,15 @@
 		"description": "Value for 'filename conflict resolution' option: 'skip duplicate files'"
 	},
 	"optionsHTMLContentSubTitle": {
-		"message": "содержимое HTML",
+		"message": "Содержимое HTML",
 		"description": "Options sub-title: 'HTML content'"
 	},
 	"optionCompressHTML": {
-		"message": "сжать HTML-контент",
+		"message": "сжать содержимое HTML",
 		"description": "Options page label: 'compress HTML content'"
 	},
 	"optionRemoveImports": {
-		"message": "удалить HTML-импорт",
+		"message": "удалить импорт HTML",
 		"description": "Options page label: 'remove HTML imports'"
 	},
 	"optionRemoveFrames": {
@@ -372,7 +380,7 @@
 		"description": "Options label in the Auto-settings rules: 'display all profiles'"
 	},
 	"optionsAutoSettingsShowAutoSaveProfile": {
-		"message": "отобразить столбец \"Профиль автосохранения\"",
+		"message": "показывать столбец \"Профиль автосохранения\"",
 		"description": "Options label in the Auto-settings rules: 'display 'Auto-save profile' column'"
 	},
 	"optionsUpdateRuleTooltip": {
@@ -416,7 +424,7 @@
 		"description": "Options page label: 'auto-save on tab removal'"
 	},
 	"optionAutoSaveDelay": {
-		"message": "задержка автосохранения после загрузки страницы (с)",
+		"message": "задержка автосохранения после загрузки страницы (сек.)",
 		"description": "Options page label: 'auto-save waiting delay after page load (s)'"
 	},
 	"optionAutoSaveRepeat": {
@@ -424,8 +432,52 @@
 		"description": "Options page label: 'auto-save periodically'"
 	},
 	"optionAutoSaveRepeatDelay": {
-		"message": "период (с)",
+		"message": "период (сек.)",
 		"description": "Options page label: 'period (s)'"
+	},
+	"optionsEditorSubTitle": {
+		"message": "Редактор аннотаций",
+		"description": "Options sub-title: 'Annotation editor'"
+	},
+	"optionOpenEditor": {
+		"message": "аннотировать страницу перед сохранением",
+		"description": "Options page label: 'annotate the page before saving'"
+	},
+	"optionAutoOpenEditor": {
+		"message": "сохранять открытые страницы из редактора аннотаций SingleFileZ",
+		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"
+	},
+	"optionDefaultEditorMode": {
+		"message": "режим по умолчанию",
+		"description": "Options page label: 'default mode'"
+	},
+	"optionDefaultEditorModeNormal": {
+		"message": "обычный",
+		"description": "Options page label: 'default mode > normal'"
+	},
+	"optionDefaultEditorModeEdit": {
+		"message": "редактировать страницу",
+		"description": "Options page label: 'default mode > edit the page'"
+	},
+	"optionDefaultEditorModeFormat": {
+		"message": "форматировать страницу",
+		"description": "Options page label: 'default mode > format the page'"
+	},
+	"optionDefaultEditorModeCut": {
+		"message": "удалить элементы",
+		"description": "Options page label: 'default mode > remove elements'"
+	},
+	"optionDefaultEditorModeCutExternal": {
+		"message": "удалить внешние элементы",
+		"description": "Options page label: 'default mode > remove external elements'"
+	},
+	"optionApplySystemTheme": {
+		"message": "использовать системную тему при форматировании страницы",
+		"description": "Title of the button 'apply the system theme when formatting a page'"
+	},
+	"optionWarnUnsavedPage": {
+		"message": "предупреждать при закрытии страницы с несохранёнными изменениями",
+		"description": "Title of the button 'warn if leaving page with unsaved changes'"
 	},
 	"optionsMiscSubTitle": {
 		"message": "Разное",
@@ -460,7 +512,7 @@
 		"description": "Options page label: 'set content security policy'"
 	},
 	"optionSaveToFilesystem": {
-		"message": "save to filesystem",
+		"message": "сохранить как файл",
 		"description": "Options page label: 'save to filesystem'"
 	},
 	"optionSaveToGDrive": {
@@ -493,7 +545,7 @@
 	},
 	"optionReplaceBookmarkURL": {
 		"message": "связать новую закладку с сохранённой страницей",
-		"description": "Options page label: 'связать новую закладку с сохранённой страницей'"
+		"description": "Options page label: 'link the new bookmark to the saved page'"
 	},
 	"optionAllowedBookmarkFolders": {
 		"message": "разрешённые папки",
@@ -552,7 +604,7 @@
 		"description": "Label 'Deferred images' in the log panel"
 	},
 	"logPanelFrameContents": {
-		"message": "Контент фреймов",
+		"message": "Содержимое фреймов",
 		"description": "Label 'Frame contents' in the log panel"
 	},
 	"logPanelStep": {
@@ -595,6 +647,86 @@
 		"message": "Введите новое имя для выбранного профиля",
 		"description": "Popup text 'Enter a new name for the selected profile' in the options page"
 	},
+	"editorAddYellowNote": {
+		"message": "Добавить жёлтую заметку",
+		"description": "Title of the button 'Add a yellow note' in the editor"
+	},
+	"editorAddPinkNote": {
+		"message": "Добавить розовую заметку",
+		"description": "Title of the button 'Add a pink note' in the editor"
+	},
+	"editorAddBlueNote": {
+		"message": "Добавить синюю заметку",
+		"description": "Title of the button 'Add a blue note' in the editor"
+	},
+	"editorAddGreenNote": {
+		"message": "Добавить зелёную заметку",
+		"description": "Title of the button 'Add a green note' in the editor"
+	},
+	"editorHighlightYellow": {
+		"message": "Выделить выбранный текст жёлтым цветом",
+		"description": "Title of the button 'Highlight selected text in yellow' in the editor"
+	},
+	"editorHighlightPink": {
+		"message": "Выделить выбранный текст розовым цветом",
+		"description": "Title of the button 'Highlight selected text in pink' in the editor"
+	},
+	"editorHighlightBlue": {
+		"message": "Выделить выбранный текст синим цветом",
+		"description": "Title of the button 'Highlight selected text in blue' in the editor"
+	},
+	"editorHighlightGreen": {
+		"message": "Выделить выбранный текст зелёным цветом",
+		"description": "Title of the button 'Highlight selected text in green' in the editor"
+	},
+	"editorToggleNotes": {
+		"message": "Показать/скрыть заметки",
+		"description": "Title of the button 'Display/hide notes' in the editor"
+	},
+	"editorToggleHighlights": {
+		"message": "Показать/скрыть выделение текста",
+		"description": "Title of the button 'Display/hide the highlighted text' in the editor"
+	},
+	"editorRemoveHighlight": {
+		"message": "Удалить выделение выбранного текста",
+		"description": "Title of the button 'Remove the selected highlighted text' in the editor"
+	},
+	"editorEditPage": {
+		"message": "Включить/отключить режим \"только для чтения\"",
+		"description": "Title of the button 'Enable/disable read-only' in the editor"
+	},
+	"editorFormatPage": {
+		"message": "Форматировать страницу для лучшей читаемости",
+		"description": "Title of the button 'Format the page for better readability' in the editor"
+	},
+	"editorCutInnerPage": {
+		"message": "Включить/отключить удаление внутренних элементов",
+		"description": "Title of the button 'Enable/disable removing of internal elements' in the editor"
+	},
+	"editorCutOuterPage": {
+		"message": "Включить/отключить удаление внешних элементов",
+		"description": "Title of the button 'Enable/disable removing of external elements' in the editor"
+	},
+	"editorUndoCutPage": {
+		"message": "Восстановить последний удалённый элемент",
+		"description": "Title of the button 'Restore last removed element' in the editor"
+	},
+	"editorUndoAllCutPage": {
+		"message": "Восстановить все удалённые элементы",
+		"description": "Title of the button 'Restore all removed elements' in the editor"
+	},
+	"editorRedoCutPage": {
+		"message": "Удалить последний восстановленный элемент",
+		"description": "Title of the button 'Remove last restored element' in the editor"
+	},
+	"editorSavePage": {
+		"message": "Сохранить страницу",
+		"description": "Title of the button 'Save the page' in the editor"
+	},
+	"editorPrintPage": {
+		"message": "Печать страницы",
+		"description": "Title of the button 'Print the page' in the editor"
+	},
 	"pendingsTitle": {
 		"message": "Отложенное сохранение",
 		"description": "Title of the pending save page 'Pending saves' in the editor"
@@ -603,13 +735,13 @@
 		"message": "Отменить все",
 		"description": "Pending saves button 'Cancel all'"
 	},
-	"pendingsTitleTitle": {
-		"message": "Заголовок",
-		"description": "Title of the first column in the table of the pending saves 'Title'"
-	},
 	"pendingsURLTitle": {
 		"message": "URL",
 		"description": "Title of the first column in the table of the pending saves 'URL'"
+	},
+	"pendingsTitleTitle": {
+		"message": "Заголовок",
+		"description": "Title of the first column in the table of the pending saves 'Title'"
 	},
 	"pendingsStatusTitle": {
 		"message": "статус",

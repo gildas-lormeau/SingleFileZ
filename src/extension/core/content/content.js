@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, document, globalThis, setTimeout, URL, Blob, MouseEvent */
+/* global browser, document, globalThis, location, setTimeout, URL, Blob, MouseEvent */
 
 import * as download from "./../common/download.js";
 import { fetch, frameFetch } from "./../../lib/single-file/fetch/content/content-fetch.js";
@@ -31,6 +31,7 @@ import { onError } from "./../../ui/common/content-error.js";
 const singlefile = globalThis.singlefile;
 const bootstrap = globalThis.singlefileBootstrap;
 
+const MOZ_EXTENSION_PROTOCOL = "moz-extension:";
 
 let processor, processing, pageContents = [];
 
@@ -42,46 +43,48 @@ browser.runtime.onMessage.addListener(message => {
 });
 
 async function onMessage(message) {
-	if (message.method == "content.save") {
-		await savePage(message);
-		return {};
-	}
-	if (message.method == "content.cancelSave") {
-		if (processor) {
-			processor.cancel();
-			ui.onEndPage();
-			browser.runtime.sendMessage({ method: "ui.processCancelled" });
+	if (!location.href.startsWith(MOZ_EXTENSION_PROTOCOL)) {
+		if (message.method == "content.save") {
+			await savePage(message);
+			return {};
 		}
-		if (message.options.loadDeferredImages) {
-			singlefile.processors.lazy.resetZoomLevel(message.options);
+		if (message.method == "content.cancelSave") {
+			if (processor) {
+				processor.cancel();
+				ui.onEndPage();
+				browser.runtime.sendMessage({ method: "ui.processCancelled" });
+			}
+			if (message.options.loadDeferredImages) {
+				singlefile.processors.lazy.resetZoomLevel(message.options);
+			}
+			return {};
 		}
-		return {};
-	}
-	if (message.method == "content.getSelectedLinks") {
-		return {
-			urls: ui.getSelectedLinks()
-		};
-	}
-	if (message.method == "content.download") {
-		message.content = new Uint8Array(message.content);
-		if (message.truncated) {
-			pageContents.push(message.content);
-		} else {
-			pageContents = [message.content];
+		if (message.method == "content.getSelectedLinks") {
+			return {
+				urls: ui.getSelectedLinks()
+			};
 		}
-		if (!message.truncated || message.finished) {
-			const link = document.createElement("a");
-			link.download = message.filename;
-			link.href = URL.createObjectURL(new Blob(pageContents), "text/html");
-			pageContents = [];
-			link.dispatchEvent(new MouseEvent("click"));
-			URL.revokeObjectURL(link.href);
+		if (message.method == "content.download") {
+			message.content = new Uint8Array(message.content);
+			if (message.truncated) {
+				pageContents.push(message.content);
+			} else {
+				pageContents = [message.content];
+			}
+			if (!message.truncated || message.finished) {
+				const link = document.createElement("a");
+				link.download = message.filename;
+				link.href = URL.createObjectURL(new Blob(pageContents), "text/html");
+				pageContents = [];
+				link.dispatchEvent(new MouseEvent("click"));
+				URL.revokeObjectURL(link.href);
+			}
+			await browser.runtime.sendMessage({ method: "downloads.end", taskId: message.taskId });
+			return {};
 		}
-		await browser.runtime.sendMessage({ method: "downloads.end", taskId: message.taskId });
-		return {};
-	}
-	if (message.method == "content.error") {
-		onError(message.error);
+		if (message.method == "content.error") {
+			onError(message.error);
+		}
 	}
 }
 

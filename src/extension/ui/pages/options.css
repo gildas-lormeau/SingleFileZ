@@ -559,7 +559,8 @@ html.maximized {
         flex-direction: column;
     }
 
-    .profiles, .maximized .profiles {
+    .profiles,
+    .maximized .profiles {
         position: static;
         margin-top: 8px;
         margin-left: 16px;

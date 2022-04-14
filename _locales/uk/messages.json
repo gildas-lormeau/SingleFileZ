@@ -15,13 +15,21 @@
 		"message": "Зберегти сторінку з допомогою SingleFileZ",
 		"description": "Menu entry: 'Save page with SingleFileZ'"
 	},
-	"menuSaveWithProfile": {
-		"message": "Save page with profile",
-		"description": "Menu entry: 'Save with profile'"
-	},
 	"menuSaveSelectedLinks": {
 		"message": "Save selected links",
 		"description": "Menu entry: 'Save selected links'"
+	},
+	"menuEditPage": {
+		"message": "Annotate the page...",
+		"description": "Menu entry: 'Annotate the page...'"
+	},
+	"menuEditAndSavePage": {
+		"message": "Анотувати і зберегти сторінку...",
+		"description": "Menu entry: 'Annotate and save the page...'"
+	},
+	"menuSaveWithProfile": {
+		"message": "Save page with profile",
+		"description": "Menu entry: 'Save with profile'"
 	},
 	"menuViewPendingSaves": {
 		"message": "View pending saves...",
@@ -427,6 +435,50 @@
 		"message": "період (с.)",
 		"description": "Options page label: 'period (s)'"
 	},
+	"optionsEditorSubTitle": {
+		"message": "Annotation editor",
+		"description": "Options sub-title: 'Annotation editor'"
+	},
+	"optionOpenEditor": {
+		"message": "анотувати сторінки перед збереженням",
+		"description": "Options page label: 'annotate the page before saving'"
+	},
+	"optionAutoOpenEditor": {
+		"message": "open pages saved with SingleFileZ in the annotation editor",
+		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"
+	},
+	"optionDefaultEditorMode": {
+		"message": "default mode",
+		"description": "Options page label: 'default mode'"
+	},
+	"optionDefaultEditorModeNormal": {
+		"message": "normal",
+		"description": "Options page label: 'default mode > normal'"
+	},
+	"optionDefaultEditorModeEdit": {
+		"message": "edit the page",
+		"description": "Options page label: 'default mode > edit the page'"
+	},
+	"optionDefaultEditorModeFormat": {
+		"message": "format the page",
+		"description": "Options page label: 'default mode > format the page'"
+	},
+	"optionDefaultEditorModeCut": {
+		"message": "remove elements",
+		"description": "Options page label: 'default mode > remove elements'"
+	},
+	"optionDefaultEditorModeCutExternal": {
+		"message": "remove external elements",
+		"description": "Options page label: 'default mode > remove external elements'"
+	},
+	"optionApplySystemTheme": {
+		"message": "apply the system theme when formatting a page",
+		"description": "Title of the button 'apply the system theme when formatting a page'"
+	},
+	"optionWarnUnsavedPage": {
+		"message": "warn if leaving page with unsaved changes",
+		"description": "Title of the button 'warn if leaving page with unsaved changes'"
+	},
 	"optionsMiscSubTitle": {
 		"message": "Різне",
 		"description": "Options sub-title: 'Misc.'"
@@ -595,6 +647,86 @@
 		"message": "Введіть нове ім'я для обраного профілю",
 		"description": "Popup text 'Enter a new name for the selected profile' in the options page"
 	},
+	"editorAddYellowNote": {
+		"message": "Додати жовту примітку",
+		"description": "Title of the button 'Add a yellow note' in the editor"
+	},
+	"editorAddPinkNote": {
+		"message": "Додати рожеву примітку",
+		"description": "Title of the button 'Add a pink note' in the editor"
+	},
+	"editorAddBlueNote": {
+		"message": "Додати синю примітку",
+		"description": "Title of the button 'Add a blue note' in the editor"
+	},
+	"editorAddGreenNote": {
+		"message": "Додати зелену примітку",
+		"description": "Title of the button 'Add a green note' in the editor"
+	},
+	"editorHighlightYellow": {
+		"message": "Позначити виділений текст жовтим кольором",
+		"description": "Title of the button 'Highlight selected text in yellow' in the editor"
+	},
+	"editorHighlightPink": {
+		"message": "Позначити виділений текст рожевим кольором",
+		"description": "Title of the button 'Highlight selected text in pink' in the editor"
+	},
+	"editorHighlightBlue": {
+		"message": "Позначити виділений текст синім кольором",
+		"description": "Title of the button 'Highlight selected text in blue' in the editor"
+	},
+	"editorHighlightGreen": {
+		"message": "Позначити виділений текст зеленим кольором",
+		"description": "Title of the button 'Highlight selected text in green' in the editor"
+	},
+	"editorToggleNotes": {
+		"message": "Показати/приховати примітки",
+		"description": "Title of the button 'Display/hide notes' in the editor"
+	},
+	"editorToggleHighlights": {
+		"message": "Показати/приховати текст",
+		"description": "Title of the button 'Display/hide the highlighted text' in the editor"
+	},
+	"editorRemoveHighlight": {
+		"message": "Видалити виділений текст",
+		"description": "Title of the button 'Remove the selected highlighted text' in the editor"
+	},
+	"editorEditPage": {
+		"message": "Ввімкнути/вимкнути режим 'тільки для читання'",
+		"description": "Title of the button 'Enable/disable read-only' in the editor"
+	},
+	"editorFormatPage": {
+		"message": "Format the page for better readability",
+		"description": "Title of the button 'Format the page for better readability' in the editor"
+	},
+	"editorCutInnerPage": {
+		"message": "Enable/disable removing of internal elements",
+		"description": "Title of the button 'Enable/disable removing of internal elements' in the editor"
+	},
+	"editorCutOuterPage": {
+		"message": "Enable/disable removing of external elements",
+		"description": "Title of the button 'Enable/disable removing of external elements' in the editor"
+	},
+	"editorUndoCutPage": {
+		"message": "Restore last removed element",
+		"description": "Title of the button 'Restore last removed element' in the editor"
+	},
+	"editorUndoAllCutPage": {
+		"message": "Restore all removed elements",
+		"description": "Title of the button 'Restore all removed elements' in the editor"
+	},
+	"editorRedoCutPage": {
+		"message": "Remove last restored element",
+		"description": "Title of the button 'Remove last restored element' in the editor"
+	},
+	"editorSavePage": {
+		"message": "Зберегти сторінку",
+		"description": "Title of the button 'Save the page' in the editor"
+	},
+	"editorPrintPage": {
+		"message": "Print the page",
+		"description": "Title of the button 'Print the page' in the editor"
+	},
 	"pendingsTitle": {
 		"message": "Pending saves",
 		"description": "Title of the pending save page 'Pending saves' in the editor"
@@ -603,13 +735,13 @@
 		"message": "Cancel all",
 		"description": "Pending saves button 'Cancel all'"
 	},
-	"pendingsTitleTitle": {
-		"message": "Title",
-		"description": "Title of the first column in the table of the pending saves 'Title'"
-	},
 	"pendingsURLTitle": {
 		"message": "URL",
 		"description": "Title of the first column in the table of the pending saves 'URL'"
+	},
+	"pendingsTitleTitle": {
+		"message": "Title",
+		"description": "Title of the first column in the table of the pending saves 'Title'"
 	},
 	"pendingsStatusTitle": {
 		"message": "status",

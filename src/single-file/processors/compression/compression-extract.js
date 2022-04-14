@@ -85,10 +85,10 @@ async function extract(content, { prompt = () => { }, shadowRootScriptURL } = {}
 				content = URL.createObjectURL(await entry.getData(new zip.BlobWriter(mimeType), options));
 			}
 		}
-		resources.push({ filename: entry.filename, content, textContent });
+		resources.push({ filename: entry.filename, url: entry.comment, content, textContent, parentResources: [] });
 	}));
 	await zipReader.close();
-	let docContent;
+	let docContent, url;
 	resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
 	const REGEXP_ESCAPE = /([{}()^$&.*?/+|[\\\\]|\]|-)/g;
 	for (const resource of resources) {
@@ -103,7 +103,12 @@ async function extract(content, { prompt = () => { }, shadowRootScriptURL } = {}
 				resources.forEach(innerResource => {
 					if (innerResource.filename.startsWith(prefixPath) && innerResource.filename != resource.filename) {
 						const filename = innerResource.filename.substring(prefixPath.length);
-						resource.textContent = resource.textContent.replace(new RegExp(filename.replace(REGEXP_ESCAPE, "\\$1"), "g"), innerResource.content);
+						const searchRegExp = new RegExp(filename.replace(REGEXP_ESCAPE, "\\$1"), "g");
+						const position = resource.textContent.search(searchRegExp);
+						if (position != -1) {
+							innerResource.parentResources.push(resource.filename);
+							resource.textContent = resource.textContent.replace(searchRegExp, innerResource.content);
+						}
 					}
 				});
 			}
@@ -120,15 +125,20 @@ async function extract(content, { prompt = () => { }, shadowRootScriptURL } = {}
 			}
 			if (resource.filename.match(/^([0-9_]+\/)?index.html$/)) {
 				docContent = resource.textContent;
+				url = resource.url;
 			} else {
 				const reader = new FileReader();
-				reader.readAsDataURL(new Blob([resource.textContent], { type: mimeType + ";charset=utf-8" }));
-				resource.content = await new Promise((resolve, reject) => {
-					reader.addEventListener("load", () => resolve(reader.result), false);
-					reader.addEventListener("error", reject, false);
-				});
+				if (resource.textContent) {
+					reader.readAsDataURL(new Blob([resource.textContent], { type: mimeType + ";charset=utf-8" }));
+					resource.content = await new Promise((resolve, reject) => {
+						reader.addEventListener("load", () => resolve(reader.result), false);
+						reader.addEventListener("error", reject, false);
+					});
+				} else {
+					resource.content = "data:text/plain,";
+				}
 			}
 		}
 	}
-	return docContent;
+	return { docContent, resources, url };
 }

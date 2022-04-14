@@ -33,6 +33,7 @@ export {
 	onForbiddenDomain,
 	onStart,
 	onError,
+	onEdit,
 	onEnd,
 	onCancelled,
 	onUploadProgress,
@@ -73,6 +74,10 @@ async function onError(tabId, message) {
 	if (message) {
 		await browser.tabs.sendMessage(tabId, { method: "content.error", error: message.toString() });
 	}
+}
+
+function onEdit(tabId) {
+	button.onEdit(tabId);
 }
 
 function onEnd(tabId, autoSave) {

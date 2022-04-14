@@ -15,10 +15,6 @@
 		"message": "Salvar site via SingleFileZ",
 		"description": "Menu entry: 'Save page with SingleFileZ'"
 	},
-	"menuSaveWithProfile": {
-		"message": "Salvar site com perfil",
-		"description": "Menu entry: 'Save with profile'"
-	},
 	"menuSaveSelectedLinks": {
 		"message": "Salvar links selecionados",
 		"description": "Menu entry: 'Save selected links'"
@@ -30,6 +26,10 @@
 	"menuEditAndSavePage": {
 		"message": "Anotar e salvar o site...",
 		"description": "Menu entry: 'Annotate and save the page...'"
+	},
+	"menuSaveWithProfile": {
+		"message": "Salvar site com perfil",
+		"description": "Menu entry: 'Save with profile'"
 	},
 	"menuViewPendingSaves": {
 		"message": "Ver conteúdo pendente...",
@@ -435,6 +435,50 @@
 		"message": "intervalo (s.)",
 		"description": "Options page label: 'period (s)'"
 	},
+	"optionsEditorSubTitle": {
+		"message": "Editor de anotações",
+		"description": "Options sub-title: 'Annotation editor'"
+	},
+	"optionOpenEditor": {
+		"message": "anotar o site antes de salvar",
+		"description": "Options page label: 'annotate the page before saving'"
+	},
+	"optionAutoOpenEditor": {
+		"message": "abrir sites salvos via SingleFileZ em editor de anotações",
+		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"
+	},
+	"optionDefaultEditorMode": {
+		"message": "modo padrão",
+		"description": "Options page label: 'default mode'"
+	},
+	"optionDefaultEditorModeNormal": {
+		"message": "normal",
+		"description": "Options page label: 'default mode > normal'"
+	},
+	"optionDefaultEditorModeEdit": {
+		"message": "editar o site",
+		"description": "Options page label: 'default mode > edit the page'"
+	},
+	"optionDefaultEditorModeFormat": {
+		"message": "formatar o site",
+		"description": "Options page label: 'default mode > format the page'"
+	},
+	"optionDefaultEditorModeCut": {
+		"message": "remover elementos",
+		"description": "Options page label: 'default mode > remove elements'"
+	},
+	"optionDefaultEditorModeCutExternal": {
+		"message": "remover elementos externos",
+		"description": "Options page label: 'default mode > remove external elements'"
+	},
+	"optionApplySystemTheme": {
+		"message": "aplicar tema do sistema ao formatar um site",
+		"description": "Title of the button 'apply the system theme when formatting a page'"
+	},
+	"optionWarnUnsavedPage": {
+		"message": "dar aviso ao sair do site sem previamente salvar as mudanças ",
+		"description": "Title of the button 'warn if leaving page with unsaved changes'"
+	},
 	"optionsMiscSubTitle": {
 		"message": "Diversos",
 		"description": "Options sub-title: 'Misc.'"
@@ -494,10 +538,6 @@
 	"optionGitHubBranch": {
 		"message": "nome de branch",
 		"description": "Options page label: 'branch name'"
-	},
-	"optionSaveWithCompanion": {
-		"message": "salvar via SingleFileZ Companion",
-		"description": "Options page label: 'save with SingleFileZ Companion'"
 	},
 	"optionSaveCreatedBookmarks": {
 		"message": "salvar site de um favorito recém-criado",
@@ -606,6 +646,86 @@
 	"profileRenamePrompt": {
 		"message": "Digite um novo nome para o perfil selecionado",
 		"description": "Popup text 'Enter a new name for the selected profile' in the options page"
+	},
+	"editorAddYellowNote": {
+		"message": "Adicionar anotação amarela",
+		"description": "Title of the button 'Add a yellow note' in the editor"
+	},
+	"editorAddPinkNote": {
+		"message": "Adicionar anotação rosa",
+		"description": "Title of the button 'Add a pink note' in the editor"
+	},
+	"editorAddBlueNote": {
+		"message": "Adicionar anotação azul",
+		"description": "Title of the button 'Add a blue note' in the editor"
+	},
+	"editorAddGreenNote": {
+		"message": "Adicionar anotação verde",
+		"description": "Title of the button 'Add a green note' in the editor"
+	},
+	"editorHighlightYellow": {
+		"message": "Destacar texto selecionado em amarelo",
+		"description": "Title of the button 'Highlight selected text in yellow' in the editor"
+	},
+	"editorHighlightPink": {
+		"message": "Destacar texto selecionado em cor-de-rosa",
+		"description": "Title of the button 'Highlight selected text in pink' in the editor"
+	},
+	"editorHighlightBlue": {
+		"message": "Destacar texto selecionado em azul",
+		"description": "Title of the button 'Highlight selected text in blue' in the editor"
+	},
+	"editorHighlightGreen": {
+		"message": "Destacar texto selecionado em verde",
+		"description": "Title of the button 'Highlight selected text in green' in the editor"
+	},
+	"editorToggleNotes": {
+		"message": "Mostrar/esconder anotações",
+		"description": "Title of the button 'Display/hide notes' in the editor"
+	},
+	"editorToggleHighlights": {
+		"message": "Mostrar/esconder texto destacado",
+		"description": "Title of the button 'Display/hide the highlighted text' in the editor"
+	},
+	"editorRemoveHighlight": {
+		"message": "Remover o texto destacado selecionado",
+		"description": "Title of the button 'Remove the selected highlighted text' in the editor"
+	},
+	"editorEditPage": {
+		"message": "Ativar/desativar modo somente leitura",
+		"description": "Title of the button 'Enable/disable read-only' in the editor"
+	},
+	"editorFormatPage": {
+		"message": "Formatar o site para melhor legibilidade",
+		"description": "Title of the button 'Format the page for better readability' in the editor"
+	},
+	"editorCutInnerPage": {
+		"message": "Ativar/desativar a remoção de elementos internos",
+		"description": "Title of the button 'Enable/disable removing of internal elements' in the editor"
+	},
+	"editorCutOuterPage": {
+		"message": "Ativar/desativar a remoção de elementos externos",
+		"description": "Title of the button 'Enable/disable removing of external elements' in the editor"
+	},
+	"editorUndoCutPage": {
+		"message": "Restaurar o último elemento removido",
+		"description": "Title of the button 'Restore last removed element' in the editor"
+	},
+	"editorUndoAllCutPage": {
+		"message": "Restaurar todos os elementos removidos",
+		"description": "Title of the button 'Restore all removed elements' in the editor"
+	},
+	"editorRedoCutPage": {
+		"message": "Remover o último elemento restaurado",
+		"description": "Title of the button 'Remove last restored element' in the editor"
+	},
+	"editorSavePage": {
+		"message": "Salvar o site",
+		"description": "Title of the button 'Save the page' in the editor"
+	},
+	"editorPrintPage": {
+		"message": "Imprimir o site",
+		"description": "Title of the button 'Print the page' in the editor"
 	},
 	"pendingsTitle": {
 		"message": "Conteúdo para ser salvo",

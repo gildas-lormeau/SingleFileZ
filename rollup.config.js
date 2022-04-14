@@ -91,6 +91,28 @@ export default [{
 		plugins: [terser()]
 	}]
 }, {
+	input: ["src/extension/ui/content/content-ui-editor-init-web.js"],
+	output: [{
+		file: "lib/web/editor/editor-init-web.js",
+		format: "iife",
+		plugins: [terser()]
+	}]
+}, {
+	input: ["src/extension/ui/content/content-ui-editor-web.js"],
+	output: [{
+		file: "lib/web/editor/editor-web.js",
+		format: "iife",
+		plugins: []
+	}]
+}, {
+	input: ["src/extension/ui/content/content-ui-editor-helper-web"],
+	output: [{
+		file: "lib/web/editor/editor-helper-web.js",
+		format: "umd",
+		name: "singlefile",
+		plugins: [terser()]
+	}]
+}, {
 	input: ["src/extension/lib/single-file/browser-polyfill/chrome-browser-polyfill.js"],
 	output: [{
 		file: "lib/chrome-browser-polyfill.js",

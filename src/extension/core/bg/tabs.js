@@ -26,6 +26,7 @@
 import * as config from "./config.js";
 import * as autosave from "./autosave.js";
 import * as business from "./business.js";
+import * as editor from "./editor.js";
 import * as tabsData from "./tabs-data.js";
 import * as ui from "./../../ui/bg/index.js";
 
@@ -42,6 +43,7 @@ export {
 
 async function onMessage(message, sender) {
 	if (message.method.endsWith(".init")) {
+		await onInit(sender.tab, message);
 		ui.onInit(sender.tab);
 		business.onInit(sender.tab);
 		autosave.onInit(sender.tab);
@@ -54,7 +56,14 @@ async function onMessage(message, sender) {
 	}
 }
 
-function onTabUpdated(tabId, changeInfo) {
+async function onInit(tab, options) {
+	await tabsData.remove(tab.id);
+	const allTabsData = await tabsData.get(tab.id);
+	allTabsData[tab.id].savedPageDetected = options.savedPageDetected;
+	await tabsData.set(allTabsData);
+}
+
+async function onTabUpdated(tabId, changeInfo) {
 	if (changeInfo.status == "complete") {
 		setTimeout(async () => {
 			try {
@@ -65,6 +74,13 @@ function onTabUpdated(tabId, changeInfo) {
 			}
 		}, DELAY_MAYBE_INIT);
 		autosave.onTabUpdated(tabId);
+		const tab = await browser.tabs.get(tabId);
+		if (editor.isEditor(tab)) {
+			const allTabsData = await tabsData.get(tab.id);
+			allTabsData[tab.id].editorDetected = true;
+			await tabsData.set(allTabsData);
+			ui.onTabActivated(tab);
+		}
 	}
 	if (changeInfo.discarded) {
 		autosave.onTabDiscarded(tabId);
@@ -86,6 +102,7 @@ async function onTabActivated(activeInfo) {
 
 function onTabRemoved(tabId) {
 	tabsData.remove(tabId);
+	editor.onTabRemoved(tabId);
 	business.onTabRemoved(tabId);
 	autosave.onTabRemoved(tabId);
 }

@@ -26,6 +26,7 @@
 import * as config from "./config.js";
 import * as bookmarks from "./bookmarks.js";
 import * as business from "./business.js";
+import * as editor from "./editor.js";
 import { launchWebAuthFlow, extractAuthCode } from "./tabs-util.js";
 import * as ui from "./../../ui/bg/index.js";
 import { GDrive } from "./../../lib/gdrive/gdrive.js";
@@ -106,7 +107,7 @@ async function downloadTabPage(message, tab) {
 			const pageData = message.pageData;
 			const blob = await singlefile.processors.compression.process(pageData, {
 				insertTextBody: message.insertTextBody,
-				url: tab.url,
+				url: pageData.url || tab.url,
 				createRootDirectory: message.createRootDirectory,
 				tabId,
 				selfExtractingArchive: message.selfExtractingArchive,
@@ -114,7 +115,12 @@ async function downloadTabPage(message, tab) {
 				insertMetaNoIndex: message.insertMetaNoIndex,
 				password: message.password
 			});
-			await downloadBlob(blob, tabId, tab.incognito, message);
+			if (message.openEditor) {
+				ui.onEdit(tab.id);
+				await editor.open({ tabIndex: tab.index + 1, filename: message.filename, content: Array.from(new Uint8Array(await blob.arrayBuffer())) });
+			} else {
+				await downloadBlob(blob, tabId, tab.incognito, message);
+			}
 		}
 	}
 	return {};

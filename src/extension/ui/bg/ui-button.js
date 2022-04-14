@@ -69,6 +69,12 @@ const BUTTON_STATES = {
 		setBadgeBackgroundColor: { color: ACTIVE_COLOR },
 		setBadgeText: { text: BUTTON_DEFAULT_BADGE_MESSAGE }
 	},
+	edit: {
+		setBadgeBackgroundColor: { color: DEFAULT_COLOR },
+		setBadgeText: { text: BUTTON_DEFAULT_BADGE_MESSAGE },
+		setTitle: { title: BUTTON_DEFAULT_TOOLTIP_MESSAGE },
+		setIcon: { path: DEFAULT_ICON_PATH }
+	},
 	end: {
 		setBadgeBackgroundColor: { color: ACTIVE_COLOR },
 		setBadgeText: { text: BUTTON_OK_BADGE_MESSAGE },
@@ -128,6 +134,7 @@ export {
 	onUploadProgress,
 	onForbiddenDomain,
 	onError,
+	onEdit,
 	onEnd,
 	onCancelled,
 	refreshTab,
@@ -175,6 +182,10 @@ function onStart(tabId, step, autoSave) {
 
 function onError(tabId) {
 	refresh(tabId, getButtonState("error"));
+}
+
+function onEdit(tabId) {
+	refresh(tabId, getButtonState("edit"));
 }
 
 function onEnd(tabId, autoSave) {

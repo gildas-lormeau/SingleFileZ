@@ -29,6 +29,7 @@ import * as autosave from "./autosave.js";
 import * as bookmarks from "./bookmarks.js";
 import * as devtools from "./devtools.js";
 import * as downloads from "./downloads.js";
+import * as editor from "./editor.js";
 import * as requests from "./requests.js";
 import * as tabsData from "./tabs-data.js";
 import * as tabs from "./tabs.js";
@@ -56,6 +57,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
 	}
 	if (message.method.startsWith("devtools.")) {
 		return devtools.onMessage(message, sender);
+	}
+	if (message.method.startsWith("editor.")) {
+		return editor.onMessage(message, sender);
 	}
 	if (message.method.startsWith("bookmarks.")) {
 		return bookmarks.onMessage(message, sender);

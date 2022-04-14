@@ -25,6 +25,7 @@
 
 import * as config from "./config.js";
 import { autoSaveIsEnabled } from "./autosave-util.js";
+import * as editor from "./editor.js";
 import * as requests from "./requests.js";
 import * as ui from "./../../ui/bg/index.js";
 import { injectScript } from "./../../index.js";
@@ -32,6 +33,7 @@ import { injectScript } from "./../../index.js";
 const ERROR_CONNECTION_ERROR_CHROMIUM = "Could not establish connection. Receiving end does not exist.";
 const ERROR_CONNECTION_LOST_CHROMIUM = "The message port closed before a response was received.";
 const ERROR_CONNECTION_LOST_GECKO = "Message manager disconnected";
+const ERROR_EDITOR_PAGE_CHROMIUM = "Cannot access contents of url ";
 const INJECT_SCRIPTS_STEP = 1;
 const EXECUTE_SCRIPTS_STEP = 2;
 const TASK_PENDING_STATE = "pending";
@@ -45,7 +47,7 @@ const extensionScriptFiles = [
 
 const tasks = [];
 let currentTaskId = 0, maxParallelWorkers;
-ui.init({ isSavingTab, saveTabs, saveUrls, cancelTab, saveSelectedLinks, batchSaveUrls });
+ui.init({ isSavingTab, saveTabs, saveUrls, cancelTab, openEditor, saveSelectedLinks, batchSaveUrls });
 
 export {
 	saveTabs,
@@ -129,7 +131,7 @@ async function saveTabs(tabs, options = {}) {
 		} else {
 			ui.onStart(tabId, INJECT_SCRIPTS_STEP);
 			const scriptsInjected = await injectScript(tabId, tabOptions);
-			if (scriptsInjected) {
+			if (scriptsInjected || editor.isEditor(tab)) {
 				ui.onStart(tabId, EXECUTE_SCRIPTS_STEP);
 				addTask({
 					status: TASK_PENDING_STATE,
@@ -160,6 +162,10 @@ function addTask(info) {
 	tasks.push(taskInfo);
 	currentTaskId++;
 	return taskInfo;
+}
+
+function openEditor(tab) {
+	browser.tabs.sendMessage(tab.id, { method: "content.openEditor" });
 }
 
 async function initMaxParallelWorkers() {
@@ -214,7 +220,8 @@ async function runTask(taskInfo) {
 function isIgnoredError(error) {
 	return error.message == ERROR_CONNECTION_LOST_CHROMIUM ||
 		error.message == ERROR_CONNECTION_ERROR_CHROMIUM ||
-		error.message == ERROR_CONNECTION_LOST_GECKO;
+		error.message == ERROR_CONNECTION_LOST_GECKO ||
+		error.message.startsWith(ERROR_EDITOR_PAGE_CHROMIUM + JSON.stringify(editor.EDITOR_URL));
 }
 
 function isSavingTab(tab) {

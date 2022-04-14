@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global globalThis, zip, Blob, document, fetch, XMLHttpRequest, TextEncoder, DOMParser, stop, setTimeout, clearTimeout */
+/* global globalThis, Blob, document, fetch, XMLHttpRequest, TextEncoder, DOMParser, stop, setTimeout, clearTimeout */
 
 import {
 	configure,
@@ -56,7 +56,7 @@ async function process(pageData, options) {
 		script = options.getFileContent(SCRIPT_PATH);
 	}
 	script += "globalThis.bootstrap=(()=>{let bootstrapStarted;return async content=>{if (bootstrapStarted) return bootstrapStarted;bootstrapStarted = (" +
-		extract.toString().replace(/\n|\t/g, "") + ")(content,{prompt}).then(docContent => " +
+		extract.toString().replace(/\n|\t/g, "") + ")(content,{prompt}).then(({docContent}) => " +
 		display.toString().replace(/\n|\t/g, "") + "(document,docContent));return bootstrapStarted;}})();(" +
 		getContent.toString().replace(/\n|\t/g, "") + ")().then(globalThis.bootstrap).catch(()=>{});";
 	const blobWriter = new BlobWriter("application/octet-stream");
