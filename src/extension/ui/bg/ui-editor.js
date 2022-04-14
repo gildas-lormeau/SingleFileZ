@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, document, matchMedia, addEventListener */
+/* global browser, document, matchMedia, addEventListener, prompt */
 
 import * as download from "../../core/common/download.js";
 import { onError } from "./../common/content-error.js";
@@ -267,7 +267,7 @@ addEventListener("message", event => {
 	if (message.method == "setContent") {
 		tabData.options.openEditor = false;
 		tabData.options.openSavedPage = false;
-		getContentPageData(tabData.content, message.content, message.usedResources)
+		getContentPageData(tabData.content, message.content, message.usedResources, { password: tabData.options.password })
 			.then(pageData => {
 				pageData.content = message.content;
 				pageData.title = message.title;
@@ -334,7 +334,7 @@ browser.runtime.onMessage.addListener(message => {
 			tabData = JSON.parse(tabDataContents.join(""));
 			tabData.options = message.options;
 			tabDataContents = [];
-			editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: tabData.content }), "*");
+			editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: tabData.content, password: tabData.options.password }), "*");
 			editorElement.contentWindow.focus();
 		}
 		return Promise.resolve({});
@@ -444,20 +444,23 @@ function getPosition(event) {
 	}
 }
 
-async function getContentPageData(zipContent, page, usedResources) {
+async function getContentPageData(zipContent, page, usedResources, options) {
 	zip.configure({ workerScripts: { inflate: ["/src/single-file/vendor/zip/z-worker.js"] } });
 	const zipReader = new zip.ZipReader(new zip.Uint8ArrayReader(new Uint8Array(zipContent)));
 	const entries = await zipReader.getEntries();
 	const resources = [];
 	await Promise.all(entries.map(async entry => {
 		let data;
+		if (options.password && entry.bitFlag.encrypted) {
+			options.password = prompt("Please enter the password to view the page");
+		}
 		if (entry.filename.match(/^([0-9_]+\/)?index.html$/)) {
 			data = page;
 		} else {
 			if (entry.filename.endsWith(".html")) {
-				data = await entry.getData(new zip.TextWriter());
+				data = await entry.getData(new zip.TextWriter(), options);
 			} else {
-				data = await entry.getData(new zip.Uint8ArrayWriter());
+				data = await entry.getData(new zip.Uint8ArrayWriter(), options);
 			}
 		}
 		const extensionMatch = entry.filename.match(/\.([^.]+)/);

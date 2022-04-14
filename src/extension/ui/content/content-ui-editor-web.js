@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, TextDecoder, URL */
+/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, TextDecoder, URL, prompt */
 
 import { extract } from "./../../../single-file/processors/compression/compression-extract.js";
 import { display } from "./../../../single-file/processors/compression/compression-display.js";
@@ -882,7 +882,7 @@ table {
 	window.onmessage = async event => {
 		const message = JSON.parse(event.data);
 		if (message.method == "init") {
-			await init(message.content);
+			await init(message);
 		}
 		if (message.method == "addNote") {
 			addNote(message);
@@ -1013,9 +1013,9 @@ table {
 		}
 	};
 
-	async function init(content, { filename, reset } = {}) {
+	async function init({ content, password }, { filename, reset } = {}) {
 		await initConstants();
-		const { docContent, resources, url } = await extract(content, { shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href });
+		const { docContent, resources, url } = await extract(content, { password, prompt, shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href });
 		pageResources = resources;
 		pageUrl = url;
 		await display(document, docContent, { disableFramePointerEvents: true });

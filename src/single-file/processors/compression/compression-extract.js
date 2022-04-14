@@ -27,7 +27,7 @@ export {
 	extract
 };
 
-async function extract(content, { prompt = () => { }, shadowRootScriptURL } = {}) {
+async function extract(content, { password, prompt = () => { }, shadowRootScriptURL } = {}) {
 	const KNOWN_MIMETYPES = {
 		"gif": "image/gif",
 		"jpg": "image/jpeg",
@@ -62,11 +62,11 @@ async function extract(content, { prompt = () => { }, shadowRootScriptURL } = {}
 	let resources = [];
 	const zipReader = new zip.ZipReader(blobReader);
 	const entries = await zipReader.getEntries();
-	let options;
+	const options = { password };
 	await Promise.all(entries.map(async entry => {
 		let dataWriter, content, textContent, name;
-		if (!options && entry.bitFlag.encrypted) {
-			options = { password: prompt("Please enter the password to view the page") };
+		if (!options.password && entry.bitFlag.encrypted) {
+			options.password = prompt("Please enter the password to view the page");
 		}
 		name = entry.filename.match(/^([0-9_]+\/)?(.*)$/)[2];
 		if (entry.filename.match(/index\.html$/) || entry.filename.match(/stylesheet_[0-9]+\.css/) || entry.filename.match(/scripts\/[0-9]+\.js/)) {
