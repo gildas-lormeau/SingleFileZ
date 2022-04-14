@@ -1014,6 +1014,7 @@ table {
 		pageUrl = url;
 		await display(document, docContent, { disableFramePointerEvents: true });
 		deserializeShadowRoots(document);
+		reflowNotes();
 		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => attachNoteListeners(containerElement, true));
 		document.documentElement.appendChild(getStyleElement(HIGHLIGHTS_WEB_STYLESHEET));
 		maskPageElement = getMaskElement(PAGE_MASK_CLASS, PAGE_MASK_CONTAINER_CLASS);
