@@ -982,20 +982,13 @@ table {
 				content = content.replace(/<script data-template-shadow-root src.*?<\/script>/g, initScriptContent);
 			}
 			const viewport = document.head.querySelector("meta[name=viewport]");
-			let usedResources = Array.from(pageResources);
-			pageResources.forEach(resource => {
-				if (!resource.parentResources.length) {
-					usedResources = usedResources.filter(pageResource => pageResource != resource);
-				}
-			});
 			window.parent.postMessage(JSON.stringify({
 				method: "setContent",
 				content,
 				title: document.title,
 				doctype: singlefile.helper.getDoctypeString(document),
 				url: pageUrl,
-				viewport: viewport ? viewport.content : null,
-				usedResources: pageResources.map(pageResource => pageResource.filename)
+				viewport: viewport ? viewport.content : null
 			}), "*");
 		}
 		if (message.method == "printPage") {
@@ -1794,9 +1787,7 @@ table {
 		resources.forEach(resource => {
 			const searchRegExp = new RegExp(resource.content.replace(REGEXP_ESCAPE, "\\$1"), "g");
 			const position = content.search(searchRegExp);
-			if (position == -1) {
-				resource.parentResources = resource.parentResources.filter(name => name != pageFilename);
-			} else {
+			if (position != -1) {
 				content = content.replace(searchRegExp, resource.name);
 			}
 		});

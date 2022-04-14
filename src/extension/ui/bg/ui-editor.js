@@ -267,7 +267,7 @@ addEventListener("message", event => {
 	if (message.method == "setContent") {
 		tabData.options.openEditor = false;
 		tabData.options.openSavedPage = false;
-		getContentPageData(tabData.content, message.content, message.usedResources, { password: tabData.options.password })
+		getContentPageData(tabData.content, message.content, { password: tabData.options.password })
 			.then(pageData => {
 				pageData.content = message.content;
 				pageData.title = message.title;
@@ -444,7 +444,7 @@ function getPosition(event) {
 	}
 }
 
-async function getContentPageData(zipContent, page, usedResources, options) {
+async function getContentPageData(zipContent, page, options) {
 	zip.configure({ workerScripts: { inflate: ["/src/single-file/vendor/zip/z-worker.js"] } });
 	const zipReader = new zip.ZipReader(new zip.Uint8ArrayReader(new Uint8Array(zipContent)));
 	const entries = await zipReader.getEntries();
@@ -464,14 +464,12 @@ async function getContentPageData(zipContent, page, usedResources, options) {
 			}
 		}
 		const extensionMatch = entry.filename.match(/\.([^.]+)/);
-		if (usedResources.includes(entry.filename)) {
-			resources.push({
-				filename: entry.filename.match(/^([0-9_]+\/)?(.*)$/)[2],
-				extension: extensionMatch && extensionMatch[1],
-				content: data,
-				url: entry.comment
-			});
-		}
+		resources.push({
+			filename: entry.filename.match(/^([0-9_]+\/)?(.*)$/)[2],
+			extension: extensionMatch && extensionMatch[1],
+			content: data,
+			url: entry.comment
+		});
 	}));
 	return getPageData(resources);
 }
