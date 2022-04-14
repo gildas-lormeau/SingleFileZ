@@ -451,7 +451,7 @@ async function getContentPageData(zipContent, page, usedResources, options) {
 	const resources = [];
 	await Promise.all(entries.map(async entry => {
 		let data;
-		if (options.password && entry.bitFlag.encrypted) {
+		if (!options.password && entry.bitFlag.encrypted) {
 			options.password = prompt("Please enter the password to view the page");
 		}
 		if (entry.filename.match(/^([0-9_]+\/)?index.html$/)) {
