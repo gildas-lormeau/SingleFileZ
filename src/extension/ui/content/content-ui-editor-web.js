@@ -1794,7 +1794,7 @@ table {
 					pageResources = pageResources.filter(pageResource => pageResource != resource);
 				}
 			} else {
-				content = content.replace(searchRegExp, resource.filename);
+				content = content.replace(searchRegExp, resource.name);
 			}
 		});
 		return content;

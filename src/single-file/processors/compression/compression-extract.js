@@ -64,10 +64,11 @@ async function extract(content, { prompt = () => { }, shadowRootScriptURL } = {}
 	const entries = await zipReader.getEntries();
 	let options;
 	await Promise.all(entries.map(async entry => {
-		let dataWriter, content, textContent;
+		let dataWriter, content, textContent, name;
 		if (!options && entry.bitFlag.encrypted) {
 			options = { password: prompt("Please enter the password to view the page") };
 		}
+		name = entry.filename.match(/^([0-9_]+\/)?(.*)$/)[2];
 		if (entry.filename.match(/index\.html$/) || entry.filename.match(/stylesheet_[0-9]+\.css/) || entry.filename.match(/scripts\/[0-9]+\.js/)) {
 			dataWriter = new zip.TextWriter();
 			textContent = await entry.getData(dataWriter, options);
@@ -85,7 +86,7 @@ async function extract(content, { prompt = () => { }, shadowRootScriptURL } = {}
 				content = URL.createObjectURL(await entry.getData(new zip.BlobWriter(mimeType), options));
 			}
 		}
-		resources.push({ filename: entry.filename, url: entry.comment, content, textContent, parentResources: [] });
+		resources.push({ filename: entry.filename, name, url: entry.comment, content, textContent, parentResources: [] });
 	}));
 	await zipReader.close();
 	let docContent, url;

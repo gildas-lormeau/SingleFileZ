@@ -463,7 +463,7 @@ async function getContentPageData(zipContent, page, usedResources) {
 		const extensionMatch = entry.filename.match(/\.([^.]+)/);
 		if (usedResources.includes(entry.filename)) {
 			resources.push({
-				filename: entry.filename,
+				filename: entry.filename.match(/^([0-9_]+\/)?(.*)$/)[2],
 				extension: extensionMatch && extensionMatch[1],
 				content: data,
 				url: entry.comment
