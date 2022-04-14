@@ -1952,17 +1952,18 @@ table {
 			window.onresize = reflowNotes;
 			window.onUpdate = () => {};
 			document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
+			const observer = new MutationObserver(async mutations => {
+				clearTimeout(timeoutInit);
+				timeoutInit = setTimeout(init, 50);
+			});
 			const init = () => {
-				debugger;
+				observer.disconnect();
 				processNode(document);
 				reflowNotes();
 				document.querySelectorAll(${JSON.stringify(NOTE_TAGNAME)}).forEach(noteElement => attachNoteListeners(noteElement));
 			};
-			if (document.readyState == "loading") {
-				window.addEventListener("DOMContentLoaded", init, false);
-			} else {
-				init();
-			}
+			const timeoutInit = setTimeout(init, 50);
+			observer.observe(document, { subtree: true, childList: true, attributes: true });
 		})()`);
 	}
 
