@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, globalThis, window, document, location, setTimeout, XMLHttpRequest, DOMParser */
+/* global browser, globalThis, window, document, location, setTimeout, XMLHttpRequest, Node, DOMParser */
 
 const singlefile = globalThis.singlefileBootstrap;
 
@@ -313,5 +313,9 @@ async function openEditor() {
 }
 
 function detectSavedPage(document) {
-	return document.documentElement.dataset.sfz == "";
+	const helper = singlefile.helper;
+	const firstDocumentChild = document.documentElement.firstChild;
+	return document.documentElement.dataset.sfz == "" || (
+		firstDocumentChild.nodeType == Node.COMMENT_NODE &&
+		(firstDocumentChild.textContent.includes(helper.COMMENT_HEADER)));
 }

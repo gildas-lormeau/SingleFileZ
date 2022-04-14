@@ -475,7 +475,7 @@ class Processor {
 				firstComment.remove();
 			}
 			const infobarContent = (this.options.infobarContent || "").replace(/\\n/g, "\n").replace(/\\t/g, "\t");
-			const commentNode = this.doc.createComment("\n Page saved with SingleFileZ" +
+			const commentNode = this.doc.createComment("\n " + util.COMMENT_HEADER +
 				" \n url: " + infobarURL +
 				" \n saved date: " + infobarSaveDate +
 				(infobarContent ? " \n info: " + infobarContent : "") + "\n");

@@ -58,6 +58,7 @@ const FONT_WEIGHTS = {
 	bolder: "700",
 	lighter: "100"
 };
+const COMMENT_HEADER = "Page saved with SingleFileZ";
 const SINGLE_FILE_UI_ELEMENT_CLASS = "single-file-ui-element";
 const addEventListener = (type, listener, options) => globalThis.addEventListener(type, listener, options);
 const dispatchEvent = event => globalThis.dispatchEvent(event);
@@ -92,6 +93,7 @@ export {
 	STYLESHEET_ATTRIBUTE_NAME,
 	SELECTED_CONTENT_ATTRIBUTE_NAME,
 	ASYNC_SCRIPT_ATTRIBUTE_NAME,
+	COMMENT_HEADER,
 	SINGLE_FILE_UI_ELEMENT_CLASS
 };
 
