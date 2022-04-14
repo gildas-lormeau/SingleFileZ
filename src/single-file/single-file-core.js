@@ -1374,6 +1374,7 @@ class Processor {
 							this.resources.frames.set(frameWindowId, { name, content: pageData.content, resources: pageData.resources, url: frameData.url });
 							this.stats.addAll(pageData);
 						} else {
+							frameElement.removeAttribute(util.WIN_ID_ATTRIBUTE_NAME);
 							this.stats.add("discarded", "frames", 1);
 						}
 					}
