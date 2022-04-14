@@ -1952,9 +1952,15 @@ table {
 			window.onresize = reflowNotes;
 			window.onUpdate = () => {};
 			document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
+			let counterMutations = 0;
 			const observer = new MutationObserver(async mutations => {
-				clearTimeout(timeoutInit);
-				timeoutInit = setTimeout(init, 50);
+				if (counterMutations < 20) {
+					counterMutations++;
+					clearTimeout(timeoutInit);
+					timeoutInit = setTimeout(init, 50);
+				} else {
+					init();
+				}
 			});
 			const init = () => {
 				observer.disconnect();
@@ -1962,7 +1968,7 @@ table {
 				reflowNotes();
 				document.querySelectorAll(${JSON.stringify(NOTE_TAGNAME)}).forEach(noteElement => attachNoteListeners(noteElement));
 			};
-			const timeoutInit = setTimeout(init, 50);
+			let timeoutInit = setTimeout(init, 50);
 			observer.observe(document, { subtree: true, childList: true, attributes: true });
 		})()`);
 	}
