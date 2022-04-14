@@ -121,7 +121,7 @@ async function addPageResources(zipWriter, pageData, options, prefixName, url) {
 	await Promise.all([
 		Promise.all([
 			addFile(zipWriter, prefixName, { name: "index.html", extension: ".html", content: pageData.content, url, password: options.password }),
-			addFile(zipWriter, prefixName, { name: "index.json", extension: ".json", content: jsonContent, password: options.password })
+			addFile(zipWriter, prefixName, { name: "manifest.json", extension: ".json", content: jsonContent, password: options.password })
 		]),
 		Promise.all(Object.keys(pageData.resources).map(async resourceType =>
 			Promise.all(pageData.resources[resourceType].map(data => {
