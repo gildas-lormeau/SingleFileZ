@@ -173,14 +173,15 @@
 					const rootBoundingRect = getBoundingClientRectDefined && observer.options.root.getBoundingClientRect();
 					const targetElements = observedElements.get(intersectionObserver);
 					if (targetElements) {
-						observer.callback(targetElements.map(target => {
+						const params = targetElements.map(target => {
 							const boundingClientRect = target.getBoundingClientRect();
 							const isIntersecting = true;
 							const intersectionRatio = 1;
 							const rootBounds = getBoundingClientRectDefined ? rootBoundingRect : docBoundingRect;
 							const time = 0;
 							return { target, intersectionRatio, boundingClientRect, intersectionRect: boundingClientRect, isIntersecting, rootBounds, time };
-						}), intersectionObserver);
+						});
+						observer.callback(params, intersectionObserver);
 					}
 				});
 			}
