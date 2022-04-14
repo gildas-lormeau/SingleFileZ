@@ -451,7 +451,7 @@ async function getContentPageData(zipContent, page, usedResources) {
 	const resources = [];
 	await Promise.all(entries.map(async entry => {
 		let data;
-		if (entry.filename == "index.html") {
+		if (entry.filename.match(/^([0-9_]+\/)?index.html$/)) {
 			data = page;
 		} else {
 			if (entry.filename.endsWith(".html")) {

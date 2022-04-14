@@ -1781,13 +1781,14 @@ table {
 			element.textContent = resource.content;
 		});
 		let content = singlefile.helper.serialize(doc, compressHTML);
-		const resources = pageResources.filter(resource => resource.parentResources.includes("index.html"));
+		const pageFilename = pageResources[pageResources.length - 1].filename;
+		const resources = pageResources.filter(resource => resource.parentResources.includes(pageFilename));
 		const REGEXP_ESCAPE = /([{}()^$&.*?/+|[\\\\]|\]|-)/g;
 		resources.forEach(resource => {
 			const searchRegExp = new RegExp(resource.content.replace(REGEXP_ESCAPE, "\\$1"), "g");
 			const position = content.search(searchRegExp);
 			if (position == -1) {
-				resource.parentResources = resource.parentResources.filter(name => name != "index.html");
+				resource.parentResources = resource.parentResources.filter(name => name != pageFilename);
 				if (!resource.parentResources.length) {
 					pageResources = pageResources.filter(pageResource => pageResource != resource);
 				}
