@@ -81,14 +81,6 @@ export default [{
 		plugins: []
 	}]
 }, {
-	input: ["src/extension/lib/yabson/yabson.js"],
-	output: [{
-		file: "lib/yabson.js",
-		format: "umd",
-		name: "yabson",
-		plugins: []
-	}]
-}, {
 	input: ["src/extension/ui/content/content-ui-editor-init-web.js"],
 	output: [{
 		file: "lib/web/editor/editor-init-web.js",

@@ -21,7 +21,9 @@
  *   Source.
  */
 
-/* global browser, infobar, yabson */
+/* global browser, infobar */
+
+import * as yabson from "./../../lib/yabson/yabson.js";
 
 const MAX_CHUNK_SIZE = 4 * 1024 * 1024;
 

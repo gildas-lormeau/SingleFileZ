@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, yabson, Response */
+/* global browser, singlefile, URL, Response */
 
 import * as config from "./config.js";
 import * as bookmarks from "./bookmarks.js";
@@ -32,6 +32,7 @@ import * as ui from "./../../ui/bg/index.js";
 import { GDrive } from "./../../lib/gdrive/gdrive.js";
 import { pushGitHub } from "./../../lib/github/github.js";
 import { download } from "./download-util.js";
+import * as yabson from "./../../lib/yabson/yabson.js";
 
 const parsers = new Map();
 const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
