@@ -982,6 +982,12 @@ table {
 				content = content.replace(/<script data-template-shadow-root src.*?<\/script>/g, initScriptContent);
 			}
 			const viewport = document.head.querySelector("meta[name=viewport]");
+			let usedResources = Array.from(pageResources);
+			pageResources.forEach(resource => {
+				if (!resource.parentResources.length) {
+					usedResources = usedResources.filter(pageResource => pageResource != resource);
+				}
+			});
 			window.parent.postMessage(JSON.stringify({
 				method: "setContent",
 				content,
@@ -1790,9 +1796,6 @@ table {
 			const position = content.search(searchRegExp);
 			if (position == -1) {
 				resource.parentResources = resource.parentResources.filter(name => name != pageFilename);
-				if (!resource.parentResources.length) {
-					pageResources = pageResources.filter(pageResource => pageResource != resource);
-				}
 			} else {
 				content = content.replace(searchRegExp, resource.name);
 			}
