@@ -27,13 +27,14 @@ const singlefile = globalThis.singlefileBootstrap;
 
 const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 
-let unloadListenerAdded, options, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref;
+let unloadListenerAdded, optionsAutoSave, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref;
 singlefile.pageInfo = {
 	updatedResources: {},
 	visitDate: new Date()
 };
 browser.runtime.sendMessage({ method: "bootstrap.init" }).then(message => {
-	options = message.options;
+	optionsAutoSave = message.optionsAutoSave;
+	const options = message.options;
 	tabId = message.tabId;
 	tabIndex = message.tabIndex;
 	autoSaveEnabled = message.autoSaveEnabled;
@@ -145,7 +146,7 @@ async function onMessage(message) {
 		return {};
 	}
 	if (message.method == "content.init") {
-		options = message.options;
+		optionsAutoSave = message.options;
 		autoSaveEnabled = message.autoSaveEnabled;
 		refresh();
 		return {};
@@ -174,19 +175,19 @@ function init() {
 }
 
 async function initAutoSavePage(message) {
-	options = message.options;
+	optionsAutoSave = message.options;
 	if (document.readyState != "complete") {
 		await new Promise(resolve => globalThis.addEventListener("load", resolve));
 	}
 	await autoSavePage();
-	if (options.autoSaveRepeat) {
+	if (optionsAutoSave.autoSaveRepeat) {
 		setTimeout(() => {
 			if (autoSaveEnabled && !autoSavingPage) {
 				pageAutoSaved = false;
-				options.autoSaveDelay = 0;
+				optionsAutoSave.autoSaveDelay = 0;
 				onMessage(message);
 			}
-		}, options.autoSaveRepeatDelay * 1000);
+		}, optionsAutoSave.autoSaveRepeatDelay * 1000);
 	}
 }
 
@@ -194,28 +195,28 @@ async function autoSavePage() {
 	const helper = singlefile.helper;
 	if ((!autoSavingPage || autoSaveTimeout) && !pageAutoSaved) {
 		autoSavingPage = true;
-		if (options.autoSaveDelay && !autoSaveTimeout) {
-			await new Promise(resolve => autoSaveTimeout = setTimeout(resolve, options.autoSaveDelay * 1000));
+		if (optionsAutoSave.autoSaveDelay && !autoSaveTimeout) {
+			await new Promise(resolve => autoSaveTimeout = setTimeout(resolve, optionsAutoSave.autoSaveDelay * 1000));
 			await autoSavePage();
 		} else {
 			const waitForUserScript = window._singleFileZ_waitForUserScript;
 			let frames = [];
 			let framesSessionId;
 			autoSaveTimeout = null;
-			if (!options.removeFrames && globalThis.frames && globalThis.frames.length) {
-				frames = await singlefile.processors.frameTree.getAsync(options);
+			if (!optionsAutoSave.removeFrames && globalThis.frames && globalThis.frames.length) {
+				frames = await singlefile.processors.frameTree.getAsync(optionsAutoSave);
 			}
 			framesSessionId = frames && frames.sessionId;
-			if (options.userScriptEnabled && waitForUserScript) {
+			if (optionsAutoSave.userScriptEnabled && waitForUserScript) {
 				await waitForUserScript(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
 			}
-			const docData = helper.preProcessDoc(document, globalThis, options);
+			const docData = helper.preProcessDoc(document, globalThis, optionsAutoSave);
 			savePage(docData, frames);
 			if (framesSessionId) {
 				singlefile.processors.frameTree.cleanup(framesSessionId);
 			}
 			helper.postProcessDoc(document, docData.markedElements, docData.invalidElements);
-			if (options.userScriptEnabled && waitForUserScript) {
+			if (optionsAutoSave.userScriptEnabled && waitForUserScript) {
 				await waitForUserScript(helper.ON_AFTER_CAPTURE_EVENT_NAME);
 			}
 			pageAutoSaved = true;
@@ -225,7 +226,7 @@ async function autoSavePage() {
 }
 
 function refresh() {
-	if (autoSaveEnabled && options && (options.autoSaveUnload || options.autoSaveLoadOrUnload || options.autoSaveDiscard || options.autoSaveRemove)) {
+	if (autoSaveEnabled && optionsAutoSave && (optionsAutoSave.autoSaveUnload || optionsAutoSave.autoSaveLoadOrUnload || optionsAutoSave.autoSaveDiscard || optionsAutoSave.autoSaveRemove)) {
 		if (!unloadListenerAdded) {
 			globalThis.addEventListener("unload", onUnload);
 			document.addEventListener("visibilitychange", onVisibilityChange);
@@ -239,14 +240,14 @@ function refresh() {
 }
 
 function onVisibilityChange() {
-	if (document.visibilityState == "hidden" && options.autoSaveDiscard) {
-		autoSaveUnloadedPage({ autoSaveDiscard: options.autoSaveDiscard });
+	if (document.visibilityState == "hidden" && optionsAutoSave.autoSaveDiscard) {
+		autoSaveUnloadedPage({ autoSaveDiscard: optionsAutoSave.autoSaveDiscard });
 	}
 }
 
 function onUnload() {
-	if (!pageAutoSaved && (options.autoSaveUnload || options.autoSaveLoadOrUnload || options.autoSaveRemove)) {
-		autoSaveUnloadedPage({ autoSaveUnload: options.autoSaveUnload, autoSaveRemove: options.autoSaveRemove });
+	if (!pageAutoSaved && (optionsAutoSave.autoSaveUnload || optionsAutoSave.autoSaveLoadOrUnload || optionsAutoSave.autoSaveRemove)) {
+		autoSaveUnloadedPage({ autoSaveUnload: optionsAutoSave.autoSaveUnload, autoSaveRemove: optionsAutoSave.autoSaveRemove });
 	}
 }
 
@@ -254,13 +255,13 @@ function autoSaveUnloadedPage({ autoSaveUnload, autoSaveDiscard, autoSaveRemove 
 	const helper = singlefile.helper;
 	const waitForUserScript = window._singleFile_waitForUserScript;
 	let frames = [];
-	if (!options.removeFrames && globalThis.frames && globalThis.frames.length) {
-		frames = singlefile.processors.frameTree.getSync(options);
+	if (!optionsAutoSave.removeFrames && globalThis.frames && globalThis.frames.length) {
+		frames = singlefile.processors.frameTree.getSync(optionsAutoSave);
 	}
-	if (options.userScriptEnabled && waitForUserScript) {
+	if (optionsAutoSave.userScriptEnabled && waitForUserScript) {
 		waitForUserScript(helper.ON_BEFORE_CAPTURE_EVENT_NAME);
 	}
-	const docData = helper.preProcessDoc(document, globalThis, options);
+	const docData = helper.preProcessDoc(document, globalThis, optionsAutoSave);
 	savePage(docData, frames, { autoSaveUnload, autoSaveDiscard, autoSaveRemove });
 }
 
@@ -273,7 +274,7 @@ function savePage(docData, frames, { autoSaveUnload, autoSaveDiscard, autoSaveRe
 		method: "autosave.save",
 		tabId,
 		tabIndex,
-		taskId: options.taskId,
+		taskId: optionsAutoSave.taskId,
 		content: helper.serialize(document),
 		canvases: docData.canvases,
 		fonts: docData.fonts,
