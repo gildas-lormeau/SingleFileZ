@@ -1959,7 +1959,7 @@ class ProcessorHelper {
 							}
 							if (removeElementIfMissing && !content) {
 								resourceElement.remove();
-							} else {
+							} else if (content) {
 								const name = "images/" + indexResource + extension;
 								resourceElement.setAttribute(attributeName, name);
 								resources.images.set(indexResource, { name, content, extension, contentType, url: resourceURL });
