@@ -249,6 +249,9 @@ function getInstance(utilOptions) {
 			charset = options.charset;
 		}
 		if (options.asBinary) {
+			if (response.status >= 400) {
+				return { resourceURL };
+			}
 			try {
 				if (DEBUG) {
 					log("  // ENDED   download url =", resourceURL, "delay =", Date.now() - startTime);
