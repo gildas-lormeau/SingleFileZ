@@ -1782,11 +1782,16 @@ table {
 			doc.body.appendChild(element);
 			element.textContent = resource.content;
 		});
-		let content = singlefile.helper.serialize(doc, compressHTML);
 		const pageFilename = pageResources
 			.filter(resource => resource.filename.endsWith("index.html"))
 			.sort((resourceLeft, resourceRight) => resourceLeft.filename.length - resourceRight.filename.length)[0].filename;
 		const resources = pageResources.filter(resource => resource.parentResources.includes(pageFilename));
+		doc.querySelectorAll("[src]").forEach(element => resources.forEach(resource => {
+			if (element.src == resource.content) {
+				element.src = resource.name;
+			}
+		}));
+		let content = singlefile.helper.serialize(doc, compressHTML);
 		const REGEXP_ESCAPE = /([{}()^$&.*?/+|[\\\\]|\]|-)/g;
 		resources.forEach(resource => {
 			const searchRegExp = new RegExp(resource.content.replace(REGEXP_ESCAPE, "\\$1"), "g");
