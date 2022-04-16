@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, TextDecoder, URL, prompt */
+/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, TextDecoder, URL, prompt, MutationObserver */
 
 import { extract } from "./../../../single-file/processors/compression/compression-extract.js";
 import { display } from "./../../../single-file/processors/compression/compression-display.js";
@@ -1013,6 +1013,7 @@ table {
 		pageUrl = url;
 		await display(document, docContent, { disableFramePointerEvents: true });
 		deserializeShadowRoots(document);
+		await waitResourcesLoad();
 		reflowNotes();
 		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => attachNoteListeners(containerElement, true));
 		document.documentElement.appendChild(getStyleElement(HIGHLIGHTS_WEB_STYLESHEET));
@@ -1800,6 +1801,27 @@ table {
 		window.parent.postMessage(JSON.stringify({ "method": "onUpdate", saved }), "*");
 	}
 
+	function waitResourcesLoad() {
+		return new Promise(resolve => {
+			let counterMutations = 0;
+			const done = () => {
+				observer.disconnect();
+				resolve();
+			};
+			let timeoutInit = setTimeout(done, 50);
+			const observer = new MutationObserver(() => {
+				if (counterMutations < 20) {
+					counterMutations++;
+					clearTimeout(timeoutInit);
+					timeoutInit = setTimeout(done, 50);
+				} else {
+					done();
+				}
+			});
+			observer.observe(document, { subtree: true, childList: true, attributes: true });
+		});
+	}
+
 	function reflowNotes() {
 		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => {
 			const noteElement = containerElement.shadowRoot.querySelector("." + NOTE_CLASS);
@@ -1944,30 +1966,16 @@ table {
 			const getPosition = ${minifyText(getPosition.toString())};
 			const onMouseUp = ${minifyText(onMouseUp.toString())};
 			const getShadowRoot = ${minifyText(getShadowRoot.toString())};
+			const waitResourcesLoad = ${minifyText(waitResourcesLoad.toString())};
 			const maskNoteElement = getMaskElement(${JSON.stringify(NOTE_MASK_CLASS)});
 			const maskPageElement = getMaskElement(${JSON.stringify(PAGE_MASK_CLASS)}, ${JSON.stringify(PAGE_MASK_CONTAINER_CLASS)});
 			let selectedNote, highlightSelectionMode, removeHighlightMode, resizingNoteMode, movingNoteMode, collapseNoteTimeout, cuttingMode, cuttingOuterMode;
 			window.onresize = reflowNotes;
 			window.onUpdate = () => {};
 			document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
-			let counterMutations = 0;
-			const observer = new MutationObserver(async mutations => {
-				if (counterMutations < 20) {
-					counterMutations++;
-					clearTimeout(timeoutInit);
-					timeoutInit = setTimeout(init, 50);
-				} else {
-					init();
-				}
-			});
-			const init = () => {
-				observer.disconnect();
-				processNode(document);
-				reflowNotes();
-				document.querySelectorAll(${JSON.stringify(NOTE_TAGNAME)}).forEach(noteElement => attachNoteListeners(noteElement));
-			};
-			let timeoutInit = setTimeout(init, 50);
-			observer.observe(document, { subtree: true, childList: true, attributes: true });
+			processNode(document);
+			document.querySelectorAll(${JSON.stringify(NOTE_TAGNAME)}).forEach(noteElement => attachNoteListeners(noteElement));
+			waitResourcesLoad().then(reflowNotes);
 		})()`);
 	}
 
