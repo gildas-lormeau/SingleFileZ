@@ -1013,6 +1013,7 @@ table {
 		pageUrl = url;
 		await display(document, docContent, { disableFramePointerEvents: true });
 		deserializeShadowRoots(document);
+		reflowNotes();
 		await waitResourcesLoad();
 		reflowNotes();
 		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => attachNoteListeners(containerElement, true));
@@ -1808,12 +1809,12 @@ table {
 				observer.disconnect();
 				resolve();
 			};
-			let timeoutInit = setTimeout(done, 50);
+			let timeoutInit = setTimeout(done, 100);
 			const observer = new MutationObserver(() => {
 				if (counterMutations < 20) {
 					counterMutations++;
 					clearTimeout(timeoutInit);
-					timeoutInit = setTimeout(done, 50);
+					timeoutInit = setTimeout(done, 100);
 				} else {
 					done();
 				}
@@ -1975,6 +1976,7 @@ table {
 			document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
 			processNode(document);
 			document.querySelectorAll(${JSON.stringify(NOTE_TAGNAME)}).forEach(noteElement => attachNoteListeners(noteElement));
+			reflowNotes();
 			waitResourcesLoad().then(reflowNotes);
 		})()`);
 	}
