@@ -25,6 +25,7 @@ registerType(serializeTypedArray, parseInt16Array, testInt16Array);
 registerType(serializeTypedArray, parseUint8ClampedArray, testUint8ClampedArray);
 registerType(serializeTypedArray, parseUint8Array, testUint8Array);
 registerType(serializeTypedArray, parseInt8Array, testInt8Array);
+registerType(serializeArrayBuffer, parseArrayBuffer, testArrayBuffer);
 registerType(serializeNumber, parseNumber, testNumber);
 registerType(serializeBigInt, parseBigInt, testBigInt);
 registerType(serializeUint32, parseUint32, testUint32);
@@ -59,6 +60,7 @@ export {
 	serializeArray,
 	serializeString,
 	serializeTypedArray,
+	serializeArrayBuffer,
 	serializeNumber,
 	serializeBigInt,
 	serializeUint32,
@@ -92,6 +94,7 @@ export {
 	parseUint8ClampedArray,
 	parseUint8Array,
 	parseInt8Array,
+	parseArrayBuffer,
 	parseNumber,
 	parseBigInt,
 	parseUint32,
@@ -127,6 +130,7 @@ export {
 	testUint8ClampedArray,
 	testUint8Array,
 	testInt8Array,
+	testArrayBuffer,
 	testNumber,
 	testBigInt,
 	testUint32,
@@ -279,8 +283,14 @@ function* serializeCircularReference(data, value) {
 function* serializeArray(data, array) {
 	yield* serializeValue(data, array.length);
 	const notEmptyIndexes = Object.keys(array).filter(key => testInteger(Number(key))).map(key => Number(key));
+	let indexNotEmptyIndexes = 0, currentNotEmptyIndex = notEmptyIndexes[indexNotEmptyIndexes];
 	for (const [indexArray, value] of array.entries()) {
-		yield* serializeValue(data, notEmptyIndexes.includes(indexArray) ? value : EMPTY_SLOT_VALUE);
+		if (currentNotEmptyIndex == indexArray) {
+			currentNotEmptyIndex = notEmptyIndexes[++indexNotEmptyIndexes];
+			yield* serializeValue(data, value);
+		} else {
+			yield* serializeValue(data, EMPTY_SLOT_VALUE);
+		}
 	}
 }
 
@@ -301,6 +311,11 @@ function* serializeString(data, string) {
 function* serializeTypedArray(data, array) {
 	yield* serializeValue(data, array.length);
 	yield* data.append(new Uint8Array(array.buffer));
+}
+
+function* serializeArrayBuffer(data, arrayBuffer) {
+	yield* serializeValue(data, arrayBuffer.byteLength);
+	yield* data.append(new Uint8Array(arrayBuffer));
 }
 
 function* serializeNumber(data, number) {
@@ -514,7 +529,7 @@ function* parseObject() {
 
 function* parseArray(data) {
 	const length = yield* parseValue(data);
-	const array = [];
+	const array = new Array(length);
 	for (let indexArray = 0; indexArray < length; indexArray++) {
 		const value = yield* parseValue(data);
 		if (!testEmptySlot(value)) {
@@ -608,6 +623,12 @@ function* parseInt8Array(data) {
 	const length = yield* parseValue(data);
 	const array = yield* data.consume(length);
 	return new Int8Array(array.buffer);
+}
+
+function* parseArrayBuffer(data) {
+	const length = yield* parseValue(data);
+	const array = yield* data.consume(length);
+	return array.buffer;
 }
 
 function* parseNumber(data) {
@@ -793,6 +814,10 @@ function testUint8Array(value) {
 
 function testInt8Array(value) {
 	return value instanceof Int8Array;
+}
+
+function testArrayBuffer(value) {
+	return value instanceof ArrayBuffer;
 }
 
 function testNumber(value) {
