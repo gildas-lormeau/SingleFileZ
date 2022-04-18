@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, TextDecoder, URL, prompt, MutationObserver */
+/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, URL, prompt, MutationObserver, Node */
 
 import { extract } from "./../../../single-file/processors/compression/compression-extract.js";
 import { display } from "./../../../single-file/processors/compression/compression-display.js";
@@ -61,6 +61,7 @@ import { display } from "./../../../single-file/processors/compression/compressi
 	const NOTE_INITIAL_HEIGHT = 150;
 	const NOTE_HEADER_HEIGHT = 25;
 	const DISABLED_NOSCRIPT_ATTRIBUTE_NAME = "data-single-filez-disabled-noscript";
+	const COMMENT_HEADER = "Page saved with SingleFileZ";
 
 	const STYLE_FORMATTED_PAGE = `
 	/* This Source Code Form is subject to the terms of the Mozilla Public
@@ -1001,8 +1002,7 @@ table {
 		if (event.dataTransfer.files && event.dataTransfer.files[0]) {
 			const file = event.dataTransfer.files[0];
 			event.preventDefault();
-			const content = new TextDecoder().decode(await file.arrayBuffer());
-			await init(content, { filename: file.name });
+			await init({ content: file }, { filename: file.name });
 		}
 	};
 
@@ -1011,30 +1011,33 @@ table {
 		const { docContent, resources, url } = await extract(content, { password, prompt, shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href });
 		pageResources = resources;
 		pageUrl = url;
-		await display(document, docContent, { disableFramePointerEvents: true });
-		deserializeShadowRoots(document);
-		reflowNotes();
-		await waitResourcesLoad();
-		reflowNotes();
-		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => attachNoteListeners(containerElement, true));
-		document.documentElement.appendChild(getStyleElement(HIGHLIGHTS_WEB_STYLESHEET));
-		maskPageElement = getMaskElement(PAGE_MASK_CLASS, PAGE_MASK_CONTAINER_CLASS);
-		maskNoteElement = getMaskElement(NOTE_MASK_CLASS);
-		document.documentElement.onmousedown = document.documentElement.ontouchstart = onMouseDown;
-		document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
-		document.documentElement.onmouseover = onMouseOver;
-		document.documentElement.onmouseout = onMouseOut;
-		document.documentElement.onkeydown = onKeyDown;
-		window.onclick = event => event.preventDefault();
-		const iconElement = document.querySelector("link[rel*=icon]");
-		window.parent.postMessage(JSON.stringify({
-			method: "onInit",
-			title: document.title,
-			icon: iconElement && iconElement.href,
-			filename,
-			reset,
-			formatPageEnabled: isProbablyReaderable(document)
-		}), "*");
+		const contentDocument = (new DOMParser()).parseFromString(docContent, "text/html");
+		if (detectSavedPage(contentDocument)) {
+			await display(document, docContent, { disableFramePointerEvents: true });
+			deserializeShadowRoots(document);
+			reflowNotes();
+			await waitResourcesLoad();
+			reflowNotes();
+			document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => attachNoteListeners(containerElement, true));
+			document.documentElement.appendChild(getStyleElement(HIGHLIGHTS_WEB_STYLESHEET));
+			maskPageElement = getMaskElement(PAGE_MASK_CLASS, PAGE_MASK_CONTAINER_CLASS);
+			maskNoteElement = getMaskElement(NOTE_MASK_CLASS);
+			document.documentElement.onmousedown = document.documentElement.ontouchstart = onMouseDown;
+			document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
+			document.documentElement.onmouseover = onMouseOver;
+			document.documentElement.onmouseout = onMouseOut;
+			document.documentElement.onkeydown = onKeyDown;
+			window.onclick = event => event.preventDefault();
+			const iconElement = document.querySelector("link[rel*=icon]");
+			window.parent.postMessage(JSON.stringify({
+				method: "onInit",
+				title: document.title,
+				icon: iconElement && iconElement.href,
+				filename,
+				reset,
+				formatPageEnabled: isProbablyReaderable(document)
+			}), "*");
+		}
 	}
 
 	async function initConstants() {
@@ -2042,6 +2045,12 @@ table {
 		} else {
 			return element.shadowRoot;
 		}
+	}
+
+	function detectSavedPage(document) {
+		const firstDocumentChild = document.documentElement.firstChild;
+		return firstDocumentChild.nodeType == Node.COMMENT_NODE &&
+			(firstDocumentChild.textContent.includes(COMMENT_HEADER));
 	}
 
 })(typeof globalThis == "object" ? globalThis : window);
