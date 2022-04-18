@@ -53,7 +53,7 @@ const savePageButton = document.querySelector(".save-page-button");
 const printPageButton = document.querySelector(".print-page-button");
 const lastButton = toolbarElement.querySelector(".buttons:last-of-type [type=button]:last-of-type");
 
-let tabData, tabDataParser;
+let tabData, tabDataParser, downloadParser;
 
 addYellowNoteButton.title = browser.i18n.getMessage("editorAddYellowNote");
 addPinkNoteButton.title = browser.i18n.getMessage("editorAddPinkNote");
@@ -314,7 +314,6 @@ addEventListener("message", event => {
 	}
 });
 
-let downloadParser;
 browser.runtime.onMessage.addListener(message => {
 	if (message.method == "devtools.resourceCommitted") {
 		updatedResources[message.url] = { content: message.content, type: message.type, encoding: message.encoding };
