@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, Response */
+/* global browser, singlefile, URL */
 
 import * as config from "./config.js";
 import * as bookmarks from "./bookmarks.js";
@@ -35,7 +35,6 @@ import { download } from "./download-util.js";
 import * as yabson from "./../../lib/yabson/yabson.js";
 
 const parsers = new Map();
-const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 const GDRIVE_CLIENT_ID = "207618107333-h1220p1oasj3050kr5r416661adm091a.apps.googleusercontent.com";
 const GDRIVE_CLIENT_KEY = "VQJ8Gq8Vxx72QyxPyeLtWvUt";
 const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
@@ -85,17 +84,17 @@ async function onMessage(message, sender) {
 	}
 }
 
-async function downloadTabPage(message, tab) {
+async function downloadTabPage(response, tab) {
 	const tabId = tab.id;
 	let parser = parsers.get(tabId);
 	if (!parser) {
 		parser = yabson.getParser();
 		parsers.set(tabId, parser);
 	}
-	let result = parser.next(new Uint8Array(message.content));
+	let result = parser.next(response.data);
 	if (result.done) {
 		let skipped;
-		message = result.value;
+		const message = result.value;
 		parsers.delete(tabId);
 		if (message.backgroundSave && !message.saveToGDrive) {
 			const testSkip = await testSkipSave(message.filename, message);
@@ -118,7 +117,7 @@ async function downloadTabPage(message, tab) {
 			});
 			if (message.openEditor) {
 				ui.onEdit(tab.id);
-				await editor.open({ tabIndex: tab.index + 1, filename: message.filename, content: Array.from(new Uint8Array(await blob.arrayBuffer())) });
+				await editor.open({ tabIndex: tab.index + 1, filename: message.filename, content: new Uint8Array(await blob.arrayBuffer()) });
 			} else {
 				await downloadBlob(blob, tabId, tab.incognito, message);
 			}
@@ -277,20 +276,12 @@ async function downloadPage(pageData, options) {
 }
 
 async function downloadPageForeground(taskId, filename, content, tabId) {
-	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.size; blockIndex++) {
+	const serializer = yabson.getSerializer({ filename, taskId, content: await content.arrayBuffer() });
+	for (const data of serializer) {
 		const message = {
 			method: "content.download",
-			filename,
-			taskId
+			data: Array.from(data)
 		};
-		message.truncated = content.size > MAX_CONTENT_SIZE;
-		if (message.truncated) {
-			message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.size;
-			const blob = content.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
-			message.content = Array.from(new Uint8Array(await new Response(blob).arrayBuffer()));
-		} else {
-			message.content = Array.from(new Uint8Array(await new Response(content).arrayBuffer()));
-		}
 		await browser.tabs.sendMessage(tabId, message);
 	}
 }

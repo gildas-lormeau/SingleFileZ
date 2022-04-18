@@ -21,11 +21,12 @@
  *   Source.
  */
 
-/* global browser, globalThis, window, document, location, setTimeout, XMLHttpRequest, Node, DOMParser */
+/* global browser, globalThis, window, document, location, setTimeout, clearTimeout, XMLHttpRequest, Node, DOMParser */
+
+import * as yabson from "./../../lib/yabson/yabson.js";
 
 const singlefile = globalThis.singlefileBootstrap;
-
-const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
+const fetchData = [];
 
 let unloadListenerAdded, optionsAutoSave, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref;
 singlefile.pageInfo = {
@@ -57,7 +58,8 @@ browser.runtime.onMessage.addListener(message => {
 		message.method == "content.maybeInit" ||
 		message.method == "content.init" ||
 		message.method == "content.openEditor" ||
-		message.method == "devtools.resourceCommitted") {
+		message.method == "devtools.resourceCommitted" ||
+		message.method == "singlefile.fetchResponse") {
 		return onMessage(message);
 	}
 });
@@ -89,43 +91,26 @@ async function extractFile() {
 }
 
 function getContent() {
-	return new Promise(resolve => {
+	return new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
 		xhr.open("GET", location.href);
 		xhr.send();
 		xhr.responseType = "arraybuffer";
-		xhr.onload = () => resolve(Array.from(new Uint8Array(xhr.response)));
+		xhr.onload = () => resolve(new Uint8Array(xhr.response));
 		xhr.onerror = () => {
-			let pendingResponseArray = [];
-			browser.runtime.onMessage.addListener(message => {
-				if (message.method == "singlefile.multipartResponse") {
-					fetchResponse(message);
-				}
-			});
+			const parser = yabson.getParser();
+			parser.test = new Date();
 			const errorMessageElement = document.getElementById("sfz-error-message");
 			if (errorMessageElement) {
 				errorMessageElement.remove();
 			}
-			browser.runtime.sendMessage({ method: "singlefile.multipartFetch", url: location.href });
-
-			function fetchResponse(message) {
-				if (message.error) {
-					browser.runtime.onMessage.removeListener(fetchResponse);
-				} else {
-					if (!pendingResponseArray.length) {
-						document.body.appendChild(document.createTextNode("Please wait..."));
-					}
-					if (message.truncated) {
-						pendingResponseArray = pendingResponseArray.concat(message.array);
-					} else {
-						pendingResponseArray = message.array;
-					}
-					if (!message.truncated || message.finished) {
-						browser.runtime.onMessage.removeListener(fetchResponse);
-						resolve(pendingResponseArray);
-					}
-				}
-			}
+			const waitTimeout = setTimeout(() => {
+				document.body.innerHTML = "Please wait...";
+				document.body.hidden = false;
+			}, 5000);
+			const requestId = fetchData.length;
+			fetchData.push({ waitTimeout, parser, resolve, reject });
+			browser.runtime.sendMessage({ method: "singlefile.fetch", requestId, url: location.href });
 		};
 	});
 }
@@ -162,6 +147,23 @@ async function onMessage(message) {
 	if (message.method == "devtools.resourceCommitted") {
 		singlefile.pageInfo.updatedResources[message.url] = { content: message.content, type: message.type, encoding: message.encoding };
 		return {};
+	}
+	if (message.method == "singlefile.fetchResponse") {
+		fetchResponse(message);
+	}
+}
+
+function fetchResponse(response) {
+	const { parser, waitTimeout, resolve, reject } = fetchData[response.requestId];
+	const result = parser.next(response.data);
+	if (result.done) {
+		clearTimeout(waitTimeout);
+		const message = result.value;
+		if (message.error) {
+			reject(new Error(message.error));
+		} else {
+			resolve(message.array);
+		}
 	}
 }
 
@@ -297,18 +299,12 @@ function savePage(docData, frames, { autoSaveUnload, autoSaveDiscard, autoSaveRe
 
 async function openEditor() {
 	const content = await getContent();
-	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
+	const serializer = yabson.getSerializer({ content, filename: decodeURIComponent(location.href.match(/^.*\/(.*)$/)[1]) });
+	for (const data of serializer) {
 		const message = {
 			method: "editor.open",
-			filename: decodeURIComponent(location.href.match(/^.*\/(.*)$/)[1])
+			data: Array.from(data)
 		};
-		message.truncated = content.length > MAX_CONTENT_SIZE;
-		if (message.truncated) {
-			message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.length;
-			message.content = content.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
-		} else {
-			message.content = content;
-		}
 		await browser.runtime.sendMessage(message);
 	}
 }

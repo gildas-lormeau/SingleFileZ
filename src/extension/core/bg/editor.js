@@ -24,11 +24,11 @@
 /* global browser */
 
 import * as config from "./config.js";
+import * as yabson from "./../../lib/yabson/yabson.js";
 
-const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 const EDITOR_PAGE_URL = "/src/extension/ui/pages/editor.html";
 const tabsData = new Map();
-const partialContents = new Map();
+const tabDataParsers = new Map();
 const EDITOR_URL = browser.runtime.getURL(EDITOR_PAGE_URL);
 
 export {
@@ -62,46 +62,29 @@ async function onMessage(message, sender) {
 		const tabData = tabsData.get(tab.id);
 		if (tabData) {
 			const options = await config.getOptions(tabData.url);
-			const content = JSON.stringify(tabData);
-			for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
-				const message = {
-					method: "editor.setTabData"
-				};
-				message.truncated = content.length > MAX_CONTENT_SIZE;
-				if (message.truncated) {
-					message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.length;
-					message.content = content.substring(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
-					if (message.finished) {
-						message.options = options;
-					}
-				} else {
-					message.content = content;
-					message.options = options;
-				}
-				await browser.tabs.sendMessage(tab.id, message);
+			const serializer = yabson.getSerializer({ tabData, options });
+			for (const data of serializer) {
+				await browser.tabs.sendMessage(tab.id, {
+					method: "editor.setTabData",
+					data: Array.from(data)
+				});
 			}
 		}
+		return {};
 	}
 	if (message.method.endsWith(".open")) {
-		let contents;
 		const tab = sender.tab;
-		if (message.truncated) {
-			contents = partialContents.get(tab.id);
-			if (!contents) {
-				contents = [];
-				partialContents.set(tab.id, contents);
-			}
-			contents.push(message.content);
-			if (message.finished) {
-				partialContents.delete(tab.id);
-			}
-		} else if (message.content) {
-			contents = [message.content];
+		let tabDataParser = tabDataParsers.get(tab.id);
+		if (!tabDataParser) {
+			tabDataParser = yabson.getParser();
+			tabDataParsers.set(tab.id, tabDataParser);
 		}
-		if (!message.truncated || message.finished) {
+		const result = tabDataParser.next(message.data);
+		if (result.done) {
 			const updateTabProperties = { url: EDITOR_PAGE_URL };
 			await browser.tabs.update(tab.id, updateTabProperties);
-			tabsData.set(tab.id, { url: tab.url, content: contents.flat(), filename: message.filename });
+			tabsData.set(tab.id, { url: tab.url, content: result.value.content, filename: result.value.filename });
 		}
+		return {};
 	}
 }

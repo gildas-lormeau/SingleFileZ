@@ -25,7 +25,7 @@
 
 const referrers = new Map();
 const REQUEST_ID_HEADER_NAME = "x-single-file-request-id";
-const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
+import * as yabson from "./../../../../lib/yabson/yabson.js";
 
 export {
 	REQUEST_ID_HEADER_NAME,
@@ -39,8 +39,6 @@ browser.runtime.onMessage.addListener((message, sender) => {
 				.then(resolve)
 				.catch(error => resolve({ error: error && error.toString() }));
 		});
-	} else if (message.method == "singlefile.multipartFetch") {
-		sendMultipartResponse(message, sender);
 	}
 });
 
@@ -58,55 +56,21 @@ async function onRequest(message, sender) {
 }
 
 async function sendResponse(tabId, requestId, response) {
-	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE <= response.array.length; blockIndex++) {
+	const serializer = yabson.getSerializer({
+		headers: response.headers,
+		status: response.status,
+		error: response.error,
+		array: response.array
+	});
+	for (const data of serializer) {
 		const message = {
 			method: "singlefile.fetchResponse",
 			requestId,
-			headers: response.headers,
-			status: response.status,
-			error: response.error
+			data: Array.from(data)
 		};
-		message.truncated = response.array.length > MAX_CONTENT_SIZE;
-		if (message.truncated) {
-			message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > response.array.length;
-			message.array = response.array.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
-		} else {
-			message.array = response.array;
-		}
 		await browser.tabs.sendMessage(tabId, message);
 	}
 	return {};
-}
-
-async function sendMultipartResponse(message, sender) {
-	try {
-		const response = await fetchResource(message.url);
-		const id = message.id;
-		for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < response.array.length; blockIndex++) {
-			const message = {
-				method: "singlefile.multipartResponse",
-				id
-			};
-			message.truncated = response.array.length > MAX_CONTENT_SIZE;
-			if (message.truncated) {
-				message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > response.array.length;
-				message.array = response.array.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
-			} else {
-				message.array = response.array;
-			}
-			if (!message.truncated || message.finished) {
-				message.headers = response.headers;
-				message.status = response.status;
-			}
-			browser.tabs.sendMessage(sender.tab.id, message);
-		}
-	} catch (error) {
-		await browser.tabs.sendMessage(sender.tab.id, {
-			method: "singlefile.multipartResponse",
-			id: message.id,
-			error: error && error.toString()
-		});
-	}
 }
 
 function fetchResource(url, options = {}, includeRequestId) {
@@ -124,13 +88,13 @@ function fetchResource(url, options = {}, includeRequestId) {
 							.catch(reject);
 					} else {
 						resolve({
-							array: Array.from(new Uint8Array(xhrRequest.response)),
+							array: new Uint8Array(xhrRequest.response),
 							headers: { "content-type": xhrRequest.getResponseHeader("Content-Type") },
 							status: xhrRequest.status
 						});
 					}
 				} else {
-					reject();
+					reject(new Error("Empty response"));
 				}
 			}
 		};

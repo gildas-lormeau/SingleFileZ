@@ -25,8 +25,6 @@
 
 import * as yabson from "./../../lib/yabson/yabson.js";
 
-const MAX_CHUNK_SIZE = 4 * 1024 * 1024;
-
 export {
 	downloadPage
 };
@@ -35,9 +33,11 @@ async function downloadPage(pageData, options) {
 	if (options.includeInfobar) {
 		await infobar.includeScript(pageData);
 	}
+	/*
 	if (options.includeBOM) {
 		pageData.content = "\ufeff" + pageData.content;
 	}
+	*/
 	const message = {
 		taskId: options.taskId,
 		insertTextBody: options.insertTextBody,
@@ -69,11 +69,11 @@ async function downloadPage(pageData, options) {
 		password: options.password,
 		pageData: pageData
 	};
-	const serializer = yabson.getSerializer(message, { chunkSize: MAX_CHUNK_SIZE });
-	for (const content of serializer) {
+	const serializer = yabson.getSerializer(message);
+	for (const data of serializer) {
 		await browser.runtime.sendMessage({
 			method: "downloads.download",
-			content: Array.from(content)
+			data: Array.from(data)
 		});
 	}
 	if (options.backgroundSave) {

@@ -26,6 +26,7 @@
 import * as download from "../../core/common/download.js";
 import { onError } from "./../common/content-error.js";
 import * as zip from "../../../single-file/vendor/zip/zip.js";
+import * as yabson from "./../../lib/yabson/yabson.js";
 
 const editorElement = document.querySelector(".editor");
 const toolbarElement = document.querySelector(".toolbar");
@@ -52,7 +53,7 @@ const savePageButton = document.querySelector(".save-page-button");
 const printPageButton = document.querySelector(".print-page-button");
 const lastButton = toolbarElement.querySelector(".buttons:last-of-type [type=button]:last-of-type");
 
-let tabData, tabDataContents = [];
+let tabData, tabDataParser;
 
 addYellowNoteButton.title = browser.i18n.getMessage("editorAddYellowNote");
 addPinkNoteButton.title = browser.i18n.getMessage("editorAddPinkNote");
@@ -325,16 +326,15 @@ browser.runtime.onMessage.addListener(message => {
 		return Promise.resolve({});
 	}
 	if (message.method == "editor.setTabData") {
-		if (message.truncated) {
-			tabDataContents.push(message.content);
-		} else {
-			tabDataContents = [message.content];
+		if (!tabDataParser) {
+			tabDataParser = yabson.getParser();
 		}
-		if (!message.truncated || message.finished) {
-			tabData = JSON.parse(tabDataContents.join(""));
-			tabData.options = message.options;
-			tabDataContents = [];
-			editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: tabData.content, password: tabData.options.password }), "*");
+		const result = tabDataParser.next(message.data);
+		if (result.done) {
+			tabDataParser = null;
+			tabData = result.value.tabData;
+			tabData.options = result.value.options;
+			editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: Array.from(tabData.content), password: tabData.options.password }), "*");
 			editorElement.contentWindow.focus();
 		}
 		return Promise.resolve({});
