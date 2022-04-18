@@ -29,6 +29,7 @@ import * as helper from "./single-file-helper.js";
 
 const DEBUG = false;
 const ONE_MB = 1024 * 1024;
+const PREFIX_CONTENT_TYPE_TEXT = "text/";
 const DEFAULT_REPLACED_CHARACTERS = ["~", "+", "\\\\", "?", "%", "*", ":", "|", "\"", "<", ">", "\x00-\x1f", "\x7F"];
 const DEFAULT_REPLACEMENT_CHARACTER = "_";
 const CONTENT_TYPE_EXTENSIONS = {
@@ -265,7 +266,7 @@ function getInstance(utilOptions) {
 				return { resourceURL };
 			}
 		} else {
-			if (response.status >= 400 || (options.validateTextContentType && contentType && !contentType.startsWith("text/"))) {
+			if (response.status >= 400 || (options.validateTextContentType && contentType && !contentType.startsWith(PREFIX_CONTENT_TYPE_TEXT))) {
 				return { resourceURL };
 			}
 			if (!charset) {
