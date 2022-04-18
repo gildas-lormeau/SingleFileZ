@@ -34,7 +34,7 @@ const bootstrap = globalThis.singlefileBootstrap;
 
 const MOZ_EXTENSION_PROTOCOL = "moz-extension:";
 
-let processor, processing, parser;
+let processor, processing, downloadParser;
 
 singlefile.init({ fetch, frameFetch });
 browser.runtime.onMessage.addListener(message => {
@@ -66,12 +66,12 @@ async function onMessage(message) {
 			};
 		}
 		if (message.method == "content.download") {
-			if (!parser) {
-				parser = yabson.getParser();
+			if (!downloadParser) {
+				downloadParser = yabson.getParser();
 			}
-			const result = parser.next(message.data);
+			const result = downloadParser.next(message.data);
 			if (result.done) {
-				parser = null;
+				downloadParser = null;
 				const link = document.createElement("a");
 				link.download = result.value.filename;
 				link.href = URL.createObjectURL(new Blob([result.value.content]), "text/html");

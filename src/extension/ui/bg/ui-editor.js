@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, document, matchMedia, addEventListener, prompt */
+/* global browser, document, matchMedia, addEventListener, prompt, URL, MouseEvent, Blob */
 
 import * as download from "../../core/common/download.js";
 import { onError } from "./../common/content-error.js";
@@ -314,6 +314,7 @@ addEventListener("message", event => {
 	}
 });
 
+let downloadParser;
 browser.runtime.onMessage.addListener(message => {
 	if (message.method == "devtools.resourceCommitted") {
 		updatedResources[message.url] = { content: message.content, type: message.type, encoding: message.encoding };
@@ -344,6 +345,23 @@ browser.runtime.onMessage.addListener(message => {
 	}
 	if (message.method == "content.error") {
 		onError(message.error, message.link);
+	}
+	if (message.method == "content.download") {
+		if (!downloadParser) {
+			downloadParser = yabson.getParser();
+		}
+		const result = downloadParser.next(message.data);
+		if (result.done) {
+			downloadParser = null;
+			const link = document.createElement("a");
+			link.download = result.value.filename;
+			link.href = URL.createObjectURL(new Blob([result.value.content]), "text/html");
+			link.dispatchEvent(new MouseEvent("click"));
+			URL.revokeObjectURL(link.href);
+			return browser.runtime.sendMessage({ method: "downloads.end", taskId: result.value.taskId }).then(() => ({}));
+		} else {
+			return Promise.resolve({});
+		}
 	}
 });
 
