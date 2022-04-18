@@ -33,11 +33,9 @@ async function downloadPage(pageData, options) {
 	if (options.includeInfobar) {
 		await infobar.includeScript(pageData);
 	}
-	/*
 	if (options.includeBOM) {
 		pageData.content = "\ufeff" + pageData.content;
 	}
-	*/
 	const message = {
 		taskId: options.taskId,
 		insertTextBody: options.insertTextBody,
