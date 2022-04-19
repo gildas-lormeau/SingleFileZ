@@ -388,6 +388,7 @@ const EMPTY_IMAGE = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
 const SHADOW_MODE_ATTRIBUTE_NAME = "shadowmode";
 const SHADOW_DELEGATE_FOCUS_ATTRIBUTE_NAME = "delegatesfocus";
 const SCRIPT_TEMPLATE_SHADOW_ROOT = "data-template-shadow-root";
+const UTF8_CHARSET = "utf-8";
 
 class Processor {
 	constructor(options, batchRequest) {
@@ -467,7 +468,7 @@ class Processor {
 		if (this.options.insertSingleFileComment) {
 			const firstComment = this.doc.documentElement.firstChild;
 			let infobarURL = this.options.saveUrl, infobarSaveDate = this.options.saveDate;
-			if (firstComment.nodeType == 8 && firstComment.textContent.includes("Page saved with SingleFile")) {
+			if (firstComment.nodeType == 8 && firstComment.textContent.includes(util.COMMENT_HEADER)) {
 				const info = this.doc.documentElement.firstChild.textContent.split("\n");
 				const [, , url, saveDate] = info;
 				infobarURL = url.split("url: ")[1];
@@ -830,7 +831,7 @@ class Processor {
 			element.remove();
 		});
 		const metaElement = this.doc.createElement("meta");
-		metaElement.setAttribute("charset", "utf-8");
+		metaElement.setAttribute("charset", UTF8_CHARSET);
 		if (this.doc.head.firstChild) {
 			this.doc.head.insertBefore(metaElement, this.doc.head.firstChild);
 		} else {
@@ -1326,6 +1327,7 @@ class Processor {
 					acceptHeaders: this.options.acceptHeaders
 				});
 				const name = "scripts/" + this.resources.scripts.size + ".js";
+				content.data = getUpdatedResourceContent(resourceURL, content, this.options);
 				if (element.tagName == "SCRIPT") {
 					element.setAttribute("src", name);
 					if (element.getAttribute("async") == "" || element.getAttribute("async") == "async" || element.getAttribute(util.ASYNC_SCRIPT_ATTRIBUTE_NAME) == "") {
@@ -1337,7 +1339,6 @@ class Processor {
 					scriptElement.setAttribute("async", "");
 					element.parentElement.replaceChild(scriptElement, element);
 				}
-				content.data = getUpdatedResourceContent(resourceURL, content, this.options);
 				this.resources.scripts.set(this.resources.scripts.size, { name, content: content.data, url: resourceURL });
 			}
 		}));
@@ -2102,7 +2103,7 @@ function getCSSValue(value) {
 	return result;
 }
 
-function matchCharsetEquals(stylesheetContent = "", charset = "utf-8") {
+function matchCharsetEquals(stylesheetContent = "", charset = UTF8_CHARSET) {
 	const stylesheetCharset = getCharset(stylesheetContent);
 	if (stylesheetCharset) {
 		return stylesheetCharset == charset.toLowerCase();
