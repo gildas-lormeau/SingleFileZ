@@ -23,6 +23,7 @@ zip -r singlefilez-extension-chromium.zip manifest.json lib _locales src/single-
 cp src/extension/core/bg/config.js config.copy.js
 jq "del(.browser_specific_settings,.permissions[0],.permissions[1],.options_ui.browser_style)" manifest.copy.json >manifest.json
 sed -i 's/forceWebAuthFlow: false/forceWebAuthFlow: true/g' src/extension/core/bg/config.js
+sed -i 's/image\/avif,//g' src/extension/core/bg/config.js
 mkdir _locales.copy
 cp -R _locales/* _locales.copy
 rm -rf _locales/*
