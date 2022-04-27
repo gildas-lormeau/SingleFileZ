@@ -64,7 +64,7 @@ async function extract(content, { password, prompt = () => { }, shadowRootScript
 	const entries = await zipReader.getEntries();
 	const options = { password };
 	await Promise.all(entries.map(async entry => {
-		let dataWriter, content, textContent, name;
+		let dataWriter, content, textContent, name, blob;
 		if (!options.password && entry.bitFlag.encrypted) {
 			options.password = prompt("Please enter the password to view the page");
 		}
@@ -83,13 +83,14 @@ async function extract(content, { password, prompt = () => { }, shadowRootScript
 			if (entry.filename.match(/frames\//) || noBlobURL) {
 				content = await entry.getData(new zip.Data64URIWriter(mimeType), options);
 			} else {
-				content = URL.createObjectURL(await entry.getData(new zip.BlobWriter(mimeType), options));
+				blob = await entry.getData(new zip.BlobWriter(mimeType), options);
+				content = URL.createObjectURL(blob);
 			}
 		}
-		resources.push({ filename: entry.filename, name, url: entry.comment, content, textContent, parentResources: [] });
+		resources.push({ filename: entry.filename, name, url: entry.comment, content, blob, textContent, parentResources: [] });
 	}));
 	await zipReader.close();
-	let docContent, url;
+	let docContent, origDocContent, url;
 	resources = resources.sort((resourceLeft, resourceRight) => resourceRight.filename.length - resourceLeft.filename.length);
 	const REGEXP_ESCAPE = /([{}()^$&.*?/+|[\\\\]|\]|-)/g;
 	for (const resource of resources) {
@@ -98,6 +99,9 @@ async function extract(content, { password, prompt = () => { }, shadowRootScript
 			const prefixPathMatch = resource.filename.match(/(.*\/)[^/]+$/);
 			if (prefixPathMatch && prefixPathMatch[1]) {
 				prefixPath = prefixPathMatch[1];
+			}
+			if (resource.filename.match(/^([0-9_]+\/)?index.html$/)) {
+				origDocContent = resource.textContent;
 			}
 			const isScript = resource.filename.match(/scripts\/[0-9]+\.js/);
 			if (!isScript) {
@@ -141,5 +145,5 @@ async function extract(content, { password, prompt = () => { }, shadowRootScript
 			}
 		}
 	}
-	return { docContent, resources, url };
+	return { docContent, origDocContent, resources, url };
 }

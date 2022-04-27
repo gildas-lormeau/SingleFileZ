@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, URL, prompt, MutationObserver, Node */
+/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, URL, prompt, MutationObserver, Node, FileReader */
 
 import * as zip from "./../../../single-file/vendor/zip/zip.js";
 import { extract } from "./../../../single-file/processors/compression/compression-extract.js";
@@ -1011,7 +1011,7 @@ table {
 
 	async function init({ content, password }, { filename, reset } = {}) {
 		await initConstants();
-		const { docContent, resources, url } = await extract(content, {
+		const { docContent, origDocContent, resources, url } = await extract(content, {
 			password,
 			prompt,
 			shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href,
@@ -1038,11 +1038,26 @@ table {
 			document.documentElement.onmouseout = onMouseOut;
 			document.documentElement.onkeydown = onKeyDown;
 			window.onclick = event => event.preventDefault();
-			const iconElement = document.querySelector("link[rel*=icon]");
+			const origContentDocument = (new DOMParser()).parseFromString(origDocContent, "text/html");
+			const iconElement = origContentDocument.querySelector("link[rel*=icon]");
+			let icon;
+			if (iconElement) {
+				const iconResource = resources.find(resource => resource.filename == iconElement.getAttribute("href"));
+				if (iconResource && iconResource.blob) {
+					const reader = new FileReader();
+					reader.readAsDataURL(iconResource.blob);
+					icon = await new Promise((resolve, reject) => {
+						reader.addEventListener("load", () => resolve(reader.result), false);
+						reader.addEventListener("error", reject, false);
+					});
+				} else {
+					icon = iconElement.href;
+				}
+			}
 			window.parent.postMessage(JSON.stringify({
 				method: "onInit",
 				title: document.title,
-				icon: iconElement && iconElement.href,
+				icon,
 				filename,
 				reset,
 				formatPageEnabled: isProbablyReaderable(document)
