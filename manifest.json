@@ -87,6 +87,7 @@
 		"src/extension/lib/readability/Readability.js",
 		"src/extension/lib/readability/Readability-readerable.js",
 		"src/single-file/vendor/zip/zip.min.js",
+		"src/single-file/vendor/zip/z-worker.js",
 		"src/extension/ui/pages/editor-note-web.css",
 		"src/extension/ui/pages/editor-mask-web.css",
 		"src/extension/ui/pages/editor-frame-web.css"

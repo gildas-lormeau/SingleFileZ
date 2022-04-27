@@ -23,6 +23,7 @@
 
 /* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, URL, prompt, MutationObserver, Node */
 
+import * as zip from "./../../../single-file/vendor/zip/zip.js";
 import { extract } from "./../../../single-file/processors/compression/compression-extract.js";
 import { display } from "./../../../single-file/processors/compression/compression-display.js";
 
@@ -62,6 +63,7 @@ import { display } from "./../../../single-file/processors/compression/compressi
 	const NOTE_HEADER_HEIGHT = 25;
 	const DISABLED_NOSCRIPT_ATTRIBUTE_NAME = "data-single-filez-disabled-noscript";
 	const COMMENT_HEADER = "Page saved with SingleFileZ";
+	const WORKER_SCRIPT_PATHS = ["/src/single-file/vendor/zip/z-worker.js"];
 
 	const STYLE_FORMATTED_PAGE = `
 	/* This Source Code Form is subject to the terms of the Mozilla Public
@@ -880,6 +882,7 @@ table {
 	let selectedNote, anchorElement, maskNoteElement, maskPageElement, highlightSelectionMode, removeHighlightMode, resizingNoteMode, movingNoteMode, highlightColor, collapseNoteTimeout, cuttingOuterMode, cuttingMode, cuttingPath, cuttingPathIndex, previousContent;
 	let removedElements = [], removedElementIndex = 0, initScriptContent, pageResources, pageUrl;
 
+	globalThis.zip = zip;
 	window.onmessage = async event => {
 		const message = JSON.parse(event.data);
 		if (message.method == "init") {
@@ -1008,7 +1011,14 @@ table {
 
 	async function init({ content, password }, { filename, reset } = {}) {
 		await initConstants();
-		const { docContent, resources, url } = await extract(content, { password, prompt, shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href });
+		const { docContent, resources, url } = await extract(content, {
+			password,
+			prompt,
+			shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href,
+			zipOptions: {
+				workerScripts: { deflate: WORKER_SCRIPT_PATHS, inflate: WORKER_SCRIPT_PATHS }
+			}
+		});
 		pageResources = resources;
 		pageUrl = url;
 		const contentDocument = (new DOMParser()).parseFromString(docContent, "text/html");
