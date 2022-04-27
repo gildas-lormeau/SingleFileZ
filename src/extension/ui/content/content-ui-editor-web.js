@@ -63,7 +63,6 @@ import { display } from "./../../../single-file/processors/compression/compressi
 	const NOTE_HEADER_HEIGHT = 25;
 	const DISABLED_NOSCRIPT_ATTRIBUTE_NAME = "data-single-filez-disabled-noscript";
 	const COMMENT_HEADER = "Page saved with SingleFileZ";
-	const WORKER_SCRIPT_PATHS = ["/src/single-file/vendor/zip/z-worker.js"];
 
 	const STYLE_FORMATTED_PAGE = `
 	/* This Source Code Form is subject to the terms of the Mozilla Public
@@ -1014,10 +1013,7 @@ table {
 		const { docContent, origDocContent, resources, url } = await extract(content, {
 			password,
 			prompt,
-			shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href,
-			zipOptions: {
-				workerScripts: { deflate: WORKER_SCRIPT_PATHS, inflate: WORKER_SCRIPT_PATHS }
-			}
+			shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href
 		});
 		pageResources = resources;
 		pageUrl = url;
