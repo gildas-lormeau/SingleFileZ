@@ -122,7 +122,8 @@ const DEFAULT_CONFIG = {
 		video: "video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5",
 		audio: "audio/webm,audio/ogg,audio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5"
 	},
-	moveStylesInHead: false
+	moveStylesInHead: false,
+	networkTimeout: 0
 };
 
 const DEFAULT_RULES = [{

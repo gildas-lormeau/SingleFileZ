@@ -353,7 +353,8 @@ class BatchRequest {
 					resourceReferrer: options.resourceReferrer,
 					baseURI,
 					blockMixedContent,
-					acceptHeaders: options.acceptHeaders
+					acceptHeaders: options.acceptHeaders,
+					networkTimeout: options.networkTimeout
 				});
 				onloadListener({ url: resourceURL });
 				if (!this.cancelled) {
@@ -434,7 +435,8 @@ class Processor {
 				frameId: this.options.windowId,
 				resourceReferrer: this.options.resourceReferrer,
 				expectedType: "document",
-				acceptHeaders: this.options.acceptHeaders
+				acceptHeaders: this.options.acceptHeaders,
+				networkTimeout: this.options.networkTimeout
 			});
 			pageContent = content.data || "";
 		}
@@ -1008,7 +1010,8 @@ class Processor {
 				resourceReferrer: this.options.resourceReferrer,
 				blockMixedContent: this.options.blockMixedContent,
 				saveOriginalURLs: this.options.saveOriginalURLs,
-				acceptHeaders: this.options.acceptHeaders
+				acceptHeaders: this.options.acceptHeaders,
+				networkTimeout: this.options.networkTimeout
 			};
 			let mediaText;
 			if (element.media) {
@@ -1324,7 +1327,8 @@ class Processor {
 					baseURI: this.options.baseURI,
 					blockMixedContent: this.options.blockMixedContent,
 					expectedType: "script",
-					acceptHeaders: this.options.acceptHeaders
+					acceptHeaders: this.options.acceptHeaders,
+					networkTimeout: this.options.networkTimeout
 				});
 				const name = "scripts/" + this.resources.scripts.size + ".js";
 				content.data = getUpdatedResourceContent(resourceURL, content, this.options);
@@ -1722,7 +1726,8 @@ class ProcessorHelper {
 				baseURI: options.baseURI,
 				blockMixedContent: options.blockMixedContent,
 				expectedType: "stylesheet",
-				acceptHeaders: options.acceptHeaders
+				acceptHeaders: options.acceptHeaders,
+				networkTimeout: options.networkTimeout
 			});
 			if (!(matchCharsetEquals(content.data, content.charset) || matchCharsetEquals(content.data, options.charset))) {
 				options = Object.assign({}, options, { charset: getCharset(content.data) });
@@ -1736,7 +1741,8 @@ class ProcessorHelper {
 					baseURI: options.baseURI,
 					blockMixedContent: options.blockMixedContent,
 					expectedType: "stylesheet",
-					acceptHeaders: options.acceptHeaders
+					acceptHeaders: options.acceptHeaders,
+					networkTimeout: options.networkTimeout
 				});
 			} else {
 				return content;
@@ -1800,7 +1806,8 @@ class ProcessorHelper {
 				baseURI: baseURI,
 				blockMixedContent: options.blockMixedContent,
 				expectedType: "stylesheet",
-				acceptHeaders: options.acceptHeaders
+				acceptHeaders: options.acceptHeaders,
+				networkTimeout: options.networkTimeout
 			});
 			if (!(matchCharsetEquals(content.data, content.charset) || matchCharsetEquals(content.data, options.charset))) {
 				options = Object.assign({}, options, { charset: getCharset(content.data) });
@@ -1951,7 +1958,8 @@ class ProcessorHelper {
 											maxResourceSizeEnabled: options.maxResourceSizeEnabled,
 											frameId: options.windowId,
 											resourceReferrer: options.resourceReferrer,
-											acceptHeaders: options.acceptHeaders
+											acceptHeaders: options.acceptHeaders,
+											networkTimeout: options.networkTimeout
 										})).data;
 									} catch (error) {
 										// ignored
