@@ -27,7 +27,7 @@ export {
 	extract
 };
 
-async function extract(content, { password, prompt = () => { }, shadowRootScriptURL, zipOptions = { useWebWorkers: false } } = {}) {
+async function extract(content, { password, prompt = () => { }, shadowRootScriptURL, zipOptions = { useWebWorkers: false }, noBlobURL } = {}) {
 	const KNOWN_MIMETYPES = {
 		"gif": "image/gif",
 		"jpg": "image/jpeg",
@@ -80,7 +80,7 @@ async function extract(content, { password, prompt = () => { }, shadowRootScript
 			} else {
 				mimeType = "application/octet-stream";
 			}
-			if (entry.filename.match(/frames\//)) {
+			if (entry.filename.match(/frames\//) || noBlobURL) {
 				content = await entry.getData(new zip.Data64URIWriter(mimeType), options);
 			} else {
 				content = URL.createObjectURL(await entry.getData(new zip.BlobWriter(mimeType), options));
