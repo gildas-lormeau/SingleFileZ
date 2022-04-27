@@ -27,7 +27,7 @@ export {
 	extract
 };
 
-async function extract(content, { password, prompt = () => { }, shadowRootScriptURL } = {}) {
+async function extract(content, { password, prompt = () => { }, shadowRootScriptURL, zipOptions = { useWebWorkers: false } } = {}) {
 	const KNOWN_MIMETYPES = {
 		"gif": "image/gif",
 		"jpg": "image/jpeg",
@@ -57,7 +57,7 @@ async function extract(content, { password, prompt = () => { }, shadowRootScript
 	if (Array.isArray(content)) {
 		content = new Blob([new Uint8Array(content)]);
 	}
-	zip.configure({ useWebWorkers: false });
+	zip.configure(zipOptions);
 	const blobReader = new zip.BlobReader(content);
 	let resources = [];
 	const zipReader = new zip.ZipReader(blobReader);
