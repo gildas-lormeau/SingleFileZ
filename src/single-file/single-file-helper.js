@@ -222,8 +222,12 @@ function getElementsInfo(win, doc, element, options, data = { usedFonts: new Map
 			shadowRootInfo.content = shadowRoot.innerHTML;
 			shadowRootInfo.delegatesFocus = shadowRoot.delegatesFocus;
 			shadowRootInfo.mode = shadowRoot.mode;
-			if (shadowRoot.adoptedStyleSheets && shadowRoot.adoptedStyleSheets.length) {
-				shadowRootInfo.adoptedStyleSheets = Array.from(shadowRoot.adoptedStyleSheets).map(stylesheet => Array.from(stylesheet.cssRules).map(cssRule => cssRule.cssText).join("\n"));
+			try {
+				if (shadowRoot.adoptedStyleSheets && shadowRoot.adoptedStyleSheets.length) {
+					shadowRootInfo.adoptedStyleSheets = Array.from(shadowRoot.adoptedStyleSheets).map(stylesheet => Array.from(stylesheet.cssRules).map(cssRule => cssRule.cssText).join("\n"));
+				}
+			} catch (error) {
+				// ignored
 			}
 		}
 		getElementsInfo(win, doc, element, options, data, elementHidden);
