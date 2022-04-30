@@ -64,6 +64,9 @@ function getInstance(utilOptions) {
 			const matchExtension = new URL(resourceURL).pathname.match(/(\.[^\\/.]*)$/);
 			return ((matchExtension && matchExtension[1] && this.getValidFilename(matchExtension[1], replacedCharacters, replacementCharacter)) || "").toLowerCase();
 		},
+		getContentTypeExtension(contentType) {
+			return CONTENT_TYPE_EXTENSIONS[contentType] || "";
+		},
 		getContent,
 		parseURL(resourceURL, baseURI) {
 			if (baseURI === undefined) {
@@ -86,9 +89,6 @@ function getInstance(utilOptions) {
 				.replace(/\.\//g, "." + replacementCharacter)
 				.replace(/\/\./g, "/" + replacementCharacter);
 			return filename;
-		},
-		getContentTypeExtension(contentType) {
-			return CONTENT_TYPE_EXTENSIONS[contentType] || "";
 		},
 		parseDocContent(content, baseURI) {
 			const doc = (new DOMParser()).parseFromString(content, "text/html");
