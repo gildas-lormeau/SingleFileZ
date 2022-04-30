@@ -40,7 +40,7 @@ async function display(document, docContent, { disableFramePointerEvents } = {})
 		} else {
 			document.insertBefore(doc.doctype, document.documentElement);
 		}
-	} else {
+	} else if (document.doctype) {
 		document.doctype.remove();
 	}
 	if (disableFramePointerEvents) {
