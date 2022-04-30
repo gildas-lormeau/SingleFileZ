@@ -60,6 +60,10 @@ function getInstance(utilOptions) {
 	utilOptions.frameFetch = utilOptions.frameFetch || utilOptions.fetch || fetch;
 	return {
 		getDoctypeString,
+		getFilenameExtension(resourceURL, replacedCharacters, replacementCharacter) {
+			const matchExtension = new URL(resourceURL).pathname.match(/(\.[^\\/.]*)$/);
+			return ((matchExtension && matchExtension[1] && this.getValidFilename(matchExtension[1], replacedCharacters, replacementCharacter)) || "").toLowerCase();
+		},
 		getContent,
 		parseURL(resourceURL, baseURI) {
 			if (baseURI === undefined) {
@@ -82,10 +86,6 @@ function getInstance(utilOptions) {
 				.replace(/\.\//g, "." + replacementCharacter)
 				.replace(/\/\./g, "/" + replacementCharacter);
 			return filename;
-		},
-		getFilenameExtension(resourceURL, replacedCharacters, replacementCharacter) {
-			const matchExtension = new URL(resourceURL).pathname.match(/(\.[^\\/.]*)$/);
-			return ((matchExtension && matchExtension[1] && this.getValidFilename(matchExtension[1], replacedCharacters, replacementCharacter)) || "").toLowerCase();
 		},
 		getContentTypeExtension(contentType) {
 			return CONTENT_TYPE_EXTENSIONS[contentType] || "";
