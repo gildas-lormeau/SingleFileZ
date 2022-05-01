@@ -164,8 +164,8 @@ function getInstance(utilOptions) {
 		minifyMedias(stylesheets) {
 			return modules.mediasAltMinifier.process(stylesheets);
 		},
-		removeAlternativeImages(doc, imageResources) {
-			return modules.imagesAltMinifier.process(doc, imageResources);
+		removeAlternativeImages(doc) {
+			return modules.imagesAltMinifier.process(doc);
 		},
 		parseSrcset(srcset) {
 			return vendor.srcsetParser.process(srcset);
