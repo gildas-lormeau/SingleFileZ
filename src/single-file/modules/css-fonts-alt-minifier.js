@@ -187,9 +187,10 @@ async function processFontFaceRules(cssRules, sheetIndex, fontsDetails, fontReso
 			await processFontFaceRules(ruleData.block.children, sheetIndex, fontsDetails.supports.get("supports-" + sheetIndex + "-" + supportsIndex + "-" + supportsText), fontResources, fontTests, stats);
 			supportsIndex++;
 		} else if (ruleData.type == "Atrule" && ruleData.name == "font-face") {
-			const fontInfo = fontsDetails.fonts.get(getFontKey(ruleData));
+			const key = getFontKey(ruleData);
+			const fontInfo = fontsDetails.fonts.get(key);
 			if (fontInfo) {
-				fontsDetails.fonts.delete(getFontKey(ruleData));
+				fontsDetails.fonts.delete(key);
 				await processFontFaceRule(ruleData, fontInfo, fontResources, fontTests, stats);
 			} else {
 				removedRules.push(cssRule);
