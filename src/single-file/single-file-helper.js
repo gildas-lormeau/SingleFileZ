@@ -60,6 +60,7 @@ const FONT_WEIGHTS = {
 };
 const COMMENT_HEADER = "Page saved with SingleFileZ";
 const SINGLE_FILE_UI_ELEMENT_CLASS = "single-file-ui-element";
+const EMPTY_RESOURCE = "data:,";
 const addEventListener = (type, listener, options) => globalThis.addEventListener(type, listener, options);
 const dispatchEvent = event => globalThis.dispatchEvent(event);
 
@@ -94,7 +95,8 @@ export {
 	SELECTED_CONTENT_ATTRIBUTE_NAME,
 	ASYNC_SCRIPT_ATTRIBUTE_NAME,
 	COMMENT_HEADER,
-	SINGLE_FILE_UI_ELEMENT_CLASS
+	SINGLE_FILE_UI_ELEMENT_CLASS,
+	EMPTY_RESOURCE
 };
 
 function initUserScriptHandler() {
@@ -259,7 +261,7 @@ function getResourcesInfo(win, doc, element, options, data, elementHidden) {
 	if (element.tagName == "IMG") {
 		const imageData = {
 			currentSrc: elementHidden ?
-				"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" :
+				EMPTY_RESOURCE :
 				(options.loadDeferredImages && element.getAttribute(LAZY_SRC_ATTRIBUTE_NAME)) || element.currentSrc
 		};
 		data.images.push(imageData);

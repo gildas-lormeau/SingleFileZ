@@ -200,7 +200,8 @@ function getInstance(utilOptions) {
 		STYLESHEET_ATTRIBUTE_NAME: helper.STYLESHEET_ATTRIBUTE_NAME,
 		SELECTED_CONTENT_ATTRIBUTE_NAME: helper.SELECTED_CONTENT_ATTRIBUTE_NAME,
 		COMMENT_HEADER: helper.COMMENT_HEADER,
-		SINGLE_FILE_UI_ELEMENT_CLASS: helper.SINGLE_FILE_UI_ELEMENT_CLASS
+		SINGLE_FILE_UI_ELEMENT_CLASS: helper.SINGLE_FILE_UI_ELEMENT_CLASS,
+		EMPTY_RESOURCE: helper.EMPTY_RESOURCE
 	};
 
 	async function getContent(resourceURL, options) {
@@ -256,7 +257,7 @@ function getInstance(utilOptions) {
 		try {
 			buffer = await response.arrayBuffer();
 		} catch (error) {
-			return { data: options.asBinary ? "data:null;base64," : "", resourceURL };
+			return { resourceURL };
 		}
 		resourceURL = response.url || resourceURL;
 		let contentType = "", charset;
