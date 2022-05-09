@@ -320,43 +320,43 @@
 		"description": "Options page label: 'remove stylesheets for alternative devices to screens'"
 	},
 	"optionsNetworkSubTitle": {
-		"message": "Network",
+		"message": "Сеть",
 		"description": "Options sub-title: 'Network'"
 	},
 	"optionsBlockedResources": {
-		"message": "blocked resources",
+		"message": "блокируемые ресурсы",
 		"description": "Options page label: 'blocked resources'"
 	},
 	"optionsAcceptHeaders": {
-		"message": "\"Accept\" header",
+		"message": "Заголовок \"Accept\"",
 		"description": "Options page label: '\"Accept\" header'"
 	},
 	"optionResourceScript": {
-		"message": "scripts",
+		"message": "скрипты",
 		"description": "Options page label: 'scripts'"
 	},
 	"optionResourceVideo": {
-		"message": "videos",
+		"message": "видео",
 		"description": "Options page label: 'videos'"
 	},
 	"optionResourceAudio": {
-		"message": "audios",
+		"message": "аудио",
 		"description": "Options page label: 'audios'"
 	},
 	"optionResourceDocument": {
-		"message": "documents",
+		"message": "документы",
 		"description": "Options page label: 'documents'"
 	},
 	"optionResourceFont": {
-		"message": "fonts",
+		"message": "шрифты",
 		"description": "Options page label: 'fonts'"
 	},
 	"optionResourceStylesheet": {
-		"message": "stylesheets",
+		"message": "таблицы стилей",
 		"description": "Options page label: 'stylesheets'"
 	},
 	"optionResourceImage": {
-		"message": "images",
+		"message": "изображения",
 		"description": "Options page label: 'images'"
 	},
 	"optionsDestinationSubTitle": {
@@ -516,7 +516,7 @@
 		"description": "Options page label: 'display stats in the console after processing'"
 	},
 	"optionSetMaxResourceSize": {
-		"message": "set maximum size",
+		"message": "установить максимальный размер",
 		"description": "Options page label: 'set maximum size'"
 	},
 	"optionMaxResourceSize": {
@@ -524,11 +524,11 @@
 		"description": "Options page label: 'maximum size (MB)'"
 	},
 	"optionSetMaxResourceDelay": {
-		"message": "set maximum download time",
+		"message": "установить максимальное время загрузки",
 		"description": "Options page label: 'set maximum download time'"
 	},
 	"optionMaxResourceDelay": {
-		"message": "maximum download time (s)",
+		"message": "максимальное время загрузки (сек.)",
 		"description": "Options page label: 'maximum download time (s)'"
 	},
 	"optionPassReferrerOnError": {
