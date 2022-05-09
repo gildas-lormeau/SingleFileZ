@@ -71,8 +71,12 @@ function onStart(tabId, step, autoSave) {
 
 async function onError(tabId, message) {
 	button.onError(tabId);
-	if (message) {
-		await browser.tabs.sendMessage(tabId, { method: "content.error", error: message.toString() });
+	try {
+		if (message) {
+			await browser.tabs.sendMessage(tabId, { method: "content.error", error: message.toString() });
+		}
+	} catch (error) {
+		// ignored
 	}
 }
 
