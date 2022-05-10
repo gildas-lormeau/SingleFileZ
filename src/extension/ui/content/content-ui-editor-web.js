@@ -1014,7 +1014,8 @@ table {
 			workerScripts: { inflate: ["/src/single-file/vendor/zip/z-worker.js"] }
 		};
 		try {
-			new Worker(zipOptions.workerScripts);
+			const worker = new Worker(zipOptions.workerScripts);
+			worker.terminate();
 		} catch (error) {
 			delete zipOptions.workerScripts;
 		}
