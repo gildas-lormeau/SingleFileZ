@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, URL, prompt, MutationObserver, Node, FileReader */
+/* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, URL, prompt, MutationObserver, Node, FileReader, Worker */
 
 import * as zip from "./../../../single-file/vendor/zip/zip.js";
 import { extract } from "./../../../single-file/processors/compression/compression-extract.js";
@@ -1010,10 +1010,19 @@ table {
 
 	async function init({ content, password }, { filename, reset } = {}) {
 		await initConstants();
+		const zipOptions = {
+			workerScripts: { inflate: ["/src/single-file/vendor/zip/z-worker.js"] }
+		};
+		try {
+			new Worker(zipOptions.workerScripts);
+		} catch (error) {
+			delete zipOptions.workerScripts;
+		}
 		const { docContent, origDocContent, resources, url } = await extract(content, {
 			password,
 			prompt,
-			shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href
+			shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href,
+			zipOptions
 		});
 		pageResources = resources;
 		pageUrl = url;
