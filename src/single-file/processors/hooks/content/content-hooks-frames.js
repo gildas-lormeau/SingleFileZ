@@ -31,6 +31,8 @@ const LOAD_DEFERRED_IMAGES_RESET_ZOOM_LEVEL_EVENT = "single-filez-load-deferred-
 const LOAD_DEFERRED_IMAGES_RESET_EVENT = "single-filez-load-deferred-images-reset";
 const BLOCK_COOKIES_START_EVENT = "single-filez-block-cookies-start";
 const BLOCK_COOKIES_END_EVENT = "single-filez-block-cookies-end";
+const DISPATCH_SCROLL_START_EVENT = "single-file-dispatch-scroll-event-start";
+const DISPATCH_SCROLL_END_EVENT = "single-file-dispatch-scroll-event-end";
 const BLOCK_STORAGE_START_EVENT = "single-filez-block-storage-start";
 const BLOCK_STORAGE_END_EVENT = "single-filez-block-storage-end";
 const LOAD_IMAGE_EVENT = "single-filez-load-image";
@@ -100,6 +102,9 @@ function loadDeferredImagesStart(options) {
 	if (options.loadDeferredImagesBlockStorage) {
 		dispatchEvent(new CustomEvent(BLOCK_STORAGE_START_EVENT));
 	}
+	if (options.loadDeferredImagesDispatchScrollEvent) {
+		dispatchEvent(new CustomEvent(DISPATCH_SCROLL_START_EVENT));
+	}
 	if (options.loadDeferredImagesKeepZoomLevel) {
 		dispatchEvent(new CustomEvent(LOAD_DEFERRED_IMAGES_KEEP_ZOOM_LEVEL_START_EVENT));
 	} else {
@@ -113,6 +118,9 @@ function loadDeferredImagesEnd(options) {
 	}
 	if (options.loadDeferredImagesBlockStorage) {
 		dispatchEvent(new CustomEvent(BLOCK_STORAGE_END_EVENT));
+	}
+	if (options.loadDeferredImagesDispatchScrollEvent) {
+		dispatchEvent(new CustomEvent(DISPATCH_SCROLL_END_EVENT));
 	}
 	if (options.loadDeferredImagesKeepZoomLevel) {
 		dispatchEvent(new CustomEvent(LOAD_DEFERRED_IMAGES_KEEP_ZOOM_LEVEL_END_EVENT));
