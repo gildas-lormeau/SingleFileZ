@@ -1030,23 +1030,10 @@ table {
 		const contentDocument = (new DOMParser()).parseFromString(docContent, "text/html");
 		if (detectSavedPage(contentDocument)) {
 			await display(document, docContent, { disableFramePointerEvents: true });
-			deserializeShadowRoots(document);
-			reflowNotes();
-			await waitResourcesLoad();
-			reflowNotes();
-			document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => attachNoteListeners(containerElement, true));
-			document.documentElement.appendChild(getStyleElement(HIGHLIGHTS_WEB_STYLESHEET));
-			maskPageElement = getMaskElement(PAGE_MASK_CLASS, PAGE_MASK_CONTAINER_CLASS);
-			maskNoteElement = getMaskElement(NOTE_MASK_CLASS);
-			document.documentElement.onmousedown = document.documentElement.ontouchstart = onMouseDown;
-			document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
-			document.documentElement.onmouseover = onMouseOver;
-			document.documentElement.onmouseout = onMouseOut;
-			document.documentElement.onkeydown = onKeyDown;
-			window.onclick = event => event.preventDefault();
+			await initPage();
+			let icon;
 			const origContentDocument = (new DOMParser()).parseFromString(origDocContent, "text/html");
 			const iconElement = origContentDocument.querySelector("link[rel*=icon]");
-			let icon;
 			if (iconElement) {
 				const iconResource = resources.find(resource => resource.filename == iconElement.getAttribute("href"));
 				if (iconResource && iconResource.blob) {
@@ -1069,6 +1056,23 @@ table {
 				formatPageEnabled: isProbablyReaderable(document)
 			}), "*");
 		}
+	}
+
+	async function initPage() {
+		deserializeShadowRoots(document);
+		reflowNotes();
+		await waitResourcesLoad();
+		reflowNotes();
+		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => attachNoteListeners(containerElement, true));
+		document.documentElement.appendChild(getStyleElement(HIGHLIGHTS_WEB_STYLESHEET));
+		maskPageElement = getMaskElement(PAGE_MASK_CLASS, PAGE_MASK_CONTAINER_CLASS);
+		maskNoteElement = getMaskElement(NOTE_MASK_CLASS);
+		document.documentElement.onmousedown = document.documentElement.ontouchstart = onMouseDown;
+		document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
+		document.documentElement.onmouseover = onMouseOver;
+		document.documentElement.onmouseout = onMouseOut;
+		document.documentElement.onkeydown = onKeyDown;
+		window.onclick = event => event.preventDefault();
 	}
 
 	async function initConstants() {
@@ -1706,7 +1710,9 @@ table {
 	}
 
 	function formatPage(applySystemTheme) {
-		previousContent = getContent(false, []);
+		serializeShadowRoots(document);
+		previousContent = document.documentElement.cloneNode(true);
+		deserializeShadowRoots(document);
 		const shadowRoots = {};
 		const classesToPreserve = ["single-file-highlight", "single-file-highlight-yellow", "single-file-highlight-green", "single-file-highlight-pink", "single-file-highlight-blue"];
 		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => {
@@ -1732,7 +1738,7 @@ table {
 				containerElement.shadowRoot.appendChild(shadowRoots[noteId]);
 			}
 		});
-		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => containerElement.shadowRoot = shadowRoots[containerElement.dataset.noteId]);
+		document.querySelectorAll(NOTE_TAGNAME).forEach(containerElement => shadowRoots[containerElement.dataset.noteId].childNodes.forEach(node => containerElement.shadowRoot.appendChild(node)));
 		document.body.contentEditable = contentEditable;
 		document.head.querySelectorAll("style").forEach(styleElement => styleElement.remove());
 		const styleElement = document.createElement("style");
@@ -1770,8 +1776,10 @@ table {
 	async function cancelFormatPage() {
 		if (previousContent) {
 			const contentEditable = document.body.contentEditable;
-			await init(previousContent, { reset: true });
 			document.body.contentEditable = contentEditable;
+			document.replaceChild(previousContent, document.documentElement);
+			deserializeShadowRoots(document);
+			await initPage();
 			onUpdate(false);
 			previousContent = null;
 		}
