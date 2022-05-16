@@ -435,7 +435,8 @@ expandAllButton.addEventListener("click", () => {
 }, false);
 saveCreatedBookmarksInput.addEventListener("click", saveCreatedBookmarks, false);
 passReferrerOnErrorInput.addEventListener("click", passReferrerOnError, false);
-saveToFilesystemInput.addEventListener("click", async () => await browser.runtime.sendMessage({ method: "downloads.disableGDrive" }), false);
+saveToFilesystemInput.addEventListener("click", () => disableDestinationPermissions(["clipboardWrite", "nativeMessaging"]), false);
+saveToGDriveInput.addEventListener("click", () => disableDestinationPermissions(["clipboardWrite", "nativeMessaging"], false), false);
 browser.runtime.sendMessage({ method: "config.isSync" }).then(data => synchronizeInput.checked = data.sync);
 synchronizeInput.addEventListener("click", async () => {
 	if (synchronizeInput.checked) {
@@ -939,6 +940,11 @@ async function saveCreatedBookmarks() {
 			await disableOption();
 		}
 	} else {
+		try {
+			await browser.permissions.remove({ permissions: ["bookmarks"] });
+		} catch (error) {
+			// ignored
+		}
 		await disableOption();
 	}
 
@@ -946,6 +952,17 @@ async function saveCreatedBookmarks() {
 		await update();
 		await refresh();
 		await browser.runtime.sendMessage({ method: "bookmarks.disable" });
+	}
+}
+
+async function disableDestinationPermissions(permissions, disableGDrive = true) {
+	if (disableGDrive) {
+		await browser.runtime.sendMessage({ method: "downloads.disableGDrive" });
+	}
+	try {
+		await browser.permissions.remove({ permissions });
+	} catch (error) {
+		//ignored
 	}
 }
 
