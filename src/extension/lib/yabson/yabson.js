@@ -1,4 +1,4 @@
-/* global TextEncoder, TextDecoder, BigInt64Array, BigUint64Array */
+/* global TextEncoder, TextDecoder */
 
 const DEFAULT_CHUNK_SIZE = 8 * 1024 * 1024;
 const TYPE_REFERENCE = 0;
@@ -14,8 +14,6 @@ registerType(serializeCircularReference, parseCircularReference, testCircularRef
 registerType(null, parseObject, testObject);
 registerType(serializeArray, parseArray, testArray);
 registerType(serializeString, parseString, testString);
-registerType(serializeTypedArray, parseBigUint64Array, testBigUint64Array);
-registerType(serializeTypedArray, parseBigInt64Array, testBigInt64Array);
 registerType(serializeTypedArray, parseFloat64Array, testFloat64Array);
 registerType(serializeTypedArray, parseFloat32Array, testFloat32Array);
 registerType(serializeTypedArray, parseUint32Array, testUint32Array);
@@ -27,7 +25,6 @@ registerType(serializeTypedArray, parseUint8Array, testUint8Array);
 registerType(serializeTypedArray, parseInt8Array, testInt8Array);
 registerType(serializeArrayBuffer, parseArrayBuffer, testArrayBuffer);
 registerType(serializeNumber, parseNumber, testNumber);
-registerType(serializeBigInt, parseBigInt, testBigInt);
 registerType(serializeUint32, parseUint32, testUint32);
 registerType(serializeInt32, parseInt32, testInt32);
 registerType(serializeUint16, parseUint16, testUint16);
@@ -62,7 +59,6 @@ export {
 	serializeTypedArray,
 	serializeArrayBuffer,
 	serializeNumber,
-	serializeBigInt,
 	serializeUint32,
 	serializeInt32,
 	serializeUint16,
@@ -83,8 +79,6 @@ export {
 	parseObject,
 	parseArray,
 	parseString,
-	parseBigUint64Array,
-	parseBigInt64Array,
 	parseFloat64Array,
 	parseFloat32Array,
 	parseUint32Array,
@@ -96,7 +90,6 @@ export {
 	parseInt8Array,
 	parseArrayBuffer,
 	parseNumber,
-	parseBigInt,
 	parseUint32,
 	parseInt32,
 	parseUint16,
@@ -119,8 +112,6 @@ export {
 	testObject,
 	testArray,
 	testString,
-	testBigUint64Array,
-	testBigInt64Array,
 	testFloat64Array,
 	testFloat32Array,
 	testUint32Array,
@@ -320,11 +311,6 @@ function* serializeArrayBuffer(data, arrayBuffer) {
 
 function* serializeNumber(data, number) {
 	const serializedNumber = new Uint8Array(new Float64Array([number]).buffer);
-	yield* data.append(serializedNumber);
-}
-
-function* serializeBigInt(data, number) {
-	const serializedNumber = new Uint8Array(new BigInt64Array([number]).buffer);
 	yield* data.append(serializedNumber);
 }
 
@@ -559,18 +545,6 @@ function* parseString(data) {
 	return textDecoder.decode(array);
 }
 
-function* parseBigUint64Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length * 8);
-	return new BigUint64Array(array.buffer);
-}
-
-function* parseBigInt64Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length * 8);
-	return new BigInt64Array(array.buffer);
-}
-
 function* parseFloat64Array(data) {
 	const length = yield* parseValue(data);
 	const array = yield* data.consume(length * 8);
@@ -634,11 +608,6 @@ function* parseArrayBuffer(data) {
 function* parseNumber(data) {
 	const array = yield* data.consume(8);
 	return new Float64Array(array.buffer)[0];
-}
-
-function* parseBigInt(data) {
-	const array = yield* data.consume(8);
-	return new BigInt64Array(array.buffer)[0];
 }
 
 function* parseUint32(data) {
@@ -770,14 +739,6 @@ function testEmptySlot(value) {
 
 function testString(value) {
 	return typeof value == "string";
-}
-
-function testBigUint64Array(value) {
-	return value instanceof BigUint64Array;
-}
-
-function testBigInt64Array(value) {
-	return value instanceof BigInt64Array;
 }
 
 function testFloat64Array(value) {
