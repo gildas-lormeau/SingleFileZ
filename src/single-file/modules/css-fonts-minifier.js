@@ -193,8 +193,11 @@ function testUsedFont(ruleData, familyName, declaredFonts, filteredUsedFonts) {
 }
 
 function testFontweight(fontWeight, usedFontWeights) {
-	fontWeight = fontWeight.split(/[ ,]/)[0];
-	return usedFontWeights.includes(helper.getFontWeight(helper.removeQuotes(fontWeight)));
+	let test;
+	for (const value of fontWeight.split(/[ ,]/)) {
+		test = test || usedFontWeights.includes(helper.getFontWeight(helper.removeQuotes(value)));
+	}
+	return test;
 }
 
 function getDeclarationValue(declarations, propertyName) {
