@@ -433,10 +433,10 @@ expandAllButton.addEventListener("click", () => {
 	}
 	document.querySelectorAll("details").forEach(detailElement => detailElement.open = Boolean(expandAllButton.className));
 }, false);
-saveCreatedBookmarksInput.addEventListener("click", saveCreatedBookmarks, false);
-passReferrerOnErrorInput.addEventListener("click", passReferrerOnError, false);
 saveToFilesystemInput.addEventListener("click", () => disableDestinationPermissions(["clipboardWrite", "nativeMessaging"]), false);
 saveToGDriveInput.addEventListener("click", () => disableDestinationPermissions(["clipboardWrite", "nativeMessaging"], false), false);
+saveCreatedBookmarksInput.addEventListener("click", saveCreatedBookmarks, false);
+passReferrerOnErrorInput.addEventListener("click", passReferrerOnError, false);
 browser.runtime.sendMessage({ method: "config.isSync" }).then(data => synchronizeInput.checked = data.sync);
 synchronizeInput.addEventListener("click", async () => {
 	if (synchronizeInput.checked) {
