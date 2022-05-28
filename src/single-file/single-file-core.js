@@ -1864,7 +1864,7 @@ class ProcessorHelper {
 			function replaceURLs(declaration, oldURL, newURL) {
 				declaration.value.children.forEach(token => {
 					if (token.type == "Url" && util.removeQuotes(getCSSValue(token.value)) == oldURL) {
-						token.value.value = newURL;
+						token.value = newURL;
 					}
 				});
 			}
@@ -1893,13 +1893,13 @@ class ProcessorHelper {
 							const name = "images/" + indexResource + extension;
 							findURLToken(originalResourceURL, declaration.value.children, token => {
 								if (!originalResourceURL.startsWith("#")) {
-									token.data.value.value = name;
+									token.data.value = name;
 								}
 							});
 							resources.images.set(indexResource, { name, content, extension, contentType, url: resourceURL });
 						}
 					} else {
-						findURLToken(originalResourceURL, declaration.value.children, token => token.data.value.value = util.EMPTY_RESOURCE);
+						findURLToken(originalResourceURL, declaration.value.children, token => token.data.value = util.EMPTY_RESOURCE);
 					}
 				}));
 			}
@@ -2120,13 +2120,17 @@ function normalizeURL(url) {
 }
 
 function getCSSValue(value) {
-	let result = "";
-	try {
-		result = cssTree.generate(value);
-	} catch (error) {
-		// ignored
+	if (typeof value == "string") {
+		return value;
+	} else {
+		let result = "";
+		try {
+			result = cssTree.generate(value);
+		} catch (error) {
+			// ignored
+		}
+		return result;
 	}
-	return result;
 }
 
 function matchCharsetEquals(stylesheetContent = "", charset = UTF8_CHARSET) {
