@@ -27,8 +27,8 @@ import * as mediaQueryParser from "./css-media-query-parser.js";
 import * as cssMinifier from "./css-minifier.js";
 import * as cssTree from "./css-tree.js";
 import * as cssUnescape from "./css-unescape.js";
-import * as srcsetParser from "./html-srcset-parser";
-import { MIMEType } from "./mime-type-parser";
+import * as srcsetParser from "./html-srcset-parser.js";
+import { MIMEType } from "./mime-type-parser.js";
 
 export {
 	zip,

@@ -24,7 +24,7 @@
 /* global globalThis, CustomEvent */
 
 import * as cssUnescape from "./vendor/css-unescape.js";
-import * as hooksFrames from "./processors/hooks/content/content-hooks-frames";
+import * as hooksFrames from "./processors/hooks/content/content-hooks-frames.js";
 
 const ON_BEFORE_CAPTURE_EVENT_NAME = "single-filez-on-before-capture";
 const ON_AFTER_CAPTURE_EVENT_NAME = "single-filez-on-after-capture";

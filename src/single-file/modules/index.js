@@ -22,7 +22,7 @@
  */
 
 import * as fontsAltMinifier from "./css-fonts-alt-minifier.js";
-import * as fontsMinifier from "./css-fonts-minifier";
+import * as fontsMinifier from "./css-fonts-minifier.js";
 import * as matchedRules from "./css-matched-rules.js";
 import * as mediasAltMinifier from "./css-medias-alt-minifier.js";
 import * as cssRulesMinifier from "./css-rules-minifier.js";

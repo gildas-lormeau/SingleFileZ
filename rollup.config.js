@@ -1,4 +1,4 @@
-import { terser } from "rollup-plugin-terser";
+import { terser } from "rollup-plugin-terser.js";
 
 export default [{
 	input: ["src/single-file/index.js"],

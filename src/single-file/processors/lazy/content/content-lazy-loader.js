@@ -23,7 +23,7 @@
 
 /* global globalThis */
 
-import * as hooksFrames from "./../../hooks/content/content-hooks-frames";
+import * as hooksFrames from "./../../hooks/content/content-hooks-frames.js";
 import {
 	LAZY_SRC_ATTRIBUTE_NAME,
 	SINGLE_FILE_UI_ELEMENT_CLASS
