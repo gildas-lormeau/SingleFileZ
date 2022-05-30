@@ -21,19 +21,19 @@
  *   Source.
  */
 
-import * as serializer from "single-filez-core/modules/html-serializer.js";
-import { getInstance } from "single-filez-core/single-file-util.js";
+/* global globalThis, fetch */
 
-const util = getInstance();
-const helper = {
-	serialize(doc, compressHTML) {
-		return serializer.process(doc, compressHTML);
-	},
-	getDoctypeString(doc) {
-		return util.getDoctypeString(doc);
-	}
-};
+const SCRIPT_PATH = "/lib/single-file-infobar.js";
+
+const browser = globalThis.browser;
 
 export {
-	helper
+	getScript
 };
+
+async function getScript() {
+	if (browser && browser.runtime && browser.runtime.getURL) {
+		const infobarContent = await (await fetch(browser.runtime.getURL(SCRIPT_PATH))).text();
+		return "<script>document.currentScript.remove();" + infobarContent + "</script>";
+	}
+}

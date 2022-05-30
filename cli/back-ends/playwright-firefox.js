@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global singlefile, infobar, require, exports */
+/* global singlefile, require, exports */
 
 const playwright = require("playwright").firefox;
 const scripts = require("./common/scripts.js");
@@ -105,11 +105,7 @@ async function getPageData(page, options) {
 	}
 	const pageData = await page.evaluate(async options => {
 		options.compressContent = true;
-		options.getFileContent = singlefile.getFileContent;
 		const pageData = await singlefile.getPageData(options);
-		if (options.includeInfobar) {
-			await infobar.includeScript(pageData);
-		}
 		return pageData;
 	}, options);
 	pageData.content = new Uint8Array(pageData.content);

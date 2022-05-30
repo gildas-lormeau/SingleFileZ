@@ -160,10 +160,9 @@ function getPageDataScript() {
 
 	async function getPageData() {
 		options.compressContent = true;
-		options.getFileContent = singlefile.getFileContent;	
 		const pageData = await singlefile.getPageData(options);
-		if (options.includeInfobar) {
-			await infobar.includeScript(pageData);
+		if (options.infobarScript) {
+			pageData.content += options.infobarScript;
 		}
 		return pageData;
 	}

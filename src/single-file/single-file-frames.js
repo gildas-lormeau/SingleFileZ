@@ -1,1 +1,1 @@
-import "./processors/frame-tree/content/content-frame-tree.js";
+export * from "single-filez-core/processors/frame-tree/content/content-frame-tree.js";

@@ -1,0 +1,1 @@
+import "single-filez-core/processors/hooks/content/content-hooks-web.js";

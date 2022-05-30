@@ -25,7 +25,7 @@
 
 import * as download from "../../core/common/download.js";
 import { onError } from "./../common/content-error.js";
-import * as zip from "../../../single-file/vendor/zip/zip.js";
+import * as zip from "./../../../../lib/single-file-zip.js";
 import * as yabson from "./../../lib/yabson/yabson.js";
 
 const editorElement = document.querySelector(".editor");
@@ -463,7 +463,7 @@ function getPosition(event) {
 }
 
 async function getContentPageData(zipContent, page, options) {
-	zip.configure({ workerScripts: { inflate: ["/src/single-file/vendor/zip/z-worker.js"] } });
+	zip.configure({ workerScripts: { inflate: ["/lib/single-file-z-worker.js"] } });
 	const zipReader = new zip.ZipReader(new zip.Uint8ArrayReader(new Uint8Array(zipContent)));
 	const entries = await zipReader.getEntries();
 	const resources = [];

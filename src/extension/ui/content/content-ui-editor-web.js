@@ -23,9 +23,9 @@
 
 /* global globalThis, window, document, fetch, DOMParser, getComputedStyle, setTimeout, clearTimeout, NodeFilter, Readability, isProbablyReaderable, matchMedia, URL, prompt, MutationObserver, Node, FileReader, Worker */
 
-import * as zip from "./../../../single-file/vendor/zip/zip.js";
-import { extract } from "./../../../single-file/processors/compression/compression-extract.js";
-import { display } from "./../../../single-file/processors/compression/compression-display.js";
+import * as zip from "single-filez-core/vendor/zip/zip.js";
+import { extract } from "single-filez-core/processors/compression/compression-extract.js";
+import { display } from "single-filez-core/processors/compression/compression-display.js";
 
 (globalThis => {
 
@@ -1010,7 +1010,7 @@ table {
 	async function init({ content, password }, { filename, reset } = {}) {
 		await initConstants();
 		const zipOptions = {
-			workerScripts: { inflate: ["/src/single-file/vendor/zip/z-worker.js"] }
+			workerScripts: { inflate: ["/lib/single-file-z-worker.js"] }
 		};
 		try {
 			const worker = new Worker(zipOptions.workerScripts);
@@ -1021,7 +1021,7 @@ table {
 		const { docContent, origDocContent, resources, url } = await extract(content, {
 			password,
 			prompt,
-			shadowRootScriptURL: new URL("/lib/web/editor/editor-init-web.js", document.baseURI).href,
+			shadowRootScriptURL: new URL("/lib/single-file-extension-editor-init-web.js", document.baseURI).href,
 			zipOptions
 		});
 		pageResources = resources;

@@ -26,28 +26,17 @@
 const fs = require("fs");
 
 const SCRIPTS = [
-	"lib/infobar.js",
-	"lib/single-file-bootstrap.js"
+	"lib/single-file.js",
+	"lib/single-file-bootstrap.js",
+	"lib/single-file-hooks.js",
+	"lib/single-file-hooks-frames.js",
+	"lib/single-file-zip.min.js"
 ];
 
-const INDEX_SCRIPTS = [
-	"lib/single-file.js"
-];
-
-const WEB_SCRIPTS = [
-	"/lib/web/hooks/hooks-web.js",
-	"/lib/web/hooks/hooks-frames-web.js",
-	"/lib/web/infobar-web.js",
-	"/src/single-file/vendor/zip/zip.min.js"
-];
+const basePath = "../../../";
 
 exports.get = async options => {
-	const basePath = "../../../";
 	let scripts = "let _singleFileDefine; if (typeof define !== 'undefined') { _singleFileDefine = define; define = null }";
-	scripts += await readScriptFiles(INDEX_SCRIPTS, basePath);
-	const webScripts = {};
-	await Promise.all(WEB_SCRIPTS.map(async path => webScripts[path] = await readScriptFile(path, basePath)));
-	scripts += "window.singlefile.getFileContent = filename => (" + JSON.stringify(webScripts) + ")[filename];\n";
 	scripts += await readScriptFiles(SCRIPTS, basePath);
 	scripts += await readScriptFiles(options && options.browserScripts ? options.browserScripts : [], "");
 	if (options.browserStylesheets && options.browserStylesheets.length) {
@@ -55,6 +44,10 @@ exports.get = async options => {
 	}
 	scripts += "if (_singleFileDefine) { define = _singleFileDefine; _singleFileDefine = null }";
 	return scripts;
+};
+
+exports.getInfobarScript = () => {
+	return readScriptFile("lib/single-file-infobar.js", basePath);
 };
 
 async function readScriptFiles(paths, basePath = "../../../") {

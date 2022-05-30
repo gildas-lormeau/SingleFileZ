@@ -30,11 +30,11 @@ export {
 };
 
 async function downloadPage(pageData, options) {
-	if (options.includeInfobar) {
-		await infobar.includeScript(pageData);
-	}
 	if (options.includeBOM) {
 		pageData.content = "\ufeff" + pageData.content;
+	}
+	if (options.includeInfobar) {
+		pageData.content += await infobar.getScript();
 	}
 	const message = {
 		taskId: options.taskId,
@@ -65,7 +65,8 @@ async function downloadPage(pageData, options) {
 		insertCanonicalLink: options.insertCanonicalLink,
 		insertMetaNoIndex: options.insertMetaNoIndex,
 		password: options.password,
-		pageData: pageData
+		pageData: pageData,
+		infobarScript: options.infobarScript
 	};
 	const serializer = yabson.getSerializer(message);
 	for (const data of serializer) {

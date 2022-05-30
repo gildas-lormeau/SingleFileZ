@@ -19,7 +19,7 @@
 			"js": [
 				"lib/chrome-browser-polyfill.js",
 				"lib/single-file-frames.js",
-				"lib/extension-frames.js"
+				"lib/single-file-extension-frames.js"
 			],
 			"all_frames": true,
 			"match_about_blank": true
@@ -32,8 +32,8 @@
 			"js": [
 				"lib/chrome-browser-polyfill.js",
 				"lib/single-file-bootstrap.js",
-				"lib/extension-bootstrap.js",
-				"lib/web/infobar-web.js"
+				"lib/single-file-extension-bootstrap.js",
+				"lib/single-file-infobar.js"
 			]
 		}
 	],
@@ -78,16 +78,16 @@
 		}
 	},
 	"web_accessible_resources": [
-		"lib/web/hooks/hooks-web.js",
-		"lib/web/hooks/hooks-frames-web.js",
-		"lib/web/infobar-web.js",
-		"lib/web/editor/editor-init-web.js",
-		"lib/web/editor/editor-web.js",
-		"lib/web/editor/editor-helper-web.js",
+		"lib/single-file-hooks.js",
+		"lib/single-file-hooks-frames.js",
+		"lib/single-file-infobar.js",
+		"lib/single-file-extension-editor-init.js",
+		"lib/single-file-extension-editor.js",
+		"lib/single-file-extension-editor-helper.js",
+		"lib/single-file-zip.min.js",
+		"lib/single-file-z-worker.js",
 		"src/extension/lib/readability/Readability.js",
 		"src/extension/lib/readability/Readability-readerable.js",
-		"src/single-file/vendor/zip/zip.min.js",
-		"src/single-file/vendor/zip/z-worker.js",
 		"src/extension/ui/pages/editor-note-web.css",
 		"src/extension/ui/pages/editor-mask-web.css",
 		"src/extension/ui/pages/editor-frame-web.css"

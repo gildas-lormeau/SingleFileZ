@@ -1,0 +1,1 @@
+import "single-filez-core/vendor/zip/z-worker.js";

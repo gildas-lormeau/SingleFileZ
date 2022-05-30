@@ -80,15 +80,11 @@ async function getPageData(win, options) {
 	executeFrameScripts(doc, scripts);
 	options.removeHiddenElements = false;
 	options.loadDeferredImages = false;
-	options.getFileContent = win.singlefile.getFileContent;
 	options.compressContent = true;
 	if (options.browserWaitDelay) {
 		await new Promise(resolve => setTimeout(resolve, options.browserWaitDelay));
 	}
 	const pageData = await win.singlefile.getPageData(options, { fetch: url => fetchResource(url, options) }, doc, win);
-	if (options.includeInfobar) {
-		await win.infobar.includeScript(pageData);
-	}
 	pageData.content = new Uint8Array(pageData.content);
 	return pageData;
 

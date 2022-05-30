@@ -158,7 +158,7 @@ async function saveContent(message, tab) {
 			}
 			if (!skipped) {
 				if (options.includeInfobar) {
-					await infobar.includeScript(pageData);
+					pageData.content += await infobar.getScript();
 				}
 				const blob = await singlefile.processors.compression.process(pageData, {
 					insertTextBody: options.insertTextBody,
