@@ -56,24 +56,24 @@ if (window._singleFileZ_fontFaces) {
 }
 
 if (document instanceof Document) {
+	addEventListener(NEW_FONT_FACE_EVENT, event => {
+		const detail = event.detail;
+		const key = Object.assign({}, detail);
+		delete key.src;
+		fontFaces.set(JSON.stringify(key), detail);
+	});
+	addEventListener(DELETE_FONT_EVENT, event => {
+		const detail = event.detail;
+		const key = Object.assign({}, detail);
+		delete key.src;
+		fontFaces.delete(JSON.stringify(key));
+	});
+	addEventListener(CLEAR_FONTS_EVENT, () => fontFaces = new Map());
+	let scriptElement = document.createElement("script");
+	scriptElement.src = "data:," + "(" + injectedScript.toString() + ")()";
+	(document.documentElement || document).appendChild(scriptElement);
+	scriptElement.remove();
 	if (browser && browser.runtime && browser.runtime.getURL) {
-		addEventListener(NEW_FONT_FACE_EVENT, event => {
-			const detail = event.detail;
-			const key = Object.assign({}, detail);
-			delete key.src;
-			fontFaces.set(JSON.stringify(key), detail);
-		});
-		addEventListener(DELETE_FONT_EVENT, event => {
-			const detail = event.detail;
-			const key = Object.assign({}, detail);
-			delete key.src;
-			fontFaces.delete(JSON.stringify(key));
-		});
-		addEventListener(CLEAR_FONTS_EVENT, () => fontFaces = new Map());
-		let scriptElement = document.createElement("script");
-		scriptElement.src = "data:," + "(" + injectedScript.toString() + ")()";
-		(document.documentElement || document).appendChild(scriptElement);
-		scriptElement.remove();
 		scriptElement = document.createElement("script");
 		scriptElement.src = browser.runtime.getURL("/lib/web/hooks/hooks-frames-web.js");
 		scriptElement.async = false;
