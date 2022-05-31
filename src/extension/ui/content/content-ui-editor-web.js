@@ -1021,7 +1021,7 @@ table {
 		const { docContent, origDocContent, resources, url } = await extract(content, {
 			password,
 			prompt,
-			shadowRootScriptURL: new URL("/lib/single-file-extension-editor-init-web.js", document.baseURI).href,
+			shadowRootScriptURL: new URL("/lib/single-file-extension-editor-init.js", document.baseURI).href,
 			zipOptions
 		});
 		pageResources = resources;
