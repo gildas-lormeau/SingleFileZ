@@ -35,6 +35,62 @@ export default [{
 	plugins: PLUGINS,
 	external: EXTERNAL
 }, {
+	input: ["src/single-file/single-file-hooks.js"],
+	output: [{
+		file: "lib/single-file-hooks.js",
+		format: "iife",
+		plugins: [terser()]
+	}],
+	plugins: PLUGINS,
+	external: EXTERNAL
+}, {
+	input: ["src/single-file/single-file-hooks-frames.js"],
+	output: [{
+		file: "lib/single-file-hooks-frames.js",
+		format: "iife",
+		plugins: [terser()]
+	}],
+	plugins: PLUGINS,
+	external: EXTERNAL
+}, {
+	input: ["src/single-file/single-file-infobar.js"],
+	output: [{
+		file: "lib/single-file-infobar.js",
+		format: "iife",
+		plugins: [terser()]
+	}],
+	plugins: PLUGINS,
+	external: EXTERNAL
+}, {
+	input: ["src/single-file/single-file-z-worker.js"],
+	output: [{
+		file: "lib/single-file-z-worker.js",
+		format: "es",
+		plugins: [terser()]
+	}],
+	plugins: PLUGINS,
+	external: EXTERNAL
+}, {
+	input: ["src/single-file/single-file-zip.js"],
+	output: [{
+		file: "lib/single-file-zip.js",
+		format: "es",
+		plugins: [terser()]
+	}],
+	context: "this",
+	plugins: PLUGINS,
+	external: EXTERNAL
+}, {
+	input: ["src/single-file/single-file-zip.min.js"],
+	output: [{
+		file: "lib/single-file-zip.min.js",
+		format: "es",
+		plugins: [terser()]
+	}],
+	context: "this",
+	plugins: PLUGINS,
+	external: EXTERNAL
+}, {
 	input: ["src/extension/core/content/content-infobar.js"],
 	output: [{
 		file: "lib/single-file-extension-infobar.js",
@@ -71,33 +127,6 @@ export default [{
 		format: "iife",
 		plugins: [terser()]
 	}]
-}, {
-	input: ["src/single-file/single-file-hooks.js"],
-	output: [{
-		file: "lib/single-file-hooks.js",
-		format: "iife",
-		plugins: [terser()]
-	}],
-	plugins: PLUGINS,
-	external: EXTERNAL
-}, {
-	input: ["src/single-file/single-file-hooks-frames.js"],
-	output: [{
-		file: "lib/single-file-hooks-frames.js",
-		format: "iife",
-		plugins: [terser()]
-	}],
-	plugins: PLUGINS,
-	external: EXTERNAL
-}, {
-	input: ["src/single-file/single-file-infobar.js"],
-	output: [{
-		file: "lib/single-file-infobar.js",
-		format: "iife",
-		plugins: [terser()]
-	}],
-	plugins: PLUGINS,
-	external: EXTERNAL
 }, {
 	input: ["src/extension/ui/content/content-ui-editor-init-web.js"],
 	output: [{
@@ -147,33 +176,4 @@ export default [{
 		format: "iife",
 		plugins: [terser()]
 	}]
-}, {
-	input: ["src/single-file/single-file-z-worker.js"],
-	output: [{
-		file: "lib/single-file-z-worker.js",
-		format: "es",
-		plugins: [terser()]
-	}],
-	plugins: PLUGINS,
-	external: EXTERNAL
-}, {
-	input: ["src/single-file/single-file-zip.js"],
-	output: [{
-		file: "lib/single-file-zip.js",
-		format: "es",
-		plugins: [terser()]
-	}],
-	context: "this",
-	plugins: PLUGINS,
-	external: EXTERNAL
-}, {
-	input: ["src/single-file/single-file-zip.min.js"],
-	output: [{
-		file: "lib/single-file-zip.min.js",
-		format: "es",
-		plugins: [terser()]
-	}],
-	context: "this",
-	plugins: PLUGINS,
-	external: EXTERNAL
 }];
