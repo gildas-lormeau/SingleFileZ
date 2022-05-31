@@ -1,1 +1,0 @@
-export * from "single-filez-core/index.js";
