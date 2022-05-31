@@ -1058,6 +1058,11 @@ table {
 	}
 
 	async function initPage() {
+		document.querySelectorAll("iframe").forEach(element => {
+			const pointerEvents = "pointer-events";
+			element.style.setProperty("-sf-" + pointerEvents, element.style.getPropertyValue(pointerEvents), element.style.getPropertyPriority(pointerEvents));
+			element.style.setProperty(pointerEvents, "none", "important");
+		});
 		deserializeShadowRoots(document);
 		reflowNotes();
 		await waitResourcesLoad();
