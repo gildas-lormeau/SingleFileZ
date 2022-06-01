@@ -26,7 +26,7 @@
 import * as config from "./config.js";
 import * as yabson from "./../../lib/yabson/yabson.js";
 
-const EDITOR_PAGE_URL = "/src/extension/ui/pages/editor.html";
+const EDITOR_PAGE_URL = "/src/ui/pages/editor.html";
 const tabsData = new Map();
 const tabDataParsers = new Map();
 const EDITOR_URL = browser.runtime.getURL(EDITOR_PAGE_URL);
