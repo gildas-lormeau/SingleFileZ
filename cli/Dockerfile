@@ -1,8 +1,8 @@
 FROM zenika/alpine-chrome:with-node
 
-RUN npm install --production gildas-lormeau/SingleFileZ#master
+RUN npm install --production single-filez-cli
 
-WORKDIR /usr/src/app/node_modules/single-filez/cli
+WORKDIR /usr/src/app/node_modules/single-filez-cli
 
 ENTRYPOINT [ \
     "./single-filez", \
