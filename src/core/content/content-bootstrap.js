@@ -154,15 +154,17 @@ async function onMessage(message) {
 }
 
 function fetchResponse(response) {
-	const { parser, waitTimeout, resolve, reject } = fetchData[response.requestId];
-	const result = parser.next(response.data);
-	if (result.done) {
-		clearTimeout(waitTimeout);
-		const message = result.value;
-		if (message.error) {
-			reject(new Error(message.error));
-		} else {
-			resolve(message.array);
+	if (fetchData[response.requestId]) {
+		const { parser, waitTimeout, resolve, reject } = fetchData[response.requestId];
+		const result = parser.next(response.data);
+		if (result.done) {
+			clearTimeout(waitTimeout);
+			const message = result.value;
+			if (message.error) {
+				reject(new Error(message.error));
+			} else {
+				resolve(message.array);
+			}
 		}
 	}
 }
