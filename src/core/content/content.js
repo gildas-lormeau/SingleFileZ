@@ -223,7 +223,6 @@ async function processPage(options) {
 		options.videos = selectedFrame.videos;
 		options.usedFonts = selectedFrame.usedFonts;
 		options.shadowRoots = selectedFrame.shadowRoots;
-		options.imports = selectedFrame.imports;
 	} else {
 		options.doc = document;
 	}
