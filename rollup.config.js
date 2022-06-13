@@ -5,7 +5,7 @@ const PLUGINS = [resolve({ moduleDirectories: ["node_modules"] })];
 const EXTERNAL = ["single-filez-core"];
 
 export default [{
-	input: ["single-filez-core/index.js"],
+	input: ["single-filez-core/single-file.js"],
 	output: [{
 		file: "lib/single-file.js",
 		format: "umd",
@@ -15,7 +15,7 @@ export default [{
 	plugins: PLUGINS,
 	external: EXTERNAL
 }, {
-	input: ["single-filez-core/processors/frame-tree/content/content-frame-tree.js"],
+	input: ["single-filez-core/single-file-frames.js"],
 	output: [{
 		file: "lib/single-file-frames.js",
 		format: "umd",
@@ -35,7 +35,7 @@ export default [{
 	plugins: PLUGINS,
 	external: EXTERNAL
 }, {
-	input: ["single-filez-core/processors/hooks/content/content-hooks-web.js"],
+	input: ["single-filez-core/single-file-hooks.js"],
 	output: [{
 		file: "lib/single-file-hooks.js",
 		format: "iife",
@@ -44,7 +44,7 @@ export default [{
 	plugins: PLUGINS,
 	external: EXTERNAL
 }, {
-	input: ["single-filez-core/processors/hooks/content/content-hooks-frames-web.js"],
+	input: ["single-filez-core/single-file-hooks-frames.js"],
 	output: [{
 		file: "lib/single-file-hooks-frames.js",
 		format: "iife",
@@ -53,7 +53,7 @@ export default [{
 	plugins: PLUGINS,
 	external: EXTERNAL
 }, {
-	input: ["single-filez-core/common/content-infobar-web.js"],
+	input: ["single-filez-core/single-file-infobar.js"],
 	output: [{
 		file: "lib/single-file-infobar.js",
 		format: "iife",
