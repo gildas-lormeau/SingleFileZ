@@ -571,6 +571,22 @@
 		"message": "分支名称",
 		"description": "Options page label: 'branch name'"
 	},
+	"optionSaveWithWebDAV": {
+		"message": "upload to a WebDAV server",
+		"description": "Options page label: 'upload to a WebDAV server'"
+	},
+	"optionWebDAVURL": {
+		"message": "URL",
+		"description": "Options page label: 'URL'"
+	},
+	"optionWebDAVUser": {
+		"message": "user identifier",
+		"description": "Options page label: 'user identifier'"
+	},
+	"optionWebDAVPassword": {
+		"message": "password",
+		"description": "Options page label: 'password'"
+	},
 	"optionSaveCreatedBookmarks": {
 		"message": "创建新书签时保存其对应页面",
 		"description": "Options page label: 'save the page of a newly created bookmark'"

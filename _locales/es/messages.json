@@ -571,6 +571,22 @@
 		"message": "branch name",
 		"description": "Options page label: 'branch name'"
 	},
+	"optionSaveWithWebDAV": {
+		"message": "subir a un servidor WebDAV",
+		"description": "Options page label: 'upload to a WebDAV server'"
+	},
+	"optionWebDAVURL": {
+		"message": "URL",
+		"description": "Options page label: 'URL'"
+	},
+	"optionWebDAVUser": {
+		"message": "identificador de usuario",
+		"description": "Options page label: 'user identifier'"
+	},
+	"optionWebDAVPassword": {
+		"message": "contraseña",
+		"description": "Options page label: 'password'"
+	},
 	"optionSaveCreatedBookmarks": {
 		"message": "guardar la página de un marcador recién creado",
 		"description": "Options page label: 'save the page of a newly created bookmark'"

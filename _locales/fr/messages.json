@@ -571,6 +571,22 @@
 		"message": "nom de la branche",
 		"description": "Options page label: 'branch name'"
 	},
+	"optionSaveWithWebDAV": {
+		"message": "téléverser sur un serveur WebDAV",
+		"description": "Options page label: 'upload to a WebDAV server'"
+	},
+	"optionWebDAVURL": {
+		"message": "URL",
+		"description": "Options page label: 'URL'"
+	},
+	"optionWebDAVUser": {
+		"message": "identifiant utilisateur",
+		"description": "Options page label: 'user identifier'"
+	},
+	"optionWebDAVPassword": {
+		"message": "mot de passe",
+		"description": "Options page label: 'password'"
+	},
 	"optionSaveCreatedBookmarks": {
 		"message": "sauvegarder la page d'un signet nouvellement créé",
 		"description": "Options page label: 'save the page of a newly created bookmark'"
