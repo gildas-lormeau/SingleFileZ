@@ -56,7 +56,7 @@ async function onFetchFrame(message) {
 async function onFetchResponse(response) {
 	let pendingResponse = pendingResponses.get(response.requestId);
 	if (pendingResponse) {
-		const result = pendingResponse.parser.next(response.data);
+		const result = await pendingResponse.parser.next(response.data);
 		if (result.done) {
 			pendingResponses.delete(response.requestId);
 			const message = result.value;

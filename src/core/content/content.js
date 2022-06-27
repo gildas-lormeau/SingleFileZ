@@ -69,7 +69,7 @@ async function onMessage(message) {
 			if (!downloadParser) {
 				downloadParser = yabson.getParser();
 			}
-			const result = downloadParser.next(message.data);
+			const result = await downloadParser.next(message.data);
 			if (result.done) {
 				downloadParser = null;
 				const link = document.createElement("a");

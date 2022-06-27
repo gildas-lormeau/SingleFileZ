@@ -153,10 +153,10 @@ async function onMessage(message) {
 	}
 }
 
-function fetchResponse(response) {
+async function fetchResponse(response) {
 	if (fetchData[response.requestId]) {
 		const { parser, waitTimeout, resolve, reject } = fetchData[response.requestId];
-		const result = parser.next(response.data);
+		const result = await parser.next(response.data);
 		if (result.done) {
 			clearTimeout(waitTimeout);
 			const message = result.value;
@@ -302,13 +302,13 @@ function savePage(docData, frames, { autoSaveUnload, autoSaveDiscard, autoSaveRe
 async function openEditor() {
 	const content = await getContent();
 	const serializer = yabson.getSerializer({ content, filename: decodeURIComponent(location.href.match(/^.*\/(.*)$/)[1]) });
-	for (const data of serializer) {
-		const message = {
+	for await (const data of serializer) {
+		await browser.runtime.sendMessage({
 			method: "editor.open",
 			data: Array.from(data)
-		};
-		await browser.runtime.sendMessage(message);
+		});
 	}
+	await browser.runtime.sendMessage({ method: "editor.open" });
 }
 
 function detectSavedPage(document) {

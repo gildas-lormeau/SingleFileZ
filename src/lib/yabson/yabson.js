@@ -159,20 +159,21 @@ function registerType(serialize, parse, test, type) {
 	}
 }
 
-function clone(object, options) {
+async function clone(object, options) {
 	const serializer = getSerializer(object, options);
 	const parser = getParser();
 	let result;
-	for (const chunk of serializer) {
-		result = parser.next(chunk);
+	for await (const chunk of serializer) {
+		result = await parser.next(chunk);
 	}
+	result = await parser.next();
 	return result.value;
 }
 
-function serialize(object, options) {
+async function serialize(object, options) {
 	const serializer = getSerializer(object, options);
 	let result = new Uint8Array([]);
-	for (const chunk of serializer) {
+	for await (const chunk of serializer) {
 		const previousResult = result;
 		result = new Uint8Array(previousResult.length + chunk.length);
 		result.set(previousResult, 0);
@@ -181,15 +182,16 @@ function serialize(object, options) {
 	return result;
 }
 
-function parse(array) {
+async function parse(array) {
 	const parser = getParser();
-	const result = parser.next(array);
+	await parser.next(array);
+	const result = await parser.next();
 	return result.value;
 }
 
 class SerializerData {
-	constructor(chunkSize) {
-		this.stream = new WriteStream(chunkSize);
+	constructor(appendData, chunkSize) {
+		this.stream = new WriteStream(appendData, chunkSize);
 		this.objects = [];
 	}
 
@@ -207,192 +209,239 @@ class SerializerData {
 }
 
 class WriteStream {
-	constructor(chunkSize) {
+	constructor(appendData, chunkSize) {
 		this.offset = 0;
+		this.appendData = appendData;
 		this.value = new Uint8Array(chunkSize);
 	}
 
-	*append(array) {
+	async append(array) {
 		if (this.offset + array.length > this.value.length) {
 			const offset = this.value.length - this.offset;
-			yield* this.append(array.subarray(0, offset));
-			yield this.value;
+			await this.append(array.subarray(0, offset));
+			await this.appendData({ value: this.value });
 			this.offset = 0;
-			yield* this.append(array.subarray(offset));
+			await this.append(array.subarray(offset));
 		} else {
 			this.value.set(array, this.offset);
 			this.offset += array.length;
 		}
 	}
 
-	*flush() {
+	async flush() {
 		if (this.offset) {
-			yield this.value.subarray(0, this.offset);
+			await this.appendData({ value: this.value.subarray(0, this.offset), done: true });
 		}
 	}
 }
 
-function* getSerializer(value, { chunkSize = DEFAULT_CHUNK_SIZE } = {}) {
-	const data = new SerializerData(chunkSize);
-	yield* serializeValue(data, value);
-	yield* data.flush();
+function getSerializer(value, { chunkSize = DEFAULT_CHUNK_SIZE } = {}) {
+	let serializerData, result, setResult, iterationDone, previousResult, resolvePreviousResult;
+	return {
+		[Symbol.asyncIterator]() {
+			return {
+				next() {
+					return iterationDone ? { done: iterationDone } : getResult();
+				},
+				return() {
+					return { done: true };
+				}
+			};
+		}
+	};
+
+	async function getResult() {
+		if (resolvePreviousResult) {
+			resolvePreviousResult();
+		} else {
+			initSerializerData().catch(() => { /* ignored */ });
+		}
+		initPreviousData();
+		const value = await getValue();
+		return { value };
+	}
+
+	async function initSerializerData() {
+		initResult();
+		serializerData = new SerializerData(appendData, chunkSize);
+		await serializeValue(serializerData, value);
+		await serializerData.flush();
+	}
+
+	function initResult() {
+		result = new Promise(resolve => setResult = resolve);
+	}
+
+	function initPreviousData() {
+		previousResult = new Promise(resolve => resolvePreviousResult = resolve);
+	}
+
+	async function appendData(result) {
+		setResult(result);
+		await previousResult;
+	}
+
+	async function getValue() {
+		const { value, done } = await result;
+		iterationDone = done;
+		if (!done) {
+			initResult();
+		}
+		return value;
+	}
 }
 
-function* serializeValue(data, value) {
+async function serializeValue(data, value) {
 	const type = types.findIndex(({ test } = {}) => test && test(value, data));
 	data.addObject(value);
-	yield* data.append(new Uint8Array([type]));
+	await data.append(new Uint8Array([type]));
 	const serialize = types[type].serialize;
 	if (serialize) {
-		yield* serialize(data, value);
+		await serialize(data, value);
 	}
 	if (type != TYPE_REFERENCE && testObject(value)) {
-		yield* serializeSymbols(data, value);
-		yield* serializeOwnProperties(data, value);
+		await serializeSymbols(data, value);
+		await serializeOwnProperties(data, value);
 	}
 }
 
-function* serializeSymbols(data, value) {
+async function serializeSymbols(data, value) {
 	const ownPropertySymbols = Object.getOwnPropertySymbols(value);
 	const symbols = ownPropertySymbols.map(propertySymbol => [propertySymbol, value[propertySymbol]]);
-	yield* serializeArray(data, symbols);
+	await serializeArray(data, symbols);
 }
 
-function* serializeOwnProperties(data, value) {
+async function serializeOwnProperties(data, value) {
 	let entries = Object.entries(value);
 	if (testArray(value)) {
 		entries = entries.filter(([key]) => !testInteger(Number(key)));
 	}
-	yield* serializeEntries(data, entries);
+	await serializeValue(data, entries.length);
+	for (const [key, value] of entries) {
+		await serializeString(data, key);
+		await serializeValue(data, value);
+	}
 }
 
-function* serializeCircularReference(data, value) {
+async function serializeCircularReference(data, value) {
 	const index = data.objects.indexOf(value);
-	yield* serializeValue(data, index);
+	await serializeValue(data, index);
 }
 
-function* serializeArray(data, array) {
-	yield* serializeValue(data, array.length);
+async function serializeArray(data, array) {
+	await serializeValue(data, array.length);
 	const notEmptyIndexes = Object.keys(array).filter(key => testInteger(Number(key))).map(key => Number(key));
 	let indexNotEmptyIndexes = 0, currentNotEmptyIndex = notEmptyIndexes[indexNotEmptyIndexes];
 	for (const [indexArray, value] of array.entries()) {
 		if (currentNotEmptyIndex == indexArray) {
 			currentNotEmptyIndex = notEmptyIndexes[++indexNotEmptyIndexes];
-			yield* serializeValue(data, value);
+			await serializeValue(data, value);
 		} else {
-			yield* serializeValue(data, EMPTY_SLOT_VALUE);
+			await serializeValue(data, EMPTY_SLOT_VALUE);
 		}
 	}
 }
 
-function* serializeEntries(data, entries) {
-	yield* serializeValue(data, entries.length);
-	for (const [key, value] of entries) {
-		yield* serializeString(data, key);
-		yield* serializeValue(data, value);
-	}
-}
-
-function* serializeString(data, string) {
+async function serializeString(data, string) {
 	const encodedString = textEncoder.encode(string);
-	yield* serializeValue(data, encodedString.length);
-	yield* data.append(encodedString);
+	await serializeValue(data, encodedString.length);
+	await data.append(encodedString);
 }
 
-function* serializeTypedArray(data, array) {
-	yield* serializeValue(data, array.length);
-	yield* data.append(new Uint8Array(array.buffer));
+async function serializeTypedArray(data, array) {
+	await serializeValue(data, array.length);
+	await data.append(new Uint8Array(array.buffer));
 }
 
-function* serializeArrayBuffer(data, arrayBuffer) {
-	yield* serializeValue(data, arrayBuffer.byteLength);
-	yield* data.append(new Uint8Array(arrayBuffer));
+async function serializeArrayBuffer(data, arrayBuffer) {
+	await serializeValue(data, arrayBuffer.byteLength);
+	await data.append(new Uint8Array(arrayBuffer));
 }
 
-function* serializeNumber(data, number) {
+async function serializeNumber(data, number) {
 	const serializedNumber = new Uint8Array(new Float64Array([number]).buffer);
-	yield* data.append(serializedNumber);
+	await data.append(serializedNumber);
 }
 
-function* serializeUint32(data, number) {
+async function serializeUint32(data, number) {
 	const serializedNumber = new Uint8Array(new Uint32Array([number]).buffer);
-	yield* data.append(serializedNumber);
+	await data.append(serializedNumber);
 }
 
-function* serializeInt32(data, number) {
+async function serializeInt32(data, number) {
 	const serializedNumber = new Uint8Array(new Int32Array([number]).buffer);
-	yield* data.append(serializedNumber);
+	await data.append(serializedNumber);
 }
 
-function* serializeUint16(data, number) {
+async function serializeUint16(data, number) {
 	const serializedNumber = new Uint8Array(new Uint16Array([number]).buffer);
-	yield* data.append(serializedNumber);
+	await data.append(serializedNumber);
 }
 
-function* serializeInt16(data, number) {
+async function serializeInt16(data, number) {
 	const serializedNumber = new Uint8Array(new Int16Array([number]).buffer);
-	yield* data.append(serializedNumber);
+	await data.append(serializedNumber);
 }
 
-function* serializeUint8(data, number) {
+async function serializeUint8(data, number) {
 	const serializedNumber = new Uint8Array([number]);
-	yield* data.append(serializedNumber);
+	await data.append(serializedNumber);
 }
 
-function* serializeInt8(data, number) {
+async function serializeInt8(data, number) {
 	const serializedNumber = new Uint8Array(new Int8Array([number]).buffer);
-	yield* data.append(serializedNumber);
+	await data.append(serializedNumber);
 }
 
-function* serializeBoolean(data, boolean) {
+async function serializeBoolean(data, boolean) {
 	const serializedBoolean = new Uint8Array([Number(boolean)]);
-	yield* data.append(serializedBoolean);
+	await data.append(serializedBoolean);
 }
 
-function* serializeMap(data, map) {
+async function serializeMap(data, map) {
 	const entries = map.entries();
-	yield* serializeValue(data, map.size);
+	await serializeValue(data, map.size);
 	for (const [key, value] of entries) {
-		yield* serializeValue(data, key);
-		yield* serializeValue(data, value);
+		await serializeValue(data, key);
+		await serializeValue(data, value);
 	}
 }
 
-function* serializeSet(data, set) {
-	yield* serializeValue(data, set.size);
+async function serializeSet(data, set) {
+	await serializeValue(data, set.size);
 	for (const value of set) {
-		yield* serializeValue(data, value);
+		await serializeValue(data, value);
 	}
 }
 
-function* serializeDate(data, date) {
-	yield* serializeNumber(data, date.getTime());
+async function serializeDate(data, date) {
+	await serializeNumber(data, date.getTime());
 }
 
-function* serializeError(data, error) {
-	yield* serializeString(data, error.message);
-	yield* serializeString(data, error.stack);
+async function serializeError(data, error) {
+	await serializeString(data, error.message);
+	await serializeString(data, error.stack);
 }
 
-function* serializeRegExp(data, regExp) {
-	yield* serializeString(data, regExp.source);
-	yield* serializeString(data, regExp.flags);
+async function serializeRegExp(data, regExp) {
+	await serializeString(data, regExp.source);
+	await serializeString(data, regExp.flags);
 }
 
-function* serializeStringObject(data, string) {
-	yield* serializeString(data, string.valueOf());
+async function serializeStringObject(data, string) {
+	await serializeString(data, string.valueOf());
 }
 
-function* serializeNumberObject(data, number) {
-	yield* serializeNumber(data, number.valueOf());
+async function serializeNumberObject(data, number) {
+	await serializeNumber(data, number.valueOf());
 }
 
-function* serializeBooleanObject(data, boolean) {
-	yield* serializeBoolean(data, boolean.valueOf());
+async function serializeBooleanObject(data, boolean) {
+	await serializeBoolean(data, boolean.valueOf());
 }
 
-function* serializeSymbol(data, symbol) {
-	yield* serializeString(data, symbol.description);
+async function serializeSymbol(data, symbol) {
+	await serializeString(data, symbol.description);
 }
 
 class Reference {
@@ -407,8 +456,8 @@ class Reference {
 }
 
 class ParserData {
-	constructor() {
-		this.stream = new ReadStream();
+	constructor(consumeData) {
+		this.stream = new ReadStream(consumeData);
 		this.objects = [];
 		this.setters = [];
 	}
@@ -442,22 +491,23 @@ class ParserData {
 }
 
 class ReadStream {
-	constructor() {
+	constructor(consumeData) {
 		this.offset = 0;
 		this.value = new Uint8Array(0);
+		this.consumeData = consumeData;
 	}
 
-	*consume(size) {
+	async consume(size) {
 		if (this.offset + size > this.value.length) {
 			const pending = this.value.subarray(this.offset, this.value.length);
-			const value = yield;
+			const value = await this.consumeData();
 			if (pending.length + value.length != this.value.length) {
 				this.value = new Uint8Array(pending.length + value.length);
 			}
 			this.value.set(pending);
 			this.value.set(value, pending.length);
 			this.offset = 0;
-			return yield* this.consume(size);
+			return this.consume(size);
 		} else {
 			const result = this.value.slice(this.offset, this.offset + size);
 			this.offset += result.length;
@@ -467,253 +517,309 @@ class ReadStream {
 }
 
 function getParser() {
-	const parser = getParseGenerator();
-	parser.next();
-	return parser;
+	let parserData, input, setInput, value, previousData, resolvePreviousData;
+	return {
+		async next(input) {
+			return input ? getResult(input) : { value: await value, done: true };
+		},
+		return() {
+			return { done: true };
+		}
+	};
+
+	async function getResult(input) {
+		if (previousData) {
+			await previousData;
+		} else {
+			initParserData().catch(() => { /* ignored */ });
+		}
+		initPreviousData();
+		setInput(input);
+		return { done: false };
+	}
+
+	async function initParserData() {
+		let setValue;
+		value = new Promise(resolve => setValue = resolve);
+		parserData = new ParserData(consumeData);
+		initChunk();
+		const data = await parseValue(parserData);
+		parserData.executeSetters();
+		setValue(data);
+	}
+
+	function initChunk() {
+		input = new Promise(resolve => setInput = resolve);
+	}
+
+	function initPreviousData() {
+		previousData = new Promise(resolve => resolvePreviousData = resolve);
+	}
+
+	async function consumeData() {
+		const data = await input;
+		initChunk();
+		if (resolvePreviousData) {
+			resolvePreviousData();
+		}
+		return data;
+	}
 }
 
-function* getParseGenerator() {
-	const data = new ParserData();
-	const result = yield* parseValue(data);
-	data.executeSetters();
-	return result;
-}
-
-function* parseValue(data) {
-	const array = yield* data.consume(1);
+async function parseValue(data) {
+	const array = await data.consume(1);
 	const parserType = array[0];
 	const parse = types[parserType].parse;
 	const valueId = data.getObjectId();
-	const result = yield* parse(data);
+	const result = await parse(data);
 	if (parserType != TYPE_REFERENCE && testObject(result)) {
-		yield* parseSymbols(data, result);
-		yield* parseOwnProperties(data, result);
+		await parseSymbols(data, result);
+		await parseOwnProperties(data, result);
 	}
 	data.resolveObject(valueId, result);
 	return result;
 }
 
-function* parseSymbols(data, value) {
-	const symbols = yield* parseArray(data);
+async function parseSymbols(data, value) {
+	const symbols = await parseArray(data);
 	data.setObject([symbols], symbols => symbols.forEach(([symbol, propertyValue]) => value[symbol] = propertyValue));
 }
 
-function* parseOwnProperties(data, value) {
-	yield* parseEntries(data, value);
+async function parseOwnProperties(data, object) {
+	const size = await parseValue(data);
+	if (size) {
+		await parseNextProperty();
+	}
+
+	async function parseNextProperty(indexKey = 0) {
+		const key = await parseString(data);
+		const value = await parseValue(data);
+		data.setObject([value], value => object[key] = value);
+		if (indexKey < size - 1) {
+			await parseNextProperty(indexKey + 1);
+		}
+	}
 }
 
-function* parseCircularReference(data) {
-	const index = yield* parseValue(data);
+async function parseCircularReference(data) {
+	const index = await parseValue(data);
 	const result = new Reference(index, data);
 	return result;
 }
 
-// eslint-disable-next-line require-yield
-function* parseObject() {
+function parseObject() {
 	return {};
 }
 
-function* parseArray(data) {
-	const length = yield* parseValue(data);
+async function parseArray(data) {
+	const length = await parseValue(data);
 	const array = new Array(length);
-	for (let indexArray = 0; indexArray < length; indexArray++) {
-		const value = yield* parseValue(data);
+	if (length) {
+		await parseNextSlot();
+	}
+	return array;
+
+	async function parseNextSlot(indexArray = 0) {
+		const value = await parseValue(data);
 		if (!testEmptySlot(value)) {
 			data.setObject([value], value => array[indexArray] = value);
 		}
-	}
-	return array;
-}
-
-function* parseEntries(data, object) {
-	const size = yield* parseValue(data);
-	for (let indexKey = 0; indexKey < size; indexKey++) {
-		const key = yield* parseString(data);
-		const value = yield* parseValue(data);
-		data.setObject([value], value => object[key] = value);
+		if (indexArray < length - 1) {
+			await parseNextSlot(indexArray + 1);
+		}
 	}
 }
 
-// eslint-disable-next-line require-yield
-function* parseEmptySlot() {
+function parseEmptySlot() {
 	return EMPTY_SLOT_VALUE;
 }
 
-function* parseString(data) {
-	const size = yield* parseValue(data);
-	const array = yield* data.consume(size);
+async function parseString(data) {
+	const size = await parseValue(data);
+	const array = await data.consume(size);
 	return textDecoder.decode(array);
 }
 
-function* parseFloat64Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length * 8);
+async function parseFloat64Array(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length * 8);
 	return new Float64Array(array.buffer);
 }
 
-function* parseFloat32Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length * 4);
+async function parseFloat32Array(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length * 4);
 	return new Float32Array(array.buffer);
 }
 
-function* parseUint32Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length * 4);
+async function parseUint32Array(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length * 4);
 	return new Uint32Array(array.buffer);
 }
 
-function* parseInt32Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length * 4);
+async function parseInt32Array(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length * 4);
 	return new Int32Array(array.buffer);
 }
 
-function* parseUint16Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length * 2);
+async function parseUint16Array(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length * 2);
 	return new Uint16Array(array.buffer);
 }
 
-function* parseInt16Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length * 2);
+async function parseInt16Array(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length * 2);
 	return new Int16Array(array.buffer);
 }
 
-function* parseUint8ClampedArray(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length);
+async function parseUint8ClampedArray(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length);
 	return new Uint8ClampedArray(array.buffer);
 }
 
-function* parseUint8Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length);
+async function parseUint8Array(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length);
 	return array;
 }
 
-function* parseInt8Array(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length);
+async function parseInt8Array(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length);
 	return new Int8Array(array.buffer);
 }
 
-function* parseArrayBuffer(data) {
-	const length = yield* parseValue(data);
-	const array = yield* data.consume(length);
+async function parseArrayBuffer(data) {
+	const length = await parseValue(data);
+	const array = await data.consume(length);
 	return array.buffer;
 }
 
-function* parseNumber(data) {
-	const array = yield* data.consume(8);
+async function parseNumber(data) {
+	const array = await data.consume(8);
 	return new Float64Array(array.buffer)[0];
 }
 
-function* parseUint32(data) {
-	const array = yield* data.consume(4);
+async function parseUint32(data) {
+	const array = await data.consume(4);
 	return new Uint32Array(array.buffer)[0];
 }
 
-function* parseInt32(data) {
-	const array = yield* data.consume(4);
+async function parseInt32(data) {
+	const array = await data.consume(4);
 	return new Int32Array(array.buffer)[0];
 }
 
-function* parseUint16(data) {
-	const array = yield* data.consume(2);
+async function parseUint16(data) {
+	const array = await data.consume(2);
 	return new Uint16Array(array.buffer)[0];
 }
 
-function* parseInt16(data) {
-	const array = yield* data.consume(2);
+async function parseInt16(data) {
+	const array = await data.consume(2);
 	return new Int16Array(array.buffer)[0];
 }
 
-function* parseUint8(data) {
-	const array = yield* data.consume(1);
+async function parseUint8(data) {
+	const array = await data.consume(1);
 	return new Uint8Array(array.buffer)[0];
 }
 
-function* parseInt8(data) {
-	const array = yield* data.consume(1);
+async function parseInt8(data) {
+	const array = await data.consume(1);
 	return new Int8Array(array.buffer)[0];
 }
 
-// eslint-disable-next-line require-yield
-function* parseUndefined() {
+function parseUndefined() {
 	return undefined;
 }
 
-// eslint-disable-next-line require-yield
-function* parseNull() {
+function parseNull() {
 	return null;
 }
 
-// eslint-disable-next-line require-yield
-function* parseNaN() {
+function parseNaN() {
 	return NaN;
 }
 
-function* parseBoolean(data) {
-	const array = yield* data.consume(1);
+async function parseBoolean(data) {
+	const array = await data.consume(1);
 	return Boolean(array[0]);
 }
 
-function* parseMap(data) {
-	const size = yield* parseValue(data);
+async function parseMap(data) {
+	const size = await parseValue(data);
 	const map = new Map();
-	for (let indexKey = 0; indexKey < size; indexKey++) {
-		const key = yield* parseValue(data);
-		const value = yield* parseValue(data);
-		data.setObject([key, value], (key, value) => map.set(key, value));
+	if (size) {
+		await parseNextEntry();
 	}
 	return map;
+
+	async function parseNextEntry(indexKey = 0) {
+		const key = await parseValue(data);
+		const value = await parseValue(data);
+		data.setObject([key, value], (key, value) => map.set(key, value));
+		if (indexKey < size - 1) {
+			await parseNextEntry(indexKey + 1);
+		}
+	}
 }
 
-function* parseSet(data) {
-	const size = yield* parseValue(data);
+async function parseSet(data) {
+	const size = await parseValue(data);
 	const set = new Set();
-	for (let indexKey = 0; indexKey < size; indexKey++) {
-		const value = yield* parseValue(data);
-		data.setObject([value], value => set.add(value));
+	if (size) {
+		await parseNextEntry();
 	}
 	return set;
+
+	async function parseNextEntry(indexKey = 0) {
+		const value = await parseValue(data);
+		data.setObject([value], value => set.add(value));
+		if (indexKey < size - 1) {
+			await parseNextEntry(indexKey + 1);
+		}
+	}
 }
 
-function* parseDate(data) {
-	const milliseconds = yield* parseNumber(data);
+async function parseDate(data) {
+	const milliseconds = await parseNumber(data);
 	return new Date(milliseconds);
 }
 
-function* parseError(data) {
-	const message = yield* parseString(data);
-	const stack = yield* parseString(data);
+async function parseError(data) {
+	const message = await parseString(data);
+	const stack = await parseString(data);
 	const error = new Error(message);
 	error.stack = stack;
 	return error;
 }
 
-function* parseRegExp(data) {
-	const source = yield* parseString(data);
-	const flags = yield* parseString(data);
+async function parseRegExp(data) {
+	const source = await parseString(data);
+	const flags = await parseString(data);
 	return new RegExp(source, flags);
 }
 
-function* parseStringObject(data) {
-	return new String(yield* parseString(data));
+async function parseStringObject(data) {
+	return new String(await parseString(data));
 }
 
-function* parseNumberObject(data) {
-	return new Number(yield* parseNumber(data));
+async function parseNumberObject(data) {
+	return new Number(await parseNumber(data));
 }
 
-function* parseBooleanObject(data) {
-	return new Boolean(yield* parseBoolean(data));
+async function parseBooleanObject(data) {
+	return new Boolean(await parseBoolean(data));
 }
 
-function* parseSymbol(data) {
-	const description = yield* parseString(data);
+async function parseSymbol(data) {
+	const description = await parseString(data);
 	return Symbol(description);
 }
 

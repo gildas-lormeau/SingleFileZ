@@ -92,7 +92,7 @@ async function downloadTabPage(response, tab) {
 		parser = yabson.getParser();
 		parsers.set(tabId, parser);
 	}
-	let result = parser.next(response.data);
+	let result = await parser.next(response.data);
 	if (result.done) {
 		let skipped;
 		const message = result.value;
@@ -333,11 +333,11 @@ async function downloadPage(pageData, options) {
 
 async function downloadPageForeground(taskId, filename, content, tabId) {
 	const serializer = yabson.getSerializer({ filename, taskId, content: await content.arrayBuffer() });
-	for (const data of serializer) {
-		const message = {
+	for await (const data of serializer) {
+		await browser.tabs.sendMessage(tabId, {
 			method: "content.download",
 			data: Array.from(data)
-		};
-		await browser.tabs.sendMessage(tabId, message);
+		});
 	}
+	await browser.tabs.sendMessage(tabId, { method: "content.download" });
 }

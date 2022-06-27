@@ -63,12 +63,13 @@ async function onMessage(message, sender) {
 		if (tabData) {
 			const options = await config.getOptions(tabData.url);
 			const serializer = yabson.getSerializer({ tabData, options });
-			for (const data of serializer) {
+			for await (const data of serializer) {
 				await browser.tabs.sendMessage(tab.id, {
 					method: "editor.setTabData",
 					data: Array.from(data)
 				});
 			}
+			await browser.tabs.sendMessage(tab.id, { method: "editor.setTabData" });
 		}
 		return {};
 	}
@@ -79,7 +80,7 @@ async function onMessage(message, sender) {
 			tabDataParser = yabson.getParser();
 			tabDataParsers.set(tab.id, tabDataParser);
 		}
-		const result = tabDataParser.next(message.data);
+		const result = await tabDataParser.next(message.data);
 		if (result.done) {
 			const updateTabProperties = { url: EDITOR_PAGE_URL };
 			await browser.tabs.update(tab.id, updateTabProperties);

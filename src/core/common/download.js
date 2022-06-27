@@ -73,12 +73,13 @@ async function downloadPage(pageData, options) {
 		infobarScript: options.infobarScript
 	};
 	const serializer = yabson.getSerializer(message);
-	for (const data of serializer) {
+	for await (const data of serializer) {
 		await browser.runtime.sendMessage({
 			method: "downloads.download",
 			data: Array.from(data)
 		});
 	}
+	await browser.runtime.sendMessage({ method: "downloads.download" });
 	if (options.backgroundSave) {
 		await browser.runtime.sendMessage({ method: "downloads.end", taskId: options.taskId });
 	}

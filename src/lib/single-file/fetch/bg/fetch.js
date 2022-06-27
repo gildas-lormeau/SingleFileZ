@@ -62,14 +62,14 @@ async function sendResponse(tabId, requestId, response) {
 		error: response.error,
 		array: response.array
 	});
-	for (const data of serializer) {
-		const message = {
+	for await (const data of serializer) {
+		await browser.tabs.sendMessage(tabId, {
 			method: "singlefile.fetchResponse",
 			requestId,
 			data: Array.from(data)
-		};
-		await browser.tabs.sendMessage(tabId, message);
+		});
 	}
+	await browser.tabs.sendMessage(tabId, { method: "singlefile.fetchResponse", requestId });
 	return {};
 }
 

@@ -327,18 +327,7 @@ browser.runtime.onMessage.addListener(message => {
 		return Promise.resolve({});
 	}
 	if (message.method == "editor.setTabData") {
-		if (!tabDataParser) {
-			tabDataParser = yabson.getParser();
-		}
-		const result = tabDataParser.next(message.data);
-		if (result.done) {
-			tabDataParser = null;
-			tabData = result.value.tabData;
-			tabData.options = result.value.options;
-			editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: Array.from(tabData.content), password: tabData.options.password }), "*");
-			editorElement.contentWindow.focus();
-		}
-		return Promise.resolve({});
+		return setTabData(message);
 	}
 	if (message.method == "options.refresh") {
 		return refreshOptions(message.profileName);
@@ -347,21 +336,7 @@ browser.runtime.onMessage.addListener(message => {
 		onError(message.error, message.link);
 	}
 	if (message.method == "content.download") {
-		if (!downloadParser) {
-			downloadParser = yabson.getParser();
-		}
-		const result = downloadParser.next(message.data);
-		if (result.done) {
-			downloadParser = null;
-			const link = document.createElement("a");
-			link.download = result.value.filename;
-			link.href = URL.createObjectURL(new Blob([result.value.content]), "text/html");
-			link.dispatchEvent(new MouseEvent("click"));
-			URL.revokeObjectURL(link.href);
-			return browser.runtime.sendMessage({ method: "downloads.end", taskId: result.value.taskId }).then(() => ({}));
-		} else {
-			return Promise.resolve({});
-		}
+		return downloadContent(message);
 	}
 });
 
@@ -375,6 +350,39 @@ addEventListener("beforeunload", event => {
 		event.returnValue = "";
 	}
 });
+
+async function setTabData(message) {
+	if (!tabDataParser) {
+		tabDataParser = yabson.getParser();
+	}
+	const result = await tabDataParser.next(message.data);
+	if (result.done) {
+		tabDataParser = null;
+		tabData = result.value.tabData;
+		tabData.options = result.value.options;
+		editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: Array.from(tabData.content), password: tabData.options.password }), "*");
+		editorElement.contentWindow.focus();
+	}
+	return Promise.resolve({});
+}
+
+async function downloadContent(message) {
+	if (!downloadParser) {
+		downloadParser = yabson.getParser();
+	}
+	const result = downloadParser.next(message.data);
+	if (result.done) {
+		downloadParser = null;
+		const link = document.createElement("a");
+		link.download = result.value.filename;
+		link.href = URL.createObjectURL(new Blob([result.value.content]), "text/html");
+		link.dispatchEvent(new MouseEvent("click"));
+		URL.revokeObjectURL(link.href);
+		return browser.runtime.sendMessage({ method: "downloads.end", taskId: result.value.taskId }).then(() => ({}));
+	} else {
+		return Promise.resolve({});
+	}
+}
 
 async function refreshOptions(profileName) {
 	const profiles = await browser.runtime.sendMessage({ method: "config.getProfiles" });
