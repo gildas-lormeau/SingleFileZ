@@ -170,7 +170,7 @@ async function saveContent(message, tab) {
 					password: options.password
 				});
 				if (options.saveToGDrive) {
-					await downloads.saveToGDrive(message.taskId, pageData.filename, blob, options, , {
+					await downloads.saveToGDrive(message.taskId, pageData.filename, blob, options, {
 						forceWebAuthFlow: options.forceWebAuthFlow
 					});
 				} else if (options.saveWithWebDAV) {
