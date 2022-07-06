@@ -127,7 +127,7 @@ const DEFAULT_CONFIG = {
 	networkTimeout: 0,
 	blockImages: false,
 	blockStylesheets: false,
-	blockFont: false,
+	blockFonts: false,
 	blockScripts: true,
 	blockVideos: true,
 	blockAudios: true
