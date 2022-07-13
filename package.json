@@ -1,6 +1,6 @@
 {
 	"name": "single-filez",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"description": "SingleFileZ",
 	"author": "Gildas Lormeau",
 	"license": "AGPL-3.0-or-later",
@@ -12,8 +12,8 @@
 		"single-filez": "./cli/single-filez"
 	},
 	"dependencies": {
-		"single-filez-core": "1.0.11",
-		"single-filez-cli": "1.0.17"
+		"single-filez-core": "1.0.12",
+		"single-filez-cli": "1.0.18"
 	},
 	"devDependencies": {
 		"@rollup/plugin-node-resolve": "13.3.0",
