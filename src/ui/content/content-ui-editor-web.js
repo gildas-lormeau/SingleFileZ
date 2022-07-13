@@ -82,7 +82,7 @@ import { display } from "single-filez-core/processors/compression/compression-di
   --blue-60: #0060df;
   --body-padding: 64px;
   --font-size: 12;
-  --content-width: 40em;
+  --content-width: 70em;
   --line-height: 1.6em;
 }
 
