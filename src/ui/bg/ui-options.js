@@ -257,6 +257,8 @@ const cancelButton = document.getElementById("cancelButton");
 const promptInput = document.getElementById("promptInput");
 const promptCancelButton = document.getElementById("promptCancelButton");
 const promptConfirmButton = document.getElementById("promptConfirmButton");
+const manifest = browser.runtime.getManifest();
+const requestPermissionIdentity = manifest.optional_permissions && manifest.optional_permissions.includes("identity");
 
 let sidePanelDisplay;
 if (location.href.endsWith("#side-panel")) {
@@ -445,6 +447,7 @@ saveWithWebDAVInput.addEventListener("click", () => disableDestinationPermission
 saveCreatedBookmarksInput.addEventListener("click", saveCreatedBookmarks, false);
 passReferrerOnErrorInput.addEventListener("click", passReferrerOnError, false);
 browser.runtime.sendMessage({ method: "config.isSync" }).then(data => synchronizeInput.checked = data.sync);
+saveToGDriveInput.addEventListener("click", onClickSaveToGDrive, false);
 synchronizeInput.addEventListener("click", async () => {
 	if (synchronizeInput.checked) {
 		await browser.runtime.sendMessage({ method: "config.enableSync" });
@@ -973,6 +976,25 @@ async function saveCreatedBookmarks() {
 		await refresh();
 		await browser.runtime.sendMessage({ method: "bookmarks.disable" });
 	}
+}
+
+async function onClickSaveToGDrive() {
+	if (saveToGDriveInput.checked) {
+		saveToGDriveInput.checked = false;
+		try {
+			if (requestPermissionIdentity) {
+				const permissionGranted = await browser.permissions.request({ permissions: ["identity"] });
+				if (permissionGranted) {
+					saveToGDriveInput.checked = true;
+				}
+			}
+		} catch (error) {
+			saveToGDriveInput.checked = false;
+			await browser.runtime.sendMessage({ method: "downloads.disableGDrive" });
+		}
+	}
+	await update();
+	await refresh();
 }
 
 async function disableDestinationPermissions(permissions, disableGDrive = true) {
