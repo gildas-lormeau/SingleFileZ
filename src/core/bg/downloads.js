@@ -49,7 +49,8 @@ export {
 	testSkipSave,
 	saveToGDrive,
 	saveToGitHub,
-	saveWithWebDAV
+	saveWithWebDAV,
+	encodeSharpCharacter
 };
 
 async function onMessage(message, sender) {
@@ -128,15 +129,15 @@ async function downloadTabPage(response, tab) {
 async function downloadBlob(blob, tabId, incognito, message) {
 	try {
 		if (message.saveWithWebDAV) {
-			await saveWithWebDAV(message.taskId, message.filename, blob, message.webDAVURL, message.webDAVUser, message.webDAVPassword);
+			await saveWithWebDAV(message.taskId, encodeSharpCharacter(message.filename), blob, message.webDAVURL, message.webDAVUser, message.webDAVPassword);
 		} else if (message.saveToGDrive) {
-			await saveToGDrive(message.taskId, message.filename, blob, {
+			await saveToGDrive(message.taskId, encodeSharpCharacter(message.filename), blob, {
 				forceWebAuthFlow: message.forceWebAuthFlow
 			}, {
 				onProgress: (offset, size) => ui.onUploadProgress(tabId, offset, size)
 			});
 		} else if (message.saveToGitHub) {
-			await (await saveToGitHub(message.taskId, message.filename, blob, message.githubToken, message.githubUser, message.githubRepository, message.githubBranch)).pushPromise;
+			await (await saveToGitHub(message.taskId, encodeSharpCharacter(message.filename), blob, message.githubToken, message.githubUser, message.githubRepository, message.githubBranch)).pushPromise;
 		} else {
 			if (message.backgroundSave) {
 				message.url = URL.createObjectURL(blob);
@@ -163,6 +164,10 @@ async function downloadBlob(blob, tabId, incognito, message) {
 			URL.revokeObjectURL(message.url);
 		}
 	}
+}
+
+function encodeSharpCharacter(path) {
+	return path.replace(/#/g, "%23");
 }
 
 function getRegExp(string) {
@@ -320,7 +325,7 @@ async function downloadPage(pageData, options) {
 			if (downloadData.filename.startsWith("/")) {
 				downloadData.filename = downloadData.filename.substring(1);
 			}
-			downloadData.filename = "file:///" + downloadData.filename.replace(/#/g, "%23");
+			downloadData.filename = "file:///" + encodeSharpCharacter(downloadData.filename);
 		}
 		await bookmarks.update(pageData.bookmarkId, { url: downloadData.filename });
 	}
