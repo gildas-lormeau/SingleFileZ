@@ -104,12 +104,9 @@ function getContent() {
 			if (errorMessageElement) {
 				errorMessageElement.remove();
 			}
-			const waitTimeout = setTimeout(() => {
-				document.body.innerHTML = "Please wait...";
-				document.body.hidden = false;
-			}, 5000);
+			
 			const requestId = fetchData.length;
-			fetchData.push({ waitTimeout, parser, resolve, reject });
+			fetchData.push({ parser, resolve, reject });
 			browser.runtime.sendMessage({ method: "singlefile.fetch", requestId, url: location.href });
 		};
 	});
@@ -155,10 +152,9 @@ async function onMessage(message) {
 
 async function fetchResponse(response) {
 	if (fetchData[response.requestId]) {
-		const { parser, waitTimeout, resolve, reject } = fetchData[response.requestId];
+		const { parser, resolve, reject } = fetchData[response.requestId];
 		const result = await parser.next(response.data);
 		if (result.done) {
-			clearTimeout(waitTimeout);
 			const message = result.value;
 			if (message.error) {
 				reject(new Error(message.error));
