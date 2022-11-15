@@ -25,8 +25,31 @@
 
 const HELP_ICON_URL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABIUlEQVQ4y+2TsarCMBSGvxTBRdqiUZAWOrhJB9EXcPKFfCvfQYfulUKHDqXg4CYUJSioYO4mSDX3ttzt3n87fMlHTpIjlsulxpDZbEYYhgghSNOUOI5Ny2mZYBAELBYLer0eAJ7ncTweKYri4x7LJJRS0u12n7XrukgpjSc0CpVSXK/XZ32/31FKNW85z3PW6zXT6RSAJEnIsqy5UGvNZrNhu90CcDqd+C6tT6J+v//2Th+PB2VZ1hN2Oh3G4zGTyQTbtl/YbrdjtVpxu91+Ljyfz0RRhG3bzOfzF+Y4TvNXvlwuaK2pE4tfzr/wzwsty0IIURlL0998KxRCMBqN8H2/wlzXJQxD2u12vVkeDoeUZUkURRU+GAw4HA7s9/sK+wK6CWHasQ/S/wAAAABJRU5ErkJggg==";
 const HELP_PAGE_PATH = "/src/ui/pages/help.html";
-let DEFAULT_PROFILE_NAME, DISABLED_PROFILE_NAME, CURRENT_PROFILE_NAME;
-browser.runtime.sendMessage({ method: "config.getConstants" }).then(data => ({ DEFAULT_PROFILE_NAME, DISABLED_PROFILE_NAME, CURRENT_PROFILE_NAME } = data));
+let DEFAULT_PROFILE_NAME,
+	DISABLED_PROFILE_NAME,
+	CURRENT_PROFILE_NAME,
+	BACKGROUND_SAVE_SUPPORTED,
+	AUTO_SAVE_SUPPORTED,
+	AUTO_OPEN_EDITOR_SUPPORTED,
+	INFOBAR_SUPPORTED,
+	BOOKMARKS_API_SUPPORTED,
+	IDENTITY_API_SUPPORTED,
+	WEB_BLOCKING_API_SUPPORTED;
+browser.runtime.sendMessage({ method: "config.getConstants" }).then(data => {
+	({
+		DEFAULT_PROFILE_NAME,
+		DISABLED_PROFILE_NAME,
+		CURRENT_PROFILE_NAME,
+		BACKGROUND_SAVE_SUPPORTED,
+		AUTO_SAVE_SUPPORTED,
+		AUTO_OPEN_EDITOR_SUPPORTED,
+		INFOBAR_SUPPORTED,
+		BOOKMARKS_API_SUPPORTED,
+		IDENTITY_API_SUPPORTED,
+		WEB_BLOCKING_API_SUPPORTED
+	} = data);
+	init();
+});
 const removeHiddenElementsLabel = document.getElementById("removeHiddenElementsLabel");
 const removeUnusedStylesLabel = document.getElementById("removeUnusedStylesLabel");
 const removeUnusedFontsLabel = document.getElementById("removeUnusedFontsLabel");
@@ -633,6 +656,34 @@ browser.runtime.sendMessage({ method: "tabsData.get" }).then(allTabsData => {
 	return refresh(tabsData.profileName);
 });
 getHelpContents();
+
+function init() {
+	if (!AUTO_SAVE_SUPPORTED) {
+		document.getElementById("autoSaveSection").hidden = true;
+		document.getElementById("showAutoSaveProfileOption").hidden = true;
+		rulesContainerElement.classList.add("compact");
+	}
+	if (!BACKGROUND_SAVE_SUPPORTED) {
+		document.getElementById("backgroundSaveOptions").hidden = true;
+		document.getElementById("confirmFilenameOption").hidden = true;
+		document.getElementById("filenameConflictAction").hidden = true;
+	}
+	if (!BOOKMARKS_API_SUPPORTED) {
+		document.getElementById("bookmarksOptions").hidden = true;
+	}
+	if (!AUTO_OPEN_EDITOR_SUPPORTED) {
+		document.getElementById("autoOpenEditorOption").hidden = true;
+	}
+	if (!INFOBAR_SUPPORTED) {
+		document.getElementById("displayInfobarOption").hidden = true;
+	}
+	if (!IDENTITY_API_SUPPORTED) {
+		document.getElementById("saveToGDriveOption").hidden = true;
+	}
+	if (!WEB_BLOCKING_API_SUPPORTED) {
+		document.getElementById("passReferrerOnErrorOption").hidden = true;
+	}
+}
 
 async function refresh(profileName) {
 	const [profiles, rules] = await Promise.all([
