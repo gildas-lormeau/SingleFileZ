@@ -87,7 +87,7 @@ async function onFetchResponse(response) {
 
 async function hostFetch(url, options) {
 	const result = new Promise((resolve, reject) => {
-		dispatchEvent(new CustomEvent(FETCH_REQUEST_EVENT, { detail: url }));
+		dispatchEvent(new CustomEvent(FETCH_REQUEST_EVENT, { detail: JSON.stringify({ url, options }) }));
 		addEventListener(FETCH_ACK_EVENT, onAckFetch, false);
 		addEventListener(FETCH_RESPONSE_EVENT, onResponseFetch, false);
 		const timeout = setTimeout(() => {
