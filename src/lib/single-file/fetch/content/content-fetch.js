@@ -21,9 +21,20 @@
  *   Source.
  */
 
-/* global browser, window */
+/* global browser, window, CustomEvent, setTimeout, clearTimeout */
 
 import * as yabson from "./../../../../lib/yabson/yabson.js";
+
+const FETCH_REQUEST_EVENT = "single-filez-request-fetch";
+const FETCH_ACK_EVENT = "single-filez-ack-fetch";
+const FETCH_RESPONSE_EVENT = "single-filez-response-fetch";
+const ERR_HOST_FETCH = "Host fetch error (SingleFileZ)";
+const HOST_FETCH_MAX_DELAY = 2500;
+const USE_HOST_FETCH = Boolean(window.wrappedJSObject);
+
+const addEventListener = (type, listener, options) => window.addEventListener(type, listener, options);
+const dispatchEvent = event => window.dispatchEvent(event);
+const removeEventListener = (type, listener, options) => window.removeEventListener(type, listener, options);
 
 const fetch = (url, options) => window.fetch(url, options);
 
@@ -74,6 +85,55 @@ async function onFetchResponse(response) {
 	return {};
 }
 
+async function hostFetch(url, options) {
+	const result = new Promise((resolve, reject) => {
+		dispatchEvent(new CustomEvent(FETCH_REQUEST_EVENT, { detail: url }));
+		addEventListener(FETCH_ACK_EVENT, onAckFetch, false);
+		addEventListener(FETCH_RESPONSE_EVENT, onResponseFetch, false);
+		const timeout = setTimeout(() => {
+			removeListeners();
+			reject(new Error(ERR_HOST_FETCH));
+		}, HOST_FETCH_MAX_DELAY);
+
+		function onResponseFetch(event) {
+			if (event.detail) {
+				if (event.detail.url == url) {
+					removeListeners();
+					if (event.detail.response) {
+						resolve({
+							status: event.detail.status,
+							headers: new Map(event.detail.headers),
+							arrayBuffer: async () => event.detail.response
+						});
+					} else {
+						reject(event.detail.error);
+					}
+				}
+			} else {
+				reject();
+			}
+		}
+
+		function onAckFetch() {
+			clearTimeout(timeout);
+		}
+
+		function removeListeners() {
+			removeEventListener(FETCH_RESPONSE_EVENT, onResponseFetch, false);
+			removeEventListener(FETCH_ACK_EVENT, onAckFetch, false);
+		}
+	});
+	try {
+		return await result;
+	} catch (error) {
+		if (error && error.message == ERR_HOST_FETCH) {
+			return fetch(url, options);
+		} else {
+			throw error;
+		}
+	}
+}
+
 export {
 	fetchResource as fetch,
 	frameFetch
@@ -81,7 +141,8 @@ export {
 
 async function fetchResource(url, options = {}) {
 	try {
-		return await fetch(url, { cache: "force-cache", headers: options.headers });
+		const fetchOptions = { cache: "force-cache", headers: options.headers };
+		return await (options.referrer && USE_HOST_FETCH ? hostFetch(url, fetchOptions) : fetch(url, fetchOptions));
 	}
 	catch (error) {
 		requestId++;
