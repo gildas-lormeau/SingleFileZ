@@ -1916,10 +1916,6 @@ pre code {
 			element.style.removeProperty("-sf-" + pointerEvents);
 		});
 		doc.body.removeAttribute("contentEditable");
-		const scriptElement = doc.createElement("script");
-		scriptElement.setAttribute(SCRIPT_TEMPLATE_SHADOW_ROOT, "");
-		scriptElement.textContent = getEmbedScript();
-		doc.body.appendChild(scriptElement);
 		const newResources = Object.keys(updatedResources).filter(url => updatedResources[url].type == "stylesheet").map(url => updatedResources[url]);
 		newResources.forEach(resource => {
 			const element = doc.createElement("style");
@@ -1944,7 +1940,7 @@ pre code {
 				content = content.replace(searchRegExp, resource.name);
 			}
 		});
-		return content;
+		return content  + "<script " + SCRIPT_TEMPLATE_SHADOW_ROOT + ">" + getEmbedScript() + "</script>";
 	}
 
 	function onUpdate(saved) {
