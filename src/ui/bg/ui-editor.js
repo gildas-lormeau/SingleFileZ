@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, document, matchMedia, addEventListener, prompt, URL, MouseEvent, Blob */
+/* global browser, document, matchMedia, addEventListener, prompt, URL, MouseEvent, Blob, setInterval */
 
 import * as download from "../../core/common/download.js";
 import { onError } from "./../common/content-error.js";
@@ -362,6 +362,7 @@ async function setTabData(message) {
 		tabData.options = result.value.options;
 		editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: Array.from(tabData.content), password: tabData.options.password }), "*");
 		editorElement.contentWindow.focus();
+		setInterval(() => browser.runtime.sendMessage({ method: "editor.ping" }), 15000);
 	}
 	return Promise.resolve({});
 }
