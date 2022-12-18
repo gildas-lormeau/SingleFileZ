@@ -175,6 +175,10 @@
 		"message": "incluir la barra informativa en la página guardada",
 		"description": "Options page label: 'include the infobar in the saved page'"
 	},
+	"optionRemoveInfobarSavedDate": {
+		"message": "no incluya la fecha guardada",
+		"description": "Options page label: 'do not include the saved date'"
+	},
 	"optionConfirmInfobar": {
 		"message": "abrir un cuadro de diálogo para editar el contenido de la barra informativa",
 		"description": "Options page label: 'open a prompt dialog to edit the infobar content'"
@@ -262,6 +266,10 @@
 	"optionInsertTextBody": {
 		"message": "hacer buscable el texto",
 		"description": "Options page label: 'make text searchable'"
+	},
+	"optionsInfobarSubTitle": {
+		"message": "Barra informativa",
+		"description": "Options sub-title: 'Infobar'"
 	},
 	"optionsImagesSubTitle": {
 		"message": "Imágenes",

@@ -122,6 +122,7 @@ const DEFAULT_CONFIG = {
 	passReferrerOnError: false,
 	password: "",
 	insertSingleFileComment: true,
+	removeSavedDate: false,
 	blockMixedContent: false,
 	saveOriginalURLs: false,
 	acceptHeaders: {
