@@ -975,7 +975,7 @@ pre code {
 }`;
 
 	let NOTES_WEB_STYLESHEET, MASK_WEB_STYLESHEET, HIGHLIGHTS_WEB_STYLESHEET;
-	let selectedNote, anchorElement, maskNoteElement, maskPageElement, highlightSelectionMode, removeHighlightMode, resizingNoteMode, movingNoteMode, highlightColor, collapseNoteTimeout, cuttingOuterMode, cuttingMode, cuttingPath, cuttingPathIndex, previousContent;
+	let selectedNote, anchorElement, maskNoteElement, maskPageElement, highlightSelectionMode, removeHighlightMode, resizingNoteMode, movingNoteMode, highlightColor, collapseNoteTimeout, cuttingOuterMode, cuttingMode, cuttingTouchTarget, cuttingPath, cuttingPathIndex, previousContent;
 	let removedElements = [], removedElementIndex = 0, initScriptContent, pageResources, pageUrl;
 
 	globalThis.zip = zip;
@@ -1168,11 +1168,12 @@ pre code {
 		document.documentElement.appendChild(getStyleElement(HIGHLIGHTS_WEB_STYLESHEET));
 		maskPageElement = getMaskElement(PAGE_MASK_CLASS, PAGE_MASK_CONTAINER_CLASS);
 		maskNoteElement = getMaskElement(NOTE_MASK_CLASS);
-		document.documentElement.onmousedown = document.documentElement.ontouchstart = onMouseDown;
+		document.documentElement.onmousedown = onMouseDown;
 		document.documentElement.onmouseup = document.documentElement.ontouchend = onMouseUp;
 		document.documentElement.onmouseover = onMouseOver;
 		document.documentElement.onmouseout = onMouseOut;
 		document.documentElement.onkeydown = onKeyDown;
+		document.documentElement.ontouchstart = document.documentElement.ontouchmove = onTouchMove;
 		window.onclick = event => event.preventDefault();
 	}
 
@@ -1204,7 +1205,7 @@ pre code {
 		noteShadow.appendChild(noteElement);
 		const notesElements = Array.from(document.querySelectorAll(NOTE_TAGNAME));
 		const noteId = Math.max.call(Math, 0, ...notesElements.map(noteElement => Number(noteElement.dataset.noteId))) + 1;
-		noteElement.cite = "https://www.w3.org/TR/annotation-model/#selector(type=CssSelector,value=[data-single-file-note-refs~=\"" + noteId + "\"])";
+		blockquoteElement.cite = "https://www.w3.org/TR/annotation-model/#selector(type=CssSelector,value=[data-single-file-note-refs~=\"" + noteId + "\"])";
 		noteElement.classList.add(NOTE_CLASS);
 		noteElement.classList.add(NOTE_ANCHORED_CLASS);
 		noteElement.classList.add(color);
@@ -1428,10 +1429,12 @@ pre code {
 
 	function onMouseUp(event) {
 		if (highlightSelectionMode) {
+			event.preventDefault();
 			highlightSelection();
 			onUpdate(false);
 		}
 		if (removeHighlightMode) {
+			event.preventDefault();
 			let element = event.target, done;
 			while (element && !done) {
 				if (element.classList.contains(HIGHLIGHT_CLASS)) {
@@ -1445,6 +1448,7 @@ pre code {
 			}
 		}
 		if (resizingNoteMode) {
+			event.preventDefault();
 			resizingNoteMode = false;
 			document.documentElement.style.removeProperty("user-select");
 			maskPageElement.classList.remove(PAGE_MASK_ACTIVE_CLASS);
@@ -1452,22 +1456,24 @@ pre code {
 			onUpdate(false);
 		}
 		if (movingNoteMode) {
+			event.preventDefault();
 			anchorNote(movingNoteMode.event || event, selectedNote, movingNoteMode.deltaX, movingNoteMode.deltaY);
 			movingNoteMode = null;
 			document.documentElement.ontouchmove = document.documentElement.onmousemove = null;
 			onUpdate(false);
 		}
-		if (collapseNoteTimeout) {
-			clearTimeout(collapseNoteTimeout);
-			collapseNoteTimeout = null;
-		}
 		if ((cuttingMode || cuttingOuterMode) && cuttingPath) {
+			event.preventDefault();
 			if (event.ctrlKey) {
 				const element = cuttingPath[cuttingPathIndex];
 				element.classList.toggle(cuttingMode ? CUT_SELECTED_CLASS : CUT_OUTER_SELECTED_CLASS);
 			} else {
 				validateCutElement(event.shiftKey);
 			}
+		}
+		if (collapseNoteTimeout) {
+			clearTimeout(collapseNoteTimeout);
+			collapseNoteTimeout = null;
 		}
 	}
 
@@ -1497,6 +1503,21 @@ pre code {
 			if (cuttingPath) {
 				unhighlightCutElement();
 				cuttingPath = null;
+			}
+		}
+	}
+
+	function onTouchMove(event) {
+		if (cuttingMode || cuttingOuterMode) {
+			event.preventDefault();
+			const { clientX, clientY } = getPosition(event);
+			const target = document.elementFromPoint(clientX, clientY);
+			if (cuttingTouchTarget != target) {
+				onMouseOut();
+				if (target) {
+					cuttingTouchTarget = target;
+					onMouseOver({ target });
+				}
 			}
 		}
 	}
@@ -1612,6 +1633,7 @@ pre code {
 				resetSelectedElements();
 				if (elementsRemoved.length) {
 					elementsRemoved.forEach(element => {
+						unhighlightCutElement(element);
 						if (element.tagName.toLowerCase() == NOTE_TAGNAME) {
 							resetAnchorNote(element);
 						} else {
@@ -1641,6 +1663,7 @@ pre code {
 					}
 				});
 				elementsKept.forEach(elementKept => {
+					unhighlightCutElement(elementKept);
 					const elementKeptRect = elementKept.getBoundingClientRect();
 					elementKept.querySelectorAll(searchSelector).forEach(descendant => {
 						const descendantRect = descendant.getBoundingClientRect();
