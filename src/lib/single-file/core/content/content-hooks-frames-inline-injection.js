@@ -68,6 +68,7 @@ function injectedScript() {
 			getDetailObject(...arguments).then(detail => dispatchEvent(new CustomEvent(NEW_FONT_FACE_EVENT, { detail })));
 			return new FontFace(...arguments);
 		};
+		globalThis.FontFace.prototype = FontFace.prototype;
 		globalThis.FontFace.toString = function () { return "function FontFace() { [native code] }"; };
 		const deleteFont = document.fonts.delete;
 		document.fonts.delete = function (fontFace) {
