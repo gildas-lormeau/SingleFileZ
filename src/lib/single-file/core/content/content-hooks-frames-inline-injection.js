@@ -38,12 +38,10 @@ function injectedScript() {
 		window.globalThis = window;
 	}
 	const document = globalThis.document;
-	const console = globalThis.console;
 	const dispatchEvent = event => globalThis.dispatchEvent(event);
 	const CustomEvent = globalThis.CustomEvent;
 	const FileReader = globalThis.FileReader;
 	const Blob = globalThis.Blob;
-	const warn = (console && console.warn && ((...args) => console.warn(...args))) || (() => { });
 	const NEW_FONT_FACE_EVENT = "single-filez-new-font-face";
 	const DELETE_FONT_EVENT = "single-filez-delete-font";
 	const CLEAR_FONTS_EVENT = "single-filez-clear-fonts";
@@ -59,12 +57,7 @@ function injectedScript() {
 
 	if (globalThis.FontFace) {
 		const FontFace = globalThis.FontFace;
-		let warningFontFaceDisplayed;
 		globalThis.FontFace = function () {
-			if (!warningFontFaceDisplayed) {
-				warn("SingleFileZ is hooking the FontFace constructor, document.fonts.delete and document.fonts.clear to handle dynamically loaded fonts.");
-				warningFontFaceDisplayed = true;
-			}
 			getDetailObject(...arguments).then(detail => dispatchEvent(new CustomEvent(NEW_FONT_FACE_EVENT, { detail })));
 			return new FontFace(...arguments);
 		};
