@@ -66,6 +66,7 @@ const DEFAULT_CONFIG = {
 	filenameMaxLengthUnit: "bytes",
 	filenameReplacedCharacters: ["~", "+", "\\\\", "?", "%", "*", ":", "|", "\"", "<", ">", "\x00-\x1f", "\x7F"],
 	filenameReplacementCharacter: "_",
+	replaceEmojisInFilename: false,
 	contextMenuEnabled: true,
 	tabMenuEnabled: true,
 	browserActionMenuEnabled: true,
