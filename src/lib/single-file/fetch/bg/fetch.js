@@ -29,7 +29,8 @@ import * as yabson from "./../../../../lib/yabson/yabson.js";
 
 export {
 	REQUEST_ID_HEADER_NAME,
-	referrers
+	referrers,
+	fetchResource
 };
 
 browser.runtime.onMessage.addListener((message, sender) => {
@@ -88,6 +89,7 @@ function fetchResource(url, options = {}, includeRequestId) {
 							.catch(reject);
 					} else {
 						resolve({
+							arrayBuffer: xhrRequest.response,
 							array: new Uint8Array(xhrRequest.response),
 							headers: { "content-type": xhrRequest.getResponseHeader("Content-Type") },
 							status: xhrRequest.status
