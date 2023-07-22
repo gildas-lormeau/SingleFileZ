@@ -55,6 +55,7 @@ const DEFAULT_CONFIG = {
 	loadDeferredImagesBlockStorage: false,
 	loadDeferredImagesKeepZoomLevel: false,
 	loadDeferredImagesDispatchScrollEvent: false,
+	loadDeferredImagesBeforeFrames: false,
 	filenameTemplate: "{page-title} ({date-locale} {time-locale}).zip.html",
 	infobarTemplate: "",
 	includeInfobar: false,
