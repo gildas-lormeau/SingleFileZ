@@ -33,14 +33,7 @@ cp src/core/bg/config.js config.copy.js
 jq "del(.browser_specific_settings,.permissions[0],.permissions[1],.options_ui.browser_style)" manifest.copy.json >manifest.json
 sed -i 's/forceWebAuthFlow: false/forceWebAuthFlow: true/g' src/core/bg/config.js
 sed -i 's/image\/avif,//g' src/core/bg/config.js
-mkdir _locales.copy
-cp -R _locales/* _locales.copy
-rm -rf _locales/*
-cp -R _locales.copy/en _locales
 zip -r singlefilez-extension-edge.zip manifest.json lib _locales src
-rm -rf _locales/*
-mv _locales.copy/* _locales
-rmdir _locales.copy
 mv config.copy.js src/core/bg/config.js
 
 mv manifest.copy.json manifest.json
