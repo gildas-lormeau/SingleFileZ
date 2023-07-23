@@ -30,7 +30,7 @@ import "./../../lib/single-file/background.js";
 const ACTION_SAVE_PAGE = "save-page";
 const ACTION_EDIT_AND_SAVE_PAGE = "edit-and-save-page";
 const ACTION_SAVE_SELECTED_LINKS = "save-selected-links";
-const ACTION_SAVE_SELECTED = "save-selected";
+const ACTION_SAVE_SELECTED = "save-selected-content";
 const ACTION_SAVE_SELECTED_TABS = "save-selected-tabs";
 const ACTION_SAVE_UNPINNED_TABS = "save-unpinned-tabs";
 const ACTION_SAVE_ALL_TABS = "save-all-tabs";
