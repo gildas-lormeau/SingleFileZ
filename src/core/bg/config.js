@@ -117,6 +117,7 @@ const DEFAULT_CONFIG = {
 	saveFavicon: true,
 	includeBOM: false,
 	warnUnsavedPage: true,
+	displayInfobarInEditor: false,
 	createRootDirectory: false,
 	selfExtractingArchive: true,
 	insertMetaNoIndex: false,

@@ -559,6 +559,10 @@
 		"message": "establecer la política de seguridad del contenido",
 		"description": "Options page label: 'set content security policy'"
 	},
+	"optionSaveToClipboard": {
+		"message": "guardar en el portapapeles",
+		"description": "Options page label: 'copy to clipboard'"
+	},
 	"optionSaveToFilesystem": {
 		"message": "save to filesystem",
 		"description": "Options page label: 'save to filesystem'"
