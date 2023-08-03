@@ -256,7 +256,7 @@
 		"description": "Options page label: 'ZIP content'"
 	},
 	"optionCreateRootDirectory": {
-		"message": "create a root directory",
+		"message": "crear un directorio raíz",
 		"description": "Options page label: 'create a root directory'"
 	},
 	"optionPassword": {
@@ -518,6 +518,10 @@
 	"optionWarnUnsavedPage": {
 		"message": "mostrar advertencia al salir de una página con cambios no guardados",
 		"description": "Title of the button 'warn if leaving page with unsaved changes'"
+	},
+	"optionDisplayInfobarInEditor": {
+		"message": "mostrar la barra informativa",
+		"description": "Title of the button 'display the infobar'"
 	},
 	"optionsMiscSubTitle": {
 		"message": "Miscelánea",

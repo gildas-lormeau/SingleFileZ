@@ -4,7 +4,7 @@
 		"description": "Description of the extension."
 	},
 	"commandSaveSelectedTabs": {
-		"message": "Save the selected tabs or their selected contents",
+		"message": "Сохранить выбранные вкладки или выбранное на них содержимое",
 		"description": "Command (Ctrl+Shift+Y): 'Save the selected tabs or their selected contents'"
 	},
 	"commandSaveAllTabs": {
@@ -252,11 +252,11 @@
 		"description": "Options page label: 'remove hidden elements'"
 	},
 	"optionsZipContentSubTitle": {
-		"message": "ZIP content",
+		"message": "Содержимое ZIP-архива",
 		"description": "Options page label: 'ZIP content'"
 	},
 	"optionCreateRootDirectory": {
-		"message": "create a root directory",
+		"message": "создать корневую директорию",
 		"description": "Options page label: 'create a root directory'"
 	},
 	"optionPassword": {
@@ -264,11 +264,11 @@
 		"description": "Options page label: 'password'"
 	},
 	"optionSelfExtractingArchive": {
-		"message": "create self extracting archives",
+		"message": "создать самораспаковывающиеся архивы",
 		"description": "Options page label: 'create self extracting archives'"
 	},
 	"optionInsertTextBody": {
-		"message": "make text searchable",
+		"message": "сделать текст искабельным",
 		"description": "Options page label: 'make text searchable'"
 	},
 	"optionsInfobarSubTitle": {
@@ -393,7 +393,7 @@
 	},
 	"optionsDeleteDisplayedRulesConfirm": {
 		"message": "Подтвердите удаление всех отображаемых правил",
-		"description": "Popup text 'Confirm deletion of all displayed rules'"
+		"description": "Popup text 'Confirm the deletion of all displayed rules'"
 	},
 	"optionsDeleteRulesTooltip": {
 		"message": "Удалить все отображаемые правила",
@@ -441,7 +441,7 @@
 	},
 	"optionsDeleteRuleConfirm": {
 		"message": "Подтвердите удаление выбранного правила",
-		"description": "Popup text 'Confirm deletion of the selected rule' in the options page"
+		"description": "Popup text 'Confirm the deletion of the selected rule' in the options page"
 	},
 	"optionAutoSaveLoadOrUnload": {
 		"message": "автосохранение после загрузки или выгрузки страницы",
@@ -709,7 +709,7 @@
 	},
 	"profileDeleteConfirm": {
 		"message": "Подтвердите удаление выбранного профиля",
-		"description": "Popup text 'Confirm deletion of the selected profile' in the options page"
+		"description": "Popup text 'Confirm the deletion of the selected profile' in the options page"
 	},
 	"profileRenamePrompt": {
 		"message": "Введите новое имя для выбранного профиля",

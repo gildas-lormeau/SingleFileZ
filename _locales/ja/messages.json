@@ -4,7 +4,7 @@
 		"description": "Description of the extension."
 	},
 	"commandSaveSelectedTabs": {
-		"message": "Save the selected tabs or their selected contents",
+		"message": "選択したタブまたはその選択内容を保存する",
 		"description": "Command (Ctrl+Shift+Y): 'Save the selected tabs or their selected contents'"
 	},
 	"commandSaveAllTabs": {
@@ -252,11 +252,11 @@
 		"description": "Options page label: 'remove hidden elements'"
 	},
 	"optionsZipContentSubTitle": {
-		"message": "ZIP content",
+		"message": "ZIP コンテンツ",
 		"description": "Options page label: 'ZIP content'"
 	},
 	"optionCreateRootDirectory": {
-		"message": "create a root directory",
+		"message": "ルートディレクトリを作成する",
 		"description": "Options page label: 'create a root directory'"
 	},
 	"optionPassword": {
@@ -264,15 +264,15 @@
 		"description": "Options page label: 'password'"
 	},
 	"optionSelfExtractingArchive": {
-		"message": "create self extracting archives",
+		"message": "自己解凍アーカイブを作成する",
 		"description": "Options page label: 'create self extracting archives'"
 	},
 	"optionInsertTextBody": {
-		"message": "make text searchable",
+		"message": "テキストを検索可能にする",
 		"description": "Options page label: 'make text searchable'"
 	},
 	"optionsInfobarSubTitle": {
-		"message": "Infobar",
+		"message": "インフォバー",
 		"description": "Options sub-title: 'Infobar'"
 	},
 	"optionsImagesSubTitle": {

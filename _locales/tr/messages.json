@@ -1,6 +1,6 @@
 {
 	"extensionDescription": {
-		"message": "Tam bir sayfayı tek bir HTML dosyasına kaydet",
+		"message": "Web sayfalarını kendinden çıkartılabilen HTML/ZIP çok dilli dosya olarak kaydet",
 		"description": "Description of the extension."
 	},
 	"commandSaveSelectedTabs": {
@@ -12,8 +12,8 @@
 		"description": "Command (Ctrl+Shift+U): 'Save all tabs'"
 	},
 	"menuSavePage": {
-		"message": "Sayfayı SingleFile ile kaydet",
-		"description": "Menu entry: 'Save page with SingleFile'"
+		"message": "Sayfayı SingleFileZ ile kaydet",
+		"description": "Menu entry: 'Save page with SingleFileZ'"
 	},
 	"menuSaveSelectedLinks": {
 		"message": "Seçilen bağlantıları kaydet",
@@ -57,7 +57,7 @@
 	},
 	"menuSaveTabs": {
 		"message": "Sekmeleri kaydet",
-		"description": "Menu entry (SingleFile button only): 'Save tabs'"
+		"description": "Menu entry (SingleFileZ button only): 'Save tabs'"
 	},
 	"menuSaveSelectedTabs": {
 		"message": "Seçili sekmeleri kaydet",
@@ -92,12 +92,12 @@
 		"description": "Menu entry: 'Auto-save' > Auto-save unpinned tabs'"
 	},
 	"menuAutoSaveAllTabs": {
-		"message": "Auto-save all tabs",
+		"message": "Tüm sekmeleri otomatik olarak kaydet",
 		"description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
 	},
 	"buttonDefaultTooltip": {
-		"message": "Sayfayı SingleFile ile kaydet",
-		"description": "Button title: 'Save page with SingleFile'"
+		"message": "Sayfayı SingleFileZ ile kaydet",
+		"description": "Button title: 'Save page with SingleFileZ'"
 	},
 	"buttonBlockedBadge": {
 		"message": "🚫",
@@ -105,11 +105,11 @@
 	},
 	"buttonBlockedTooltip": {
 		"message": "Bu sayfa SinglePage ile kaydedilemiyor",
-		"description": "Button title: 'This page cannot be saved with SingleFile'"
+		"description": "Button title: 'This page cannot be saved with SingleFileZ'"
 	},
 	"buttonInitializingTooltip": {
-		"message": "SingleFile Başlatılıyor",
-		"description": "Button title during initialization: 'Initializing SingleFile (x/2)'"
+		"message": "SingleFileZ Başlatılıyor",
+		"description": "Button title during initialization: 'Initializing SingleFileZ (x/2)'"
 	},
 	"buttonInitializingBadge": {
 		"message": "•••",
@@ -252,23 +252,23 @@
 		"description": "Options page label: 'remove hidden elements'"
 	},
 	"optionsZipContentSubTitle": {
-		"message": "ZIP content",
+		"message": "ZIP içeriği",
 		"description": "Options page label: 'ZIP content'"
 	},
 	"optionCreateRootDirectory": {
-		"message": "create a root directory",
+		"message": "kök dizin oluştur",
 		"description": "Options page label: 'create a root directory'"
 	},
 	"optionPassword": {
-		"message": "password",
+		"message": "parola",
 		"description": "Options page label: 'password'"
 	},
 	"optionSelfExtractingArchive": {
-		"message": "create self extracting archives",
+		"message": "kendinden çıkartılabilir arşivler oluştur",
 		"description": "Options page label: 'create self extracting archives'"
 	},
 	"optionInsertTextBody": {
-		"message": "make text searchable",
+		"message": "metni aranabilir yap",
 		"description": "Options page label: 'make text searchable'"
 	},
 	"optionsInfobarSubTitle": {
@@ -484,8 +484,8 @@
 		"description": "Options page label: 'annotate the page before saving'"
 	},
 	"optionAutoOpenEditor": {
-		"message": "açıklama düzenleyicide SingleFile ile kaydedilen sayfaları açın",
-		"description": "Options page label: 'open pages saved with SingleFile in the annotation editor'"
+		"message": "açıklama düzenleyicide SingleFileZ ile kaydedilen sayfaları açın",
+		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"
 	},
 	"optionDefaultEditorMode": {
 		"message": "varsayılan mod",

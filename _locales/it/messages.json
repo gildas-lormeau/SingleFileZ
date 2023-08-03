@@ -252,11 +252,11 @@
 		"description": "Options page label: 'remove hidden elements'"
 	},
 	"optionsZipContentSubTitle": {
-		"message": "ZIP content",
+		"message": "Contenuto ZIP",
 		"description": "Options page label: 'ZIP content'"
 	},
 	"optionCreateRootDirectory": {
-		"message": "create a root directory",
+		"message": "crea una cartella principale",
 		"description": "Options page label: 'create a root directory'"
 	},
 	"optionPassword": {
@@ -264,15 +264,15 @@
 		"description": "Options page label: 'password'"
 	},
 	"optionSelfExtractingArchive": {
-		"message": "create self extracting archives",
+		"message": "crea archivi autoestraenti",
 		"description": "Options page label: 'create self extracting archives'"
 	},
 	"optionInsertTextBody": {
-		"message": "make text searchable",
+		"message": "rendi il testo ricercabile",
 		"description": "Options page label: 'make text searchable'"
 	},
 	"optionsInfobarSubTitle": {
-		"message": "Infobar",
+		"message": "Barra informativa",
 		"description": "Options sub-title: 'Infobar'"
 	},
 	"optionsImagesSubTitle": {

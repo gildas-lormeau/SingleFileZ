@@ -709,7 +709,7 @@
 	},
 	"profileDeleteConfirm": {
 		"message": "Potwierdź usunięcie wybranego profilu",
-		"description": "Popup text 'Confirm deletion of the selected profile' in the options page"
+		"description": "Popup text 'Confirm the deletion of the selected profile' in the options page"
 	},
 	"profileRenamePrompt": {
 		"message": "Wpisz nową nazwę wybranego profilu",
