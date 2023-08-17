@@ -166,6 +166,10 @@ async function fetchResponse(response) {
 }
 
 function init() {
+	const legacyInfobarElement = document.querySelector("singlefile-infobar");
+	if (legacyInfobarElement) {
+		legacyInfobarElement.remove();
+	}
 	if (previousLocationHref != location.href && !singlefile.pageInfo.processing) {
 		pageAutoSaved = false;
 		previousLocationHref = location.href;
