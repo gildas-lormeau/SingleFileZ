@@ -207,6 +207,9 @@ async function upgrade(ignoreOldProfiles) {
 	if (!config.maxParallelWorkers) {
 		await configStorage.set({ maxParallelWorkers: navigator.hardwareConcurrency || 4 });
 	}
+	if (!config.processInForeground) {
+		await configStorage.set({ processInForeground: true });
+	}
 }
 
 async function getRule(url, ignoreWildcard) {
@@ -222,10 +225,10 @@ async function getRule(url, ignoreWildcard) {
 
 async function getConfig() {
 	await pendingUpgradePromise;
-	const { maxParallelWorkers } = await configStorage.get(["maxParallelWorkers"]);
+	const { maxParallelWorkers, processInForeground } = await configStorage.get(["maxParallelWorkers", "processInForeground"]);
 	const rules = await getRules();
 	const profiles = await getProfiles();
-	return { profiles, rules, maxParallelWorkers };
+	return { profiles, rules, maxParallelWorkers, processInForeground };
 }
 
 function sortRules(ruleLeft, ruleRight) {
@@ -300,7 +303,7 @@ async function onMessage(message) {
 		const syncConfig = await browser.storage.sync.get();
 		if (!syncConfig || !syncConfig.rules) {
 			const profileKeyNames = await getProfileKeyNames();
-			const localConfig = await browser.storage.local.get(["rules", "maxParallelWorkers", ...profileKeyNames]);
+			const localConfig = await browser.storage.local.get(["rules", "maxParallelWorkers", "processInForeground", ...profileKeyNames]);
 			await browser.storage.sync.set(localConfig);
 		}
 		configStorage = browser.storage.sync;
@@ -312,7 +315,7 @@ async function onMessage(message) {
 		const syncConfig = await browser.storage.sync.get();
 		const localConfig = await browser.storage.local.get();
 		if (syncConfig && syncConfig.rules && (!localConfig || !localConfig.rules)) {
-			await browser.storage.local.set({ rules: syncConfig.rules, maxParallelWorkers: syncConfig.maxParallelWorkers });
+			await browser.storage.local.set({ rules: syncConfig.rules, maxParallelWorkers: syncConfig.maxParallelWorkers, processInForeground: syncConfig.processInForeground });
 			const profiles = {};
 			// syncConfig.profileNames.forEach(profileKeyName => profiles[PROFILE_NAME_PREFIX + profileKeyName] = syncConfig[profileKeyName]);
 			await browser.storage.local.set(profiles);
@@ -522,7 +525,7 @@ async function resetProfiles() {
 	delete allTabsData.profileName;
 	await tabsData.set(allTabsData);
 	let profileKeyNames = await getProfileKeyNames();
-	await configStorage.remove([...profileKeyNames, "rules", "maxParallelWorkers"]);
+	await configStorage.remove([...profileKeyNames, "rules", "maxParallelWorkers", "processInForeground"]);
 	await upgrade(true);
 }
 
@@ -536,7 +539,7 @@ async function resetProfile(profileName) {
 
 async function exportConfig() {
 	const config = await getConfig();
-	const url = URL.createObjectURL(new Blob([JSON.stringify({ profiles: config.profiles, rules: config.rules, maxParallelWorkers: config.maxParallelWorkers }, null, 2)], { type: "text/json" }));
+	const url = URL.createObjectURL(new Blob([JSON.stringify({ profiles: config.profiles, rules: config.rules, maxParallelWorkers: config.maxParallelWorkers, processInForeground: config.processInForeground }, null, 2)], { type: "text/json" }));
 	const downloadInfo = {
 		url,
 		filename: `singlefilez-settings-${(new Date()).toISOString().replace(/:/g, "_")}.json`,
@@ -557,8 +560,8 @@ async function importConfig(config) {
 		delete allTabsData.profileName;
 		await tabsData.set(allTabsData);
 	}
-	await configStorage.remove([...profileKeyNames, "rules", "maxParallelWorkers"]);
-	const newConfig = { rules: config.rules, maxParallelWorkers: config.maxParallelWorkers };
+	await configStorage.remove([...profileKeyNames, "rules", "maxParallelWorkers", "processInForeground"]);
+	const newConfig = { rules: config.rules, maxParallelWorkers: config.maxParallelWorkers, processInForeground: config.processInForeground };
 	Object.keys(config.profiles).forEach(profileName => newConfig[PROFILE_NAME_PREFIX + profileName] = config.profiles[profileName]);
 	await configStorage.set(newConfig);
 	await upgrade();
