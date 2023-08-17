@@ -82,7 +82,7 @@ export default [{
 	plugins: PLUGINS,
 	external: EXTERNAL
 }, {
-	input: ["single-file-core/single-file-mini-helper.js"],
+	input: ["single-filez-core/single-file-mini-helper.js"],
 	output: [{
 		file: "lib/single-file-extension-editor-helper.js",
 		format: "umd",
