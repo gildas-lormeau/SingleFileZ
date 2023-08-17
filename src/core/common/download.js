@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, infobar */
+/* global browser */
 
 import * as yabson from "./../../lib/yabson/yabson.js";
 
@@ -32,9 +32,6 @@ export {
 async function downloadPage(pageData, options) {
 	if (options.includeBOM) {
 		pageData.content = "\ufeff" + pageData.content;
-	}
-	if (options.includeInfobar) {
-		pageData.content += await infobar.getScript();
 	}
 	const message = {
 		taskId: options.taskId,

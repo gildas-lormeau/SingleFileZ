@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, infobar, URL, singlefile */
+/* global browser, URL, singlefile */
 
 import * as config from "./config.js";
 import * as business from "./business.js";
@@ -162,9 +162,6 @@ async function saveContent(message, tab) {
 				options.filenameConflictAction = testSkip.filenameConflictAction;
 			}
 			if (!skipped) {
-				if (options.includeInfobar) {
-					pageData.content += await infobar.getScript();
-				}
 				const blob = await singlefile.processors.compression.process(pageData, {
 					insertTextBody: options.insertTextBody,
 					url: tab.url,

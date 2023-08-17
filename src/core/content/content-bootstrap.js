@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, globalThis, window, document, location, setTimeout, clearTimeout, XMLHttpRequest, Node, DOMParser */
+/* global browser, globalThis, window, document, location, setTimeout, XMLHttpRequest, Node, DOMParser */
 
 import * as yabson from "./../../lib/yabson/yabson.js";
 

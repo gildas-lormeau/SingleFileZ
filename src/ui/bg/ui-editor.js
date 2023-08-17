@@ -436,7 +436,10 @@ function enableEditPage() {
 function formatPage() {
 	formatPageButton.classList.remove("format-disabled");
 	updatedResources = {};
-	editorElement.contentWindow.postMessage(JSON.stringify({ method: tabData.options.applySystemTheme ? "formatPage" : "formatPageNoTheme" }), "*");
+	editorElement.contentWindow.postMessage(JSON.stringify({
+		method: "formatPage",
+		applySystemTheme: tabData.options.applySystemTheme
+	}), "*");
 }
 
 function cancelFormatPage() {
@@ -462,7 +465,11 @@ function enableCutOuterPage() {
 }
 
 function savePage() {
-	editorElement.contentWindow.postMessage(JSON.stringify({ method: "getContent", compressHTML: tabData.options.compressHTML, updatedResources }), "*");
+	editorElement.contentWindow.postMessage(JSON.stringify({ 
+		method: "getContent", compressHTML: tabData.options.compressHTML, 
+		includeInfobar: tabData.options.includeInfobar,
+		updatedResources
+	}), "*");
 }
 
 function displayInfobar() {
