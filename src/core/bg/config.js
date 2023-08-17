@@ -208,7 +208,7 @@ async function upgrade(ignoreOldProfiles) {
 		await configStorage.set({ maxParallelWorkers: navigator.hardwareConcurrency || 4 });
 	}
 	if (!config.processInForeground) {
-		await configStorage.set({ processInForeground: true });
+		await configStorage.set({ processInForeground: false });
 	}
 }
 
