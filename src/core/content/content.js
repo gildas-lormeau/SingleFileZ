@@ -242,6 +242,7 @@ async function processPage(options) {
 		options.videos = selectedFrame.videos;
 		options.usedFonts = selectedFrame.usedFonts;
 		options.shadowRoots = selectedFrame.shadowRoots;
+		options.adoptedStyleSheets = selectedFrame.adoptedStyleSheets;
 	} else {
 		options.doc = document;
 	}
