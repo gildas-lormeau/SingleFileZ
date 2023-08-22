@@ -1,5 +1,7 @@
-import resolve from "@rollup/plugin-node-resolve";
-import { terser } from "rollup-plugin-terser";
+/* global require */
+
+const resolve = require("@rollup/plugin-node-resolve");
+const { terser } = require("rollup-plugin-terser");
 
 const PLUGINS = [resolve({ moduleDirectories: ["node_modules"] })];
 const EXTERNAL = ["single-filez-core"];
@@ -82,16 +84,6 @@ export default [{
 	plugins: PLUGINS,
 	external: EXTERNAL
 }, {
-	input: ["single-filez-core/single-file-mini-helper.js"],
-	output: [{
-		file: "lib/single-file-extension-editor-helper.js",
-		format: "umd",
-		name: "singlefile",
-		plugins: [terser()]
-	}],
-	plugins: PLUGINS,
-	external: EXTERNAL
-}, {
 	input: ["src/core/content/content-bootstrap.js"],
 	output: [{
 		file: "lib/single-file-extension-bootstrap.js",
@@ -135,6 +127,16 @@ export default [{
 		file: "lib/single-file-extension-editor.js",
 		format: "iife",
 		plugins: []
+	}],
+	plugins: PLUGINS,
+	external: EXTERNAL
+}, {
+	input: ["single-filez-core/single-file-editor-helper.js"],
+	output: [{
+		file: "lib/single-file-extension-editor-helper.js",
+		format: "umd",
+		name: "singlefile",
+		plugins: [terser()]
 	}],
 	plugins: PLUGINS,
 	external: EXTERNAL
