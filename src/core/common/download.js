@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser */
+/* global browser, URL, Blob */
 
 import * as yabson from "./../../lib/yabson/yabson.js";
 
@@ -33,7 +33,9 @@ async function downloadPage(pageData, options) {
 	if (options.includeBOM) {
 		pageData.content = "\ufeff" + pageData.content;
 	}
+	const blobURL = URL.createObjectURL(new Blob([await yabson.serialize(pageData)], { type: "application/octet-stream" }));
 	const message = {
+		method: "downloads.download",
 		taskId: options.taskId,
 		insertTextBody: options.insertTextBody,
 		confirmFilename: options.confirmFilename,
@@ -66,17 +68,23 @@ async function downloadPage(pageData, options) {
 		insertCanonicalLink: options.insertCanonicalLink,
 		insertMetaNoIndex: options.insertMetaNoIndex,
 		password: options.password,
-		pageData: pageData,
-		infobarScript: options.infobarScript
+		infobarScript: options.infobarScript,
+		blobURL
 	};
-	const serializer = yabson.getSerializer(message);
-	for await (const data of serializer) {
-		await browser.runtime.sendMessage({
-			method: "downloads.download",
-			data: Array.from(data)
-		});
+	const result = await browser.runtime.sendMessage(message);
+	URL.revokeObjectURL(blobURL);
+	if (result.error) {
+		message.blobURL = null;
+		message.pageData = pageData;
+		const serializer = yabson.getSerializer(message);
+		for await (const data of serializer) {
+			await browser.runtime.sendMessage({
+				method: "downloads.download",
+				data: Array.from(data)
+			});
+		}
+		await browser.runtime.sendMessage({ method: "downloads.download" });
 	}
-	await browser.runtime.sendMessage({ method: "downloads.download" });
 	if (options.backgroundSave) {
 		await browser.runtime.sendMessage({ method: "downloads.end", taskId: options.taskId });
 	}

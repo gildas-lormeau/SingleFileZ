@@ -84,18 +84,32 @@ async function onMessage(message, sender) {
 	}
 }
 
-async function downloadTabPage(response, tab) {
+async function downloadTabPage(message, tab) {
 	const tabId = tab.id;
-	let parser = parsers.get(tabId);
-	if (!parser) {
-		parser = yabson.getParser();
-		parsers.set(tabId, parser);
+	if (message.blobURL) {
+		try {
+			message.pageData = await yabson.parse(new Uint8Array(await (await fetch(message.blobURL)).arrayBuffer()));
+		} catch (error) {
+			return { error: true };
+		}
+		await download(message);
+	} else {
+		let parser = parsers.get(tabId);
+		if (!parser) {
+			parser = yabson.getParser();
+			parsers.set(tabId, parser);
+		}
+		let result = await parser.next(message.data);
+		if (result.done) {
+			const message = result.value;
+			parsers.delete(tabId);
+			await download(message);
+		}
 	}
-	let result = await parser.next(response.data);
-	if (result.done) {
+	return {};
+
+	async function download(message) {
 		let skipped;
-		const message = result.value;
-		parsers.delete(tabId);
 		if (message.backgroundSave && !message.saveToGDrive) {
 			const testSkip = await testSkipSave(message.filename, message);
 			message.filenameConflictAction = testSkip.filenameConflictAction;
@@ -123,7 +137,6 @@ async function downloadTabPage(response, tab) {
 			}
 		}
 	}
-	return {};
 }
 
 async function downloadBlob(blob, tabId, incognito, message) {
