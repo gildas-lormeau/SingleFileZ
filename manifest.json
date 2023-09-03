@@ -92,7 +92,7 @@
 		"src/ui/pages/editor-frame-web.css"
 	],
 	"oauth2": {
-		"client_id": "7544745492-ig6uqhua0ads4jei52lervm1pqsi6hot.apps.googleusercontent.com",
+		"client_id": "7544745492-oe3q2jjvdluks2st2smslmrofcdederh.apps.googleusercontent.com",
 		"scopes": [
 			"https://www.googleapis.com/auth/drive.file"
 		]

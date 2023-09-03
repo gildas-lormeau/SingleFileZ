@@ -26,19 +26,14 @@ mv package.copy.json package.json
 
 rm singlefilez-extension-firefox.zip singlefilez-extension-chromium.zip singlefilez-extension-edge.zip
 cp manifest.json manifest.copy.json
-cp src/core/bg/downloads.js downloads.copy.js
-sed -i "" 's/ig6uqhua0ads4jei52lervm1pqsi6hot/207618107333-h1220p1oasj3050kr5r416661adm091a/g' src/core/bg/downloads.js
-sed -i "" 's/000000000000000000000000/VQJ8Gq8Vxx72QyxPyeLtWvUt/g' src/core/bg/downloads.js
 
 cp src/core/bg/config.js config.copy.js
 jq "del(.options_page,.background.persistent,.optional_permissions[0],.oauth2)" manifest.copy.json >manifest.json
-sed -i "" 's/ig6uqhua0ads4jei52lervm1pqsi6hot/oe3q2jjvdluks2st2smslmrofcdederh/g' manifest.json
 sed -i "" 's/forceWebAuthFlow: false/forceWebAuthFlow: true/g' src/core/bg/config.js
 zip -r singlefilez-extension-firefox.zip manifest.json lib _locales src
 mv config.copy.js src/core/bg/config.js
 
 jq "del(.browser_specific_settings,.permissions[0],.permissions[1],.options_ui.browser_style)" manifest.copy.json >manifest.json
-sed -i "" 's/ig6uqhua0ads4jei52lervm1pqsi6hot/oe3q2jjvdluks2st2smslmrofcdederh/g' manifest.json
 zip -r singlefilez-extension-chromium.zip manifest.json lib _locales src
 
 cp src/core/bg/config.js config.copy.js
@@ -49,4 +44,3 @@ zip -r singlefilez-extension-edge.zip manifest.json lib _locales src
 mv config.copy.js src/core/bg/config.js
 
 mv manifest.copy.json manifest.json
-mv downloads.copy.js src/core/bg/downloads.js
