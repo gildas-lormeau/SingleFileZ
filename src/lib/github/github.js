@@ -23,18 +23,23 @@
 
 /* global fetch, FileReader, AbortController */
 
+const CONFLICT_ACTION_SKIP = "skip";
+const CONFLICT_ACTION_UNIQUIFY = "uniquify";
+const CONFLICT_ACTION_OVERWRITE = "overwrite";
+
 export { pushGitHub };
 
 let pendingPush;
 
-async function pushGitHub(token, userName, repositoryName, branchName, path, blob) {
+async function pushGitHub(token, userName, repositoryName, branchName, path, blob, { filenameConflictAction } = {}) {
 	while (pendingPush) {
 		await pendingPush;
 	}
 	const controller = new AbortController();
 	pendingPush = (async () => {
 		try {
-			await createContent({ path, blob }, controller.signal);
+			const content = await blobToBase64(blob);
+			await createContent({ path, content }, controller.signal);
 		} finally {
 			pendingPush = null;
 		}
@@ -45,19 +50,46 @@ async function pushGitHub(token, userName, repositoryName, branchName, path, blo
 		pushPromise: pendingPush
 	};
 
-	async function createContent({ path, blob, message = "" }, signal) {
+	async function createContent({ path, content, message = "", sha }, signal) {
+		const headers = new Map([
+			["Authorization", `Bearer ${token}`],
+			["Accept", "application/vnd.github+json"],
+			["X-GitHub-Api-Version", "2022-11-28"]
+		]);
 		try {
-			const content = await blobToBase64(blob);
-			const response = await fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${path}`, {
-				method: "PUT",
-				headers: new Map([
-					["Authorization", `token ${token}`],
-					["Accept", "application/vnd.github.v3+json"]
-				]),
-				body: JSON.stringify({ content, message, branch: branchName }),
-				signal
-			});
+			const response = await fetchContentData("PUT", JSON.stringify({ content, message, branch: branchName, sha }));
 			const responseData = await response.json();
+			if (response.status == 422) {
+				if (filenameConflictAction == CONFLICT_ACTION_OVERWRITE) {
+					const response = await fetchContentData();
+					const responseData = await response.json();
+					const sha = responseData.sha;
+					return createContent({ path, content, message, sha }, signal);
+				} else if (filenameConflictAction == CONFLICT_ACTION_UNIQUIFY) {
+					let pathWithoutExtension = path;
+					let extension = "";
+					const dotIndex = path.lastIndexOf(".");
+					if (dotIndex > -1) {
+						pathWithoutExtension = path.substring(0, dotIndex);
+						extension = path.substring(dotIndex + 1);
+					}
+					let saved = false;
+					let indexFilename = 1;
+					while (!saved) {
+						path = pathWithoutExtension + " (" + indexFilename + ")." + extension;
+						const response = await fetchContentData();
+						if (response.status == 404) {
+							return createContent({ path, content, message }, signal);
+						} else {
+							indexFilename++;
+						}
+					}
+				} else if (filenameConflictAction == CONFLICT_ACTION_SKIP) {
+					return responseData;
+				} else {
+					throw new Error("File already exists");
+				}
+			}
 			if (response.status < 400) {
 				return responseData;
 			} else {
@@ -67,6 +99,15 @@ async function pushGitHub(token, userName, repositoryName, branchName, path, blo
 			if (error.name != "AbortError") {
 				throw error;
 			}
+		}
+
+		function fetchContentData(method = "GET", body) {
+			return fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${path}`, {
+				method,
+				headers,
+				body,
+				signal
+			});
 		}
 	}
 
