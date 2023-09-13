@@ -38,7 +38,7 @@ let processor, processing, downloadParser;
 
 singlefile.init({ fetch, frameFetch });
 browser.runtime.onMessage.addListener(message => {
-	if (message.method == "content.save" || message.method == "content.cancelSave" || message.method == "content.download" || message.method == "content.getSelectedLinks" || message.method == "content.error") {
+	if (message.method == "content.save" || message.method == "content.cancelSave" || message.method == "content.download" || message.method == "content.getSelectedLinks" || message.method == "content.error" || message.method == "content.prompt") {
 		return onMessage(message);
 	}
 });
@@ -83,6 +83,10 @@ async function onMessage(message) {
 		}
 		if (message.method == "content.error") {
 			onError(message.error);
+			return {};
+		}
+		if (message.method == "content.prompt") {
+			return ui.prompt(message.message, message.value);
 		}
 	}
 }
