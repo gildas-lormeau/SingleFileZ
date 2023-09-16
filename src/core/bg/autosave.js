@@ -176,11 +176,17 @@ async function saveContent(message, tab) {
 				if (options.saveToGDrive) {
 					await downloads.saveToGDrive(message.taskId, downloads.encodeSharpCharacter(pageData.filename), blob, options, {
 						forceWebAuthFlow: options.forceWebAuthFlow
+					}, {
+						filenameConflictAction: message.filenameConflictAction
 					});
 				} else if (options.saveWithWebDAV) {
-					await downloads.saveWithWebDAV(message.taskId, downloads.encodeSharpCharacter(pageData.filename), pageData.content, options.webDAVURL, options.webDAVUser, options.webDAVPassword);
+					await downloads.saveWithWebDAV(message.taskId, downloads.encodeSharpCharacter(pageData.filename), pageData.content, options.webDAVURL, options.webDAVUser, options.webDAVPassword, {
+						filenameConflictAction: message.filenameConflictAction
+					});
 				} else if (options.saveToGitHub) {
-					await (await downloads.saveToGitHub(message.taskId, downloads.encodeSharpCharacter(pageData.filename), blob, options.githubToken, options.githubUser, options.githubRepository, options.githubBranch)).pushPromise;
+					await (await downloads.saveToGitHub(message.taskId, downloads.encodeSharpCharacter(pageData.filename), blob, options.githubToken, options.githubUser, options.githubRepository, options.githubBranch, {
+						filenameConflictAction: message.filenameConflictAction
+					})).pushPromise;
 				} else {
 					pageData.url = URL.createObjectURL(blob);
 					await downloads.downloadPage(pageData, options);
