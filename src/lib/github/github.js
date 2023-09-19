@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global fetch, btoa, AbortController, FileReader */
+/* global fetch, AbortController, FileReader */
 
 const EMPTY_STRING = "";
 const CONFLICT_ACTION_SKIP = "skip";
