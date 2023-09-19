@@ -31,7 +31,7 @@ import { launchWebAuthFlow, extractAuthCode } from "./tabs-util.js";
 import * as ui from "./../../ui/bg/index.js";
 import { GDrive } from "./../../lib/gdrive/gdrive.js";
 import { WebDAV } from "./../../lib/webdav/webdav.js";
-import { pushGitHub } from "./../../lib/github/github.js";
+import { GitHub } from "./../../lib/github/github.js";
 import { download } from "./download-util.js";
 import * as yabson from "./../../lib/yabson/yabson.js";
 
@@ -220,16 +220,15 @@ async function getAuthInfo(authOptions, force) {
 }
 
 async function saveToGitHub(taskId, filename, blob, githubToken, githubUser, githubRepository, githubBranch, { filenameConflictAction, prompt }) {
-	const taskInfo = business.getTaskInfo(taskId);
-	if (!taskInfo || !taskInfo.cancelled) {
-		const pushInfo = pushGitHub(githubToken, githubUser, githubRepository, githubBranch, filename, blob, { filenameConflictAction, prompt });
-		business.setCancelCallback(taskId, pushInfo.cancelPush);
-		try {
-			await (await pushInfo).pushPromise;
-			return pushInfo;
-		} catch (error) {
-			throw new Error(error.message + " (GitHub)");
+	try {
+		const taskInfo = business.getTaskInfo(taskId);
+		if (!taskInfo || !taskInfo.cancelled) {
+			const client = new GitHub(githubToken, githubUser, githubRepository, githubBranch);
+			business.setCancelCallback(taskId, () => client.abort());
+			return await client.upload(filename, blob, { filenameConflictAction, prompt });
 		}
+	} catch (error) {
+		throw new Error(error.message + " (GitHub)");
 	}
 }
 
