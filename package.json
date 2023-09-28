@@ -12,8 +12,8 @@
 		"single-filez": "./cli/single-filez"
 	},
 	"dependencies": {
-		"single-filez-core": "1.1.76",
-		"single-filez-cli": "1.0.74"
+		"single-filez-core": "1.1.77",
+		"single-filez-cli": "1.0.75"
 	},
 	"devDependencies": {
 		"@rollup/plugin-node-resolve": "15.0.1",
