@@ -271,6 +271,10 @@
 		"message": "criar arquivos autoextraíveis",
 		"description": "Options page label: 'create self extracting archives'"
 	},
+	"optionExtractDataFromPage": {
+		"message": "adicionar metadados para extrair dados da página",
+		"description": "Options page label: 'add metadata to extract data from the page'"
+	},
 	"optionInsertTextBody": {
 		"message": "tornar texto pesquisável",
 		"description": "Options page label: 'make text searchable'"

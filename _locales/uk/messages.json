@@ -271,6 +271,10 @@
 		"message": "створювати архіви, що саморозпаковуються",
 		"description": "Options page label: 'create self extracting archives'"
 	},
+	"optionExtractDataFromPage": {
+		"message": "додати метадані для вилучення даних зі сторінки",
+		"description": "Options page label: 'add metadata to extract data from the page'"
+	},
 	"optionInsertTextBody": {
 		"message": "зробити текст доступним для пошуку",
 		"description": "Options page label: 'make text searchable'"

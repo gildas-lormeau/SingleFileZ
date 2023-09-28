@@ -271,6 +271,10 @@
 		"message": "创建自解压格式压缩文件",
 		"description": "Options page label: 'create self extracting archives'"
 	},
+	"optionExtractDataFromPage": {
+		"message": "添加元数据以从页面中提取数据",
+		"description": "Options page label: 'add metadata to extract data from the page'"
+	},
 	"optionInsertTextBody": {
 		"message": "使文本可被搜索",
 		"description": "Options page label: 'make text searchable'"

@@ -105,7 +105,6 @@ const DEFAULT_CONFIG = {
 	githubRepository: "SingleFileZ-Archives",
 	githubBranch: "main",
 	forceWebAuthFlow: false,
-	insertTextBody: true,
 	resolveFragmentIdentifierURLs: false,
 	userScriptEnabled: false,
 	openEditor: false,
@@ -121,6 +120,8 @@ const DEFAULT_CONFIG = {
 	displayInfobarInEditor: false,
 	createRootDirectory: false,
 	selfExtractingArchive: true,
+	extractDataFromPage: true,
+	insertTextBody: false,
 	insertMetaNoIndex: false,
 	insertMetaCSP: true,
 	passReferrerOnError: false,
@@ -209,6 +210,14 @@ async function upgrade() {
 	}
 	if (!config.processInForeground) {
 		await configStorage.set({ processInForeground: false });
+	}
+	const profileNames = await getProfileNames();
+	for (const profileName of profileNames) {
+		const profile = await getProfile(profileName);
+		if (!profile.insertTextBody && profile.extractDataFromPage === undefined) {
+			profile.extractDataFromPage = true;
+		}
+		await setProfile(profileName, profile);
 	}
 }
 

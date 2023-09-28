@@ -169,6 +169,7 @@ async function saveContent(message, tab) {
 					createRootDirectory: options.createRootDirectory,
 					tabId,
 					selfExtractingArchive: options.selfExtractingArchive,
+					extractDataFromPage: options.extractDataFromPage,
 					insertCanonicalLink: options.insertCanonicalLink,
 					insertMetaNoIndex: options.insertMetaNoIndex,
 					password: options.password

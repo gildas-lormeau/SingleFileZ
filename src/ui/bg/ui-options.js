@@ -129,6 +129,7 @@ const ignoredBookmarkFoldersLabel = document.getElementById("ignoredBookmarkFold
 const createRootDirectoryLabel = document.getElementById("createRootDirectoryLabel");
 const passwordLabel = document.getElementById("passwordLabel");
 const selfExtractingArchiveLabel = document.getElementById("selfExtractingArchiveLabel");
+const extractDataFromPageLabel = document.getElementById("extractDataFromPageLabel");
 const titleLabel = document.getElementById("titleLabel");
 const userInterfaceLabel = document.getElementById("userInterfaceLabel");
 const filenameLabel = document.getElementById("filenameLabel");
@@ -249,6 +250,7 @@ const ignoredBookmarkFoldersInput = document.getElementById("ignoredBookmarkFold
 const createRootDirectoryInput = document.getElementById("createRootDirectoryInput");
 const passwordInput = document.getElementById("passwordInput");
 const selfExtractingArchiveInput = document.getElementById("selfExtractingArchiveInput");
+const extractDataFromPageInput = document.getElementById("extractDataFromPageInput");
 const infobarTemplateInput = document.getElementById("infobarTemplateInput");
 const blockMixedContentInput = document.getElementById("blockMixedContentInput");
 const saveOriginalURLsInput = document.getElementById("saveOriginalURLsInput");
@@ -607,6 +609,7 @@ ignoredBookmarkFoldersLabel.textContent = browser.i18n.getMessage("optionIgnored
 createRootDirectoryLabel.textContent = browser.i18n.getMessage("optionCreateRootDirectory");
 passwordLabel.textContent = browser.i18n.getMessage("optionPassword");
 selfExtractingArchiveLabel.textContent = browser.i18n.getMessage("optionSelfExtractingArchive");
+extractDataFromPageLabel.textContent = browser.i18n.getMessage("optionExtractDataFromPage");
 titleLabel.textContent = browser.i18n.getMessage("optionsTitle");
 userInterfaceLabel.textContent = browser.i18n.getMessage("optionsUserInterfaceSubTitle");
 filenameLabel.textContent = browser.i18n.getMessage("optionsFileNameSubTitle");
@@ -812,7 +815,6 @@ async function refresh(profileName) {
 	acceptHeaderImageInput.value = profileOptions.acceptHeaders.image;
 	saveRawPageInput.checked = profileOptions.saveRawPage;
 	insertMetaCSPInput.checked = profileOptions.insertMetaCSP;
-	insertTextBodyInput.checked = profileOptions.insertTextBody;
 	saveToGDriveInput.checked = profileOptions.saveToGDrive;
 	saveWithWebDAVInput.checked = profileOptions.saveWithWebDAV;
 	webDAVURLInput.value = profileOptions.webDAVURL;
@@ -879,13 +881,17 @@ async function refresh(profileName) {
 	passReferrerOnErrorInput.checked = profileOptions.passReferrerOnError;
 	replaceBookmarkURLInput.checked = profileOptions.replaceBookmarkURL;
 	replaceBookmarkURLInput.disabled = !profileOptions.saveCreatedBookmarks;
-	allowedBookmarkFoldersInput.value = profileOptions.allowedBookmarkFolders.map(folder => folder.replace(/,/g, "\\,")).join(","); // eslint-disable-line no-useless-escape
+	allowedBookmarkFoldersInput.value = profileOptions.allowedBookmarkFolders.map(folder => folder.replace(/,/g, "\\,")).join(",");
 	allowedBookmarkFoldersInput.disabled = !profileOptions.saveCreatedBookmarks;
-	ignoredBookmarkFoldersInput.value = profileOptions.ignoredBookmarkFolders.map(folder => folder.replace(/,/g, "\\,")).join(","); // eslint-disable-line no-useless-escape
+	ignoredBookmarkFoldersInput.value = profileOptions.ignoredBookmarkFolders.map(folder => folder.replace(/,/g, "\\,")).join(",");
 	ignoredBookmarkFoldersInput.disabled = !profileOptions.saveCreatedBookmarks;
 	createRootDirectoryInput.checked = profileOptions.createRootDirectory;
 	passwordInput.value = profileOptions.password;
 	selfExtractingArchiveInput.checked = profileOptions.selfExtractingArchive;
+	extractDataFromPageInput.checked = profileOptions.extractDataFromPage;
+	extractDataFromPageInput.disabled = !profileOptions.selfExtractingArchive;
+	insertTextBodyInput.checked = profileOptions.insertTextBody;
+	insertTextBodyInput.disabled = !profileOptions.selfExtractingArchive;
 	infobarTemplateInput.value = profileOptions.infobarTemplate;
 	blockMixedContentInput.checked = profileOptions.blockMixedContent;
 	saveOriginalURLsInput.checked = profileOptions.saveOriginalURLs;
@@ -988,6 +994,7 @@ async function update() {
 			ignoredBookmarkFolders: ignoredBookmarkFoldersInput.value.replace(/([^\\]),/g, "$1 ,").split(/[^\\],/).map(folder => folder.replace(/\\,/g, ",")),
 			createRootDirectory: createRootDirectoryInput.checked,
 			selfExtractingArchive: selfExtractingArchiveInput.checked,
+			extractDataFromPage: extractDataFromPageInput.checked,
 			password: passwordInput.value,
 			infobarTemplate: infobarTemplateInput.value,
 			blockMixedContent: blockMixedContentInput.checked,

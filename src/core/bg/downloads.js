@@ -126,6 +126,7 @@ async function downloadTabPage(message, tab) {
 				createRootDirectory: message.createRootDirectory,
 				tabId,
 				selfExtractingArchive: message.selfExtractingArchive,
+				extractDataFromPage: message.extractDataFromPage,
 				insertCanonicalLink: message.insertCanonicalLink,
 				insertMetaNoIndex: message.insertMetaNoIndex,
 				password: message.password

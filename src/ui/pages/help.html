@@ -263,11 +263,22 @@
 							produces plain zip files that cannot be displayed in a browser but are smaller.</p>
 						<p class="notice">It is recommended to <u>check</u> this option</p>
 					</li>
+					<li data-options-label="extractDataFromPageLabel"> <span class="option">Option: add metadata to
+							extract data from the page</span>
+						<p>Check this option to add metadata to the self-extracting HTML file that allows to extract
+							data from the page instead of fetching it. This can be useful to save pages with browsers
+							that do not support fetch requests from local files. Checking this option will also
+							change the encoding of the page to ISO-8859-1.
+						</p>
+						<p class="notice">It is recommended to <u>check</u> this option</p>
+					</li>
 					<li data-options-label="insertTextBodyLabel"> <span class="option">Option: make text
 							searchable</span>
 						<p>Check this option to insert the text content of the saved page into the self-extracting HTML
-							file. This makes it possible, for example, to search for pages from the text.</p>
-						<p class="notice">It is recommended to <u>check</u> this option</p>
+							file. This makes it possible, for example, to search for pages from the text. Note that if
+							the option "add metadata to extract data from the page" is checked, the text content is
+							enriched in UTF-8 but the page is declared in ISO-8859-1.</p>
+						</p>
 					</li>
 					<li data-options-label="createRootDirectoryLabel"> <span class="option">Option: create a root
 							directory</span>
@@ -524,10 +535,10 @@
 						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
 					</li>
 					<li data-options-label="displayInfobarInEditorLabel"> <span class="option">Option:
-						display the infobar</span>
+							display the infobar</span>
 						<p>Check this option to display the infobar when displaying a page in the annotation editor.</p>
 						<p class="notice">It is recommended to <u>uncheck</u> this option</p>
-					</p>
+						</p>
 				</ul>
 				<p>Bookmarks</p>
 				<ul>

@@ -271,6 +271,10 @@
 		"message": "自己解凍アーカイブを作成する",
 		"description": "Options page label: 'create self extracting archives'"
 	},
+	"optionExtractDataFromPage": {
+		"message": "メタデータを追加してページからデータを抽出する",
+		"description": "Options page label: 'add metadata to extract data from the page'"
+	},
 	"optionInsertTextBody": {
 		"message": "テキストを検索可能にする",
 		"description": "Options page label: 'make text searchable'"
