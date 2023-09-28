@@ -1,5 +1,5 @@
 # SingleFileZ
-SingleFileZ is a fork of [SingleFile](https://github.com/gildas-lormeau/SingleFile) that allows you to save a webpage as a self-extracting HTML file. This HTML file is also a valid ZIP file which contains the resources (images, fonts, stylesheets and frames) of the saved page. This ZIP file can be unzipped on the filesystem in order, for example, to view the page in a browser that would not support pages saved with SingleFileZ.
+SingleFileZ is a fork of [SingleFile](https://github.com/gildas-lormeau/SingleFile) that allows you to save a webpage as a self-extracting HTML file. This HTML file is also a valid ZIP file which contains the resources (images, fonts, stylesheets and frames) of the saved page.
 
 ## Demo
 ![](https://github.com/gildas-lormeau/SingleFile-Demos/blob/master/demo-sfz.gif)
@@ -16,7 +16,7 @@ SingleFileZ is available on Firefox, Chrome and Microsoft Edge. You can download
  - Chrome: https://chrome.google.com/webstore/detail/singlefilez/offkdfbbigofcgdokjemgjpdockaafjg
 
 
-To open saved pages from the filesystem in a Chromium-based browser, SingleFileZ must be installed and the option "Allow access to file URLs" must be enabled in the details page of the extension (e.g. chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg). Otherwise, the browser must be started with the switch --allow-file-access-from-files.
+To open saved pages from the filesystem in a Chromium-based or Webkit-based browser, the option "ZIP content > add metadata to extract data from the page" must be enabled. Otherwise, SingleFileZ must be installed and the option "Allow access to file URLs" must be enabled in the details page of the extension (e.g. chrome://extensions/?id=offkdfbbigofcgdokjemgjpdockaafjg).
 
 To open saved pages from the filesystem in Safari, the option "Disable Local File Restrictions" must be selected in the "Develop" menu
 

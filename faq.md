@@ -9,9 +9,6 @@ As stated in the [privacy policy](https://github.com/gildas-lormeau/SingleFileZ/
 ## Why can't I save some pages like https://addons.mozilla.org/addon/single-file?
 For security purposes, browsers block web extensions on certain domains. This prevents a malicious extension to remove or change bad reviews, for example.
 
-## Why isn't the infobar displayed / Why cannot I save a page from the filesystem in Chrome?
-By default, Chrome extensions are not allowed to access to pages stored on the filesystem. Therefore, you must enable the option "Allow access to file URLs" in the extension page to display the infobar when viewing a saved page, or to save a page stored on the filesystem.
-
 ## What are the permissions requested by SingleFileZ for?
 The permissions requested by SingleFileZ are defined in the [manifest.json](https://github.com/gildas-lormeau/SingleFileZ/blob/master/manifest.json) file. Below are the reasons why they are necessary.
  - `identity`: allows SingleFileZ to connect to your Google Drive account.
@@ -29,5 +26,5 @@ You can also disable the options below. Some resources (e.g. images, frames) on 
  - HTML content > remove frames
  - Images > save deferred images
  
- ## Why SingleFileZ uses '.html' as the default filename extension?
+ ## Why SingleFileZ uses '.zip.html' as the default filename extension?
 Pages saved by SingleFileZ can be viewed from the filesystem in Firefox and Safari (by selecting the option "Disable Local File Restrictions" in the "Develop" menu) without installing the extension. Only Chrome requires the installation of SingleFileZ to view saved pages from the filesystem. These restrictions don't apply when the saved page is hosted on a server. For example, this page saved with SingleFileZ https://gildas-lormeau.github.io can be viewed in Firefox, Chrome, or Safari without installing or doing anything special. That's why SingleFileZ uses `.html` as the default filename extension.
