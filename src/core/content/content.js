@@ -89,7 +89,7 @@ async function onMessage(message) {
 			return {};
 		}
 		if (message.method == "content.error") {
-			onError(message.error);
+			onError(message.error, message.link);
 			return {};
 		}
 		if (message.method == "content.prompt") {
