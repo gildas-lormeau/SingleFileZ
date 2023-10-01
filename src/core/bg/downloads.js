@@ -90,10 +90,10 @@ async function downloadTabPage(message, tab) {
 	if (message.blobURL) {
 		try {
 			message.pageData = await yabson.parse(new Uint8Array(await (await fetch(message.blobURL)).arrayBuffer()));
+			await download(message);
 		} catch (error) {
 			return { error: true };
 		}
-		await download(message);
 	} else {
 		let parser = parsers.get(tabId);
 		if (!parser) {
