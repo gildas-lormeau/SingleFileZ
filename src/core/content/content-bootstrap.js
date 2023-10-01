@@ -104,7 +104,6 @@ function getContent() {
 			if (errorMessageElement) {
 				errorMessageElement.remove();
 			}
-			
 			const requestId = fetchData.length;
 			fetchData.push({ parser, resolve, reject });
 			browser.runtime.sendMessage({ method: "singlefile.fetch", requestId, url: location.href });
