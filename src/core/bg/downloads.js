@@ -135,13 +135,14 @@ async function downloadTabPage(message, tab) {
 				ui.onEdit(tab.id);
 				await editor.open({ tabIndex: tab.index + 1, filename: message.filename, content: new Uint8Array(await blob.arrayBuffer()) });
 			} else {
-				await downloadBlob(blob, tabId, tab.incognito, message);
+				await downloadBlob(blob, tab, tab.incognito, message);
 			}
 		}
 	}
 }
 
-async function downloadBlob(blob, tabId, incognito, message) {
+async function downloadBlob(blob, tab, incognito, message) {
+	const tabId = tab.id;
 	try {
 		const prompt = filename => promptFilename(tabId, filename);
 		let response;
