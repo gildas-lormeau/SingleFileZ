@@ -287,6 +287,15 @@ if (typeof globalThis == "undefined") {
 				})
 			},
 			runtime: {
+				sendNativeMessage: (application, message) => new Promise((resolve, reject) => {
+					nativeAPI.runtime.sendNativeMessage(application, message, result => {
+						if (nativeAPI.runtime.lastError) {
+							reject(nativeAPI.runtime.lastError);
+						} else {
+							resolve(result);
+						}
+					});
+				}),
 				getManifest: () => nativeAPI.runtime.getManifest(),
 				onMessage: {
 					addListener: listener => nativeAPI.runtime.onMessage.addListener((message, sender, sendResponse) => {
