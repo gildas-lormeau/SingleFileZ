@@ -27,8 +27,12 @@ const document = globalThis.document;
 const Document = globalThis.Document;
 
 if (document instanceof Document) {
-	const scriptElement = document.createElement("script");
+	let scriptElement = document.createElement("script");
 	scriptElement.src = "data:," + "(" + injectedScript.toString() + ")()";
+	(document.documentElement || document).appendChild(scriptElement);
+	scriptElement.remove();
+	scriptElement = document.createElement("script");
+	scriptElement.textContent = "(" + injectedScript.toString() + ")()";
 	(document.documentElement || document).appendChild(scriptElement);
 	scriptElement.remove();
 }
