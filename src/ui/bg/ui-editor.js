@@ -25,7 +25,7 @@
 
 import * as download from "../../core/common/download.js";
 import { onError } from "./../common/content-error.js";
-import * as zip from "./../../../../lib/single-file-zip.js";
+import * as zip from "./../../../lib/single-file-zip.js";
 import * as yabson from "./../../lib/yabson/yabson.js";
 
 const editorElement = document.querySelector(".editor");
