@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global fetch, AbortController, FileReader */
+/* global fetch, btoa, Blob, FileReader, AbortController */
 
 const EMPTY_STRING = "";
 const CONFLICT_ACTION_SKIP = "skip";
@@ -63,11 +63,12 @@ class GitHub {
 		this.branch = branch;
 	}
 
-	async upload(path, blob, options) {
+	async upload(path, content, options) {
 		this.controller = new AbortController();
 		options.signal = this.controller.signal;
 		options.headers = this.headers;
-		return upload(this.userName, this.repositoryName, this.branch, path, await blobToBase64(blob), options);
+		const base64Content = content instanceof Blob ? await blobToBase64(content) : btoa(unescape(encodeURIComponent(content)));
+		return upload(this.userName, this.repositoryName, this.branch, path, base64Content, options);
 	}
 
 	abort() {
