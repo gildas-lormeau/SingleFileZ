@@ -466,7 +466,8 @@ function enableCutOuterPage() {
 
 function savePage() {
 	editorElement.contentWindow.postMessage(JSON.stringify({ 
-		method: "getContent", compressHTML: tabData.options.compressHTML, 
+		method: "getContent", 
+		compressHTML: tabData.options.compressHTML, 
 		includeInfobar: tabData.options.includeInfobar,
 		updatedResources
 	}), "*");
