@@ -69,11 +69,11 @@ function onStart(tabId, step, autoSave) {
 	button.onStart(tabId, step, autoSave);
 }
 
-async function onError(tabId, message) {
+async function onError(tabId, message, link) {
 	button.onError(tabId);
 	try {
 		if (message) {
-			await browser.tabs.sendMessage(tabId, { method: "content.error", error: message.toString() });
+			await browser.tabs.sendMessage(tabId, { method: "content.error", error: message.toString(), link });
 		}
 	} catch (error) {
 		// ignored
