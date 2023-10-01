@@ -208,7 +208,6 @@ async function saveContent(message, tab) {
 	}
 }
 
-
 async function fetch(url, options = {}) {
 	const response = await fetchResource(url, options);
 	return {
