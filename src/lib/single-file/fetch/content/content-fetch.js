@@ -23,8 +23,6 @@
 
 /* global browser, window, CustomEvent, setTimeout, clearTimeout */
 
-import * as yabson from "./../../../../lib/yabson/yabson.js";
-
 const FETCH_REQUEST_EVENT = "single-filez-request-fetch";
 const FETCH_ACK_EVENT = "single-filez-ack-fetch";
 const FETCH_RESPONSE_EVENT = "single-filez-response-fetch";
@@ -64,21 +62,31 @@ async function onFetchFrame(message) {
 	}
 }
 
-async function onFetchResponse(response) {
-	let pendingResponse = pendingResponses.get(response.requestId);
+async function onFetchResponse(message) {
+	const pendingResponse = pendingResponses.get(message.requestId);
 	if (pendingResponse) {
-		const result = await pendingResponse.parser.next(response.data);
-		if (result.done) {
-			pendingResponses.delete(response.requestId);
-			const message = result.value;
-			if (message.error) {
-				pendingResponse.reject(new Error(message.error));
-			} else {
+		if (message.error) {
+			pendingResponse.reject(new Error(message.error));
+			pendingResponses.delete(message.requestId);
+		} else {
+			if (message.truncated) {
+				if (pendingResponse.array) {
+					pendingResponse.array = pendingResponse.array.concat(message.array);
+				} else {
+					pendingResponse.array = message.array;
+					pendingResponses.set(message.requestId, pendingResponse);
+				}
+				if (message.finished) {
+					message.array = pendingResponse.array;
+				}
+			}
+			if (!message.truncated || message.finished) {
 				pendingResponse.resolve({
 					status: message.status,
 					headers: { get: headerName => message.headers && message.headers[headerName] },
-					arrayBuffer: async () => message.array.buffer
+					arrayBuffer: async () => new Uint8Array(message.array).buffer
 				});
+				pendingResponses.delete(message.requestId);
 			}
 		}
 	}
@@ -146,7 +154,7 @@ async function fetchResource(url, options = {}) {
 	}
 	catch (error) {
 		requestId++;
-		const promise = new Promise((resolve, reject) => pendingResponses.set(requestId, { resolve, reject, parser: yabson.getParser() }));
+		const promise = new Promise((resolve, reject) => pendingResponses.set(requestId, { resolve, reject }));
 		await sendMessage({ method: "singlefile.fetch", url, requestId, referrer: options.referrer, headers: options.headers });
 		return promise;
 	}

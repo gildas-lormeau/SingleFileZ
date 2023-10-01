@@ -25,7 +25,7 @@
 
 const referrers = new Map();
 const REQUEST_ID_HEADER_NAME = "x-single-file-request-id";
-import * as yabson from "./../../../../lib/yabson/yabson.js";
+const MAX_CONTENT_SIZE = 8 * (1024 * 1024);
 
 export {
 	REQUEST_ID_HEADER_NAME,
@@ -57,20 +57,23 @@ async function onRequest(message, sender) {
 }
 
 async function sendResponse(tabId, requestId, response) {
-	const serializer = yabson.getSerializer({
-		headers: response.headers,
-		status: response.status,
-		error: response.error,
-		array: response.array
-	});
-	for await (const data of serializer) {
-		await browser.tabs.sendMessage(tabId, {
+	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE <= response.array.length; blockIndex++) {
+		const message = {
 			method: "singlefile.fetchResponse",
 			requestId,
-			data: Array.from(data)
-		});
+			headers: response.headers,
+			status: response.status,
+			error: response.error
+		};
+		message.truncated = response.array.length > MAX_CONTENT_SIZE;
+		if (message.truncated) {
+			message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > response.array.length;
+			message.array = response.array.slice(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
+		} else {
+			message.array = response.array;
+		}
+		await browser.tabs.sendMessage(tabId, message);
 	}
-	await browser.tabs.sendMessage(tabId, { method: "singlefile.fetchResponse", requestId });
 	return {};
 }
 
@@ -90,7 +93,7 @@ function fetchResource(url, options = {}, includeRequestId) {
 					} else {
 						resolve({
 							arrayBuffer: xhrRequest.response,
-							array: new Uint8Array(xhrRequest.response),
+							array: Array.from(new Uint8Array(xhrRequest.response)),
 							headers: { "content-type": xhrRequest.getResponseHeader("Content-Type") },
 							status: xhrRequest.status
 						});
