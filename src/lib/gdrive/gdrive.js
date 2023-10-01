@@ -227,7 +227,7 @@ class MediaUploader {
 					return this.upload(indexFilename);
 				}
 			} else if (this.filenameConflictAction == CONFLICT_ACTION_SKIP) {
-				return {};
+				return response;
 			}
 		}
 		const httpResponse = getResponse(await fetch(GDRIVE_UPLOAD_URL + (fileId ? "/" + fileId : "") + "?uploadType=resumable", {
