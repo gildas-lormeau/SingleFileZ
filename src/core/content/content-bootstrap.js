@@ -28,7 +28,7 @@ const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 const singlefile = globalThis.singlefileBootstrap;
 const pendingResponses = new Map();
 
-let unloadListenerAdded, optionsAutoSave, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref;
+let unloadListenerAdded, optionsAutoSave, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref, savedPageDetected;
 singlefile.pageInfo = {
 	updatedResources: {},
 	visitDate: new Date()
@@ -332,9 +332,12 @@ async function openEditor() {
 }
 
 function detectSavedPage(document) {
-	const helper = singlefile.helper;
-	const firstDocumentChild = document.documentElement.firstChild;
-	return document.documentElement.dataset.sfz == "" || (
-		firstDocumentChild.nodeType == Node.COMMENT_NODE &&
-		(firstDocumentChild.textContent.includes(helper.COMMENT_HEADER)));
+	if (savedPageDetected === undefined) {
+		const helper = singlefile.helper;
+		const firstDocumentChild = document.documentElement.firstChild;
+		savedPageDetected = document.documentElement.dataset.sfz == "" || (
+			firstDocumentChild.nodeType == Node.COMMENT_NODE &&
+			(firstDocumentChild.textContent.includes(helper.COMMENT_HEADER)));
+	}
+	return savedPageDetected;
 }
