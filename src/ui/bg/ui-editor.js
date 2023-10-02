@@ -53,7 +53,7 @@ const savePageButton = document.querySelector(".save-page-button");
 const printPageButton = document.querySelector(".print-page-button");
 const lastButton = toolbarElement.querySelector(".buttons:last-of-type [type=button]:last-of-type");
 
-let tabData, tabDataParser, downloadParser;
+let tabData, tabDataContents = [], downloadParser;
 
 addYellowNoteButton.title = browser.i18n.getMessage("editorAddYellowNote");
 addPinkNoteButton.title = browser.i18n.getMessage("editorAddPinkNote");
@@ -330,7 +330,20 @@ browser.runtime.onMessage.addListener(message => {
 		return Promise.resolve({});
 	}
 	if (message.method == "editor.setTabData") {
-		return setTabData(message);
+		if (message.truncated) {
+			tabDataContents.push(message.content);
+		} else {
+			tabDataContents = [message.content];
+		}
+		if (!message.truncated || message.finished) {
+			tabData = JSON.parse(tabDataContents.join(""));
+			tabData.options = message.options;
+			tabDataContents = [];
+			editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: tabData.content, password: tabData.options.password }), "*");
+			editorElement.contentWindow.focus();
+			setInterval(() => browser.runtime.sendMessage({ method: "editor.ping" }), 15000);
+		}
+		return Promise.resolve({});
 	}
 	if (message.method == "options.refresh") {
 		return refreshOptions(message.profileName);
@@ -353,22 +366,6 @@ addEventListener("beforeunload", event => {
 		event.returnValue = "";
 	}
 });
-
-async function setTabData(message) {
-	if (!tabDataParser) {
-		tabDataParser = yabson.getParser();
-	}
-	const result = await tabDataParser.next(message.data);
-	if (result.done) {
-		tabDataParser = null;
-		tabData = result.value.tabData;
-		tabData.options = result.value.options;
-		editorElement.contentWindow.postMessage(JSON.stringify({ method: "init", content: Array.from(tabData.content), password: tabData.options.password }), "*");
-		editorElement.contentWindow.focus();
-		setInterval(() => browser.runtime.sendMessage({ method: "editor.ping" }), 15000);
-	}
-	return Promise.resolve({});
-}
 
 async function downloadContent(message) {
 	if (!downloadParser) {

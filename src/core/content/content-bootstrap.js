@@ -23,10 +23,10 @@
 
 /* global browser, globalThis, window, document, location, setTimeout, XMLHttpRequest, Node, DOMParser */
 
-import * as yabson from "./../../lib/yabson/yabson.js";
+const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 
 const singlefile = globalThis.singlefileBootstrap;
-const fetchData = [];
+const pendingResponses = new Map();
 
 let unloadListenerAdded, optionsAutoSave, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref;
 singlefile.pageInfo = {
@@ -98,14 +98,12 @@ function getContent() {
 		xhr.responseType = "arraybuffer";
 		xhr.onload = () => resolve(new Uint8Array(xhr.response));
 		xhr.onerror = () => {
-			const parser = yabson.getParser();
-			parser.test = new Date();
 			const errorMessageElement = document.getElementById("sfz-error-message");
 			if (errorMessageElement) {
 				errorMessageElement.remove();
 			}
-			const requestId = fetchData.length;
-			fetchData.push({ parser, resolve, reject });
+			const requestId = pendingResponses.size;
+			pendingResponses.set(requestId, { resolve, reject });
 			browser.runtime.sendMessage({ method: "singlefile.fetch", requestId, url: location.href });
 		};
 	});
@@ -149,18 +147,30 @@ async function onMessage(message) {
 	}
 }
 
-async function fetchResponse(response) {
-	if (fetchData[response.requestId]) {
-		const { parser, resolve, reject } = fetchData[response.requestId];
-		const result = await parser.next(response.data);
-		if (result.done) {
-			const message = result.value;
-			if (message.error) {
-				reject(new Error(message.error));
-			} else {
-				resolve(message.array);
+async function fetchResponse(message) {
+	const pendingResponse = pendingResponses.get(message.requestId);
+	if (pendingResponse) {
+		if (message.error) {
+			pendingResponse.reject(new Error(message.error));
+			pendingResponses.delete(message.requestId);
+		} else {
+			if (message.truncated) {
+				if (pendingResponse.array) {
+					pendingResponse.array = pendingResponse.array.concat(message.array);
+				} else {
+					pendingResponse.array = message.array;
+					pendingResponses.set(message.requestId, pendingResponse);
+				}
+				if (message.finished) {
+					message.array = pendingResponse.array;
+				}
+			}
+			if (!message.truncated || message.finished) {
+				pendingResponse.resolve(message.array);
+				pendingResponses.delete(message.requestId);
 			}
 		}
+		return {};
 	}
 }
 
@@ -301,14 +311,24 @@ function savePage(docData, frames, { autoSaveUnload, autoSaveDiscard, autoSaveRe
 
 async function openEditor() {
 	const content = await getContent();
-	const serializer = yabson.getSerializer({ content, filename: decodeURIComponent(location.href.match(/^.*\/(.*)$/)[1]) });
-	for await (const data of serializer) {
-		await browser.runtime.sendMessage({
+	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
+		const message = {
 			method: "editor.open",
-			data: Array.from(data)
-		});
+			filename: decodeURIComponent(location.href.match(/^.*\/(.*)$/)[1])
+		};
+		message.truncated = content.length > MAX_CONTENT_SIZE;
+		if (message.truncated) {
+			message.finished = (blockIndex + 1) * MAX_CONTENT_SIZE > content.length;
+			if (content instanceof Uint8Array) {
+				message.content = Array.from(content.subarray(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE));
+			} else {
+				message.content = content.substring(blockIndex * MAX_CONTENT_SIZE, (blockIndex + 1) * MAX_CONTENT_SIZE);
+			}
+		} else {
+			message.content = content instanceof Uint8Array ? Array.from(content) : content;
+		}
+		await browser.runtime.sendMessage(message);
 	}
-	await browser.runtime.sendMessage({ method: "editor.open" });
 }
 
 function detectSavedPage(document) {
