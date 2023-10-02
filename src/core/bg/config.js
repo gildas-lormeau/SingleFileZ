@@ -214,6 +214,11 @@ async function upgrade() {
 	const profileNames = await getProfileNames();
 	for (const profileName of profileNames) {
 		const profile = await getProfile(profileName);
+		for (const key of Object.keys(DEFAULT_CONFIG)) {
+			if (profile[key] === undefined) {
+				profile[key] = DEFAULT_CONFIG[key];
+			}
+		}
 		if (!profile.insertTextBody && profile.extractDataFromPage === undefined) {
 			profile.extractDataFromPage = true;
 		}
