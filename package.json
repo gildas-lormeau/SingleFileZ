@@ -12,7 +12,7 @@
 		"single-filez": "./cli/single-filez"
 	},
 	"dependencies": {
-		"single-filez-core": "1.1.77",
+		"single-filez-core": "1.1.78",
 		"single-filez-cli": "1.1.1"
 	},
 	"devDependencies": {
