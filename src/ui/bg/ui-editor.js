@@ -268,6 +268,15 @@ addEventListener("message", event => {
 	if (message.method == "setContent") {
 		tabData.options.openEditor = false;
 		tabData.options.openSavedPage = false;
+		if (tabData.selfExtractingArchive !== undefined) {
+			tabData.options.selfExtractingArchive = tabData.selfExtractingArchive;
+		}
+		if (tabData.extractDataFromPageTags !== undefined) {
+			tabData.options.extractDataFromPage = tabData.extractDataFromPageTags;
+		}
+		if (tabData.options.insertTextBody !== undefined) {
+			tabData.options.insertTextBody = tabData.insertTextBody;
+		}
 		getContentPageData(tabData.content, message.content, { password: tabData.options.password })
 			.then(pageData => {
 				pageData.content = message.content;

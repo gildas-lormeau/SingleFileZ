@@ -28,7 +28,7 @@ const MAX_CONTENT_SIZE = 32 * (1024 * 1024);
 const singlefile = globalThis.singlefileBootstrap;
 const pendingResponses = new Map();
 
-let unloadListenerAdded, optionsAutoSave, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref, savedPageDetected;
+let unloadListenerAdded, optionsAutoSave, tabId, tabIndex, autoSaveEnabled, autoSaveTimeout, autoSavingPage, pageAutoSaved, previousLocationHref, savedPageDetected, extractDataFromPageTags, insertTextBody;
 singlefile.pageInfo = {
 	updatedResources: {},
 	visitDate: new Date()
@@ -314,7 +314,10 @@ async function openEditor() {
 	for (let blockIndex = 0; blockIndex * MAX_CONTENT_SIZE < content.length; blockIndex++) {
 		const message = {
 			method: "editor.open",
-			filename: decodeURIComponent(location.href.match(/^.*\/(.*)$/)[1])
+			filename: decodeURIComponent(location.href.match(/^.*\/(.*)$/)[1]),
+			extractDataFromPageTags,
+			insertTextBody,
+			selfExtractingArchive: true
 		};
 		message.truncated = content.length > MAX_CONTENT_SIZE;
 		if (message.truncated) {
@@ -335,6 +338,8 @@ function detectSavedPage(document) {
 	if (savedPageDetected === undefined) {
 		const helper = singlefile.helper;
 		const firstDocumentChild = document.documentElement.firstChild;
+		extractDataFromPageTags = Boolean(document.querySelector("sfz-extra-data"));
+		insertTextBody = Boolean(document.querySelector("body > main[hidden]"));
 		savedPageDetected = document.documentElement.dataset.sfz == "" || (
 			firstDocumentChild.nodeType == Node.COMMENT_NODE &&
 			(firstDocumentChild.textContent.includes(helper.COMMENT_HEADER)));
