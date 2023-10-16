@@ -1076,7 +1076,8 @@ pre code {
 				title: document.title,
 				doctype: singlefile.helper.getDoctypeString(document),
 				url: pageUrl,
-				viewport: viewport ? viewport.content : null
+				viewport: viewport ? viewport.content : null,
+				foregroundSave: message.foregroundSave
 			}), "*");
 		}
 		if (message.method == "printPage") {

@@ -69,6 +69,7 @@ async function downloadPage(pageData, options) {
 		insertCanonicalLink: options.insertCanonicalLink,
 		insertMetaNoIndex: options.insertMetaNoIndex,
 		password: options.password,
+		foregroundSave: options.foregroundSave,
 		blobURL
 	};
 	const result = await browser.runtime.sendMessage(message);

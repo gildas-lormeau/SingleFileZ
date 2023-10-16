@@ -134,6 +134,8 @@ async function downloadTabPage(message, tab) {
 			if (message.openEditor) {
 				ui.onEdit(tab.id);
 				await editor.open({ tabIndex: tab.index + 1, filename: message.filename, content: Array.from(new Uint8Array(await blob.arrayBuffer())) });
+			} else if (message.foregroundSave) {
+				await downloadPageForeground(message.taskId, message.filename, blob, tabId, message.foregroundSave);
 			} else {
 				await downloadBlob(blob, tab, tab.incognito, message);
 			}
@@ -322,8 +324,8 @@ async function downloadPage(pageData, options) {
 	}
 }
 
-async function downloadPageForeground(taskId, filename, content, tabId) {
-	const serializer = yabson.getSerializer({ filename, taskId, content: await content.arrayBuffer() });
+async function downloadPageForeground(taskId, filename, content, tabId, foregroundSave) {
+	const serializer = yabson.getSerializer({ filename, taskId, foregroundSave, content: await content.arrayBuffer() });
 	for await (const data of serializer) {
 		await browser.tabs.sendMessage(tabId, {
 			method: "content.download",
