@@ -133,7 +133,14 @@ async function downloadTabPage(message, tab) {
 			});
 			if (message.openEditor) {
 				ui.onEdit(tab.id);
-				await editor.open({ tabIndex: tab.index + 1, filename: message.filename, content: Array.from(new Uint8Array(await blob.arrayBuffer())) });
+				await editor.open({
+					tabIndex: tab.index + 1,
+					filename: message.filename,
+					content: Array.from(new Uint8Array(await blob.arrayBuffer())),
+					compressContent: message.compressContent,
+					selfExtractingArchive: message.selfExtractingArchive,
+					extractDataFromPage: message.extractDataFromPage
+				});
 			} else if (message.foregroundSave) {
 				await downloadPageForeground(message.taskId, message.filename, blob, tabId, message.foregroundSave);
 			} else {
