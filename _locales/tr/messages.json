@@ -491,6 +491,10 @@
 		"message": "kaydetmeden önce sayfaya açıklama ekleyin",
 		"description": "Options page label: 'annotate the page before saving'"
 	},
+	"optionOpenSavedPage": {
+		"message": "kayıtlı sayfaları yeni bir sekmede aç",
+		"description": "Options page label: 'open saved pages in a new tab'"
+	},
 	"optionAutoOpenEditor": {
 		"message": "açıklama düzenleyicide SingleFileZ ile kaydedilen sayfaları açın",
 		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"

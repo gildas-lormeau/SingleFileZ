@@ -491,6 +491,10 @@
 		"message": "anotar o site antes de salvar",
 		"description": "Options page label: 'annotate the page before saving'"
 	},
+	"optionOpenSavedPage": {
+		"message": "abrir sites salvos numa aba nova",
+		"description": "Options page label: 'open saved pages in a new tab'"
+	},
 	"optionAutoOpenEditor": {
 		"message": "abrir sites salvos via SingleFileZ em editor de anotações",
 		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"

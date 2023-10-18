@@ -491,6 +491,10 @@
 		"message": "аннотировать страницу перед сохранением",
 		"description": "Options page label: 'annotate the page before saving'"
 	},
+	"optionOpenSavedPage": {
+		"message": "открывать сохранённые страницы в новой вкладке",
+		"description": "Options page label: 'open saved pages in a new tab'"
+	},
 	"optionAutoOpenEditor": {
 		"message": "сохранять открытые страницы из редактора аннотаций SingleFileZ",
 		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"

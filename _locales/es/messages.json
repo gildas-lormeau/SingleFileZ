@@ -491,6 +491,10 @@
 		"message": "anotar página antes de guardarla",
 		"description": "Options page label: 'annotate the page before saving'"
 	},
+	"optionOpenSavedPage": {
+		"message": "abrir las páginas guardadas en una nueva pestaña",
+		"description": "Options page label: 'open saved pages in a new tab'"
+	},
 	"optionAutoOpenEditor": {
 		"message": "abrir páginas guardadas con SingleFileZ en el editor de anotaciones",
 		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"

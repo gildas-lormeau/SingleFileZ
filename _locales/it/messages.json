@@ -491,6 +491,10 @@
 		"message": "annota la pagina prima di salvarla",
 		"description": "Options page label: 'annotate the page before saving'"
 	},
+	"optionOpenSavedPage": {
+		"message": "apri pagine salvate in una nuova scheda",
+		"description": "Options page label: 'open saved pages in a new tab'"
+	},
 	"optionAutoOpenEditor": {
 		"message": "apri pagine salvate con SingleFileZ nell'editor annotazioni",
 		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"

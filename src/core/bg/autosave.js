@@ -192,6 +192,17 @@ async function saveContent(message, tab) {
 					pageData.url = URL.createObjectURL(blob);
 					await downloads.downloadPage(pageData, options);
 				}
+				if (options.openSavedPage) {
+					const createTabProperties = { active: true, url: "/src/ui/pages/viewer.html?compressed=true&blobURI=" + URL.createObjectURL(blob), windowId: tab.windowId };
+					const index = tab.index;
+					try {
+						await browser.tabs.get(tabId);
+						createTabProperties.index = index + 1;
+					} catch (error) {
+						createTabProperties.index = index;
+					}
+					browser.tabs.create(createTabProperties);
+				}
 			}
 		} finally {
 			if (message.taskId) {

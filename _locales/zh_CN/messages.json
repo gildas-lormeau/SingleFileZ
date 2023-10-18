@@ -491,6 +491,10 @@
 		"message": "在保存前对该页面进行标注编辑",
 		"description": "Options page label: 'annotate the page before saving'"
 	},
+	"optionOpenSavedPage": {
+		"message": "在新标签页中打开保存后的页面",
+		"description": "Options page label: 'open saved pages in a new tab'"
+	},
 	"optionAutoOpenEditor": {
 		"message": "在标注编辑器中打开用 SingleFileZ 保存的页面",
 		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"
