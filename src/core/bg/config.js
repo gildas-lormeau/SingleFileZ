@@ -243,6 +243,10 @@ async function upgrade() {
 	const profileNames = await getProfileNames();
 	for (const profileName of profileNames) {
 		const profile = await getProfile(profileName);
+		if (!profile._migratedTemplateFormat) {
+			profile.filenameTemplate = updateFilenameTemplate(profile.filenameTemplate);
+			profile._migratedTemplateFormat = true;
+		}
 		for (const key of Object.keys(DEFAULT_CONFIG)) {
 			if (profile[key] === undefined) {
 				profile[key] = DEFAULT_CONFIG[key];
@@ -250,10 +254,6 @@ async function upgrade() {
 		}
 		if (!profile.insertTextBody && profile.extractDataFromPage === undefined) {
 			profile.extractDataFromPage = true;
-		}
-		if (!profile._migratedTemplateFormat) {
-			profile.filenameTemplate = updateFilenameTemplate(profile.filenameTemplate);
-			profile._migratedTemplateFormat = true;
 		}
 		await setProfile(profileName, profile);
 	}
