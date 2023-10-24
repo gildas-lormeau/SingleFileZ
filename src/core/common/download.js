@@ -25,6 +25,8 @@
 
 import * as yabson from "./../../lib/yabson/yabson.js";
 
+const MAX_CONTENT_SIZE = 16 * (1024 * 1024);
+
 export {
 	downloadPage
 };
@@ -77,13 +79,16 @@ async function downloadPage(pageData, options) {
 	if (result.error) {
 		message.blobURL = null;
 		message.pageData = pageData;
-		const serializer = yabson.getSerializer(message);
-		for await (const data of serializer) {
+		let data, indexData = 0;
+		const dataArray = await yabson.serialize(message);
+		do {
+			data = Array.from(dataArray.slice(indexData, indexData + MAX_CONTENT_SIZE));
+			indexData += MAX_CONTENT_SIZE;
 			await browser.runtime.sendMessage({
 				method: "downloads.download",
-				data: Array.from(data)
+				data
 			});
-		}
+		} while (data.length);
 		await browser.runtime.sendMessage({ method: "downloads.download" });
 	}
 	if (options.backgroundSave) {

@@ -21,7 +21,7 @@
  *   Source.
  */
 
-/* global browser, singlefile, URL, fetch */
+/* global browser, singlefile, URL, fetch, Blob */
 
 import * as config from "./config.js";
 import * as bookmarks from "./bookmarks.js";
@@ -35,7 +35,7 @@ import { GitHub } from "./../../lib/github/github.js";
 import { download } from "./download-util.js";
 import * as yabson from "./../../lib/yabson/yabson.js";
 
-const parsers = new Map();
+const tabData = new Map();
 const GDRIVE_CLIENT_ID = "7544745492-oe3q2jjvdluks2st2smslmrofcdederh.apps.googleusercontent.com";
 const GDRIVE_CLIENT_KEY = "VQJ8Gq8Vxx72QyxPyeLtWvUt";
 const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
@@ -95,15 +95,16 @@ async function downloadTabPage(message, tab) {
 			return { error: true };
 		}
 	} else {
-		let parser = parsers.get(tabId);
-		if (!parser) {
-			parser = yabson.getParser();
-			parsers.set(tabId, parser);
+		let blobParts = tabData.get(tabId);
+		if (!blobParts) {
+			blobParts = [];
+			tabData.set(tabId, blobParts);
 		}
-		let result = await parser.next(message.data);
-		if (result.done) {
-			const message = result.value;
-			parsers.delete(tabId);
+		if (message.data) {
+			blobParts.push(new Uint8Array(message.data));
+		} else {
+			tabData.delete(tabId);
+			const message = await yabson.parse(new Uint8Array((await new Blob(blobParts).arrayBuffer())));
 			await download(message);
 		}
 	}
