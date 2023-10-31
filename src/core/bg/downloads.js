@@ -174,7 +174,8 @@ async function downloadTabPage(message, tab) {
 							filenameConflictAction: message.filenameConflictAction,
 							filenameReplacementCharacter: message.filenameReplacementCharacter,
 							bookmarkId: message.bookmarkId,
-							replaceBookmarkURL: message.replaceBookmarkURL
+							replaceBookmarkURL: message.replaceBookmarkURL,
+							includeInfobar: message.includeInfobar
 						});
 					} else {
 						await downloadPageForeground(message.taskId, message.filename, blob, tabId);
