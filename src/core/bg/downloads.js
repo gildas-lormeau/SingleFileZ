@@ -181,7 +181,7 @@ async function downloadTabPage(message, tab) {
 						await downloadPageForeground(message.taskId, message.filename, blob, tabId);
 					}
 				}
-				if (message.replaceBookmarkURL && response && response.url) {
+				if (message.bookmarkId && message.replaceBookmarkURL && response && response.url) {
 					await bookmarks.update(message.bookmarkId, { url: response.url });
 				}
 				ui.onEnd(tabId);
