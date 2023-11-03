@@ -21,7 +21,10 @@
  *   Source.
  */
 
-/* global browser, document, matchMedia, addEventListener, prompt, URL, MouseEvent, Blob, setInterval */
+/* global browser, document, matchMedia, addEventListener, prompt, URL, MouseEvent, Blob, setInterval, DOMParser */
+
+const SHADOWROOT_ATTRIBUTE_NAME = "shadowrootmode";
+const INFOBAR_TAGNAME = "single-file-infobar";
 
 import * as download from "../../core/common/download.js";
 import { onError } from "./../common/content-error.js";
@@ -81,8 +84,10 @@ addPinkNoteButton.onmouseup = () => editorElement.contentWindow.postMessage(JSON
 addBlueNoteButton.onmouseup = () => editorElement.contentWindow.postMessage(JSON.stringify({ method: "addNote", color: "note-blue" }), "*");
 addGreenNoteButton.onmouseup = () => editorElement.contentWindow.postMessage(JSON.stringify({ method: "addNote", color: "note-green" }), "*");
 document.addEventListener("mouseup", event => {
-	editorElement.contentWindow.focus();
-	toolbarOnTouchEnd(event);
+	if (event.target.tagName.toLowerCase() != INFOBAR_TAGNAME) {
+		editorElement.contentWindow.focus();
+		toolbarOnTouchEnd(event);
+	}
 }, true);
 document.onmousemove = toolbarOnTouchMove;
 highlightButtons.forEach(highlightButton => {
@@ -329,6 +334,13 @@ addEventListener("message", event => {
 	if (message.method == "savePage") {
 		savePage();
 	}
+	if (message.method == "displayInfobar") {
+		const doc = new DOMParser().parseFromString(message.content, "text/html");
+		deserializeShadowRoots(doc.body);
+		const infobarElement = doc.querySelector(INFOBAR_TAGNAME);
+		infobarElement.shadowRoot.querySelector("style").textContent += ".infobar { position: absolute; }";
+		document.querySelector(".editor-container").appendChild(infobarElement);
+	}
 });
 
 browser.runtime.onMessage.addListener(message => {
@@ -388,7 +400,7 @@ async function downloadContent(message) {
 	if (result.done) {
 		downloadParser = null;
 		if (result.value.foregroundSave) {
-			editorElement.contentWindow.postMessage(JSON.stringify({ 
+			editorElement.contentWindow.postMessage(JSON.stringify({
 				method: "download",
 				filename: result.value.filename,
 				content: Array.from(new Uint8Array(result.value.content))
@@ -590,4 +602,24 @@ function getPageDataResource(resource, prefixPath = "", pageData) {
 	} else {
 		return pageData;
 	}
+}
+
+function deserializeShadowRoots(node) {
+	node.querySelectorAll(`template[${SHADOWROOT_ATTRIBUTE_NAME}]`).forEach(element => {
+		if (element.parentElement) {
+			let shadowRoot;
+			try {
+				shadowRoot = element.parentElement.attachShadow({ mode: "open" });
+				const contentDocument = (new DOMParser()).parseFromString(element.innerHTML, "text/html");
+				Array.from(contentDocument.head.childNodes).forEach(node => shadowRoot.appendChild(node));
+				Array.from(contentDocument.body.childNodes).forEach(node => shadowRoot.appendChild(node));
+			} catch (error) {
+				// ignored
+			}
+			if (shadowRoot) {
+				deserializeShadowRoots(shadowRoot);
+				element.remove();
+			}
+		}
+	});
 }
