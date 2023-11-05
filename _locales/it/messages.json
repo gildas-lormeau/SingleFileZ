@@ -263,6 +263,10 @@
 		"message": "crea una cartella principale",
 		"description": "Options page label: 'create a root directory'"
 	},
+	"optionPreventAppendedData": {
+		"message": "non aggiungere dati dopo i dati ZIP",
+		"description": "Options page label: 'do not append data after the ZIP data'"
+	},
 	"optionPassword": {
 		"message": "password",
 		"description": "Options page label: 'password'"

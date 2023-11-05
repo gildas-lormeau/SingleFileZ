@@ -127,6 +127,7 @@ const replaceBookmarkURLLabel = document.getElementById("replaceBookmarkURLLabel
 const allowedBookmarkFoldersLabel = document.getElementById("allowedBookmarkFoldersLabel");
 const ignoredBookmarkFoldersLabel = document.getElementById("ignoredBookmarkFoldersLabel");
 const createRootDirectoryLabel = document.getElementById("createRootDirectoryLabel");
+const preventAppendedDataLabel = document.getElementById("preventAppendedDataLabel");
 const passwordLabel = document.getElementById("passwordLabel");
 const selfExtractingArchiveLabel = document.getElementById("selfExtractingArchiveLabel");
 const extractDataFromPageLabel = document.getElementById("extractDataFromPageLabel");
@@ -249,6 +250,7 @@ const replaceBookmarkURLInput = document.getElementById("replaceBookmarkURLInput
 const allowedBookmarkFoldersInput = document.getElementById("allowedBookmarkFoldersInput");
 const ignoredBookmarkFoldersInput = document.getElementById("ignoredBookmarkFoldersInput");
 const createRootDirectoryInput = document.getElementById("createRootDirectoryInput");
+const preventAppendedDataInput = document.getElementById("preventAppendedDataInput");
 const passwordInput = document.getElementById("passwordInput");
 const selfExtractingArchiveInput = document.getElementById("selfExtractingArchiveInput");
 const extractDataFromPageInput = document.getElementById("extractDataFromPageInput");
@@ -609,6 +611,7 @@ replaceBookmarkURLLabel.textContent = browser.i18n.getMessage("optionReplaceBook
 allowedBookmarkFoldersLabel.textContent = browser.i18n.getMessage("optionAllowedBookmarkFolders");
 ignoredBookmarkFoldersLabel.textContent = browser.i18n.getMessage("optionIgnoredBookmarkFolders");
 createRootDirectoryLabel.textContent = browser.i18n.getMessage("optionCreateRootDirectory");
+preventAppendedDataLabel.textContent = browser.i18n.getMessage("optionPreventAppendedData");
 passwordLabel.textContent = browser.i18n.getMessage("optionPassword");
 selfExtractingArchiveLabel.textContent = browser.i18n.getMessage("optionSelfExtractingArchive");
 extractDataFromPageLabel.textContent = browser.i18n.getMessage("optionExtractDataFromPage");
@@ -889,6 +892,8 @@ async function refresh(profileName) {
 	ignoredBookmarkFoldersInput.value = profileOptions.ignoredBookmarkFolders.map(folder => folder.replace(/,/g, "\\,")).join(",");
 	ignoredBookmarkFoldersInput.disabled = !profileOptions.saveCreatedBookmarks;
 	createRootDirectoryInput.checked = profileOptions.createRootDirectory;
+	preventAppendedDataInput.checked = profileOptions.preventAppendedData;
+	preventAppendedDataInput.disabled = !profileOptions.compressContent && !profileOptions.selfExtractingArchive;
 	passwordInput.value = profileOptions.password;
 	selfExtractingArchiveInput.checked = profileOptions.selfExtractingArchive;
 	extractDataFromPageInput.checked = profileOptions.extractDataFromPage;
@@ -997,6 +1002,7 @@ async function update() {
 			allowedBookmarkFolders: allowedBookmarkFoldersInput.value.replace(/([^\\]),/g, "$1 ,").split(/[^\\],/).map(folder => folder.replace(/\\,/g, ",")),
 			ignoredBookmarkFolders: ignoredBookmarkFoldersInput.value.replace(/([^\\]),/g, "$1 ,").split(/[^\\],/).map(folder => folder.replace(/\\,/g, ",")),
 			createRootDirectory: createRootDirectoryInput.checked,
+			preventAppendedData: preventAppendedDataInput.checked,
 			selfExtractingArchive: selfExtractingArchiveInput.checked,
 			extractDataFromPage: extractDataFromPageInput.checked,
 			password: passwordInput.value,

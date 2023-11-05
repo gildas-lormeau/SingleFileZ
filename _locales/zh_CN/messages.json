@@ -263,6 +263,10 @@
 		"message": "创建根目录",
 		"description": "Options page label: 'create a root directory'"
 	},
+	"optionPreventAppendedData": {
+		"message": "不要在 ZIP 数据后添加数据",
+		"description": "Options page label: 'do not append data after the ZIP data'"
+	},
 	"optionPassword": {
 		"message": "密码",
 		"description": "Options page label: 'password'"

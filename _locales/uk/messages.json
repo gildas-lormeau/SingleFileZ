@@ -263,6 +263,10 @@
 		"message": "створити кореневий каталог",
 		"description": "Options page label: 'create a root directory'"
 	},
+	"optionPreventAppendedData": {
+		"message": "не додавайте дані після ZIP-архіву",
+		"description": "Options page label: 'do not append data after the ZIP data'"
+	},
 	"optionPassword": {
 		"message": "пароль",
 		"description": "Options page label: 'password'"

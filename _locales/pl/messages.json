@@ -263,6 +263,10 @@
 		"message": "twórz katalog główny",
 		"description": "Options page label: 'create a root directory'"
 	},
+	"optionPreventAppendedData": {
+		"message": "do not append data after the ZIP data",
+		"description": "Options page label: 'do not append data after the ZIP data'"
+	},
 	"optionPassword": {
 		"message": "hasło",
 		"description": "Options page label: 'password'"

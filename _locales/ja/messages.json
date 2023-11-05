@@ -263,6 +263,10 @@
 		"message": "ルートディレクトリを作成する",
 		"description": "Options page label: 'create a root directory'"
 	},
+	"optionPreventAppendedData": {
+		"message": "ZIPデータの後にデータを追加しない",
+		"description": "Options page label: 'do not append data after the ZIP data'"
+	},
 	"optionPassword": {
 		"message": "符牒",
 		"description": "Options page label: 'password'"
