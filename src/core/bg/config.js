@@ -121,6 +121,7 @@ const DEFAULT_CONFIG = {
 	createRootDirectory: false,
 	selfExtractingArchive: true,
 	extractDataFromPage: true,
+	preventAppendedData: false,
 	insertTextBody: false,
 	insertMetaNoIndex: false,
 	insertMetaCSP: true,
