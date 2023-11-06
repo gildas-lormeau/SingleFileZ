@@ -264,7 +264,7 @@
 		"description": "Options page label: 'create a root directory'"
 	},
 	"optionPreventAppendedData": {
-		"message": "do not append data after the ZIP data",
+		"message": "не добавлять данные после данных ZIP",
 		"description": "Options page label: 'do not append data after the ZIP data'"
 	},
 	"optionPassword": {
