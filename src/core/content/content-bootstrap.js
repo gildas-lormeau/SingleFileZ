@@ -114,9 +114,8 @@ function executeBootstrap(data) {
 	const scriptElement = document.createElement("script");
 	scriptElement.textContent = "(()=>{" +
 		"document.currentScript.remove();" +
-		"if (document.readyState=='complete') {run()} else {globalThis.addEventListener('load', run)}" +
-		"function run() {this.bootstrap([" + (new Uint8Array(data)).toString() + "])}" +
-		"})()";
+		"if(document.readyState=='complete')run();else globalThis.addEventListener('load', run);" +
+		"function run(){this.bootstrap([" + (new Uint8Array(data)).toString() + "]).then(()=>document.dispatchEvent(new CustomEvent(\"single-filez-display-infobar\")))}})()";
 	document.body.appendChild(scriptElement);
 }
 
