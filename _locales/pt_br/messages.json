@@ -1,6 +1,6 @@
 {
 	"extensionDescription": {
-		"message": "Save web pages as self-extracting HTML/ZIP polyglot files",
+		"message": "Salvar páginas da Web como arquivos poliglotas HTML/ZIP de extração automática",
 		"description": "Description of the extension."
 	},
 	"commandSaveSelectedTabs": {
@@ -12,7 +12,7 @@
 		"description": "Command (Ctrl+Shift+U): 'Save all tabs'"
 	},
 	"menuSavePage": {
-		"message": "Salvar site via SingleFileZ",
+		"message": "Salvar página via SingleFileZ",
 		"description": "Menu entry: 'Save page with SingleFileZ'"
 	},
 	"menuSaveSelectedLinks": {
@@ -20,15 +20,15 @@
 		"description": "Menu entry: 'Save selected links'"
 	},
 	"menuEditPage": {
-		"message": "Anotar o site...",
+		"message": "Anotar a página...",
 		"description": "Menu entry: 'Annotate the page...'"
 	},
 	"menuEditAndSavePage": {
-		"message": "Anotar e salvar o site...",
+		"message": "Anotar e salvar a página...",
 		"description": "Menu entry: 'Annotate and save the page...'"
 	},
 	"menuSaveWithProfile": {
-		"message": "Salvar site com perfil",
+		"message": "Salvar página com perfil",
 		"description": "Menu entry: 'Save with profile'"
 	},
 	"menuViewPendingSaves": {
@@ -96,7 +96,7 @@
 		"description": "Menu entry: 'Auto-save' > Auto-save all tabs'"
 	},
 	"buttonDefaultTooltip": {
-		"message": "Salvar site via SingleFileZ",
+		"message": "Salvar página via SingleFileZ",
 		"description": "Button title: 'Save page with SingleFileZ'"
 	},
 	"buttonBlockedBadge": {
@@ -104,7 +104,7 @@
 		"description": "Button badge when the page is blocked: '🚫'"
 	},
 	"buttonBlockedTooltip": {
-		"message": "Este site não pode ser salvo via SingleFileZ",
+		"message": "Esta página não pode ser salva via SingleFileZ",
 		"description": "Button title: 'This page cannot be saved with SingleFileZ'"
 	},
 	"buttonInitializingTooltip": {
@@ -132,7 +132,7 @@
 		"description": "Badge label for unexpected errors"
 	},
 	"buttonAutoSaveActiveTooltip": {
-		"message": "Salvar autom. o ativo",
+		"message": "Salvar autom. ativo",
 		"description": "Button title: 'Auto-save active'"
 	},
 	"buttonAutoSaveActiveBadge": {
@@ -148,15 +148,15 @@
 		"description": "Options sub-title: 'User interface'"
 	},
 	"optionAddMenuEntry": {
-		"message": "adicionar uma entrada em menu do contexto do site",
+		"message": "adicionar uma entrada em menu do contexto da página",
 		"description": "Options page label: 'add entry in the context menu of the webpage'"
 	},
 	"optionDisplayShadow": {
-		"message": "sobrepor a sombra em site durante processamento",
+		"message": "sobrepor a sombra em página durante processamento",
 		"description": "Options page label: 'overlay a shadow on the page during processing'"
 	},
 	"optionDisplayInfobar": {
-		"message": "mostrar um infobar ao ver um site salvo",
+		"message": "mostrar o infobar ao ver uma página salva",
 		"description": "Options page label: 'display an infobar when viewing a saved page'"
 	},
 	"optionInfobarTemplate": {
@@ -172,7 +172,7 @@
 		"description": "Options page label: 'save original URLs of embedded resources'"
 	},
 	"optionIncludeInfobar": {
-		"message": "incluir o infobar no site salvo",
+		"message": "incluir o infobar na página salva",
 		"description": "Options page label: 'include the infobar in the saved page'"
 	},
 	"optionRemoveInfobarSavedDate": {
@@ -184,11 +184,11 @@
 		"description": "Options page label: 'open a prompt dialog to edit the infobar content'"
 	},
 	"optionAutoClose": {
-		"message": "fechar autom. a aba após site for salvo",
+		"message": "fechar autom. a aba após página ser salva",
 		"description": "Options page label: 'auto-close the tab after the page is saved'"
 	},
 	"optionsFileNameSubTitle": {
-		"message": "Nome do arquivo",
+		"message": "Nome de arquivo",
 		"description": "Options sub-title: 'File name'"
 	},
 	"optionFilenameTemplate": {
@@ -300,11 +300,11 @@
 		"description": "Options page label: 'maximum idle time (ms)'"
 	},
 	"optionLoadDeferredImagesKeepZoomLevel": {
-		"message": "diminuir zoom no site",
+		"message": "diminuir zoom na página",
 		"description": "Options page label: 'zoom out the page'"
 	},
 	"optionLoadDeferredImagesDispatchScrollEvent": {
-		"message": "dispatch \"scroll\" event",
+		"message": "envio do evento \"scroll\"",
 		"description": "Options page label: 'dispatch \"scroll\" event'"
 	},
 	"optionLoadDeferredImagesBeforeFrames": {
@@ -356,7 +356,7 @@
 		"description": "Options page label: 'blocked resources'"
 	},
 	"optionsAcceptHeaders": {
-		"message": "\"Cabeçalho\" Accept",
+		"message": "cabeçalho \"Accept\"",
 		"description": "Options page label: '\"Accept\" header'"
 	},
 	"optionResourceScript": {
@@ -456,15 +456,15 @@
 		"description": "Popup text 'Confirm the deletion of the selected rule' in the options page"
 	},
 	"optionAutoSaveLoadOrUnload": {
-		"message": "Salvar autom. após carregamento ou purga do site",
+		"message": "Salvar autom. após carregamento ou purga da página",
 		"description": "auto-save after page load or on page unload"
 	},
 	"optionAutoSaveLoad": {
-		"message": "Salvar autom. após carregamento do site",
+		"message": "Salvar autom. após carregamento da página",
 		"description": "Options page label: 'auto-save after page load'"
 	},
 	"optionAutoSaveUnload": {
-		"message": "Salvar autom. após purga do site",
+		"message": "Salvar autom. após purga da página",
 		"description": "Options page label: 'auto-save on page unload'"
 	},
 	"optionAutoSaveDiscard": {
@@ -476,7 +476,7 @@
 		"description": "Options page label: 'auto-save on tab removal'"
 	},
 	"optionAutoSaveDelay": {
-		"message": "Adiar salvação automática após carregar o site (s)",
+		"message": "Salvar autom. após aguardar o carregamento da página (s)",
 		"description": "Options page label: 'auto-save waiting delay after page load (s)'"
 	},
 	"optionAutoSaveRepeat": {
@@ -492,15 +492,15 @@
 		"description": "Options sub-title: 'Annotation editor'"
 	},
 	"optionOpenEditor": {
-		"message": "anotar o site antes de salvar",
+		"message": "anotar a página antes de salvar",
 		"description": "Options page label: 'annotate the page before saving'"
 	},
 	"optionOpenSavedPage": {
-		"message": "abrir sites salvos numa aba nova",
+		"message": "abrir páginas salvas numa aba nova",
 		"description": "Options page label: 'open saved pages in a new tab'"
 	},
 	"optionAutoOpenEditor": {
-		"message": "abrir sites salvos via SingleFileZ em editor de anotações",
+		"message": "abrir páginas salvas via SingleFileZ em editor de anotações",
 		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"
 	},
 	"optionDefaultEditorMode": {
@@ -512,11 +512,11 @@
 		"description": "Options page label: 'default mode > normal'"
 	},
 	"optionDefaultEditorModeEdit": {
-		"message": "editar o site",
+		"message": "editar a página",
 		"description": "Options page label: 'default mode > edit the page'"
 	},
 	"optionDefaultEditorModeFormat": {
-		"message": "formatar o site",
+		"message": "formatar a página",
 		"description": "Options page label: 'default mode > format the page'"
 	},
 	"optionDefaultEditorModeCut": {
@@ -528,11 +528,11 @@
 		"description": "Options page label: 'default mode > remove external elements'"
 	},
 	"optionApplySystemTheme": {
-		"message": "aplicar tema do sistema ao formatar um site",
+		"message": "aplicar tema do sistema ao formatar uma página",
 		"description": "Title of the button 'apply the system theme when formatting a page'"
 	},
 	"optionWarnUnsavedPage": {
-		"message": "dar aviso ao sair do site sem previamente salvar as mudanças ",
+		"message": "dar aviso ao sair da página sem previamente salvar as mudanças",
 		"description": "Title of the button 'warn if leaving page with unsaved changes'"
 	},
 	"optionDisplayInfobarInEditor": {
@@ -544,7 +544,7 @@
 		"description": "Options sub-title: 'Misc.'"
 	},
 	"optionBackgroundSave": {
-		"message": "salvar sites em segundo plano",
+		"message": "salvar páginas em segundo plano",
 		"description": "Options page label: 'save pages in background'"
 	},
 	"optionDisplayStats": {
@@ -568,11 +568,11 @@
 		"description": "Options page label: 'maximum download time (s)'"
 	},
 	"optionPassReferrerOnError": {
-		"message": "passar \"Referer\" header após um erro de pedido de origem cruzada",
+		"message": "passar o cabeçalho \"Referer\" após um erro de pedido de origem cruzada",
 		"description": "Options page label: 'pass \"Referer\" header after a cross-origin request error'"
 	},
 	"optionSaveRawPage": {
-		"message": "salvar site raw",
+		"message": "salvar página em bruto",
 		"description": "Options page label: 'save raw page'"
 	},
 	"optionInsertMetaCSP": {
@@ -580,15 +580,15 @@
 		"description": "Options page label: 'set content security policy'"
 	},
 	"optionSaveToFilesystem": {
-		"message": "salvar ao sistema de arquivos",
+		"message": "salvar no sistema de arquivos",
 		"description": "Options page label: 'save to filesystem'"
 	},
 	"optionSaveToGDrive": {
-		"message": "enviar ao Google Drive",
+		"message": "enviar para o Google Drive",
 		"description": "Options page label: 'upload to Google Drive'"
 	},
 	"optionSaveToGitHub": {
-		"message": "enviar ao GitHub",
+		"message": "enviar para o GitHub",
 		"description": "Options page label: 'upload to GitHub'"
 	},
 	"optionGitHubToken": {
@@ -604,7 +604,7 @@
 		"description": "Options page label: 'repository name'"
 	},
 	"optionGitHubBranch": {
-		"message": "nome de branch",
+		"message": "nome do branch (ramo)",
 		"description": "Options page label: 'branch name'"
 	},
 	"optionSaveWithWebDAV": {
@@ -624,11 +624,11 @@
 		"description": "Options page label: 'password'"
 	},
 	"optionSaveCreatedBookmarks": {
-		"message": "salvar site de um favorito recém-criado",
+		"message": "salvar página de um favorito recém-criado",
 		"description": "Options page label: 'save the page of a newly created bookmark'"
 	},
 	"optionReplaceBookmarkURL": {
-		"message": "vincular um novo favorito ao site salvo",
+		"message": "vincular um novo favorito a página salva",
 		"description": "Options page label: 'link the new bookmark to the saved page'"
 	},
 	"optionAllowedBookmarkFolders": {
@@ -692,7 +692,7 @@
 		"description": "Label 'Frame contents' in the log panel"
 	},
 	"logPanelStep": {
-		"message": "Nível",
+		"message": "Passo",
 		"description": "Label 'Step' (for 'Step x / 4') in the log panel"
 	},
 	"logPanelWidth": {
@@ -780,7 +780,7 @@
 		"description": "Title of the button 'Enable/disable read-only' in the editor"
 	},
 	"editorFormatPage": {
-		"message": "Formatar o site para melhor legibilidade",
+		"message": "Formatar a página para melhor legibilidade",
 		"description": "Title of the button 'Format the page for better readability' in the editor"
 	},
 	"editorCutInnerPage": {
@@ -804,11 +804,11 @@
 		"description": "Title of the button 'Remove last restored element' in the editor"
 	},
 	"editorSavePage": {
-		"message": "Salvar o site",
+		"message": "Salvar a página",
 		"description": "Title of the button 'Save the page' in the editor"
 	},
 	"editorPrintPage": {
-		"message": "Imprimir o site",
+		"message": "Imprimir a página",
 		"description": "Title of the button 'Print the page' in the editor"
 	},
 	"pendingsTitle": {
@@ -828,7 +828,7 @@
 		"description": "Title of the first column in the table of the pending saves 'Title'"
 	},
 	"pendingsStatusTitle": {
-		"message": "status",
+		"message": "progresso",
 		"description": "Title of the second column in the table of the pending saves 'status'"
 	},
 	"pendingsPendingStatus": {
@@ -884,7 +884,7 @@
 		"description": "label of the button 'Remove all'"
 	},
 	"batchSaveUrlsSavePagesButton": {
-		"message": "Salvar os sites",
+		"message": "Salvar as páginas",
 		"description": "label of the button 'Save pages'"
 	},
 	"batchSaveUrlsURLTitle": {
