@@ -289,7 +289,7 @@ addEventListener("message", event => {
 				pageData.doctype = message.doctype;
 				pageData.viewport = message.viewport;
 				pageData.url = message.url;
-				pageData.filename = tabData.filename;
+				pageData.filename = message.filename || tabData.filename;
 				if (message.foregroundSave) {
 					tabData.options.backgroundSave = false;
 					tabData.options.foregroundSave = true;
@@ -499,6 +499,7 @@ function savePage() {
 		method: "getContent",
 		compressHTML: tabData.options.compressHTML,
 		includeInfobar: tabData.options.includeInfobar,
+		backgroundSave: tabData.options.backgroundSave,
 		updatedResources,
 		foregroundSave: false
 	}), "*");
