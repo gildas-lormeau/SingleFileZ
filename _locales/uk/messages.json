@@ -211,9 +211,13 @@
 		"message": "замінний символ",
 		"description": "Options page label: 'replacement character'"
 	},
-	"optionReplaceEmojisInFilename" : {
+	"optionReplaceEmojisInFilename": {
 		"message": "Замініть смайлики на текст",
 		"description": "Options page label: 'replace emojis with text'"
+	},
+	"optionSaveFilenameTemplateData": {
+		"message": "Збережіть дані шаблону імені файлу на сторінці",
+		"description": "Options page label: 'save the filename template data into the page'"
 	},
 	"optionConfirmFilename": {
 		"message": "відкривати діалогове вікно \"Save as\" для підтвердження імені файлу",

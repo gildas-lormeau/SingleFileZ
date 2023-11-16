@@ -211,9 +211,13 @@
 		"message": "заменяющий символ",
 		"description": "Options page label: 'replacement character'"
 	},
-	"optionReplaceEmojisInFilename" : {
+	"optionReplaceEmojisInFilename": {
 		"message": "заменять эмодзи текстом",
 		"description": "Options page label: 'replace emojis with text'"
+	},
+	"optionSaveFilenameTemplateData": {
+		"message": "save the filename template data into the page",
+		"description": "Options page label: 'save the filename template data into the page'"
 	},
 	"optionConfirmFilename": {
 		"message": "открыть диалоговое окно \"Сохранить как\" для подтверждения имени файла",

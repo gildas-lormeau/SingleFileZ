@@ -211,9 +211,13 @@
 		"message": "znak zastępczy",
 		"description": "Options page label: 'replacement character'"
 	},
-	"optionReplaceEmojisInFilename" : {
+	"optionReplaceEmojisInFilename": {
 		"message": "zamień emotikony na tekst",
 		"description": "Options page label: 'replace emojis with text'"
+	},
+	"optionSaveFilenameTemplateData": {
+		"message": "save the filename template data into the page",
+		"description": "Options page label: 'save the filename template data into the page'"
 	},
 	"optionConfirmFilename": {
 		"message": "otwieraj okno \"Zapisz jako\", aby potwierdzić nazwę pliku",
