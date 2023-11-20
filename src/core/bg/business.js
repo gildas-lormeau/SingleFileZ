@@ -161,8 +161,11 @@ function addTask(info) {
 		options: info.options,
 		method: info.method,
 		done: function () {
-			tasks.splice(tasks.findIndex(taskInfo => taskInfo.id == this.id), 1);
-			runTasks();
+			const index = tasks.findIndex(taskInfo => taskInfo.id == this.id);
+			if (index > -1) {
+				tasks.splice(index, 1);
+				runTasks();
+			}
 		}
 	};
 	tasks.push(taskInfo);
