@@ -149,7 +149,7 @@ async function saveContent(message, tab) {
 		options.incognito = tab.incognito;
 		options.tabId = tabId;
 		options.tabIndex = tab.index;
-		options.keepFilename = options.saveToGDrive || options.saveToGitHub || options.saveWithWebDAV;
+		options.keepFilename = options.saveToGDrive || options.saveToGitHub || options.saveWithWebDAV || options.saveToDropbox;
 		let pageData;
 		try {
 			if (options.passReferrerOnError) {
@@ -157,7 +157,7 @@ async function saveContent(message, tab) {
 			}
 			pageData = await getPageData(options, null, null, { fetch });
 			let skipped;
-			if (!options.saveToGDrive) {
+			if (!options.saveToGDrive && !options.saveWithWebDAV && !options.saveToGitHub && !options.saveToDropbox) {
 				const testSkip = await downloads.testSkipSave(pageData.filename, options);
 				skipped = testSkip.skipped;
 				options.filenameConflictAction = testSkip.filenameConflictAction;
@@ -188,6 +188,10 @@ async function saveContent(message, tab) {
 					await (await downloads.saveToGitHub(message.taskId, downloads.encodeSharpCharacter(pageData.filename), blob, options.githubToken, options.githubUser, options.githubRepository, options.githubBranch, {
 						filenameConflictAction: options.filenameConflictAction
 					})).pushPromise;
+				} else if (options.saveToDropbox) {
+					await downloads.saveToDropbox(message.taskId, downloads.encodeSharpCharacter(pageData.filename), blob, {
+						filenameConflictAction: options.filenameConflictAction
+					});
 				} else {
 					pageData.url = URL.createObjectURL(blob);
 					await downloads.downloadPage(pageData, options);

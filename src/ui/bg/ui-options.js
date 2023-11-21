@@ -71,6 +71,7 @@ const saveRawPageLabel = document.getElementById("saveRawPageLabel");
 const insertMetaCSPLabel = document.getElementById("insertMetaCSPLabel");
 const saveToFilesystemLabel = document.getElementById("saveToFilesystemLabel");
 const saveToGDriveLabel = document.getElementById("saveToGDriveLabel");
+const saveToDropboxLabel = document.getElementById("saveToDropboxLabel");
 const saveWithWebDAVLabel = document.getElementById("saveWithWebDAVLabel");
 const webDAVURLLabel = document.getElementById("webDAVURLLabel");
 const webDAVUserLabel = document.getElementById("webDAVUserLabel");
@@ -199,6 +200,7 @@ const acceptHeaderImageInput = document.getElementById("acceptHeaderImageInput")
 const saveRawPageInput = document.getElementById("saveRawPageInput");
 const insertMetaCSPInput = document.getElementById("insertMetaCSPInput");
 const saveToGDriveInput = document.getElementById("saveToGDriveInput");
+const saveToDropboxInput = document.getElementById("saveToDropboxInput");
 const saveWithWebDAVInput = document.getElementById("saveWithWebDAVInput");
 const webDAVURLInput = document.getElementById("webDAVURLInput");
 const webDAVUserInput = document.getElementById("webDAVUserInput");
@@ -485,6 +487,7 @@ expandAllButton.addEventListener("click", () => {
 }, false);
 saveToFilesystemInput.addEventListener("click", () => disableDestinationPermissions(["clipboardWrite", "nativeMessaging"]), false);
 saveToGDriveInput.addEventListener("click", () => disableDestinationPermissions(["clipboardWrite", "nativeMessaging"], false), false);
+saveToDropboxInput.addEventListener("click", () => disableDestinationPermissions(["clipboardWrite", "nativeMessaging"], true, false), false);
 saveWithWebDAVInput.addEventListener("click", () => disableDestinationPermissions(["clipboardWrite", "nativeMessaging"]), false);
 saveCreatedBookmarksInput.addEventListener("click", saveCreatedBookmarks, false);
 passReferrerOnErrorInput.addEventListener("click", passReferrerOnError, false);
@@ -557,6 +560,7 @@ saveRawPageLabel.textContent = browser.i18n.getMessage("optionSaveRawPage");
 insertMetaCSPLabel.textContent = browser.i18n.getMessage("optionInsertMetaCSP");
 saveToFilesystemLabel.textContent = browser.i18n.getMessage("optionSaveToFilesystem");
 saveToGDriveLabel.textContent = browser.i18n.getMessage("optionSaveToGDrive");
+saveToDropboxLabel.textContent = browser.i18n.getMessage("optionSaveToDropbox");
 saveWithWebDAVLabel.textContent = browser.i18n.getMessage("optionSaveWithWebDAV");
 webDAVURLLabel.textContent = browser.i18n.getMessage("optionWebDAVURL");
 webDAVUserLabel.textContent = browser.i18n.getMessage("optionWebDAVUser");
@@ -825,6 +829,7 @@ async function refresh(profileName) {
 	saveRawPageInput.checked = profileOptions.saveRawPage;
 	insertMetaCSPInput.checked = profileOptions.insertMetaCSP;
 	saveToGDriveInput.checked = profileOptions.saveToGDrive;
+	saveToDropboxInput.checked = profileOptions.saveToDropbox;
 	saveWithWebDAVInput.checked = profileOptions.saveWithWebDAV;
 	webDAVURLInput.value = profileOptions.webDAVURL;
 	webDAVURLInput.disabled = !profileOptions.saveWithWebDAV;
@@ -841,7 +846,7 @@ async function refresh(profileName) {
 	githubRepositoryInput.disabled = !profileOptions.saveToGitHub;
 	githubBranchInput.value = profileOptions.githubBranch;
 	githubBranchInput.disabled = !profileOptions.saveToGitHub;
-	saveToFilesystemInput.checked = !profileOptions.saveToGDrive && !profileOptions.saveToGitHub && !profileOptions.saveWithWebDAV;
+	saveToFilesystemInput.checked = !profileOptions.saveToGDrive && !profileOptions.saveToGitHub && !profileOptions.saveWithWebDAV && !profileOptions.saveToDropbox;
 	compressHTMLInput.checked = profileOptions.compressHTML;
 	compressCSSInput.checked = profileOptions.compressCSS;
 	moveStylesInHeadInput.checked = profileOptions.moveStylesInHead;
@@ -956,6 +961,7 @@ async function update() {
 			saveRawPage: saveRawPageInput.checked,
 			insertMetaCSP: insertMetaCSPInput.checked,
 			saveToGDrive: saveToGDriveInput.checked,
+			saveToDropbox: saveToDropboxInput.checked,
 			saveWithWebDAV: saveWithWebDAVInput.checked,
 			webDAVURL: webDAVURLInput.value,
 			webDAVUser: webDAVUserInput.value,
@@ -1101,9 +1107,12 @@ async function onClickSaveToGDrive() {
 	await refresh();
 }
 
-async function disableDestinationPermissions(permissions, disableGDrive = true) {
+async function disableDestinationPermissions(permissions, disableGDrive = true, disableDropbox = true) {
 	if (disableGDrive) {
 		await browser.runtime.sendMessage({ method: "downloads.disableGDrive" });
+	}
+	if (disableDropbox) {
+		await browser.runtime.sendMessage({ method: "downloads.disableDropbox" });
 	}
 	try {
 		await browser.permissions.remove({ permissions });

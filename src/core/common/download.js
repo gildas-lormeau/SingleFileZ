@@ -44,6 +44,7 @@ async function downloadPage(pageData, options) {
 		filenameConflictAction: options.filenameConflictAction,
 		filename: pageData.filename,
 		saveToGDrive: options.saveToGDrive,
+		saveToDropbox: options.saveToDropbox,
 		saveWithWebDAV: options.saveWithWebDAV,
 		webDAVURL: options.webDAVURL,
 		webDAVUser: options.webDAVUser,
