@@ -119,7 +119,7 @@ async function savePage(message) {
 			try {
 				const pageData = await processPage(options);
 				if (pageData) {
-					if ((!options.backgroundSave || options.saveToGDrive || options.saveToGitHub || options.saveWithWebDAV) && options.confirmFilename || options.saveToDropbox) {
+					if ((!options.backgroundSave || options.saveToGDrive || options.saveToGitHub || options.saveWithWebDAV || options.saveToDropbox) && options.confirmFilename) {
 						pageData.filename = ui.prompt("Save as", pageData.filename) || pageData.filename;
 					}
 					await download.downloadPage(pageData, options);
