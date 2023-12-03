@@ -1,6 +1,8 @@
 # SingleFileZ
 SingleFileZ is a fork of [SingleFile](https://github.com/gildas-lormeau/SingleFile) that allows you to save a webpage as a self-extracting HTML file. This HTML file is also a valid ZIP file which contains the resources (images, fonts, stylesheets and frames) of the saved page.
 
+**NEW**: The SingleFileZ code has been completely merged with the SingleFile code, see the option "File format" in SingleFile to produce (self-extracting) ZIP files.
+
 ## Demo
 ![](https://github.com/gildas-lormeau/SingleFile-Demos/blob/master/demo-sfz.gif)
 
