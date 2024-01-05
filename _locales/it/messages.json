@@ -287,6 +287,10 @@
 		"message": "rendi il testo ricercabile",
 		"description": "Options page label: 'make text searchable'"
 	},
+	"optionInsertEmbeddedImage": {
+		"message": "insert embedded image",
+		"description": "Options page label: 'insert embedded image'"
+	},
 	"optionsInfobarSubTitle": {
 		"message": "Barra informativa",
 		"description": "Options sub-title: 'Infobar'"

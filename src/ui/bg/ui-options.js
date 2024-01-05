@@ -83,6 +83,7 @@ const githubRepositoryLabel = document.getElementById("githubRepositoryLabel");
 const githubBranchLabel = document.getElementById("githubBranchLabel");
 const compressHTMLLabel = document.getElementById("compressHTMLLabel");
 const insertTextBodyLabel = document.getElementById("insertTextBodyLabel");
+const insertEmbeddedImageLabel = document.getElementById("insertEmbeddedImageLabel");
 const compressCSSLabel = document.getElementById("compressCSSLabel");
 const moveStylesInHeadLabel = document.getElementById("moveStylesInHeadLabel");
 const loadDeferredImagesLabel = document.getElementById("loadDeferredImagesLabel");
@@ -213,6 +214,7 @@ const githubBranchInput = document.getElementById("githubBranchInput");
 const saveToFilesystemInput = document.getElementById("saveToFilesystemInput");
 const compressHTMLInput = document.getElementById("compressHTMLInput");
 const insertTextBodyInput = document.getElementById("insertTextBodyInput");
+const insertEmbeddedImageInput = document.getElementById("insertEmbeddedImageInput");
 const compressCSSInput = document.getElementById("compressCSSInput");
 const moveStylesInHeadInput = document.getElementById("moveStylesInHeadInput");
 const loadDeferredImagesInput = document.getElementById("loadDeferredImagesInput");
@@ -582,6 +584,7 @@ githubRepositoryLabel.textContent = browser.i18n.getMessage("optionGitHubReposit
 githubBranchLabel.textContent = browser.i18n.getMessage("optionGitHubBranch");
 compressHTMLLabel.textContent = browser.i18n.getMessage("optionCompressHTML");
 insertTextBodyLabel.textContent = browser.i18n.getMessage("optionInsertTextBody");
+insertEmbeddedImageLabel.textContent = browser.i18n.getMessage("optionInsertEmbeddedImage");
 compressCSSLabel.textContent = browser.i18n.getMessage("optionCompressCSS");
 moveStylesInHeadLabel.textContent = browser.i18n.getMessage("optionMoveStylesInHead");
 loadDeferredImagesLabel.textContent = browser.i18n.getMessage("optionLoadDeferredImages");
@@ -918,7 +921,8 @@ async function refresh(profileName) {
 	extractDataFromPageInput.checked = profileOptions.extractDataFromPage;
 	extractDataFromPageInput.disabled = !profileOptions.selfExtractingArchive;
 	insertTextBodyInput.checked = profileOptions.insertTextBody;
-	insertTextBodyInput.disabled = !profileOptions.selfExtractingArchive;
+	insertTextBodyInput.disabled = !profileOptions.selfExtractingArchive && !profileOptions.extractDataFromPage;
+	insertEmbeddedImageInput.checked = profileOptions.insertEmbeddedImage;
 	infobarTemplateInput.value = profileOptions.infobarTemplate;
 	blockMixedContentInput.checked = profileOptions.blockMixedContent;
 	saveOriginalURLsInput.checked = profileOptions.saveOriginalURLs;
@@ -983,6 +987,7 @@ async function update() {
 			githubBranch: githubBranchInput.value,
 			compressHTML: compressHTMLInput.checked,
 			insertTextBody: insertTextBodyInput.checked,
+			insertEmbeddedImage: insertEmbeddedImageInput.checked,
 			compressCSS: compressCSSInput.checked,
 			moveStylesInHead: moveStylesInHeadInput.checked,
 			loadDeferredImages: loadDeferredImagesInput.checked,

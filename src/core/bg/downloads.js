@@ -152,7 +152,8 @@ async function downloadTabPage(message, tab) {
 					preventAppendedData: message.preventAppendedData,
 					insertCanonicalLink: message.insertCanonicalLink,
 					insertMetaNoIndex: message.insertMetaNoIndex,
-					password: message.password
+					password: message.password,
+					embeddedImage: message.embeddedImage
 				});
 				if (message.openEditor) {
 					ui.onEdit(tab.id);
@@ -163,7 +164,8 @@ async function downloadTabPage(message, tab) {
 						compressContent: message.compressContent,
 						selfExtractingArchive: message.selfExtractingArchive,
 						extractDataFromPage: message.extractDataFromPage,
-						insertTextBody: message.insertTextBody
+						insertTextBody: message.insertTextBody,
+						embeddedImage: message.embeddedImage
 					});
 				} else if (message.foregroundSave) {
 					await downloadPageForeground(message.taskId, message.filename, blob, tabId, message.foregroundSave);
