@@ -23,13 +23,13 @@
 
 /* global browser, document, matchMedia, addEventListener, prompt, URL, MouseEvent, Blob, setInterval, DOMParser */
 
-const SHADOWROOT_ATTRIBUTE_NAME = "shadowrootmode";
-const INFOBAR_TAGNAME = "single-file-infobar";
-
 import * as download from "../../core/common/download.js";
 import { onError } from "./../common/common-content-ui.js";
 import * as zip from "./../../../lib/single-file-zip.js";
 import * as yabson from "./../../lib/yabson/yabson.js";
+
+const SHADOWROOT_ATTRIBUTE_NAME = "shadowrootmode";
+const INFOBAR_TAGNAME = "single-file-infobar";
 
 const editorElement = document.querySelector(".editor");
 const toolbarElement = document.querySelector(".toolbar");
