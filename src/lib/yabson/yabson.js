@@ -354,7 +354,7 @@ async function serializeString(data, string) {
 
 async function serializeTypedArray(data, array) {
 	await serializeValue(data, array.length);
-	await data.append(new Uint8Array(array.buffer));
+	await data.append(array instanceof Uint8Array ? array : new Uint8Array(array.buffer));
 }
 
 async function serializeArrayBuffer(data, arrayBuffer) {
