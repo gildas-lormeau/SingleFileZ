@@ -509,7 +509,7 @@
 	},
 	"optionAutoOpenEditor": {
 		"message": "annotation editor で、SingleFile で保存されたページを開く",
-		"description": "Options page label: 'open pages saved with SingleFile in the annotation editor'"
+		"description": "Options page label: 'open pages saved with SingleFileZ in the annotation editor'"
 	},
 	"optionDefaultEditorMode": {
 		"message": "デフォルトモード",

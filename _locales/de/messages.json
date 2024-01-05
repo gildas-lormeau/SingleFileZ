@@ -12,7 +12,7 @@
 		"description": "Command (Ctrl+Shift+U): 'Save all tabs'"
 	},
 	"menuSavePage": {
-		"message": "Speichern einer Webseite mit SingleFileZ",
+		"message": "Speichern der Webseite mit SingleFileZ",
 		"description": "Menu entry: 'Save page with SingleFileZ'"
 	},
 	"menuSaveSelectedLinks": {

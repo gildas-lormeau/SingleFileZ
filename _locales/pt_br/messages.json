@@ -424,7 +424,7 @@
 		"description": "Options label in the Auto-settings rules: 'URL'"
 	},
 	"optionsAutoSettingsUrlPlaceholder": {
-		"message": "Digite uma URL completa ou parcial (p.ex. algum-site.com)",
+		"message": "Digite uma URL completa ou parcial (p. ex. algum-site.com)",
 		"description": "Placeholder in the Auto-settings rules: 'Type a complete or partial URL (e.g. example.com)'"
 	},
 	"optionsAutoSettingsProfile": {
@@ -804,7 +804,7 @@
 		"description": "Title of the button 'Enable/disable read-only' in the editor"
 	},
 	"editorFormatPage": {
-		"message": "Formatar a página para melhor legibilidade",
+		"message": "Formatar à página para melhor legibilidade",
 		"description": "Title of the button 'Format the page for better readability' in the editor"
 	},
 	"editorCutInnerPage": {
