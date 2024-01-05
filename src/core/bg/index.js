@@ -73,7 +73,6 @@ browser.runtime.onMessage.addListener((message, sender) => {
 	}
 });
 
-
 if (browser.runtime.onMessageExternal) {
 	browser.runtime.onMessageExternal.addListener(externalMesssages.onMessage);
 }
