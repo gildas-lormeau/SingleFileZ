@@ -69,7 +69,7 @@ async function downloadPage(pageData, options) {
 		warnUnsavedPage: options.warnUnsavedPage,
 		createRootDirectory: options.createRootDirectory,
 		selfExtractingArchive: options.selfExtractingArchive,
-		embeddedImage: Array.from(embeddedImage),
+		embeddedImage: embeddedImage ? Array.from(embeddedImage) : null,
 		preventAppendedData: options.preventAppendedData,
 		extractDataFromPage: options.extractDataFromPage,
 		insertCanonicalLink: options.insertCanonicalLink,
