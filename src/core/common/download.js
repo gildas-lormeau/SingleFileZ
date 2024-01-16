@@ -36,6 +36,7 @@ async function downloadPage(pageData, options) {
 		pageData.content = "\ufeff" + pageData.content;
 	}
 	const blobURL = URL.createObjectURL(new Blob([await yabson.serialize(pageData)], { type: "application/octet-stream" }));
+	const embeddedImage = options.embeddedImage;
 	const message = {
 		method: "downloads.download",
 		taskId: options.taskId,
@@ -68,7 +69,7 @@ async function downloadPage(pageData, options) {
 		warnUnsavedPage: options.warnUnsavedPage,
 		createRootDirectory: options.createRootDirectory,
 		selfExtractingArchive: options.selfExtractingArchive,
-		embeddedImage: options.embeddedImage,
+		embeddedImage: Array.from(embeddedImage),
 		preventAppendedData: options.preventAppendedData,
 		extractDataFromPage: options.extractDataFromPage,
 		insertCanonicalLink: options.insertCanonicalLink,
@@ -80,6 +81,7 @@ async function downloadPage(pageData, options) {
 	const result = await browser.runtime.sendMessage(message);
 	URL.revokeObjectURL(blobURL);
 	if (result.error) {
+		message.embeddedImage = embeddedImage;
 		message.blobURL = null;
 		message.pageData = pageData;
 		let data, indexData = 0;
