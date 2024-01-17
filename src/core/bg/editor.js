@@ -111,7 +111,8 @@ async function onMessage(message, sender) {
 			const updateTabProperties = { url: EDITOR_PAGE_URL };
 			await browser.tabs.update(tab.id, updateTabProperties);
 			const content = contents.flat();
-			tabsData.set(tab.id, { url: tab.url, content, 
+			tabsData.set(tab.id, {
+				url: tab.url, content,
 				filename: message.filename,
 				selfExtractingArchive: message.selfExtractingArchive,
 				extractDataFromPageTags: message.extractDataFromPageTags,
