@@ -74,6 +74,7 @@ async function downloadPage(pageData, options) {
 		extractDataFromPage: options.extractDataFromPage,
 		insertCanonicalLink: options.insertCanonicalLink,
 		insertMetaNoIndex: options.insertMetaNoIndex,
+		insertMetaCSP: options.insertMetaCSP,
 		password: options.password,
 		foregroundSave: options.foregroundSave,
 		blobURL

@@ -152,6 +152,7 @@ async function downloadTabPage(message, tab) {
 					preventAppendedData: message.preventAppendedData,
 					insertCanonicalLink: message.insertCanonicalLink,
 					insertMetaNoIndex: message.insertMetaNoIndex,
+					insertMetaCSP: message.insertMetaCSP,
 					password: message.password,
 					embeddedImage: message.embeddedImage
 				});
@@ -165,6 +166,7 @@ async function downloadTabPage(message, tab) {
 						selfExtractingArchive: message.selfExtractingArchive,
 						extractDataFromPage: message.extractDataFromPage,
 						insertTextBody: message.insertTextBody,
+						insertMetaCSP: message.insertMetaCSP,
 						embeddedImage: message.embeddedImage
 					});
 				} else if (message.foregroundSave) {
