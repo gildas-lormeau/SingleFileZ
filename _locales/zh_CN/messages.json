@@ -288,7 +288,7 @@
 		"description": "Options page label: 'make text searchable'"
 	},
 	"optionInsertEmbeddedImage": {
-		"message": "insert embedded image",
+		"message": "嵌入图像",
 		"description": "Options page label: 'insert embedded image'"
 	},
 	"optionsInfobarSubTitle": {
@@ -704,7 +704,7 @@
 		"description": "Label 'Frame contents' in the log panel"
 	},
 	"logPanelEmbeddedImage": {
-		"message": "嵌入式图像",
+		"message": "嵌入图像",
 		"description": "Label 'Embedded image' in the log panel"
 	},
 	"logPanelStep": {
@@ -716,7 +716,7 @@
 		"description": "Width of the log panel in pixels, it should be adjusted for the longest label beginning with 'log' (e.g. 'logPanelDeferredImages')"
 	},
 	"topPanelError": {
-		"message": "SingleFileZ 错误: ",
+		"message": "SingleFileZ 错误：",
 		"description": "Label 'SingleFileZ error: ' in the top panel when displaying an error message"
 	},
 	"topPanelEmbeddedImageButton": {
