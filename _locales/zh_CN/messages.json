@@ -288,7 +288,7 @@
 		"description": "Options page label: 'make text searchable'"
 	},
 	"optionInsertEmbeddedImage": {
-		"message": "嵌入图像",
+		"message": "嵌入图片",
 		"description": "Options page label: 'insert embedded image'"
 	},
 	"optionsInfobarSubTitle": {
@@ -300,7 +300,7 @@
 		"description": "Options sub-title: 'Images'"
 	},
 	"optionLoadDeferredImages": {
-		"message": "保存延迟加载的图像",
+		"message": "保存延迟加载的图片",
 		"description": "Options page label: 'save deferred images'"
 	},
 	"optionLoadDeferredImagesMaxIdleTime": {
@@ -696,7 +696,7 @@
 		"description": "Options button: 'Import'"
 	},
 	"logPanelDeferredImages": {
-		"message": "延迟加载的图像",
+		"message": "延迟加载的图片",
 		"description": "Label 'Deferred images' in the log panel"
 	},
 	"logPanelFrameContents": {
@@ -704,7 +704,7 @@
 		"description": "Label 'Frame contents' in the log panel"
 	},
 	"logPanelEmbeddedImage": {
-		"message": "嵌入图像",
+		"message": "嵌入图片",
 		"description": "Label 'Embedded image' in the log panel"
 	},
 	"logPanelStep": {
